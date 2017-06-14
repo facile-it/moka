@@ -1,8 +1,14 @@
 {
   "name": "facile-it/moka",
-  "description": "",
+  "description": "shorthand for creating mock objects",
   "type": "library",
   "license": "MIT",
+  "keywords": [
+    "testing",
+    "phpunit",
+    "mock"
+  ],
+  "homepage": "http://github.com/facile-it/moka",
   "authors": [
     {
       "name": "Alberto Villa",

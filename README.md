@@ -5,7 +5,7 @@
 [![Build status][Master build image]][Master build link]
 [![Coverage Status][Master coverage image]][Master scrutinizer link]
 [![Scrutinizer][Master scrutinizer image]][Master scrutinizer link]
-[![Total Downloads](https://img.shields.io/packagist/dt/facile-it/moka.svg?style=flat-square)](https://packagist.org/packages/facile-it/moka)
+[![Total Downloads](https://img.shields.io/packagist/dt/facile-it/moka.svg)](https://packagist.org/packages/facile-it/moka)
 
 Tired of spending most of your testing time mocking objects like there's no tomorrow? **Yes.**  
 **Moka** provides you with three simple methods to reduce your effort on such a tedious task.

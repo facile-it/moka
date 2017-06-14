@@ -9,7 +9,7 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
  * Class Proxy
  * @package Moka\Proxy
  */
-class Proxy
+class Proxy implements ProxyInterface
 {
     /**
      * @var MockObject
@@ -35,9 +35,9 @@ class Proxy
 
     /**
      * @param array $methodsWithValues
-     * @return Proxy
+     * @return ProxyInterface
      */
-    public function stub(array $methodsWithValues): self
+    public function stub(array $methodsWithValues): ProxyInterface
     {
         foreach ($methodsWithValues as $methodName => $methodValue) {
             $this->addMethod($methodName, $methodValue);

@@ -6,6 +6,7 @@ namespace Moka\Traits;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Moka;
 use Moka\Proxy\Proxy;
+use Moka\Proxy\ProxyInterface;
 
 /**
  * Trait MokaTrait
@@ -16,11 +17,11 @@ trait MokaTrait
     /**
      * @param string $fqcn
      * @param string|null $key
-     * @return Proxy
+     * @return ProxyInterface
      *
      * @throws MockNotCreatedException
      */
-    protected function mock(string $fqcn, string $key = null): Proxy
+    protected function mock(string $fqcn, string $key = null): ProxyInterface
     {
         return Moka::get($fqcn, $key);
     }

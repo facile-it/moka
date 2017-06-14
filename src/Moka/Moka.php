@@ -6,6 +6,7 @@ namespace Moka;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Factory\ProxyBuilderFactory;
 use Moka\Proxy\Proxy;
+use Moka\Proxy\ProxyInterface;
 
 /**
  * Class Moka
@@ -16,11 +17,11 @@ class Moka
     /**
      * @param string $fqcn
      * @param string|null $alias
-     * @return Proxy
+     * @return ProxyInterface
      *
      * @throws MockNotCreatedException
      */
-    public static function get(string $fqcn, string $alias = null): Proxy
+    public static function get(string $fqcn, string $alias = null): ProxyInterface
     {
         return ProxyBuilderFactory::get()->getProxy($fqcn, $alias);
     }

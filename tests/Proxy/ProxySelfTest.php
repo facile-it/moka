@@ -3,6 +3,7 @@
 namespace Tests\Proxy;
 
 use Moka\Proxy\Proxy;
+use Moka\Proxy\ProxyInterface;
 use Moka\Traits\MokaCleanerTrait;
 use Moka\Traits\MokaTrait;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
@@ -13,7 +14,7 @@ class ProxySelfTest extends \PHPUnit_Framework_TestCase
     use MokaCleanerTrait;
 
     /**
-     * @var Proxy
+     * @var ProxyInterface
      */
     private $proxy;
 

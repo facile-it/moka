@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: angelogiuffredi
- * Date: 6/14/17
- * Time: 11:13 PM
- */
+declare(strict_types=1);
 
 namespace Moka\Exception;
 

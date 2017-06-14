@@ -15,12 +15,12 @@ class Moka
 {
     /**
      * @param string $fqcn
-     * @param string|null $key
+     * @param string|null $alias
      * @return Proxy
      */
-    public static function get(string $fqcn, string $key = null): Proxy
+    public static function get(string $fqcn, string $alias = null): Proxy
     {
-        return BuilderFactory::get()->getProxy($fqcn, $key);
+        return BuilderFactory::get()->getProxy($fqcn, $alias);
     }
 
     /**

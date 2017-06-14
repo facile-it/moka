@@ -45,18 +45,20 @@ class ProxyBuilder
 
     /**
      * @param string $fqcn
-     * @param string|null $key
+     * @param string|null $alias
      * @return Proxy
+     *
+     * @throws MockNotCreatedException
      */
-    public function getProxy(string $fqcn, string $key = null): Proxy
+    public function getProxy(string $fqcn, string $alias = null): Proxy
     {
-        $key = $key ?: $fqcn;
+        $alias = $alias ?: $fqcn;
 
-        if (!$this->container->has($key)) {
-            $this->container->set($key, $this->buildProxy($fqcn));
+        if (!$this->container->has($alias)) {
+            $this->container->set($alias, $this->buildProxy($fqcn));
         }
 
-        return $this->container->get($key);
+        return $this->container->get($alias);
     }
 
     /**

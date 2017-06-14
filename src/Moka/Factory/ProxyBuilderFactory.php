@@ -7,10 +7,10 @@ use Moka\Builder\ProxyBuilder;
 use PHPUnit_Framework_MockObject_Generator as MockGenerator;
 
 /**
- * Class BuilderFactory
+ * Class ProxyBuilderFactory
  * @package Moka\Factory
  */
-class BuilderFactory
+class ProxyBuilderFactory
 {
     /**
      * @var ProxyBuilder

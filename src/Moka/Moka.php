@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Moka;
 
 
-use Moka\Factory\BuilderFactory;
+use Moka\Factory\ProxyBuilderFactory;
 use Moka\Proxy\Proxy;
 
 /**
@@ -20,7 +20,7 @@ class Moka
      */
     public static function get(string $fqcn, string $alias = null): Proxy
     {
-        return BuilderFactory::get()->getProxy($fqcn, $alias);
+        return ProxyBuilderFactory::get()->getProxy($fqcn, $alias);
     }
 
     /**
@@ -28,6 +28,6 @@ class Moka
      */
     public static function clean()
     {
-        BuilderFactory::get()->clean();
+        ProxyBuilderFactory::get()->clean();
     }
 }

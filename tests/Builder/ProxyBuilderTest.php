@@ -47,7 +47,7 @@ class ProxyBuilderTest extends \PHPUnit_Framework_TestCase
         $proxy1 = $this->proxyBuilder->getProxy(\stdClass::class);
         $proxy2 = $this->proxyBuilder->getProxy(\stdClass::class);
 
-        $this->assertInstanceOf(Proxy::class, $proxy2);
+        $this->assertInstanceOf(Proxy::class, $proxy1);
 
         $this->assertSame($proxy1, $proxy2);
     }

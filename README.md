@@ -29,7 +29,7 @@ A complete example follows:
 namespace Foo\Tests;
 
 use Moka\Moka;
-use Moka\MokaTrait;
+use Moka\Traits\MokaTrait;
 
 class FooTest extends AnyTestCase
 {

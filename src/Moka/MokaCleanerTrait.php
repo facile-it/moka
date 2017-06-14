@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Moka;
 
-use Moka\Factory\BuilderFactory;
-
 /**
  * Trait MokaCleanerTrait
  * @package Moka
@@ -16,6 +14,6 @@ trait MokaCleanerTrait
      */
     public function tearDown()
     {
-        BuilderFactory::get()->clean();
+        Moka::clean();
     }
 }

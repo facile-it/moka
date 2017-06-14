@@ -19,6 +19,6 @@ trait MokaBuilderTrait
      */
     protected function mock(string $fqcn, string $key = null): Proxy
     {
-        return BuilderFactory::get()->getProxy($fqcn, $key);
+        return Moka::get($fqcn, $key);
     }
 }

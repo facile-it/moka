@@ -14,15 +14,6 @@ use Moka\Factory\ProxyBuilderFactory;
 
 class ProxyBuilderFactoryTest extends \PHPUnit_Framework_TestCase
 {
-    private $mock;
-
-    public function setUp()
-    {
-        $this->mock = $this->getMockBuilder(\stdClass::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-    }
-
     public function testGet()
     {
         $proxyBuilder1 = ProxyBuilderFactory::get();

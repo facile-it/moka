@@ -7,7 +7,7 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 
 /**
- * Class Proxy
+ * Interface ProxyInterface
  * @package Moka\Proxy
  */
 interface ProxyInterface

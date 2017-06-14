@@ -6,10 +6,18 @@
  * Time: 13:56
  */
 
-namespace Proxy;
+namespace Tests\Proxy;
 
 
 class MockFakeClass
 {
+    public function isValid(): bool
+    {
+        return true;
+    }
 
+    public function throwException()
+    {
+
+    }
 }

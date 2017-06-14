@@ -1,11 +1,11 @@
 # Moka - Shorthand for Creating Mock Objects
-<!---
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/:package_name.svg?style=flat-square)](https://packagist.org/packages/spatie/:package_name)
-[![Build Status](https://img.shields.io/travis/spatie/:package_name/master.svg?style=flat-square)](https://travis-ci.org/spatie/:package_name)
-[![SensioLabsInsight](https://img.shields.io/sensiolabs/i/xxxxxxxxx.svg?style=flat-square)](https://insight.sensiolabs.com/projects/xxxxxxxxx)
-[![Quality Score](https://img.shields.io/scrutinizer/g/spatie/:package_name.svg?style=flat-square)](https://scrutinizer-ci.com/g/spatie/:package_name)
-[![Total Downloads](https://img.shields.io/packagist/dt/spatie/:package_name.svg?style=flat-square)](https://packagist.org/packages/spatie/:package_name)
--->
+[![Stable release][Last stable image]][Packagist link]
+[![Unstable release][Last unstable image]][Packagist link]
+[![Build status][Master build image]][Master build link]
+
+[![Coverage Status][Master coverage image]][Master scrutinizer link]
+[![Scrutinizer][Master scrutinizer image]][Master scrutinizer link]
+
 Tired of spending most of your testing time mocking objects like there's no tomorrow? **Yes.**  
 **Moka** provides you with three simple methods to reduce your effort on such a tedious task.
 
@@ -14,7 +14,7 @@ Tired of spending most of your testing time mocking objects like there's no tomo
 You can install the package via composer:
 
 ```bash
-composer require facile-it/moka
+composer require --dev facile-it/moka
 ```
 
 ## Usage
@@ -23,7 +23,7 @@ To use **Moka** in your tests simply `use` the `MokaTrait` and run `Moka::clean(
 
 A complete example follows:
 
-``` php
+```php
 <?php
 
 namespace Foo\Tests;
@@ -134,7 +134,7 @@ Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recen
 -->
 ## Testing
 
-We higly suggest using [Paraunit](https://github.com/facile-it/paraunit) for a faster execution of tests:
+We highly suggest using [Paraunit](https://github.com/facile-it/paraunit) for a faster execution of tests:
 
 ``` bash
 $ composer install --dev
@@ -154,3 +154,13 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE) for more information.
+
+[Last stable image]: https://poser.pugx.org/facile-it/moka/version.svg
+[Last unstable image]: https://poser.pugx.org/facile-it/moka/v/unstable.svg
+[Master build image]: https://travis-ci.org/facile-it/moka.svg
+[Master scrutinizer image]: https://scrutinizer-ci.com/g/facile-it/moka/badges/quality-score.png?b=master
+[Master coverage image]: https://scrutinizer-ci.com/g/facile-it/moka/badges/coverage.png?b=master
+
+[Packagist link]: https://packagist.org/packages/facile-it/moka
+[Master build link]: https://travis-ci.org/facile-it/moka
+[Master scrutinizer link]: https://scrutinizer-ci.com/g/facile-it/moka/?branch=master

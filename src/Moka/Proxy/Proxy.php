@@ -16,16 +16,27 @@ class Proxy
      */
     private $mock;
 
+    /**
+     * Proxy constructor.
+     * @param MockObject $mock
+     */
     public function __construct(MockObject $mock)
     {
         $this->mock = $mock;
     }
 
+    /**
+     * @return MockObject
+     */
     public function serve(): MockObject
     {
         return $this->mock;
     }
 
+    /**
+     * @param array $methodsWithValues
+     * @return Proxy
+     */
     public function stub(array $methodsWithValues): self
     {
         foreach ($methodsWithValues as $methodName => $methodValue) {
@@ -35,7 +46,11 @@ class Proxy
         return $this;
     }
 
-    protected function addMethod($methodName, $methodValue)
+    /**
+     * @param string $methodName
+     * @param $methodValue
+     */
+    protected function addMethod(string $methodName, $methodValue)
     {
         $partial = $this->mock->method($methodName);
 

@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace Moka\Stub;
 
 
-use PhpCollection\Map;
+use PhpCollection\Set;
 
-final class StubMap extends Map
+final class StubSet extends Set
 {
 
 }

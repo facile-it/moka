@@ -18,6 +18,11 @@
       "Moka\\": "src/Moka/"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
   "require": {
     "php": ">=7.0",
     "phpunit/phpunit": "^5.7",

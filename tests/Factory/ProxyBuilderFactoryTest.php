@@ -2,7 +2,6 @@
 
 namespace Tests\Factory;
 
-
 use Moka\Builder\ProxyBuilder;
 use Moka\Factory\ProxyBuilderFactory;
 

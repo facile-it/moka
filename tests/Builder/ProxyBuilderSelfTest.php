@@ -2,7 +2,6 @@
 
 namespace Tests\Builder;
 
-
 use Moka\Builder\ProxyBuilder;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Proxy\Proxy;

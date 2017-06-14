@@ -2,7 +2,6 @@
 
 namespace Tests\Proxy;
 
-
 use Moka\Exception\InvalidIdentifierException;
 use Moka\Proxy\Proxy;
 use Moka\Proxy\ProxyContainer;

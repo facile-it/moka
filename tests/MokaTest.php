@@ -2,13 +2,11 @@
 
 namespace Tests;
 
-
 use Moka\Moka;
 use Moka\Proxy\Proxy;
 
 class MokaTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testGetSuccess()
     {
         $this->assertInstanceOf(

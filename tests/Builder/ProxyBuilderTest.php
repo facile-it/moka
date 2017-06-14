@@ -2,7 +2,6 @@
 
 namespace Tests\Builder;
 
-
 use Moka\Builder\ProxyBuilder;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Proxy\Proxy;
@@ -68,6 +67,4 @@ class ProxyBuilderTest extends \PHPUnit_Framework_TestCase
 
         $this->proxyBuilder->getProxy(\stdClass::class, 'acme');
     }
-
-
 }

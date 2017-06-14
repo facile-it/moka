@@ -2,7 +2,6 @@
 
 namespace Tests\Proxy;
 
-
 use Moka\Proxy\Proxy;
 use Moka\Traits\MokaCleanerTrait;
 use Moka\Traits\MokaTrait;

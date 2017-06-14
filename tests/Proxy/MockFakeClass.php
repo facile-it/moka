@@ -2,7 +2,6 @@
 
 namespace Tests\Proxy;
 
-
 class MockFakeClass
 {
     public function isValid(): bool
@@ -12,6 +11,5 @@ class MockFakeClass
 
     public function throwException()
     {
-
     }
 }

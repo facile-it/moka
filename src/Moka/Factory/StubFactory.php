@@ -21,15 +21,15 @@ class StubFactory
      */
     public static function fromArray(array $methodsWithValues): StubSet
     {
-        $stubMap = new StubSet();
+        $stubSet = new StubSet();
         foreach ($methodsWithValues as $methodName => $methodValue) {
             try {
-                $stubMap->add(new Stub($methodName, $methodValue));
+                $stubSet->add(new Stub($methodName, $methodValue));
             } catch (\Error $error) {
                 throw new InvalidArgumentException();
             }
         }
 
-        return $stubMap;
+        return $stubSet;
     }
 }

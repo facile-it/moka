@@ -24,7 +24,7 @@
         <whitelist>
             <directory>src</directory>
             <exclude>
-                <file>src/Moka/*Trait.php</file>
+                <directory>src/Moka/Traits</directory>
                 <directory>src/Moka/Exception</directory>
             </exclude>
         </whitelist>

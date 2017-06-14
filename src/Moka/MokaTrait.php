@@ -3,14 +3,13 @@ declare(strict_types=1);
 
 namespace Moka;
 
-use Moka\Factory\BuilderFactory;
 use Moka\Proxy\Proxy;
 
 /**
- * Trait MokaBuilderTrait
+ * Trait MokaTrait
  * @package Moka
  */
-trait MokaBuilderTrait
+trait MokaTrait
 {
     /**
      * @param string $fqcn

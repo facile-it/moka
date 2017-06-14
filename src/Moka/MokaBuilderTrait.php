@@ -1,25 +1,24 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: angelogiuffredi
- * Date: 12/06/2017
- * Time: 12:10
- */
+declare(strict_types=1);
 
 namespace Moka;
 
+use Moka\Factory\BuilderFactory;
+use Moka\Proxy\Proxy;
 
-
+/**
+ * Trait MokaBuilderTrait
+ * @package Moka
+ */
 trait MokaBuilderTrait
 {
     /**
-     * @param string $className
+     * @param string $fqcn
      * @param string|null $key
      * @return Proxy
      */
-    protected function mock(string $className, string $key = null): Proxy
+    protected function mock(string $fqcn, string $key = null): Proxy
     {
-        return BuilderFactory::get()->mock($className, $key);
+        return BuilderFactory::get()->getProxy($fqcn, $key);
     }
-
 }

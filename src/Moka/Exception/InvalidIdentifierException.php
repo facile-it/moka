@@ -1,10 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace Moka;
+namespace Moka\Exception;
 
 use Psr\Container\NotFoundExceptionInterface;
 
-class InvalidIdentifierException extends \Exception implements NotFoundExceptionInterface
+/**
+ * Class InvalidIdentifierException
+ * @package Moka\Exception
+ */
+class InvalidIdentifierException extends \InvalidArgumentException implements NotFoundExceptionInterface
 {
 }

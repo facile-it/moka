@@ -1,23 +1,36 @@
 <?php
 declare(strict_types=1);
 
-namespace Moka;
+namespace Moka\Proxy;
 
 use Moka\Exception\InvalidIdentifierException;
 use Psr\Container\ContainerInterface;
 
-final class Container implements ContainerInterface
+/**
+ * Class ProxyContainer
+ * @package Moka\Proxy
+ */
+final class ProxyContainer implements ContainerInterface
 {
     /**
      * @var array
      */
     private $mocks;
 
+    /**
+     * ProxyContainer constructor.
+     */
     public function __construct()
     {
         $this->mocks = [];
     }
 
+    /**
+     * @param string $id
+     * @return Proxy
+     *
+     * @throws InvalidIdentifierException
+     */
     public function get($id): Proxy
     {
         if (!$this->has($id)) {
@@ -27,12 +40,20 @@ final class Container implements ContainerInterface
         return $this->mocks[$id];
     }
 
+    /**
+     * @param string $id
+     * @return bool
+     */
     public function has($id): bool
     {
         return isset($this->mocks[$id]);
     }
 
-    public function set(string $id, Proxy $mock): void
+    /**
+     * @param string $id
+     * @param Proxy $mock
+     */
+    public function set(string $id, Proxy $mock)
     {
         $this->mocks[$id] = $mock;
     }

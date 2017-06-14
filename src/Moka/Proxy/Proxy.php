@@ -1,12 +1,19 @@
 <?php
 declare(strict_types=1);
 
-namespace Moka;
+namespace Moka\Proxy;
 
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
+/**
+ * Class Proxy
+ * @package Moka\Proxy
+ */
 class Proxy
 {
+    /**
+     * @var MockObject
+     */
     private $mock;
 
     public function __construct(MockObject $mock)
@@ -28,7 +35,7 @@ class Proxy
         return $this;
     }
 
-    protected function addMethod($methodName, $methodValue): void
+    protected function addMethod($methodName, $methodValue)
     {
         $partial = $this->mock->method($methodName);
 

@@ -1,18 +1,21 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: angelogiuffredi
- * Date: 13/06/2017
- * Time: 12:32
- */
+declare(strict_types=1);
 
 namespace Moka;
 
+use Moka\Factory\BuilderFactory;
 
+/**
+ * Trait MokaCleanerTrait
+ * @package Moka
+ */
 trait MokaCleanerTrait
 {
-    public function tearDown(): void
+    /**
+     * @return void
+     */
+    public function tearDown()
     {
-        BuilderFactory::get()->resetContainer();
+        BuilderFactory::get()->clean();
     }
 }

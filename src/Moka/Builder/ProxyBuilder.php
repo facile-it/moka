@@ -1,15 +1,22 @@
 <?php
 declare(strict_types=1);
 
-namespace Moka;
+namespace Moka\Builder;
 
 use Moka\Exception\MockNotCreatedException;
+use Moka\Factory\ProxyFactory;
+use Moka\Proxy\Proxy;
+use Moka\Proxy\ProxyContainer;
 use PHPUnit_Framework_MockObject_Generator as MockGenerator;
 
-class Builder
+/**
+ * Class ProxyBuilder
+ * @package Moka\Builder
+ */
+class ProxyBuilder
 {
     /**
-     * @var Container
+     * @var ProxyContainer
      */
     protected $container;
 
@@ -18,17 +25,29 @@ class Builder
      */
     protected $generator;
 
+    /**
+     * ProxyBuilder constructor.
+     * @param MockGenerator $generator
+     */
     public function __construct(MockGenerator $generator)
     {
         $this->generator = $generator;
         $this->clean();
     }
 
-    public function clean(): void
+    /**
+     * @return void
+     */
+    public function clean()
     {
-        $this->container = new Container();
+        $this->container = new ProxyContainer();
     }
 
+    /**
+     * @param string $fqcn
+     * @param string|null $key
+     * @return Proxy
+     */
     public function getProxy(string $fqcn, string $key = null): Proxy
     {
         $key = $key ?: $fqcn;
@@ -40,6 +59,12 @@ class Builder
         return $this->container->get($key);
     }
 
+    /**
+     * @param string $fqcn
+     * @return Proxy
+     *
+     * @throws MockNotCreatedException
+     */
     protected function buildProxy(string $fqcn): Proxy
     {
         try {
@@ -57,6 +82,9 @@ class Builder
         return ProxyFactory::get($mock);
     }
 
+    /**
+     * @return MockGenerator
+     */
     protected function getGenerator(): MockGenerator
     {
         return $this->generator;

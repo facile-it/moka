@@ -2,6 +2,7 @@
   "name": "facile-it/moka",
   "description": "",
   "type": "library",
+  "license": "MIT",
   "authors": [
     {
       "name": "Alberto Villa",
@@ -24,6 +25,5 @@
   },
   "require-dev": {
     "facile-it/facile-coding-standard": "dev-master"
-  },
-  "minimum-stability": "stable"
+  }
 }

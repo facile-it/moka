@@ -83,13 +83,14 @@ var_dump($this->mock('foo1') === $this->mock('foo2'));
 
 ### `stub(array $methodsWithValues): self`
 
-Accepts an array of method stubs with format `[$methodName => $methodValue]`, where `$methodName` **must** be a string and `$methodValue` can be of any type, including another mock object.
+Accepts an array of method stubs with format `[$methodName => $methodValue]`, where `$methodName` **must** be a string and `$methodValue` can be of any type, including another mock object or an exception instance.
 
 ```php
 $actualMock = $this->mock(BarInterface::class)->stub([
     'isValid' => true,
     // Remember to use serve() to pass the actual mock.
-    'getMock' => $this->mock(AcmeInterface::class)->serve()
+    'getMock' => $this->mock(AcmeInterface::class)->serve(),
+    'throwException' => new \Exception()
 ])->serve();
 
 var_dump($actualMock->isValid());
@@ -112,13 +113,13 @@ $this->mock(BarInterface::class)->serve()
 $this->mock(BarInterface::class)->serve()
     ->expects($this->at(1))
     ->method('isValid')
-    ->willThrowException(NotValidException::class);
+    ->willThrowException(new \Exception());
 
 var_dump($this->mock(BarInterface::class)->serve()->isValid());
 // bool(true)
 
 var_dump($this->mock(BarInterface::class)->serve()->isValid());
-// throws NotValidException
+// throws \Exception
 ```
 
 ## PHPUnit Integration

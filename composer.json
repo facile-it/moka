@@ -20,10 +20,11 @@
   },
   "require": {
     "php": ">=7.0",
-    "phpunit/phpunit": "^6.2",
+    "phpunit/phpunit": "^5.7",
     "psr/container": "^1.0"
   },
   "require-dev": {
-    "facile-it/facile-coding-standard": "dev-master"
+    "facile-it/facile-coding-standard": "dev-master",
+    "facile-it/paraunit": "^0.8.2"
   }
 }

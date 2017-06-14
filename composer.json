@@ -1,6 +1,6 @@
 {
   "name": "facile-it/moka",
-  "description": "shorthand for creating mock objects",
+  "description": "Shorthand for creating mock objects",
   "type": "library",
   "license": "MIT",
   "keywords": [

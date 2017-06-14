@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace tests\Factory;
+namespace Tests\Factory;
 
 
 use Moka\Exception\InvalidArgumentException;

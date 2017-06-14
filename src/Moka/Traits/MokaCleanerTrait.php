@@ -1,11 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace Moka;
+namespace Moka\Traits;
+
+use Moka\Moka;
 
 /**
  * Trait MokaCleanerTrait
- * @package Moka
+ * @package Moka\Traits
  */
 trait MokaCleanerTrait
 {

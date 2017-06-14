@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Moka;
 
-
+use Moka\Exception\MockNotCreatedException;
 use Moka\Factory\ProxyBuilderFactory;
 use Moka\Proxy\Proxy;
 
@@ -17,6 +17,8 @@ class Moka
      * @param string $fqcn
      * @param string|null $alias
      * @return Proxy
+     *
+     * @throws MockNotCreatedException
      */
     public static function get(string $fqcn, string $alias = null): Proxy
     {

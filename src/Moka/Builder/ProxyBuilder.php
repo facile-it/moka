@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Moka\Builder;
 
+use Moka\Exception\InvalidIdentifierException;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Factory\ProxyFactory;
 use Moka\Proxy\Proxy;
@@ -49,6 +50,7 @@ class ProxyBuilder
      * @return Proxy
      *
      * @throws MockNotCreatedException
+     * @throws InvalidIdentifierException
      */
     public function getProxy(string $fqcn, string $alias = null): Proxy
     {

@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Moka\Factory;
 
-
 use Moka\Exception\InvalidArgumentException;
 use Moka\Stub\Stub;
 use Moka\Stub\StubSet;

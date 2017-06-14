@@ -8,8 +8,6 @@
 
 namespace Moka\Exception;
 
-
 class InvalidArgumentException extends \InvalidArgumentException
 {
-
 }

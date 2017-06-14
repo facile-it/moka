@@ -5,7 +5,6 @@ namespace Moka\Proxy;
 
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
-
 /**
  * Class Proxy
  * @package Moka\Proxy

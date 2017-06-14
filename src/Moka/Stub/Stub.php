@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Moka\Stub;
 
-
 final class Stub
 {
     /**
@@ -43,5 +42,4 @@ final class Stub
     {
         return $this->methodValue;
     }
-
 }

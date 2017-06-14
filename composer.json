@@ -1,0 +1,29 @@
+{
+  "name": "facile-it/moka",
+  "description": "",
+  "type": "library",
+  "authors": [
+    {
+      "name": "Alberto Villa",
+      "email": "alberto.villa@facile.it"
+    },
+    {
+      "name": "Angelo Giuffredi",
+      "email": "angelo.giuffredi@facile.it"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Moka\\": "src/Moka/"
+    }
+  },
+  "require": {
+    "php": ">=7.0",
+    "phpunit/phpunit": "^6.2",
+    "psr/container": "^1.0"
+  },
+  "require-dev": {
+    "facile-it/facile-coding-standard": "dev-master"
+  },
+  "minimum-stability": "stable"
+}

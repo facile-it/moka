@@ -5,30 +5,26 @@ namespace Tests\Proxy;
 use Moka\Exception\InvalidIdentifierException;
 use Moka\Proxy\Proxy;
 use Moka\Proxy\ProxyContainer;
+use Moka\Traits\MokaCleanerTrait;
+use Moka\Traits\MokaTrait;
 
-class ProxyContainerTest extends \PHPUnit_Framework_TestCase
+class ProxyContainerSelfTest extends \PHPUnit_Framework_TestCase
 {
+    use MokaTrait;
+    use MokaCleanerTrait;
+
     /**
      * @var ProxyContainer
      */
     private $proxyContainer;
 
-    /**
-     * @var Proxy
-     */
-    private $proxy;
-
     public function setUp()
     {
         $this->proxyContainer = new ProxyContainer();
-        /** @var Proxy $proxy */
-        $this->proxy = $this->getMockBuilder(Proxy::class)
-            ->disableOriginalConstructor()
-            ->getMock();
 
         $this->proxyContainer->set(
             'foo',
-            $this->proxy
+            $this->mock(Proxy::class)->serve()
         );
     }
 
@@ -61,7 +57,7 @@ class ProxyContainerTest extends \PHPUnit_Framework_TestCase
 
     public function testSet()
     {
-        $this->proxyContainer->set('acme', $this->proxy);
+        $this->proxyContainer->set('acme', $this->mock(Proxy::class)->serve());
         $this->assertInstanceOf(
             Proxy::class,
             $this->proxyContainer->get('acme')

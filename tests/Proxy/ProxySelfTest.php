@@ -3,10 +3,15 @@
 namespace Tests\Proxy;
 
 use Moka\Proxy\Proxy;
+use Moka\Traits\MokaCleanerTrait;
+use Moka\Traits\MokaTrait;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
-class ProxyTest extends \PHPUnit_Framework_TestCase
+class ProxySelfTest extends \PHPUnit_Framework_TestCase
 {
+    use MokaTrait;
+    use MokaCleanerTrait;
+
     /**
      * @var Proxy
      */
@@ -15,9 +20,7 @@ class ProxyTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->proxy = new Proxy(
-            $this->getMockBuilder(MockFakeClass::class)
-                ->disableOriginalConstructor()
-                ->getMock()
+            $this->mock(MockFakeClass::class)->serve()
         );
     }
 

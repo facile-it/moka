@@ -5,38 +5,31 @@ namespace Tests\Builder;
 use Moka\Builder\ProxyBuilder;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Proxy\Proxy;
+use Moka\Traits\MokaCleanerTrait;
+use Moka\Traits\MokaTrait;
 use PHPUnit_Framework_MockObject_Generator as MockGenerator;
-use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
-class ProxyBuilderTest extends \PHPUnit_Framework_TestCase
+class ProxyBuilderSelfTest extends \PHPUnit_Framework_TestCase
 {
+    use MokaTrait;
+    use MokaCleanerTrait;
+
     /**
      * @var ProxyBuilder
      */
     private $proxyBuilder;
 
-    /**
-     * @var MockGenerator|MockObject
-     */
-    private $mockGenerator;
-
     public function setUp()
     {
-        $this->mockGenerator = $this->getMockBuilder(MockGenerator::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->mockGenerator
-            ->method('getMock')
-            ->willReturn(
-                $this->getMockBuilder(\stdClass::class)->getMock()
-            );
-
-        $this->proxyBuilder = new ProxyBuilder($this->mockGenerator);
+        $this->proxyBuilder = new ProxyBuilder(
+            $this->mock(MockGenerator::class)->serve()
+        );
     }
 
     public function testGetProxySuccess()
     {
+        $this->decorateSuccessfulMockGenerator();
+
         $proxy1 = $this->proxyBuilder->getProxy(\stdClass::class);
         $proxy2 = $this->proxyBuilder->getProxy(\stdClass::class);
 
@@ -47,6 +40,8 @@ class ProxyBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function testGetProxySuccessWithAlias()
     {
+        $this->decorateSuccessfulMockGenerator();
+
         $proxy1 = $this->proxyBuilder->getProxy(\stdClass::class, 'bar');
         $proxy2 = $this->proxyBuilder->getProxy(\stdClass::class, 'foo');
 
@@ -60,11 +55,17 @@ class ProxyBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException(MockNotCreatedException::class);
 
-        $this->mockGenerator
-            ->expects($this->at(0))
-            ->method('getMock')
-            ->willThrowException(new \Exception());
+        $this->mock(MockGenerator::class)->stub([
+            'getMock' => new \Exception()
+        ]);
 
         $this->proxyBuilder->getProxy(\stdClass::class, 'acme');
+    }
+
+    private function decorateSuccessfulMockGenerator()
+    {
+        $this->mock(MockGenerator::class)->stub([
+            'getMock' => $this->mock(\stdClass::class)->serve()
+        ]);
     }
 }

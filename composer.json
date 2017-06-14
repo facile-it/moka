@@ -5,8 +5,11 @@
   "license": "MIT",
   "keywords": [
     "testing",
-    "phpunit",
-    "mock"
+    "testing-tools",
+    "mock",
+    "mocking",
+    "mocking-library",
+    "phpunit"
   ],
   "homepage": "http://github.com/facile-it/moka",
   "authors": [

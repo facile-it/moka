@@ -148,7 +148,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 - [Angelo Giuffredi](https://github.com/giuffre)
 - [Alberto Villa](https://github.com/xzhavilla)
-- [All Contributors](graphs/contributors)
+- [All Contributors](../../contributors)
 
 ## License
 

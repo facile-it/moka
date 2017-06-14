@@ -1,10 +1,11 @@
 # Moka - Shorthand for Creating Mock Objects
-[![Stable release][Last stable image]][Packagist link]
-[![Unstable release][Last unstable image]][Packagist link]
-[![Build status][Master build image]][Master build link]
 
+[![Open Source Love](https://badges.frapsoft.com/os/mit/mit.svg?v=102)](https://github.com/ellerbrock/open-source-badge/)
+[![Stable release][Last stable image]][Packagist link]
+[![Build status][Master build image]][Master build link]
 [![Coverage Status][Master coverage image]][Master scrutinizer link]
 [![Scrutinizer][Master scrutinizer image]][Master scrutinizer link]
+[![Total Downloads](https://img.shields.io/packagist/dt/facile-it/moka.svg?style=flat-square)](https://packagist.org/packages/facile-it/moka)
 
 Tired of spending most of your testing time mocking objects like there's no tomorrow? **Yes.**  
 **Moka** provides you with three simple methods to reduce your effort on such a tedious task.

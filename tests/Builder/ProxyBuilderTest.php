@@ -5,6 +5,7 @@ namespace Tests\Builder;
 
 use Moka\Builder\ProxyBuilder;
 use Moka\Exception\MockNotCreatedException;
+use Moka\Generator\MockGeneratorInterface;
 use Moka\Proxy\Proxy;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_Generator as MockGenerator;
@@ -18,18 +19,18 @@ class ProxyBuilderTest extends TestCase
     private $proxyBuilder;
 
     /**
-     * @var MockGenerator|MockObject
+     * @var MockGeneratorInterface|MockObject
      */
     private $mockGenerator;
 
     public function setUp()
     {
-        $this->mockGenerator = $this->getMockBuilder(MockGenerator::class)
+        $this->mockGenerator = $this->getMockBuilder(MockGeneratorInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->mockGenerator
-            ->method('getMock')
+            ->method('generate')
             ->willReturn(
                 $this->getMockBuilder(\stdClass::class)->getMock()
             );
@@ -64,7 +65,7 @@ class ProxyBuilderTest extends TestCase
 
         $this->mockGenerator
             ->expects($this->at(0))
-            ->method('getMock')
+            ->method('generate')
             ->willThrowException(new \Exception());
 
         $this->proxyBuilder->getProxy(\stdClass::class, 'acme');

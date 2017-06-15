@@ -25,7 +25,7 @@ class ProxyFactoryTest extends TestCase
 
         $this->assertInstanceOf(Proxy::class, $mock1);
         $this->assertInstanceOf(Proxy::class, $mock2);
-        
+
         $this->assertNotSame($mock1, $mock2);
     }
 }

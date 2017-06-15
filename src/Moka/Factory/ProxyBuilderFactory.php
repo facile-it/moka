@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Moka\Factory;
 
 use Moka\Builder\ProxyBuilder;
-use PHPUnit_Framework_MockObject_Generator as MockGenerator;
+use Moka\Generator\PHPUnitGenerator;
 
 /**
  * Class ProxyBuilderFactory
@@ -34,6 +34,6 @@ class ProxyBuilderFactory
      */
     protected static function build(): ProxyBuilder
     {
-        return new ProxyBuilder(new MockGenerator());
+        return new ProxyBuilder(new PHPUnitGenerator());
     }
 }

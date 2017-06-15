@@ -6,6 +6,7 @@ namespace Moka\Builder;
 use Moka\Exception\InvalidIdentifierException;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Factory\ProxyFactory;
+use Moka\Generator\MockGeneratorInterface;
 use Moka\Proxy\Proxy;
 use Moka\Proxy\ProxyContainer;
 use PHPUnit_Framework_MockObject_Generator as MockGenerator;
@@ -28,9 +29,9 @@ class ProxyBuilder
 
     /**
      * ProxyBuilder constructor.
-     * @param MockGenerator $generator
+     * @param MockGeneratorInterface $generator
      */
-    public function __construct(MockGenerator $generator)
+    public function __construct(MockGeneratorInterface $generator)
     {
         $this->generator = $generator;
         $this->clean();
@@ -72,13 +73,7 @@ class ProxyBuilder
     protected function buildProxy(string $fqcn): Proxy
     {
         try {
-            $mock = $this->getGenerator()->getMock(
-                $fqcn,
-                $methods = [],
-                $arguments = [],
-                $mockClassName = '',
-                $callOriginalConstructor = false
-            );
+            $mock = $this->getGenerator()->generate($fqcn);
         } catch (\Exception $exception) {
             throw new MockNotCreatedException(sprintf('Unable to create a mock object for "$fqcn": %s', $fqcn));
         }
@@ -87,9 +82,9 @@ class ProxyBuilder
     }
 
     /**
-     * @return MockGenerator
+     * @return MockGeneratorInterface
      */
-    protected function getGenerator(): MockGenerator
+    protected function getGenerator(): MockGeneratorInterface
     {
         return $this->generator;
     }

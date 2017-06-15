@@ -6,11 +6,9 @@ namespace Moka\Builder;
 use Moka\Exception\InvalidIdentifierException;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Factory\ProxyFactory;
-use Moka\Generator\MockGeneratorInterface;
 use Moka\Proxy\Proxy;
 use Moka\Proxy\ProxyContainer;
 use Moka\Strategy\MockingStrategyInterface;
-use PHPUnit_Framework_MockObject_Generator as MockGenerator;
 
 /**
  * Class ProxyBuilder

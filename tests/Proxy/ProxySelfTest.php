@@ -34,7 +34,7 @@ class ProxySelfTest extends TestCase
 
     public function testServe()
     {
-        $this->assertInstanceOf(MockObject::class, $this->proxy->serve());
+        $this->assertInstanceOf(MockFakeClass::class, $this->proxy->serve());
     }
 
 //    public function testStubScalarValue()

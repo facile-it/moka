@@ -7,6 +7,7 @@ use Moka\Exception\InvalidArgumentException;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Stub\Stub;
 use Moka\Stub\StubSet;
+use Prophecy\Argument;
 use Prophecy\Exception\Prophecy\ObjectProphecyException;
 use Prophecy\Prophecy\ObjectProphecy;
 use Prophecy\Prophet;
@@ -38,7 +39,18 @@ class ProphecyMockingStrategy implements MockingStrategyInterface
      */
     public function build(string $fqcn)
     {
-        return $this->generator->prophesize($fqcn);
+        $mock = $this->generator->prophesize($fqcn);
+
+        $methods = array_filter(get_class_methods($fqcn), function ($method) {
+            // Do not define stubs for magic methods.
+            return !preg_match('/^__/', $method);
+        });
+
+        foreach ($methods as $method) {
+            $mock->$method(Argument::cetera())->willReturn(null);
+        }
+
+        return $mock;
     }
 
     public function get($mock)
@@ -60,12 +72,12 @@ class ProphecyMockingStrategy implements MockingStrategyInterface
             $methodName = $stub->getMethodName();
 
             $methodValue instanceof \Exception
-                ? $mock->{$methodName}()->willThrow($methodValue)
-                : $mock->{$methodName}()->willReturn($methodValue);
+                ? $mock->$methodName(Argument::any())->willThrow($methodValue)
+                : $mock->$methodName(Argument::any())->willReturn($methodValue);
         }
 
         try {
-            return $mock->reveal();
+            return $mock;
         } catch (ObjectProphecyException $exception) {
             throw new MockNotCreatedException(sprintf('Unable to create a mock object for FQCN: %s', $mockingPromise->getFqcn()));
         }

@@ -9,6 +9,6 @@ use Psr\Container\NotFoundExceptionInterface;
  * Class InvalidIdentifierException
  * @package Moka\Exception
  */
-class InvalidIdentifierException extends \InvalidArgumentException implements NotFoundExceptionInterface
+class InvalidIdentifierException extends InvalidArgumentException implements NotFoundExceptionInterface
 {
 }

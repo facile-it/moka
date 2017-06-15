@@ -75,8 +75,8 @@ var_dump($mock1 === $mock2);
 The `$alias` allows you to create different instances of the same `$fqcn`; you will refer to them by the `$alias` from now on.
 
 ```php
-$this->mock(FooInterface::class, 'foo1')->serve(); // Creates the mock for FooInterface.
-$this->mock(FooInterface::class, 'foo2')->serve(); // Gets the mock previously created.
+$this->mock(FooInterface::class, 'foo1')->serve(); // Creates a mock for FooInterface.
+$this->mock(FooInterface::class, 'foo2')->serve(); // Gets a different mock.
 
 var_dump($this->mock('foo1') === $this->mock('foo2'));
 // bool(false)
@@ -137,7 +137,7 @@ Please see [CHANGELOG](/CHANGELOG.md) for more information what has changed rece
 
 We highly suggest using [Paraunit](https://github.com/facile-it/paraunit) for a faster execution of tests:
 
-``` bash
+```bash
 $ composer install --dev
 $ php vendor/bin/paraunit run
 ```

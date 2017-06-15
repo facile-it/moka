@@ -6,9 +6,14 @@ namespace Stub;
 use Moka\Exception\InvalidArgumentException;
 use Moka\Stub\Stub;
 use Moka\Stub\StubSet;
+use Moka\Traits\MokaCleanerTrait;
+use Moka\Traits\MokaTrait;
 
-class StubSetTest extends \PHPUnit_Framework_TestCase
+class StubSetSelfTest extends \PHPUnit_Framework_TestCase
 {
+    use MokaTrait;
+    use MokaCleanerTrait;
+
     /**
      * @var StubSet
      */
@@ -21,15 +26,11 @@ class StubSetTest extends \PHPUnit_Framework_TestCase
 
     public function testAddSuccess()
     {
-        $stub = $this->getMockBuilder(Stub::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->set->add($stub);
+        $this->set->add($this->mock(Stub::class)->serve());
 
         $this->assertCount(1, $this->set);
 
-        $this->assertContains($stub, $this->set);
+        $this->assertContains($this->mock(Stub::class)->serve(), $this->set);
     }
 
     public function testAddFailure()

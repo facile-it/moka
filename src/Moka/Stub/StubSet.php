@@ -10,7 +10,7 @@ use PhpCollection\Set;
  * Class StubSet
  * @package Moka\Stub
  */
-final class StubSet extends Set
+class StubSet extends Set
 {
     /**
      * @param Stub $elem

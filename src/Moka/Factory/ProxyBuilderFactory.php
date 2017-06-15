@@ -4,8 +4,7 @@ declare(strict_types=1);
 namespace Moka\Factory;
 
 use Moka\Builder\ProxyBuilder;
-use Moka\Generator\MockGeneratorInterface;
-use Moka\Generator\PHPUnitGenerator;
+use Moka\Strategy\MockingStrategyInterface;
 
 /**
  * Class ProxyBuilderFactory
@@ -14,28 +13,46 @@ use Moka\Generator\PHPUnitGenerator;
 class ProxyBuilderFactory
 {
     /**
-     * @var ProxyBuilder
+     * @var array|ProxyBuilder[]
      */
-    private static $mockBuilder;
+    private static $mockBuilders = [];
 
     /**
+     * @param MockingStrategyInterface $mockingStrategy
      * @return ProxyBuilder
      */
-    public static function get(): ProxyBuilder
+    public static function get(MockingStrategyInterface $mockingStrategy): ProxyBuilder
     {
-        if (!self::$mockBuilder instanceof ProxyBuilder) {
-            self::$mockBuilder = self::build(new PHPUnitGenerator());
+        $key = static::key($mockingStrategy);
+        if (!array_key_exists($key, static::$mockBuilders) || !static::$mockBuilders[$key] instanceof ProxyBuilder) {
+            static::$mockBuilders[$key] = static::build(new $mockingStrategy);
         }
 
-        return self::$mockBuilder;
+        return static::$mockBuilders[$key];
     }
 
     /**
-     * @param MockGeneratorInterface $generator
+     * @param MockingStrategyInterface $mockingStrategy
+     * @return string
+     */
+    private static function key(MockingStrategyInterface $mockingStrategy): string
+    {
+        return get_class($mockingStrategy);
+    }
+
+    /**
+     * @param MockingStrategyInterface $mockingStrategy
      * @return ProxyBuilder
      */
-    protected static function build(MockGeneratorInterface $generator): ProxyBuilder
+    protected static function build(MockingStrategyInterface $mockingStrategy): ProxyBuilder
     {
-        return new ProxyBuilder($generator);
+        return new ProxyBuilder($mockingStrategy);
+    }
+
+    public static function reset()
+    {
+        foreach (static::$mockBuilders as $mockBuilder) {
+            $mockBuilder->reset();
+        }
     }
 }

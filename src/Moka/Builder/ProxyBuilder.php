@@ -9,6 +9,7 @@ use Moka\Factory\ProxyFactory;
 use Moka\Generator\MockGeneratorInterface;
 use Moka\Proxy\Proxy;
 use Moka\Proxy\ProxyContainer;
+use Moka\Strategy\MockingStrategyInterface;
 use PHPUnit_Framework_MockObject_Generator as MockGenerator;
 
 /**
@@ -23,24 +24,24 @@ class ProxyBuilder
     protected $container;
 
     /**
-     * @var MockGenerator
+     * @var MockingStrategyInterface
      */
-    protected $generator;
+    protected $mockingStrategy;
 
     /**
      * ProxyBuilder constructor.
-     * @param MockGeneratorInterface $generator
+     * @param MockingStrategyInterface $mockingStrategy
      */
-    public function __construct(MockGeneratorInterface $generator)
+    public function __construct(MockingStrategyInterface $mockingStrategy)
     {
-        $this->generator = $generator;
-        $this->clean();
+        $this->mockingStrategy = $mockingStrategy;
+        $this->reset();
     }
 
     /**
      * @return void
      */
-    public function clean()
+    public function reset()
     {
         $this->container = new ProxyContainer();
     }
@@ -67,25 +68,9 @@ class ProxyBuilder
     /**
      * @param string $fqcn
      * @return Proxy
-     *
-     * @throws MockNotCreatedException
      */
     protected function buildProxy(string $fqcn): Proxy
     {
-        try {
-            $mock = $this->getGenerator()->generate($fqcn);
-        } catch (\Exception $exception) {
-            throw new MockNotCreatedException(sprintf('Unable to create a mock object for "$fqcn": %s', $fqcn));
-        }
-
-        return ProxyFactory::get($mock);
-    }
-
-    /**
-     * @return MockGeneratorInterface
-     */
-    protected function getGenerator(): MockGeneratorInterface
-    {
-        return $this->generator;
+        return ProxyFactory::get($fqcn, $this->mockingStrategy);
     }
 }

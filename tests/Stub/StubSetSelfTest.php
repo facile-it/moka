@@ -7,12 +7,12 @@ use Moka\Exception\InvalidArgumentException;
 use Moka\Stub\Stub;
 use Moka\Stub\StubSet;
 use Moka\Traits\MokaCleanerTrait;
-use Moka\Traits\MokaTrait;
 use PHPUnit\Framework\TestCase;
+use Tests\TestTrait;
 
 class StubSetSelfTest extends TestCase
 {
-    use MokaTrait;
+    use TestTrait;
     use MokaCleanerTrait;
 
     /**

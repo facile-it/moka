@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Moka\Factory;
 
 use Moka\Proxy\Proxy;
+use Moka\Strategy\MockingStrategyInterface;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 /**
@@ -12,21 +13,24 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
  */
 class ProxyFactory
 {
+
     /**
-     * @param MockObject $mock
+     * @param string $fqcn
+     * @param MockingStrategyInterface $mockingStrategy
      * @return Proxy
      */
-    public static function get(MockObject $mock): Proxy
+    public static function get(string $fqcn, MockingStrategyInterface $mockingStrategy): Proxy
     {
-        return self::build($mock);
+        return self::build($fqcn, $mockingStrategy);
     }
 
     /**
-     * @param MockObject $mock
+     * @param string $fqcn
+     * @param MockingStrategyInterface $mockingStrategy
      * @return Proxy
      */
-    protected static function build(MockObject $mock): Proxy
+    protected static function build(string $fqcn, MockingStrategyInterface $mockingStrategy): Proxy
     {
-        return new Proxy($mock);
+        return new Proxy($fqcn, $mockingStrategy);
     }
 }

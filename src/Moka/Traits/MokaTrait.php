@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Moka\Traits;
 
+use Moka\Exception\InvalidIdentifierException;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Moka;
 use Moka\Proxy\Proxy;
@@ -19,6 +20,7 @@ trait MokaTrait
      * @return Proxy
      *
      * @throws MockNotCreatedException
+     * @throws InvalidIdentifierException
      */
     protected function mock(string $fqcn, string $key = null): Proxy
     {

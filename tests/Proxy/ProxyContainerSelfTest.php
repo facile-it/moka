@@ -9,10 +9,11 @@ use Moka\Proxy\ProxyContainer;
 use Moka\Traits\MokaCleanerTrait;
 use Moka\Traits\MokaTrait;
 use PHPUnit\Framework\TestCase;
+use Tests\TestTrait;
 
 class ProxyContainerSelfTest extends TestCase
 {
-    use MokaTrait;
+    use TestTrait;
     use MokaCleanerTrait;
 
     /**

@@ -23,7 +23,7 @@ final class StubSet extends Set
         if (!$elem instanceof Stub) {
             throw new InvalidArgumentException(
                 sprintf(
-                    'The first parameter must be an instance of %s but of type %s given',
+                    'The first parameter must be an instance of %s, %s given',
                     Stub::class,
                     gettype($elem)
                 )

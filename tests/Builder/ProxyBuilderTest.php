@@ -1,14 +1,16 @@
 <?php
+declare(strict_types=1);
 
 namespace Tests\Builder;
 
 use Moka\Builder\ProxyBuilder;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Proxy\Proxy;
+use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_Generator as MockGenerator;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
-class ProxyBuilderTest extends \PHPUnit_Framework_TestCase
+class ProxyBuilderTest extends TestCase
 {
     /**
      * @var ProxyBuilder

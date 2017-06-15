@@ -1,11 +1,13 @@
 <?php
+declare(strict_types=1);
 
 namespace Tests;
 
 use Moka\Moka;
 use Moka\Proxy\Proxy;
+use PHPUnit\Framework\TestCase;
 
-class MokaTest extends \PHPUnit_Framework_TestCase
+class MokaTest extends TestCase
 {
     public function testGetSuccess()
     {

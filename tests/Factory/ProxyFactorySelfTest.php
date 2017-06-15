@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Tests\Factory;
 
@@ -6,8 +7,9 @@ use Moka\Factory\ProxyFactory;
 use Moka\Proxy\Proxy;
 use Moka\Traits\MokaCleanerTrait;
 use Moka\Traits\MokaTrait;
+use PHPUnit\Framework\TestCase;
 
-class ProxyFactorySelfTest extends \PHPUnit_Framework_TestCase
+class ProxyFactorySelfTest extends TestCase
 {
     use MokaTrait;
     use MokaCleanerTrait;

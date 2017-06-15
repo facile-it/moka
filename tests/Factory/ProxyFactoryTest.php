@@ -1,11 +1,13 @@
 <?php
+declare(strict_types=1);
 
 namespace Tests\Factory;
 
 use Moka\Factory\ProxyFactory;
 use Moka\Proxy\Proxy;
+use PHPUnit\Framework\TestCase;
 
-class ProxyFactoryTest extends \PHPUnit_Framework_TestCase
+class ProxyFactoryTest extends TestCase
 {
     private $mock;
 

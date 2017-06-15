@@ -1,12 +1,14 @@
 <?php
+declare(strict_types=1);
 
 namespace Tests\Proxy;
 
 use Moka\Exception\InvalidIdentifierException;
 use Moka\Proxy\Proxy;
 use Moka\Proxy\ProxyContainer;
+use PHPUnit\Framework\TestCase;
 
-class ProxyContainerTest extends \PHPUnit_Framework_TestCase
+class ProxyContainerTest extends TestCase
 {
     /**
      * @var ProxyContainer

@@ -144,13 +144,13 @@ $ php vendor/bin/paraunit run
 <!---
 ## Contributing
 
-Please see [CONTRIBUTING](../../CONTRIBUTING.md) for details.
+Please see [CONTRIBUTING](/CONTRIBUTING.md) for details.
 -->
 ## Credits
 
 - [Angelo Giuffredi](https://github.com/giuffre)
 - [Alberto Villa](https://github.com/xzhavilla)
-- [All Contributors](/contributors)
+- [All Contributors](../../contributors)
 
 ## License
 

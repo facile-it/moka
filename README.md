@@ -1,11 +1,11 @@
 # Moka - Shorthand for Creating Mock Objects
 
-[![Open Source Love](https://badges.frapsoft.com/os/mit/mit.svg?v=102)](https://github.com/ellerbrock/open-source-badge/)
-[![Stable release][Last stable image]][Packagist link]
-[![Build status][Master build image]][Master build link]
-[![Coverage Status][Master coverage image]][Master scrutinizer link]
-[![Scrutinizer][Master scrutinizer image]][Master scrutinizer link]
-[![Total Downloads](https://img.shields.io/packagist/dt/facile-it/moka.svg)](https://packagist.org/packages/facile-it/moka)
+[![Packagist](https://img.shields.io/packagist/l/facile-it/moka.svg)](/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/facile-it/moka.svg)](https://packagist.org/packages/facile-it/moka)
+[![Travis](https://img.shields.io/travis/facile-it/moka.svg)](https://travis-ci.org/facile-it/moka)
+[![Scrutinizer Coverage](https://img.shields.io/scrutinizer/coverage/g/facile-it/moka.svg)](https://scrutinizer-ci.com/g/facile-it/moka/?branch=master)
+[![Scrutinizer](https://img.shields.io/scrutinizer/g/facile-it/moka.svg)](https://scrutinizer-ci.com/g/facile-it/moka/?branch=master)
+[![Packagist](https://img.shields.io/packagist/dt/facile-it/moka.svg)](https://packagist.org/packages/facile-it/moka)
 
 Tired of spending most of your testing time mocking objects like there's no tomorrow? **Yes.**  
 **Moka** provides you with three simple methods to reduce your effort on such a tedious task.
@@ -131,7 +131,7 @@ If you are extending PHPUnit `TestCase`, to simplify the cleaning phase we provi
 <!---
 ## Changelog
 
-Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
+Please see [CHANGELOG](/CHANGELOG.md) for more information what has changed recently.
 -->
 ## Testing
 
@@ -144,24 +144,14 @@ $ php vendor/bin/paraunit run
 <!---
 ## Contributing
 
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+Please see [CONTRIBUTING](../../CONTRIBUTING.md) for details.
 -->
 ## Credits
 
 - [Angelo Giuffredi](https://github.com/giuffre)
 - [Alberto Villa](https://github.com/xzhavilla)
-- [All Contributors](../../contributors)
+- [All Contributors](/contributors)
 
 ## License
 
-The MIT License (MIT). Please see [License File](LICENSE) for more information.
-
-[Last stable image]: https://poser.pugx.org/facile-it/moka/version.svg
-[Last unstable image]: https://poser.pugx.org/facile-it/moka/v/unstable.svg
-[Master build image]: https://travis-ci.org/facile-it/moka.svg
-[Master scrutinizer image]: https://scrutinizer-ci.com/g/facile-it/moka/badges/quality-score.png?b=master
-[Master coverage image]: https://scrutinizer-ci.com/g/facile-it/moka/badges/coverage.png?b=master
-
-[Packagist link]: https://packagist.org/packages/facile-it/moka
-[Master build link]: https://travis-ci.org/facile-it/moka
-[Master scrutinizer link]: https://scrutinizer-ci.com/g/facile-it/moka/?branch=master
+The MIT License (MIT). Please see [License File](/LICENSE) for more information.

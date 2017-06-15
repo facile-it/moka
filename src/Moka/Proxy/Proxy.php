@@ -11,7 +11,7 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
  * Class Proxy
  * @package Moka\Proxy
  */
-class Proxy implements ProxyInterface
+class Proxy
 {
     /**
      * @var MockObject
@@ -37,9 +37,9 @@ class Proxy implements ProxyInterface
 
     /**
      * @param array $methodsWithValues
-     * @return ProxyInterface
+     * @return Proxy
      */
-    public function stub(array $methodsWithValues): ProxyInterface
+    public function stub(array $methodsWithValues): self
     {
         $stubSet = StubFactory::fromArray($methodsWithValues);
         foreach ($stubSet as $stub) {

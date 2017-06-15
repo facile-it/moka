@@ -3,13 +3,12 @@
 namespace Tests\Proxy;
 
 use Moka\Proxy\Proxy;
-use Moka\Proxy\ProxyInterface;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 class ProxyTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var ProxyInterface
+     * @var Proxy
      */
     private $proxy;
 

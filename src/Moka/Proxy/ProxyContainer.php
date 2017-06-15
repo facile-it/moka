@@ -27,11 +27,11 @@ final class ProxyContainer implements ContainerInterface
 
     /**
      * @param string $id
-     * @return ProxyInterface
+     * @return Proxy
      *
      * @throws InvalidIdentifierException
      */
-    public function get($id): ProxyInterface
+    public function get($id): Proxy
     {
         if (!$this->has($id)) {
             throw new InvalidIdentifierException(sprintf('The mock object with id "%s" is not found', $id));
@@ -51,9 +51,9 @@ final class ProxyContainer implements ContainerInterface
 
     /**
      * @param string $id
-     * @param ProxyInterface $mock
+     * @param Proxy $mock
      */
-    public function set(string $id, ProxyInterface $mock)
+    public function set(string $id, Proxy $mock)
     {
         $this->mocks[$id] = $mock;
     }

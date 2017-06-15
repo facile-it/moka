@@ -8,7 +8,6 @@ use Moka\Exception\MockNotCreatedException;
 use Moka\Factory\ProxyFactory;
 use Moka\Proxy\Proxy;
 use Moka\Proxy\ProxyContainer;
-use Moka\Proxy\ProxyInterface;
 use PHPUnit_Framework_MockObject_Generator as MockGenerator;
 
 /**
@@ -48,12 +47,12 @@ class ProxyBuilder
     /**
      * @param string $fqcn
      * @param string|null $alias
-     * @return ProxyInterface
+     * @return Proxy
      *
      * @throws MockNotCreatedException
      * @throws InvalidIdentifierException
      */
-    public function getProxy(string $fqcn, string $alias = null): ProxyInterface
+    public function getProxy(string $fqcn, string $alias = null): Proxy
     {
         $alias = $alias ?: $fqcn;
 
@@ -66,11 +65,11 @@ class ProxyBuilder
 
     /**
      * @param string $fqcn
-     * @return ProxyInterface
+     * @return Proxy
      *
      * @throws MockNotCreatedException
      */
-    protected function buildProxy(string $fqcn): ProxyInterface
+    protected function buildProxy(string $fqcn): Proxy
     {
         try {
             $mock = $this->getGenerator()->getMock(

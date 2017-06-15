@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Moka\Proxy;
 
+use Moka\Exception\InvalidArgumentException;
 use Moka\Factory\StubFactory;
 use Moka\Stub\Stub;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
@@ -38,6 +39,8 @@ class Proxy
     /**
      * @param array $methodsWithValues
      * @return Proxy
+     *
+     * @throws InvalidArgumentException
      */
     public function stub(array $methodsWithValues): self
     {

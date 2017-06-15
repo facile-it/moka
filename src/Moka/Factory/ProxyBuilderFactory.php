@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Moka\Factory;
 
 use Moka\Builder\ProxyBuilder;
+use Moka\Generator\MockGeneratorInterface;
 use Moka\Generator\PHPUnitGenerator;
 
 /**
@@ -23,17 +24,18 @@ class ProxyBuilderFactory
     public static function get(): ProxyBuilder
     {
         if (!self::$mockBuilder instanceof ProxyBuilder) {
-            self::$mockBuilder = self::build();
+            self::$mockBuilder = self::build(new PHPUnitGenerator());
         }
 
         return self::$mockBuilder;
     }
 
     /**
+     * @param MockGeneratorInterface $generator
      * @return ProxyBuilder
      */
-    protected static function build(): ProxyBuilder
+    protected static function build(MockGeneratorInterface $generator): ProxyBuilder
     {
-        return new ProxyBuilder(new PHPUnitGenerator());
+        return new ProxyBuilder($generator);
     }
 }

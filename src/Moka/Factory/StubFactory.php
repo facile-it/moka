@@ -26,7 +26,7 @@ class StubFactory
             try {
                 $stubSet->add(new Stub($methodName, $methodValue));
             } catch (\Error $error) {
-                throw new InvalidArgumentException();
+                throw new InvalidArgumentException($error->getMessage());
             }
         }
 

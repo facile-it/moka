@@ -7,8 +7,9 @@ namespace Tests\Factory;
 use Moka\Exception\InvalidArgumentException;
 use Moka\Factory\StubFactory;
 use Moka\Stub\Stub;
+use PHPUnit\Framework\TestCase;
 
-class StubFactoryTest extends \PHPUnit_Framework_TestCase
+class StubFactoryTest extends TestCase
 {
     public function testSuccess()
     {

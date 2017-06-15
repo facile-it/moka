@@ -8,8 +8,9 @@ use Moka\Stub\Stub;
 use Moka\Stub\StubSet;
 use Moka\Traits\MokaCleanerTrait;
 use Moka\Traits\MokaTrait;
+use PHPUnit\Framework\TestCase;
 
-class StubSetSelfTest extends \PHPUnit_Framework_TestCase
+class StubSetSelfTest extends TestCase
 {
     use MokaTrait;
     use MokaCleanerTrait;

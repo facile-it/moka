@@ -7,9 +7,10 @@ use Moka\Exception\MockNotCreatedException;
 use Moka\Proxy\Proxy;
 use Moka\Traits\MokaCleanerTrait;
 use Moka\Traits\MokaTrait;
+use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_Generator as MockGenerator;
 
-class ProxyBuilderSelfTest extends \PHPUnit_Framework_TestCase
+class ProxyBuilderSelfTest extends TestCase
 {
     use MokaTrait;
     use MokaCleanerTrait;

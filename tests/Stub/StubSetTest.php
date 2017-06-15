@@ -6,8 +6,9 @@ namespace Stub;
 use Moka\Exception\InvalidArgumentException;
 use Moka\Stub\Stub;
 use Moka\Stub\StubSet;
+use PHPUnit\Framework\TestCase;
 
-class StubSetTest extends \PHPUnit_Framework_TestCase
+class StubSetTest extends TestCase
 {
     /**
      * @var StubSet

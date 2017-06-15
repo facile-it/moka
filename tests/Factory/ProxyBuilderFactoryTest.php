@@ -4,8 +4,9 @@ namespace Tests\Factory;
 
 use Moka\Builder\ProxyBuilder;
 use Moka\Factory\ProxyBuilderFactory;
+use PHPUnit\Framework\TestCase;
 
-class ProxyBuilderFactoryTest extends \PHPUnit_Framework_TestCase
+class ProxyBuilderFactoryTest extends TestCase
 {
     public function testGet()
     {

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Moka\Stub;
 
-final class Stub
+class Stub
 {
     /**
      * @var string

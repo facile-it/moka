@@ -13,7 +13,7 @@ use PhpCollection\Set;
 final class StubSet extends Set
 {
     /**
-     * @param object|\PhpCollection\scalar $elem
+     * @param Stub $elem
      * @return void
      *
      * @throws InvalidArgumentException

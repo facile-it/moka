@@ -32,5 +32,4 @@ final class StubSet extends Set
 
         parent::add($elem);
     }
-
 }

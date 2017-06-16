@@ -103,7 +103,7 @@ class ProphecyMockingStrategy extends AbstractMockingStrategy
 
     /**
      * @param string $fqcn
-     * @return array
+     * @return string[]
      */
     protected function filterMethods(string $fqcn): array
     {

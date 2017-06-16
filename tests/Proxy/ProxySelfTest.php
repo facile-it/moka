@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Tests\Proxy;
 
+use Moka\Exception\MockNotCreatedException;
+use Moka\Exception\MockNotServedException;
 use Moka\Proxy\Proxy;
 use Moka\Strategy\MockingStrategyInterface;
 use Moka\Traits\MokaCleanerTrait;
@@ -24,15 +26,26 @@ class ProxySelfTest extends TestCase
     {
         $this->proxy = new Proxy(
             \stdClass::class,
-            $this->mock(MockingStrategyInterface::class)->stub([
-                    'get' => $this->mock(TestClass::class)->serve(),
-                ])
-                ->serve()
+            $this->mock(MockingStrategyInterface::class)->serve()
         );
     }
 
-    public function testServe()
+    public function testServeSuccess()
     {
+        $this->mock(MockingStrategyInterface::class)->stub([
+            'get' => $this->mock(TestClass::class)->serve()
+        ]);
+
         $this->assertInstanceOf(TestClass::class, $this->proxy->serve());
+    }
+
+    public function testServeFailure()
+    {
+        $this->mock(MockingStrategyInterface::class)->stub([
+            'get' => new MockNotCreatedException()
+        ]);
+
+        $this->expectException(MockNotServedException::class);
+        $this->proxy->serve();
     }
 }

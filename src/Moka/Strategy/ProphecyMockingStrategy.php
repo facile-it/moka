@@ -52,8 +52,9 @@ class ProphecyMockingStrategy extends AbstractMockingStrategy
             // This should never be reached.
             throw new MockNotCreatedException(
                 sprintf(
-                    'Unable to create mock object for FQCN %s',
-                    $fqcn
+                    'Unable to create mock object for FQCN %s: %s',
+                    $fqcn,
+                    $exception->getMessage()
                 )
             );
         }
@@ -77,7 +78,7 @@ class ProphecyMockingStrategy extends AbstractMockingStrategy
             $methodName = $stub->getMethodName();
             $methodValue = $stub->getMethodValue();
 
-            $methodValue instanceof \Exception
+            $methodValue instanceof \Throwable
                 ? $mock->$methodName(new LowPriorityToken())->willThrow($methodValue)
                 : $mock->$methodName(new LowPriorityToken())->willReturn($methodValue);
         }
@@ -97,7 +98,12 @@ class ProphecyMockingStrategy extends AbstractMockingStrategy
         try {
             return $mock->reveal();
         } catch (ObjectProphecyException $exception) {
-            throw new MockNotCreatedException('Unable to create mock object');
+            throw new MockNotCreatedException(
+                sprintf(
+                    'Unable to create mock object: %s',
+                    $exception->getMessage()
+                )
+            );
         }
     }
 

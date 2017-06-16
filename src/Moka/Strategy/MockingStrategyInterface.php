@@ -29,7 +29,7 @@ interface MockingStrategyInterface
 
     /**
      * @param object $mock
-     * @return mixed
+     * @return object
      */
     public function get($mock);
 }

@@ -19,7 +19,7 @@ class ProphecyMockingStrategyTest extends MockingStrategyTestCase
         $this->setMockType(ObjectProphecy::class);
     }
 
-    public function testGetWithCustomMockFailure()
+    public function testGetCustomMockFailure()
     {
         $this->expectException(MockNotCreatedException::class);
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Moka\Strategy;
 
 use Moka\Exception\InvalidArgumentException;
+use Moka\Exception\NotImplementedException;
 
 /**
  * Class AbstractMockingStrategy
@@ -27,12 +28,13 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
     /**
      * @param object $mock
      *
+     * @throws NotImplementedException
      * @throws InvalidArgumentException
      */
     final protected function checkMockType($mock)
     {
         if (!$this->mockType) {
-            return;
+            throw new NotImplementedException();
         }
 
         if (!is_a($mock, $this->mockType)) {

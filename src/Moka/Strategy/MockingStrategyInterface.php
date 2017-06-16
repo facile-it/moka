@@ -23,7 +23,7 @@ interface MockingStrategyInterface
     /**
      * @param object $mock
      * @param StubSet $stubs
-     * @return mixed
+     * @return void
      */
     public function decorate($mock, StubSet $stubs);
 

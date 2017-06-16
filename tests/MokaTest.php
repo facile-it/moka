@@ -9,12 +9,14 @@ use PHPUnit\Framework\TestCase;
 
 class MokaTest extends TestCase
 {
+    const BUILDERS = ['phpunit', 'prophecy'];
+
     public function testGetSuccess()
     {
-        $this->assertInstanceOf(
-            Proxy::class,
-            Moka::get(\stdClass::class)
-        );
+        $this->getWithBuilder('get');
+        foreach (self::BUILDERS as $builder) {
+            $this->getWithBuilder($builder);
+        }
     }
 
     public function testReset()
@@ -29,5 +31,13 @@ class MokaTest extends TestCase
     public function testClean()
     {
         $this->testReset();
+    }
+
+    protected function getWithBuilder(string $builder)
+    {
+        $this->assertInstanceOf(
+            Proxy::class,
+            Moka::$builder(\stdClass::class)
+        );
     }
 }

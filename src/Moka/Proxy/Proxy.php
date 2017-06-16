@@ -49,11 +49,22 @@ class Proxy
     }
 
     /**
-     * @return void
+     * @param array $methodsWithValues
+     * @return Proxy
+     *
+     * @throws InvalidArgumentException
      */
-    protected function resetStubs()
+    public function stub(array $methodsWithValues): self
     {
-        $this->stubs = new StubSet();
+        $this->stubs->addAll(
+            StubFactory::fromArray($methodsWithValues)->all()
+        );
+
+        if ($this->mock) {
+            $this->decorateMock();
+        }
+
+        return $this;
     }
 
     /**
@@ -72,6 +83,14 @@ class Proxy
         } catch (MockNotCreatedException $exception) {
             throw new MockNotServedException($exception->getMessage());
         }
+    }
+
+    /**
+     * @return void
+     */
+    private function resetStubs()
+    {
+        $this->stubs = new StubSet();
     }
 
     /**
@@ -96,23 +115,5 @@ class Proxy
     {
         $this->mockingStrategy->decorate($this->mock, $this->stubs);
         $this->resetStubs();
-    }
-
-    /**
-     * @param array $methodsWithValues
-     * @return Proxy
-     *
-     * @throws InvalidArgumentException
-     */
-    public function stub(array $methodsWithValues): self
-    {
-        $this->stubs->addAll(
-            StubFactory::fromArray($methodsWithValues)->all()
-        );
-        if ($this->mock) {
-            $this->decorateMock();
-        }
-
-        return $this;
     }
 }

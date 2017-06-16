@@ -13,4 +13,12 @@ class TestClass
     public function throwException()
     {
     }
+
+    public function __magicMethod()
+    {
+    }
+
+    final public function finalMethod()
+    {
+    }
 }

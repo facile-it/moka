@@ -5,9 +5,10 @@ namespace Moka\Strategy;
 
 use Moka\Exception\InvalidArgumentException;
 use Moka\Exception\MockNotCreatedException;
+use Moka\Strategy\Prophecy\LowPriorityToken;
+use Moka\Strategy\Prophecy\NoPriorityToken;
 use Moka\Stub\Stub;
 use Moka\Stub\StubSet;
-use Prophecy\Argument;
 use Prophecy\Exception\Prophecy\ObjectProphecyException;
 use Prophecy\Prophecy\ObjectProphecy;
 use Prophecy\Prophet;
@@ -45,7 +46,7 @@ class ProphecyMockingStrategy extends AbstractMockingStrategy
 
             $methodNames = $this->filterMethods($fqcn);
             foreach ($methodNames as $methodName) {
-                $mock->$methodName(Argument::cetera())->willReturn(null);
+                $mock->$methodName(new NoPriorityToken())->willReturn(null);
             }
         } catch (\Exception $exception) {
             // This should never be reached.
@@ -77,8 +78,8 @@ class ProphecyMockingStrategy extends AbstractMockingStrategy
             $methodValue = $stub->getMethodValue();
 
             $methodValue instanceof \Exception
-                ? $mock->$methodName(Argument::any())->willThrow($methodValue)
-                : $mock->$methodName(Argument::any())->willReturn($methodValue);
+                ? $mock->$methodName(new LowPriorityToken())->willThrow($methodValue)
+                : $mock->$methodName(new LowPriorityToken())->willReturn($methodValue);
         }
     }
 

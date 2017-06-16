@@ -51,7 +51,7 @@ class ProxyBuilderFactory
 
     public static function reset()
     {
-        foreach (static::$mockBuilders as $mockBuilder) {
+        foreach (self::$mockBuilders as $mockBuilder) {
             $mockBuilder->reset();
         }
     }

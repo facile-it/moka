@@ -43,15 +43,12 @@ class ProphecyMockingStrategy extends AbstractMockingStrategy
         try {
             $mock = $this->prophet->prophesize($fqcn);
 
-            $methods = array_filter(get_class_methods($fqcn), function ($method) {
-                // Do not define stubs for magic methods.
-                return !preg_match('/^__/', $method);
-            });
-
-            foreach ($methods as $methodName) {
+            $methodNames = $this->filterMethods($fqcn);
+            foreach ($methodNames as $methodName) {
                 $mock->$methodName(Argument::cetera())->willReturn(null);
             }
         } catch (\Exception $exception) {
+            // This should never be reached.
             throw new MockNotCreatedException(
                 sprintf(
                     'Unable to create mock object for FQCN %s',
@@ -101,5 +98,29 @@ class ProphecyMockingStrategy extends AbstractMockingStrategy
         } catch (ObjectProphecyException $exception) {
             throw new MockNotCreatedException('Unable to create mock object');
         }
+    }
+
+    /**
+     * @param string $fqcn
+     * @return array
+     */
+    protected function filterMethods(string $fqcn): array
+    {
+        // The result is empty for nonexistent FQCNs (or empty ones).
+        $methodNames = get_class_methods($fqcn) ?: [];
+
+        // Filter magic and final methods.
+        return array_filter($methodNames, function ($methodName) use ($fqcn) {
+            if (preg_match('/^__/', $methodName)) {
+                return false;
+            }
+
+            $reflectionMethod = new \ReflectionMethod($fqcn, $methodName);
+            if ($reflectionMethod->isFinal()) {
+                return false;
+            }
+
+            return true;
+        });
     }
 }

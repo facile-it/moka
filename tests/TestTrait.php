@@ -15,13 +15,13 @@ trait TestTrait
 
     /**
      * @param string $fqcn
-     * @param string|null $key
+     * @param string|null $alias
      * @return Proxy
      */
-    protected function mock(string $fqcn, string $key = null): Proxy
+    protected function mock(string $fqcn, string $alias = null): Proxy
     {
         $builder = getenv('MOCKING_STRATEGY') ?: 'get';
 
-        return Moka::{$builder}($fqcn, $key);
+        return Moka::$builder($fqcn, $alias);
     }
 }

@@ -16,6 +16,6 @@ trait MokaCleanerTrait
      */
     public function tearDown()
     {
-        Moka::clean();
+        Moka::reset();
     }
 }

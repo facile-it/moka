@@ -17,10 +17,17 @@ class PHPUnitMockingStrategyTest extends MockingStrategyTestCase
         $this->setMockType(MockObject::class);
     }
 
-    public function testBuildFailure()
+    public function testBuildEmptyFQCNFailure()
     {
         $this->expectException(MockNotCreatedException::class);
 
         $this->strategy->build('');
+    }
+
+    public function testBuildParseFailure()
+    {
+        $this->expectException(MockNotCreatedException::class);
+
+        $this->strategy->build('foo bar');
     }
 }

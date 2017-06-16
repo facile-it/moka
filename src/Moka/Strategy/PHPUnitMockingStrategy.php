@@ -46,7 +46,8 @@ class PHPUnitMockingStrategy extends AbstractMockingStrategy
                 $mockClassName = '',
                 $callOriginalConstructor = false
             );
-        } catch (\Exception $exception) {
+        } catch (\Throwable $exception) {
+            // Use \Throwable to catch \ParseError too.
             throw new MockNotCreatedException(
                 sprintf(
                     'Unable to create mock object for FQCN %s',

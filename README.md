@@ -8,11 +8,11 @@
 [![Packagist](https://img.shields.io/packagist/dt/facile-it/moka.svg)](https://packagist.org/packages/facile-it/moka)
 
 Tired of spending most of your testing time mocking objects like there's no tomorrow? **Yes.**  
-**Moka** provides you with three simple methods to reduce your effort on such a tedious task.
+**Moka** provides you with three simple methods to reduce your effort on such a tedious task and an incredible abstraction layer between the most importants mock engines and **you**.
 
 ## Installation
 
-You can install the package via composer:
+You can simply install the package via composer:
 
 ```bash
 composer require --dev facile-it/moka
@@ -52,7 +52,7 @@ class FooTest extends AnyTestCase
         );
     }
     
-    ...
+    //...
 }
 ```
 
@@ -62,7 +62,7 @@ Being such a simple project, **Moka** can be integrated in an already existing t
 
 ### `mock(string $fqcn, string $alias = null): MockProxy`
 
-Creates (if not existing already) a proxy containing a PHPUnit mock object for the class identified by `$fqcn` and optionally assigns an `$alias` to it.
+Creates (if not existing already) a proxy containing a mock object according to selected strategy for the class identified by `$fqcn` and optionally assigns an `$alias` to it.
 
 ```php
 $mock1 = $this->mock(FooInterface::class)->serve(); // Creates the mock for FooInterface.
@@ -101,9 +101,9 @@ var_dump($actualMock->isValid());
 **Notice:** the stub is valid for **any** invocation of the method.  
 If you need more granular control over invocation strategies, see `serve()`.
 
-### `serve(): MockObject // PHPUnit mock object class`
+### `serve(): MockObject // Actual mock object instance`
 
-Returns the actual mock object unwrapped from the proxy.
+Regain the control returning the actual mock object unwrapped from the proxy.
 
 ```php
 $this->mock(BarInterface::class)->serve()
@@ -123,9 +123,15 @@ var_dump($this->mock(BarInterface::class)->serve()->isValid());
 // throws \Exception
 ```
 
-## PHPUnit Integration
+## Supported mock objects generator
 
-If you are extending PHPUnit `TestCase`, to simplify the cleaning phase we provide a `MokaCleanerTrait` which automatically runs `Moka::clean()` in `tearDown()`.
+Currently we support this generators:
+
+- PHPUnit
+- Propechy
+- Mockery
+
+**Notice:** If you are extending PHPUnit `TestCase`, to simplify the cleaning phase we provide a `MokaCleanerTrait` which automatically runs `Moka::clean()` in `tearDown()`.
   
 **Warning:** if you are defining your own `tearDown()`, you cannot use the trait! 
 <!---
@@ -138,7 +144,8 @@ Please see [CHANGELOG](/CHANGELOG.md) for more information what has changed rece
 We highly suggest using [Paraunit](https://github.com/facile-it/paraunit) for a faster execution of tests:
 
 ```bash
-$ composer install --dev
+$ composer install
+
 $ php vendor/bin/paraunit run
 ```
 <!---

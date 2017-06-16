@@ -17,12 +17,17 @@ class MokaTest extends TestCase
         );
     }
 
-    public function testClean()
+    public function testReset()
     {
         $proxy1 = Moka::get(\stdClass::class);
-        Moka::clean();
+        Moka::reset();
         $proxy2 = Moka::get(\stdClass::class);
 
         $this->assertNotSame($proxy1, $proxy2);
+    }
+
+    public function testClean()
+    {
+        $this->testReset();
     }
 }

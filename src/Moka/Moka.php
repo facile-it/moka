@@ -57,19 +57,19 @@ class Moka
 
     /**
      * @return void
-     *
-     * @deprecated since 0.3.0
      */
-    public static function clean()
+    public static function reset()
     {
         ProxyBuilderFactory::reset();
     }
 
     /**
      * @return void
+     *
+     * @deprecated since 0.3.0
      */
-    public static function reset()
+    public static function clean()
     {
-        ProxyBuilderFactory::reset();
+        static::reset();
     }
 }

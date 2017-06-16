@@ -23,12 +23,12 @@ class ProxyBuilderFactory
      */
     public static function get(MockingStrategyInterface $mockingStrategy): ProxyBuilder
     {
-        $key = static::key($mockingStrategy);
-        if (!array_key_exists($key, static::$mockBuilders) || !static::$mockBuilders[$key] instanceof ProxyBuilder) {
-            static::$mockBuilders[$key] = static::build(new $mockingStrategy);
+        $key = self::key($mockingStrategy);
+        if (!array_key_exists($key, self::$mockBuilders) || !self::$mockBuilders[$key] instanceof ProxyBuilder) {
+            self::$mockBuilders[$key] = static::build(new $mockingStrategy);
         }
 
-        return static::$mockBuilders[$key];
+        return self::$mockBuilders[$key];
     }
 
     /**

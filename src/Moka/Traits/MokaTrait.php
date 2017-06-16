@@ -16,14 +16,14 @@ trait MokaTrait
 {
     /**
      * @param string $fqcn
-     * @param string|null $key
+     * @param string|null $alias
      * @return Proxy
      *
      * @throws MockNotCreatedException
      * @throws InvalidIdentifierException
      */
-    protected function mock(string $fqcn, string $key = null): Proxy
+    protected function mock(string $fqcn, string $alias = null): Proxy
     {
-        return Moka::brew($fqcn, $key);
+        return Moka::brew($fqcn, $alias);
     }
 }

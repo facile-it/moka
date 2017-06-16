@@ -7,6 +7,7 @@ use Moka\Exception\InvalidIdentifierException;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Factory\ProxyBuilderFactory;
 use Moka\Proxy\Proxy;
+use Moka\Strategy\MockeryMockingStrategy;
 use Moka\Strategy\PHPUnitMockingStrategy;
 use Moka\Strategy\ProphecyMockingStrategy;
 
@@ -27,6 +28,19 @@ class Moka
     public static function get(string $fqcn, string $alias = null): Proxy
     {
         return static::phpunit($fqcn, $alias);
+    }
+
+    /**
+     * @param string $fqcn
+     * @param string|null $alias
+     * @return Proxy
+     *
+     * @throws MockNotCreatedException
+     * @throws InvalidIdentifierException
+     */
+    public static function mockery(string $fqcn, string $alias = null): Proxy
+    {
+        return ProxyBuilderFactory::get(new MockeryMockingStrategy())->getProxy($fqcn, $alias);
     }
 
     /**

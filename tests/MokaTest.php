@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class MokaTest extends TestCase
 {
-    const BUILDERS = ['phpunit', 'prophecy'];
+    const BUILDERS = ['mockery', 'phpunit', 'prophecy'];
 
     public function testGetSuccess()
     {

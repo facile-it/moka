@@ -24,6 +24,30 @@ class Moka
      *
      * @throws MockNotCreatedException
      * @throws InvalidIdentifierException
+     *
+     */
+    public static function brew(string $fqcn, string $alias = null): Proxy
+    {
+        return static::phpunit($fqcn, $alias);
+    }
+
+    /**
+     * @return void
+     */
+    public static function clean()
+    {
+        ProxyBuilderFactory::reset();
+    }
+
+    /**
+     * @param string $fqcn
+     * @param string|null $alias
+     * @return Proxy
+     *
+     * @throws MockNotCreatedException
+     * @throws InvalidIdentifierException
+     *
+     * @deprecated since 0.3.0
      */
     public static function get(string $fqcn, string $alias = null): Proxy
     {
@@ -69,21 +93,4 @@ class Moka
         return ProxyBuilderFactory::get(new ProphecyMockingStrategy())->getProxy($fqcn, $alias);
     }
 
-    /**
-     * @return void
-     */
-    public static function reset()
-    {
-        ProxyBuilderFactory::reset();
-    }
-
-    /**
-     * @return void
-     *
-     * @deprecated since 0.3.0
-     */
-    public static function clean()
-    {
-        static::reset();
-    }
 }

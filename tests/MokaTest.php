@@ -19,11 +19,6 @@ class MokaTest extends TestCase
         }
     }
 
-    public function testReset()
-    {
-        $this->reset();
-    }
-
     public function testClean()
     {
         $this->reset('clean');
@@ -37,11 +32,11 @@ class MokaTest extends TestCase
         );
     }
 
-    protected function reset(string $method = 'reset')
+    protected function reset(string $method = 'clean')
     {
-        $proxy1 = Moka::get(\stdClass::class);
+        $proxy1 = Moka::brew(\stdClass::class);
         Moka::$method();
-        $proxy2 = Moka::get(\stdClass::class);
+        $proxy2 = Moka::brew(\stdClass::class);
 
         $this->assertNotSame($proxy1, $proxy2);
     }

@@ -24,6 +24,6 @@ trait MokaTrait
      */
     protected function mock(string $fqcn, string $key = null): Proxy
     {
-        return Moka::get($fqcn, $key);
+        return Moka::brew($fqcn, $key);
     }
 }

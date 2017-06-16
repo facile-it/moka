@@ -48,6 +48,9 @@ class Proxy
         $this->resetStubs();
     }
 
+    /**
+     * @return void
+     */
     protected function resetStubs()
     {
         $this->stubs = new StubSet();
@@ -60,31 +63,35 @@ class Proxy
      */
     public function serve()
     {
-        if (!$this->mock) {
-            $this->buildMock();
+        try {
+            if (!$this->mock) {
+                $this->buildMock();
+            }
+
+            return $this->mockingStrategy->get($this->mock);
+        } catch (MockNotCreatedException $exception) {
+            throw new MockNotServedException($exception->getMessage());
         }
-
-        return $this->mockingStrategy->get($this->mock);
     }
-
 
     /**
      * @return object
      *
-     * @throws MockNotServedException
+     * @throws MockNotCreatedException
      */
     private function buildMock()
     {
-        try {
-            $this->mock = $this->mockingStrategy->build($this->fqcn);
-            $this->decorateMock();
-        } catch (MockNotCreatedException $exception) {
-            throw new MockNotServedException($exception->getMessage());
-        }
+        $this->mock = $this->mockingStrategy->build($this->fqcn);
+        $this->decorateMock();
 
         return $this->mock;
     }
 
+    /**
+     * @return void
+     *
+     * @throws InvalidArgumentException
+     */
     private function decorateMock()
     {
         $this->mockingStrategy->decorate($this->mock, $this->stubs);

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Moka\Strategy;
 
+use Moka\Exception\InvalidArgumentException;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Stub\Stub;
 use Moka\Stub\StubSet;
@@ -59,6 +60,8 @@ class PHPUnitMockingStrategy extends AbstractMockingStrategy
      * @param MockObject $mock
      * @param StubSet $stubs
      * @return void
+     *
+     * @throws InvalidArgumentException
      */
     public function decorate($mock, StubSet $stubs)
     {
@@ -78,6 +81,8 @@ class PHPUnitMockingStrategy extends AbstractMockingStrategy
     /**
      * @param MockObject $mock
      * @return MockObject
+     *
+     * @throws InvalidArgumentException
      */
     public function get($mock)
     {

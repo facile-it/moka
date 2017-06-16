@@ -4,14 +4,11 @@ declare(strict_types=1);
 namespace Tests\Builder;
 
 use Moka\Builder\ProxyBuilder;
-use Moka\Exception\MockNotCreatedException;
-use Moka\Exception\MockNotServedException;
 use Moka\Proxy\Proxy;
 use Moka\Strategy\MockingStrategyInterface;
 use Moka\Traits\MokaCleanerTrait;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_MockObject_Generator as MockGenerator;
-use Tests\Proxy\MockFakeClass;
+use Tests\TestClass;
 use Tests\TestTrait;
 
 class ProxyBuilderSelfTest extends TestCase
@@ -46,7 +43,7 @@ class ProxyBuilderSelfTest extends TestCase
     private function decorateSuccessfulMockGenerator()
     {
         $this->mock(MockingStrategyInterface::class)->stub([
-            'get' => $this->mock(MockFakeClass::class)->serve()
+            'get' => $this->mock(TestClass::class)->serve()
         ]);
     }
 

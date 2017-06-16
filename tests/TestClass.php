@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Proxy;
+namespace Tests;
 
-class MockFakeClass
+class TestClass
 {
     public function isValid(): bool
     {

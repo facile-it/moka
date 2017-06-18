@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Strategy\Prophecy;
+namespace Tests\Strategy\Prophecy;
 
 use Moka\Strategy\Prophecy\NoPriorityToken;
 use Tests\Strategy\Prophecy\PriorityTokenTestCase;

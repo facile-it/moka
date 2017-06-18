@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Moka\Strategy;
 
-use Moka\Exception\InvalidArgumentException;
-use Moka\Exception\MockNotCreatedException;
 use Moka\Stub\Stub;
 use Moka\Stub\StubSet;
 use PHPUnit_Framework_MockObject_Generator as MockGenerator;
@@ -33,42 +31,25 @@ class PHPUnitMockingStrategy extends AbstractMockingStrategy
     /**
      * @param string $fqcn
      * @return MockObject
-     *
-     * @throws MockNotCreatedException
      */
-    public function build(string $fqcn)
+    protected function doBuild(string $fqcn)
     {
-        try {
-            return $this->generator->getMock(
-                $fqcn,
-                $methods = [],
-                $arguments = [],
-                $mockClassName = '',
-                $callOriginalConstructor = false
-            );
-        } catch (\Throwable $exception) {
-            // Use \Throwable to catch \ParseError too.
-            throw new MockNotCreatedException(
-                sprintf(
-                    'Unable to create mock object for FQCN %s: %s',
-                    $fqcn,
-                    $exception->getMessage()
-                )
-            );
-        }
+        return $this->generator->getMock(
+            $fqcn,
+            $methods = [],
+            $arguments = [],
+            $mockClassName = '',
+            $callOriginalConstructor = false
+        );
     }
 
     /**
      * @param MockObject $mock
      * @param StubSet $stubs
      * @return void
-     *
-     * @throws InvalidArgumentException
      */
-    public function decorate($mock, StubSet $stubs)
+    protected function doDecorate($mock, StubSet $stubs)
     {
-        $this->checkMockType($mock);
-
         /** @var Stub $stub */
         foreach ($stubs as $stub) {
             $methodValue = $stub->getMethodValue();
@@ -83,13 +64,9 @@ class PHPUnitMockingStrategy extends AbstractMockingStrategy
     /**
      * @param MockObject $mock
      * @return MockObject
-     *
-     * @throws InvalidArgumentException
      */
-    public function get($mock)
+    protected function doGet($mock)
     {
-        $this->checkMockType($mock);
-
         return $mock;
     }
 }

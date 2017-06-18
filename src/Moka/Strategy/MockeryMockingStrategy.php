@@ -4,9 +4,6 @@ declare(strict_types=1);
 namespace Moka\Strategy;
 
 use Mockery\MockInterface;
-use Moka\Exception\InvalidArgumentException;
-use Moka\Exception\MockNotCreatedException;
-use Moka\Exception\NotImplementedException;
 use Moka\Stub\Stub;
 use Moka\Stub\StubSet;
 
@@ -27,36 +24,19 @@ class MockeryMockingStrategy extends AbstractMockingStrategy
     /**
      * @param string $fqcn
      * @return MockInterface
-     *
-     * @throws MockNotCreatedException
      */
-    public function build(string $fqcn)
+    protected function doBuild(string $fqcn)
     {
-        try {
-            return \Mockery::mock($fqcn)->shouldIgnoreMissing();
-        } catch (\Throwable $exception) {
-            throw new MockNotCreatedException(
-                sprintf(
-                    'Unable to create mock object for FQCN %s: %s',
-                    $fqcn,
-                    $exception->getMessage()
-                )
-            );
-        }
+        return \Mockery::mock($fqcn);
     }
 
     /**
      * @param MockInterface $mock
      * @param StubSet $stubs
      * @return void
-     *
-     * @throws InvalidArgumentException
-     * @throws NotImplementedException
      */
-    public function decorate($mock, StubSet $stubs)
+    protected function doDecorate($mock, StubSet $stubs)
     {
-        $this->checkMockType($mock);
-
         /** @var Stub $stub */
         foreach ($stubs as $stub) {
             $methodValue = $stub->getMethodValue();
@@ -71,13 +51,9 @@ class MockeryMockingStrategy extends AbstractMockingStrategy
     /**
      * @param MockInterface $mock
      * @return MockInterface
-     *
-     * @throws InvalidArgumentException
      */
-    public function get($mock)
+    protected function doGet($mock)
     {
-        $this->checkMockType($mock);
-
         return $mock;
     }
 }

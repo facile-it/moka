@@ -12,18 +12,16 @@ class IncompleteMockingStrategy extends AbstractMockingStrategy
      * Missing call to setMockType().
      */
 
-    public function build(string $fqcn)
+    protected function doBuild(string $fqcn)
     {
     }
 
-    public function decorate($mock, StubSet $stubs)
+    protected function doDecorate($mock, StubSet $stubs)
     {
     }
 
-    public function get($mock)
+    protected function doGet($mock)
     {
-        $this->checkMockType($mock);
-
         return $mock;
     }
 }

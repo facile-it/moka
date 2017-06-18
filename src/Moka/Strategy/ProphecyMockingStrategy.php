@@ -3,9 +3,7 @@ declare(strict_types=1);
 
 namespace Moka\Strategy;
 
-use Moka\Exception\InvalidArgumentException;
 use Moka\Exception\MockNotCreatedException;
-use Moka\Strategy\Prophecy\LowPriorityToken;
 use Moka\Strategy\Prophecy\NoPriorityToken;
 use Moka\Stub\Stub;
 use Moka\Stub\StubSet;
@@ -36,95 +34,44 @@ class ProphecyMockingStrategy extends AbstractMockingStrategy
     /**
      * @param string $fqcn
      * @return ObjectProphecy
-     *
-     * @throws MockNotCreatedException
      */
-    public function build(string $fqcn)
+    protected function doBuild(string $fqcn)
     {
-        try {
-            $mock = $this->prophet->prophesize($fqcn);
-
-            $methodNames = $this->filterMethods($fqcn);
-            foreach ($methodNames as $methodName) {
-                $mock->$methodName(new NoPriorityToken())->willReturn(null);
-            }
-        } catch (\Exception $exception) {
-            // This should never be reached.
-            throw new MockNotCreatedException(
-                sprintf(
-                    'Unable to create mock object for FQCN %s: %s',
-                    $fqcn,
-                    $exception->getMessage()
-                )
-            );
-        }
-
-        return $mock;
-    }
-
-    /**
-     * @param string $fqcn
-     * @return string[]
-     */
-    protected function filterMethods(string $fqcn): array
-    {
-        // The result is empty for nonexistent FQCNs (or empty ones).
-        $methodNames = get_class_methods($fqcn) ?: [];
-
-        // Filter magic and final methods.
-        return array_filter($methodNames, function ($methodName) use ($fqcn) {
-            if (preg_match('/^__/', $methodName)) {
-                return false;
-            }
-
-            $reflectionMethod = new \ReflectionMethod($fqcn, $methodName);
-            if ($reflectionMethod->isFinal()) {
-                return false;
-            }
-
-            return true;
-        });
+        return $this->prophet->prophesize($fqcn);
     }
 
     /**
      * @param ObjectProphecy $mock
      * @param StubSet $stubs
      * @return void
-     *
-     * @throws InvalidArgumentException
      */
-    public function decorate($mock, StubSet $stubs)
+    protected function doDecorate($mock, StubSet $stubs)
     {
-        $this->checkMockType($mock);
-
         /** @var Stub $stub */
         foreach ($stubs as $stub) {
-            $methodName = $stub->getMethodName();
             $methodValue = $stub->getMethodValue();
 
+            $partial = $mock->{$stub->getMethodName()}(new NoPriorityToken());
             $methodValue instanceof \Throwable
-                ? $mock->$methodName(new LowPriorityToken())->willThrow($methodValue)
-                : $mock->$methodName(new LowPriorityToken())->willReturn($methodValue);
+                ? $partial->willThrow($methodValue)
+                : $partial->willReturn($methodValue);
         }
     }
 
     /**
-     * @param ObjectProphecy $mock
-     * @return object
+     * @param object $mock
+     * @return mixed
      *
-     * @throws InvalidArgumentException
      * @throws MockNotCreatedException
      */
-    public function get($mock)
+    protected function doGet($mock)
     {
-        $this->checkMockType($mock);
-
         try {
             return $mock->reveal();
         } catch (ObjectProphecyException $exception) {
             throw new MockNotCreatedException(
                 sprintf(
-                    'Unable to create mock object: %s',
+                    'Cannot create mock object: %s',
                     $exception->getMessage()
                 )
             );

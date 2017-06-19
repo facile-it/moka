@@ -7,6 +7,7 @@ use Moka\Stub\Stub;
 use Moka\Stub\StubSet;
 use PHPUnit_Framework_MockObject_Generator as MockGenerator;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
+use PHPUnit_Framework_MockObject_Matcher_AnyInvokedCount as AnyInvokedCountMatcher;
 
 /**
  * Class PHPUnitMockingStrategy
@@ -52,9 +53,10 @@ class PHPUnitMockingStrategy extends AbstractMockingStrategy
     {
         /** @var Stub $stub */
         foreach ($stubs as $stub) {
+            $methodName = $stub->getMethodName();
             $methodValue = $stub->getMethodValue();
 
-            $partial = $mock->method($stub->getMethodName());
+            $partial = $mock->expects(new AnyInvokedCountMatcher())->method($methodName);
             $methodValue instanceof \Throwable
                 ? $partial->willThrowException($methodValue)
                 : $partial->willReturn($methodValue);

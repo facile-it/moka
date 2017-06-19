@@ -32,7 +32,7 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
         } catch (\Throwable $exception) {
             throw new MockNotCreatedException(
                 sprintf(
-                    'Cannot create mock object for FQCN %s: %s',
+                    'Cannot create mock object for FQCN "%s": %s',
                     $fqcn,
                     $exception->getMessage()
                 )
@@ -102,7 +102,7 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
         if (!is_a($mock, $this->mockType)) {
             throw new InvalidArgumentException(
                 sprintf(
-                    'Mock must be of type %s, %s given',
+                    'Mock must be of type "%s", "%s" given',
                     $this->mockType,
                     gettype($mock)
                 )

@@ -19,11 +19,11 @@ class ProphecyMockingStrategyTest extends MockingStrategyTestCase
         $this->setStrategy(new ProphecyMockingStrategy());
     }
 
-    public function testGetCustomMockFailure()
+    public function testBuildMultipleFQCNSuccess()
     {
-        $this->expectException(MockNotCreatedException::class);
+        $this->strategy->build('foo, bar');
 
-        $this->strategy->get(new ObjectProphecy(new LazyDouble(new Doubler())));
+        $this->assertTrue(true);
     }
 
     public function testCallMissingMethodFailure()
@@ -32,5 +32,35 @@ class ProphecyMockingStrategyTest extends MockingStrategyTestCase
 
         $this->expectException(\Throwable::class);
         $this->strategy->get($mock)->getSelf();
+    }
+
+    public function testGetCustomMockFailure()
+    {
+        $this->expectException(MockNotCreatedException::class);
+
+        $this->strategy->get(new ObjectProphecy(new LazyDouble(new Doubler())));
+    }
+
+    public function testGetFakeFQCNFailure()
+    {
+        $mock = $this->strategy->build('foo');
+
+        $this->assertFalse(is_a($this->strategy->get($mock), 'foo'));
+    }
+
+    public function testGetMultipleFQCNPartialSuccess()
+    {
+        $mock = $this->strategy->build(TestClass::class . ', ' . \stdClass::class);
+
+        $this->assertFalse(is_a($this->strategy->get($mock), TestClass::class));
+        $this->assertTrue(is_a($this->strategy->get($mock), \stdClass::class));
+    }
+
+    public function testGetMultipleFakeFQCNFailure()
+    {
+        $mock = $this->strategy->build('foo, bar');
+
+        $this->assertFalse(is_a($this->strategy->get($mock), 'foo'));
+        $this->assertFalse(is_a($this->strategy->get($mock), 'bar'));
     }
 }

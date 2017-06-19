@@ -39,6 +39,12 @@ abstract class MockingStrategyTestCase extends TestCase
         $this->assertInstanceOf($this->strategy->getMockType(), $mock);
     }
 
+    public function testBuildFakeFQCNSuccess()
+    {
+        $this->strategy->build('foo');
+
+        $this->assertTrue(true);
+    }
     public function testDecorateSingleCallSuccess()
     {
         $mock = $this->strategy->build(TestClass::class);

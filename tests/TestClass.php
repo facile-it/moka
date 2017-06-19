@@ -10,6 +10,11 @@ class TestClass
         return true;
     }
 
+    public function getInt(): int
+    {
+        return 1;
+    }
+
     public function throwException()
     {
     }

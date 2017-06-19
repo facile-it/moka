@@ -27,6 +27,7 @@ abstract class MockingStrategyTestCase extends TestCase
         // Mocking a StubSet is way too difficult.
         $this->stubs = StubFactory::fromArray([
             'isValid' => false,
+            'getInt' => 3,
             'throwException' => new \Exception()
         ]);
     }
@@ -38,7 +39,7 @@ abstract class MockingStrategyTestCase extends TestCase
         $this->assertInstanceOf($this->strategy->getMockType(), $mock);
     }
 
-    public function testDecorateSuccess()
+    public function testDecorateSingleCallSuccess()
     {
         $mock = $this->strategy->build(TestClass::class);
         $this->strategy->decorate($mock, $this->stubs);
@@ -46,6 +47,14 @@ abstract class MockingStrategyTestCase extends TestCase
 
         $this->expectException(\Exception::class);
         $this->strategy->get($mock)->throwException();
+    }
+
+    public function testDecorateMultipleCallsSuccess()
+    {
+        $mock = $this->strategy->build(TestClass::class);
+        $this->strategy->decorate($mock, $this->stubs);
+        $this->assertSame(3, $this->strategy->get($mock)->getInt());
+        $this->assertSame(3, $this->strategy->get($mock)->getInt());
     }
 
     public function testDecorateFailure()

@@ -4,10 +4,9 @@ declare(strict_types=1);
 namespace Tests\Builder;
 
 use Moka\Builder\ProxyBuilder;
-use Moka\Exception\MockNotCreatedException;
 use Moka\Proxy\Proxy;
+use Moka\Strategy\MockingStrategyInterface;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_MockObject_Generator as MockGenerator;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 class ProxyBuilderTest extends TestCase
@@ -18,23 +17,23 @@ class ProxyBuilderTest extends TestCase
     private $proxyBuilder;
 
     /**
-     * @var MockGenerator|MockObject
+     * @var MockingStrategyInterface|MockObject
      */
-    private $mockGenerator;
+    private $mockingStrategy;
 
     public function setUp()
     {
-        $this->mockGenerator = $this->getMockBuilder(MockGenerator::class)
+        $this->mockingStrategy = $this->getMockBuilder(MockingStrategyInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->mockGenerator
-            ->method('getMock')
+        $this->mockingStrategy
+            ->method('get')
             ->willReturn(
                 $this->getMockBuilder(\stdClass::class)->getMock()
             );
 
-        $this->proxyBuilder = new ProxyBuilder($this->mockGenerator);
+        $this->proxyBuilder = new ProxyBuilder($this->mockingStrategy);
     }
 
     public function testGetProxySuccess()
@@ -56,17 +55,5 @@ class ProxyBuilderTest extends TestCase
         $this->assertInstanceOf(Proxy::class, $proxy2);
 
         $this->assertNotSame($proxy1, $proxy2);
-    }
-
-    public function testGetProxyThrowException()
-    {
-        $this->expectException(MockNotCreatedException::class);
-
-        $this->mockGenerator
-            ->expects($this->at(0))
-            ->method('getMock')
-            ->willThrowException(new \Exception());
-
-        $this->proxyBuilder->getProxy(\stdClass::class, 'acme');
     }
 }

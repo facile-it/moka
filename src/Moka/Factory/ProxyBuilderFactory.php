@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Moka\Factory;
 
 use Moka\Builder\ProxyBuilder;
-use PHPUnit_Framework_MockObject_Generator as MockGenerator;
+use Moka\Strategy\MockingStrategyInterface;
 
 /**
  * Class ProxyBuilderFactory
@@ -13,27 +13,46 @@ use PHPUnit_Framework_MockObject_Generator as MockGenerator;
 class ProxyBuilderFactory
 {
     /**
-     * @var ProxyBuilder
+     * @var array|ProxyBuilder[]
      */
-    private static $mockBuilder;
+    private static $mockBuilders = [];
 
     /**
+     * @param MockingStrategyInterface $mockingStrategy
      * @return ProxyBuilder
      */
-    public static function get(): ProxyBuilder
+    public static function get(MockingStrategyInterface $mockingStrategy): ProxyBuilder
     {
-        if (!self::$mockBuilder instanceof ProxyBuilder) {
-            self::$mockBuilder = self::build();
+        $key = self::key($mockingStrategy);
+        if (!array_key_exists($key, self::$mockBuilders) || !self::$mockBuilders[$key] instanceof ProxyBuilder) {
+            self::$mockBuilders[$key] = static::build(new $mockingStrategy);
         }
 
-        return self::$mockBuilder;
+        return self::$mockBuilders[$key];
     }
 
     /**
+     * @param MockingStrategyInterface $mockingStrategy
+     * @return string
+     */
+    private static function key(MockingStrategyInterface $mockingStrategy): string
+    {
+        return get_class($mockingStrategy);
+    }
+
+    /**
+     * @param MockingStrategyInterface $mockingStrategy
      * @return ProxyBuilder
      */
-    protected static function build(): ProxyBuilder
+    protected static function build(MockingStrategyInterface $mockingStrategy): ProxyBuilder
     {
-        return new ProxyBuilder(new MockGenerator());
+        return new ProxyBuilder($mockingStrategy);
+    }
+
+    public static function reset()
+    {
+        foreach (self::$mockBuilders as $mockBuilder) {
+            $mockBuilder->reset();
+        }
     }
 }

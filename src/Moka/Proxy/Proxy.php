@@ -3,9 +3,13 @@ declare(strict_types=1);
 
 namespace Moka\Proxy;
 
+use Moka\Exception\InvalidArgumentException;
+use Moka\Exception\MockNotCreatedException;
+use Moka\Exception\MockNotServedException;
+use Moka\Exception\NotImplementedException;
 use Moka\Factory\StubFactory;
-use Moka\Stub\Stub;
-use PHPUnit_Framework_MockObject_MockObject as MockObject;
+use Moka\Strategy\MockingStrategyInterface;
+use Moka\Stub\StubSet;
 
 /**
  * Class Proxy
@@ -14,56 +18,105 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
 class Proxy
 {
     /**
-     * @var MockObject
+     * @var string
+     */
+    private $fqcn;
+
+    /**
+     * @var StubSet
+     */
+    private $stubs;
+
+    /**
+     * @var MockingStrategyInterface
+     */
+    private $mockingStrategy;
+
+    /**
+     * @var object
      */
     private $mock;
 
     /**
      * Proxy constructor.
-     * @param MockObject $mock
+     * @param string $fqcn
+     * @param MockingStrategyInterface $mockingStrategy
      */
-    public function __construct(MockObject $mock)
+    public function __construct(string $fqcn, MockingStrategyInterface $mockingStrategy)
     {
-        $this->mock = $mock;
+        $this->fqcn = $fqcn;
+        $this->mockingStrategy = $mockingStrategy;
+        $this->resetStubs();
     }
 
     /**
-     * @return MockObject
+     * @return void
      */
-    public function serve(): MockObject
+    private function resetStubs()
     {
-        return $this->mock;
+        $this->stubs = new StubSet();
     }
 
     /**
      * @param array $methodsWithValues
      * @return Proxy
+     *
+     * @throws InvalidArgumentException
      */
     public function stub(array $methodsWithValues): self
     {
-        $stubSet = StubFactory::fromArray($methodsWithValues);
-        foreach ($stubSet as $stub) {
-            $this->addMethod($stub);
+        $this->stubs->addAll(
+            StubFactory::fromArray($methodsWithValues)->all()
+        );
+
+        if ($this->mock) {
+            $this->decorateMock();
         }
 
         return $this;
     }
 
     /**
-     * @param Stub $stub
+     * @return void
+     *
+     * @throws InvalidArgumentException
      */
-    protected function addMethod(Stub $stub)
+    private function decorateMock()
     {
-        $methodValue = $stub->getMethodValue();
+        $this->mockingStrategy->decorate($this->mock, $this->stubs);
+        $this->resetStubs();
+    }
 
-        $partial = $this->mock->method($stub->getMethodName());
+    /**
+     * @return object
+     *
+     * @throws MockNotServedException
+     */
+    public function serve()
+    {
+        try {
+            if (!$this->mock) {
+                $this->buildMock();
+            }
 
-        if ($methodValue instanceof \Exception) {
-            $partial
-                ->willThrowException($methodValue);
-        } else {
-            $partial
-                ->willReturn($methodValue);
+            return $this->mockingStrategy->get($this->mock);
+        } catch (\Exception $exception) {
+            throw new MockNotServedException($exception->getMessage());
         }
+    }
+
+    /**
+     * @return object
+     *
+     * @throws MockNotCreatedException
+     * @throws NotImplementedException
+     * @throws InvalidArgumentException
+     */
+    private function buildMock()
+    {
+        $this->mock = $this->mockingStrategy->build($this->fqcn);
+        $this->decorateMock();
+
+        return $this->mock;
     }
 }

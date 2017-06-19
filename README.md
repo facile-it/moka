@@ -8,11 +8,11 @@
 [![Packagist](https://img.shields.io/packagist/dt/facile-it/moka.svg)](https://packagist.org/packages/facile-it/moka)
 
 Tired of spending most of your testing time mocking objects like there's no tomorrow? **Yes.**  
-**Moka** provides you with three simple methods to reduce your effort on such a tedious task.
+**Moka** provides you with three simple methods to reduce your effort on such a tedious task and an incredible abstraction layer between the most importants mock engines and **you**.
 
 ## Installation
 
-You can install the package via composer:
+You can simply install the package via composer:
 
 ```bash
 composer require --dev facile-it/moka
@@ -32,7 +32,7 @@ namespace Foo\Tests;
 use Moka\Moka;
 use Moka\Traits\MokaTrait;
 
-class FooTest extends AnyTestCase
+class FooTest extends \AnyTestCase
 {
     use MokaTrait;
     
@@ -52,17 +52,47 @@ class FooTest extends AnyTestCase
         );
     }
     
-    ...
+    //...
 }
 ```
 
+Alternatively, instead of using the trait and `$this->mock()`, you can call `Moka::brew(string $fqcn, string $alias = null): Proxy`.
+
 Being such a simple project, **Moka** can be integrated in an already existing test suite with no effort.
+
+**Notice:** If you are extending PHPUnit `TestCase`, to simplify the cleaning phase we provide a `MokaCleanerTrait` which automatically runs `Moka::clean()` in `tearDown()`.
+**Warning:** if you are defining your own `tearDown()`, you cannot use the trait!
+
+```php
+<?php
+
+namespace Foo\Tests;
+
+use Moka\Traits\MokaCleanerTrait;
+use Moka\Traits\MokaTrait;
+use PHPUnit\Framework\TestCase;
+
+class FooTest extends TestCase
+{
+    use MokaTrait;
+    use MokaCleanerTrait;
+    
+    public function setUp()
+    {
+        // No call to Moka::clean() needed.
+        
+        // ...
+    }
+    
+    // ...
+}
+```
 
 ## Reference
 
-### `mock(string $fqcn, string $alias = null): MockProxy`
+### `mock(string $fqcn, string $alias = null): Proxy`
 
-Creates (if not existing already) a proxy containing a PHPUnit mock object for the class identified by `$fqcn` and optionally assigns an `$alias` to it.
+Creates (if not existing already) a proxy containing a mock object according to selected strategy for the class identified by `$fqcn` and optionally assigns an `$alias` to it.
 
 ```php
 $mock1 = $this->mock(FooInterface::class)->serve(); // Creates the mock for FooInterface.
@@ -101,9 +131,9 @@ var_dump($actualMock->isValid());
 **Notice:** the stub is valid for **any** invocation of the method.  
 If you need more granular control over invocation strategies, see `serve()`.
 
-### `serve(): MockObject // PHPUnit mock object class`
+### `serve() // Actual mock object instance`
 
-Returns the actual mock object unwrapped from the proxy.
+Regain the control returning the actual mock object unwrapped from the proxy.
 
 ```php
 $this->mock(BarInterface::class)->serve()
@@ -123,11 +153,21 @@ var_dump($this->mock(BarInterface::class)->serve()->isValid());
 // throws \Exception
 ```
 
-## PHPUnit Integration
+## Supported mock objects generator
 
-If you are extending PHPUnit `TestCase`, to simplify the cleaning phase we provide a `MokaCleanerTrait` which automatically runs `Moka::clean()` in `tearDown()`.
-  
-**Warning:** if you are defining your own `tearDown()`, you cannot use the trait! 
+Currently we support these generators:
+
+- [PHPUnit](https://phpunit.de/manual/current/en/test-doubles.html)
+- [Propechy](https://github.com/phpspec/prophecy)
+- [Mockery](http://docs.mockery.io/en/latest/)
+
+We provide a specific trait for each supported strategy, as well as a static method:
+
+- `MokaPHPUnitTrait` -> `Moka::phpunit(string $fqcn, string $alias = null): Proxy`
+- `MokaProphecyTrait` -> `Moka::prohpecy(string $fqcn, string $alias = null): Proxy`
+- `MokaMockeryTrait` -> `Moka::mockery(string $fqcn, string $alias = null): Proxy`
+
+Every trait defines method `mock(string $fqcn, string $alias = null): Proxy`, as described in the **Reference**.
 <!---
 ## Changelog
 
@@ -138,7 +178,8 @@ Please see [CHANGELOG](/CHANGELOG.md) for more information what has changed rece
 We highly suggest using [Paraunit](https://github.com/facile-it/paraunit) for a faster execution of tests:
 
 ```bash
-$ composer install --dev
+$ composer install
+
 $ php vendor/bin/paraunit run
 ```
 <!---

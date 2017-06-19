@@ -10,7 +10,7 @@ use PhpCollection\Set;
  * Class StubSet
  * @package Moka\Stub
  */
-final class StubSet extends Set
+class StubSet extends Set
 {
     /**
      * @param Stub $elem
@@ -23,7 +23,7 @@ final class StubSet extends Set
         if (!$elem instanceof Stub) {
             throw new InvalidArgumentException(
                 sprintf(
-                    'The first parameter must be an instance of %s, %s given',
+                    'Element must be of type %s, %s given',
                     Stub::class,
                     gettype($elem)
                 )

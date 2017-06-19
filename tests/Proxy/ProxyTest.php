@@ -3,9 +3,13 @@ declare(strict_types=1);
 
 namespace Tests\Proxy;
 
+use Moka\Exception\MockNotCreatedException;
+use Moka\Exception\MockNotServedException;
 use Moka\Proxy\Proxy;
+use Moka\Strategy\MockingStrategyInterface;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
+use Tests\TestClass;
 
 class ProxyTest extends TestCase
 {
@@ -14,37 +18,56 @@ class ProxyTest extends TestCase
      */
     private $proxy;
 
+    /**
+     * @var MockingStrategyInterface|MockObject
+     */
+    private $mockingStrategy;
+
     public function setUp()
     {
+        $mock = $this->getMockBuilder(\stdClass::class)
+            ->getMock();
+
+        $this->mockingStrategy = $this->getMockBuilder(MockingStrategyInterface::class)
+            ->getMock();
+
+        $this->mockingStrategy
+            ->method('build')
+            ->willReturn($mock);
+
         $this->proxy = new Proxy(
-            $this->getMockBuilder(MockFakeClass::class)
-                ->disableOriginalConstructor()
-                ->getMock()
+            TestClass::class,
+            $this->mockingStrategy
         );
     }
 
-    public function testServe()
+    public function testStubSuccess()
     {
-        $this->assertInstanceOf(MockObject::class, $this->proxy->serve());
+        $this->assertSame($this->proxy, $this->proxy->stub([]));
     }
 
-    public function testStubScalarValue()
+    public function testStubAndDecorateSuccess()
     {
-        $this->proxy->stub([
-            'isValid' => true
-        ]);
+        $this->proxy->serve();
 
-        $this->assertTrue($this->proxy->serve()->isValid());
+        $this->assertSame($this->proxy, $this->proxy->stub([]));
     }
 
-    public function testStubThrowException()
+    public function testServeSuccess()
     {
-        $this->expectException(\Exception::class);
+        $this->mockingStrategy->method('get')->willReturn(
+            $this->getMockBuilder(TestClass::class)->getMock()
+        );
 
-        $this->proxy->stub([
-            'throwException' => new \Exception()
-        ]);
+        $this->assertInstanceOf(TestClass::class, $this->proxy->serve());
+    }
 
-        $this->proxy->serve()->throwException();
+    public function testServeFailure()
+    {
+        $this->mockingStrategy->method('get')
+            ->willThrowException(new MockNotCreatedException());
+
+        $this->expectException(MockNotServedException::class);
+        $this->proxy->serve();
     }
 }

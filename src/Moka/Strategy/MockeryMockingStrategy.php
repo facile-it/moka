@@ -6,6 +6,7 @@ namespace Moka\Strategy;
 use Mockery\MockInterface;
 use Moka\Exception\InvalidArgumentException;
 use Moka\Exception\MockNotCreatedException;
+use Moka\Exception\NotImplementedException;
 use Moka\Stub\Stub;
 use Moka\Stub\StubSet;
 
@@ -50,6 +51,7 @@ class MockeryMockingStrategy extends AbstractMockingStrategy
      * @return void
      *
      * @throws InvalidArgumentException
+     * @throws NotImplementedException
      */
     public function decorate($mock, StubSet $stubs)
     {

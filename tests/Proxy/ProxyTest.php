@@ -25,13 +25,32 @@ class ProxyTest extends TestCase
 
     public function setUp()
     {
+        $mock = $this->getMockBuilder(\stdClass::class)
+            ->getMock();
+
         $this->mockingStrategy = $this->getMockBuilder(MockingStrategyInterface::class)
             ->getMock();
+
+        $this->mockingStrategy
+            ->method('build')
+            ->willReturn($mock);
 
         $this->proxy = new Proxy(
             TestClass::class,
             $this->mockingStrategy
         );
+    }
+
+    public function testStubSuccess()
+    {
+        $this->assertSame($this->proxy, $this->proxy->stub([]));
+    }
+
+    public function testStubAndDecorateSuccess()
+    {
+        $this->proxy->serve();
+
+        $this->assertSame($this->proxy, $this->proxy->stub([]));
     }
 
     public function testServeSuccess()

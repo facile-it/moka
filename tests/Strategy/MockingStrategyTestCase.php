@@ -47,7 +47,6 @@ abstract class MockingStrategyTestCase extends TestCase
     {
         $mock = $this->strategy->build(TestClass::class);
         $this->strategy->decorate($mock, $this->stubs);
-
         $this->assertSame(false, $this->strategy->get($mock)->isValid());
 
         $this->expectException(\Exception::class);

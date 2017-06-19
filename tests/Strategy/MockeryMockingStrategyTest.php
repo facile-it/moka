@@ -6,6 +6,7 @@ namespace Tests\Strategy;
 use Mockery\MockInterface;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Strategy\MockeryMockingStrategy;
+use Tests\TestClass;
 
 class MockeryMockingStrategyTest extends MockingStrategyTestCase
 {
@@ -29,5 +30,13 @@ class MockeryMockingStrategyTest extends MockingStrategyTestCase
         $this->expectException(MockNotCreatedException::class);
 
         $this->strategy->build('foo bar');
+    }
+
+    public function testCallMissingMethodFailure()
+    {
+        $mock = $this->strategy->build(TestClass::class);
+
+        $this->expectException(\Throwable::class);
+        $this->strategy->get($mock)->getSelf();
     }
 }

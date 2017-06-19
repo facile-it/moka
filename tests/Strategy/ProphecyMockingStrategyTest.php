@@ -8,6 +8,7 @@ use Moka\Strategy\ProphecyMockingStrategy;
 use Prophecy\Doubler\Doubler;
 use Prophecy\Doubler\LazyDouble;
 use Prophecy\Prophecy\ObjectProphecy;
+use Tests\TestClass;
 
 class ProphecyMockingStrategyTest extends MockingStrategyTestCase
 {
@@ -24,5 +25,13 @@ class ProphecyMockingStrategyTest extends MockingStrategyTestCase
         $this->expectException(MockNotCreatedException::class);
 
         $this->strategy->get(new ObjectProphecy(new LazyDouble(new Doubler())));
+    }
+
+    public function testCallMissingMethodFailure()
+    {
+        $mock = $this->strategy->build(TestClass::class);
+
+        $this->expectException(\Throwable::class);
+        $this->strategy->get($mock)->getSelf();
     }
 }

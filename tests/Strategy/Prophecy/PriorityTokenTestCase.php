@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Tests\Strategy\Prophecy;
 
-use Moka\Strategy\Prophecy\LowPriorityToken;
-use Moka\Strategy\Prophecy\NoPriorityToken;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument\Token\TokenInterface;
 
@@ -28,14 +26,6 @@ class PriorityTokenTestCase extends TestCase
         $this->assertLessThanOrEqual(
             self::SCORE_MAX,
             $this->token->scoreArgument(null)
-        );
-    }
-
-    public function testScoreArgumentOrder()
-    {
-        $this->assertGreaterThan(
-            (new NoPriorityToken())->scoreArgument(null),
-            (new LowPriorityToken())->scoreArgument(null)
         );
     }
 

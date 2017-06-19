@@ -14,11 +14,8 @@ class TestClass
     {
     }
 
-    public function __magicMethod()
+    public function getSelf(): self
     {
-    }
-
-    final public function finalMethod()
-    {
+        return $this;
     }
 }

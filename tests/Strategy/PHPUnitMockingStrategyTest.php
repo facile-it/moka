@@ -6,6 +6,7 @@ namespace Tests\Strategy;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Strategy\PHPUnitMockingStrategy;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
+use Tests\TestClass;
 
 class PHPUnitMockingStrategyTest extends MockingStrategyTestCase
 {
@@ -29,5 +30,12 @@ class PHPUnitMockingStrategyTest extends MockingStrategyTestCase
         $this->expectException(MockNotCreatedException::class);
 
         $this->strategy->build('foo bar');
+    }
+
+    public function testCallMissingMethodSuccess()
+    {
+        $mock = $this->strategy->build(TestClass::class);
+
+        $this->assertInstanceOf(TestClass::class, $this->strategy->get($mock)->getSelf());
     }
 }

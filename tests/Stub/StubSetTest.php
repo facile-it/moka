@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Stub;
+namespace Tests\Stub;
 
 use Moka\Exception\InvalidArgumentException;
 use Moka\Stub\Stub;

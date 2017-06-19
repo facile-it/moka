@@ -3,33 +3,73 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use Moka\Exception\NotImplementedException;
 use Moka\Moka;
 use Moka\Proxy\Proxy;
+use Moka\Strategy\MockeryMockingStrategy;
+use Moka\Strategy\MockingStrategyInterface;
+use Moka\Strategy\PHPUnitMockingStrategy;
+use Moka\Strategy\ProphecyMockingStrategy;
 use PHPUnit\Framework\TestCase;
 
 class MokaTest extends TestCase
 {
-    const BUILDERS = ['mockery', 'phpunit', 'prophecy'];
+    const BUILDERS = ['mockery', 'prophecy', 'phpunit'];
 
-    public function testGetSuccess()
+    public function testBrewSuccess()
     {
-        $this->getWithBuilder('get');
-        foreach (self::BUILDERS as $builder) {
-            $this->getWithBuilder($builder);
+        $builders = [
+            new MockeryMockingStrategy(),
+            new PHPUnitMockingStrategy(),
+            new ProphecyMockingStrategy()
+        ];
+
+        foreach ($builders as $builder) {
+            $this->brewWithBuilder($builder);
         }
     }
 
-    protected function getWithBuilder(string $builder)
+    public function testBrewWithBuilderSuccess()
+    {
+        foreach (self::BUILDERS as $builder) {
+            $this->assertInstanceOf(
+                Proxy::class,
+                Moka::$builder(\stdClass::class)
+            );
+        }
+    }
+
+    public function testBrewWithBuilderFailure()
+    {
+        $this->expectException(NotImplementedException::class);
+
+        Moka::foo(\stdClass::class);
+    }
+
+    public function testGetSuccess()
     {
         $this->assertInstanceOf(
             Proxy::class,
-            Moka::$builder(\stdClass::class)
+            Moka::get(\stdClass::class)
         );
+    }
+
+    public function testReset()
+    {
+        $this->reset();
     }
 
     public function testClean()
     {
         $this->reset('clean');
+    }
+
+    protected function brewWithBuilder(MockingStrategyInterface $builder)
+    {
+        $this->assertInstanceOf(
+            Proxy::class,
+            Moka::brew(\stdClass::class, null, $builder)
+        );
     }
 
     protected function reset(string $method = 'clean')

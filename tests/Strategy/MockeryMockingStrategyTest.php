@@ -6,6 +6,7 @@ namespace Tests\Strategy;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Strategy\MockeryMockingStrategy;
 use Tests\TestClass;
+use Tests\TestInterface;
 
 class MockeryMockingStrategyTest extends MockingStrategyTestCase
 {
@@ -32,9 +33,9 @@ class MockeryMockingStrategyTest extends MockingStrategyTestCase
 
     public function testBuildMultipleFQCNSuccess()
     {
-        $this->strategy->build(TestClass::class . ', ' . \stdClass::class);
+        $mock = $this->strategy->build(TestClass::class . ', ' . \stdClass::class);
 
-        $this->assertTrue(true);
+        $this->assertInstanceOf($this->strategy->getMockType(), $mock);
     }
 
     public function testBuildMultipleFakeFQCNFailure()
@@ -57,6 +58,14 @@ class MockeryMockingStrategyTest extends MockingStrategyTestCase
         $mock = $this->strategy->build('foo');
 
         $this->assertTrue(is_a($this->strategy->get($mock), 'foo'));
+    }
+
+    public function testGetMultipleClassInterfaceSuccess()
+    {
+        $mock = $this->strategy->build(\stdClass::class . ', ' . TestInterface::class);
+
+        $this->assertTrue(is_a($this->strategy->get($mock), \stdClass::class));
+        $this->assertTrue(is_a($this->strategy->get($mock), TestInterface::class));
     }
 
     public function testGetMultipleFQCNPartialSuccess()

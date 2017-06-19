@@ -6,6 +6,7 @@ namespace Tests\Strategy;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Strategy\PHPUnitMockingStrategy;
 use Tests\TestClass;
+use Tests\TestInterface;
 
 class PHPUnitMockingStrategyTest extends MockingStrategyTestCase
 {
@@ -41,7 +42,7 @@ class PHPUnitMockingStrategyTest extends MockingStrategyTestCase
     {
         $mock = $this->strategy->build(TestClass::class);
 
-        $this->assertInstanceOf(TestClass::class, $this->strategy->get($mock)->getSelf());
+        $this->assertInstanceOf(TestInterface::class, $this->strategy->get($mock)->getSelf());
     }
 
     public function testGetFakeFQCNSuccess()

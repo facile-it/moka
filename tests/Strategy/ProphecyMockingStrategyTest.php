@@ -21,9 +21,9 @@ class ProphecyMockingStrategyTest extends MockingStrategyTestCase
 
     public function testBuildMultipleFQCNSuccess()
     {
-        $this->strategy->build('foo, bar');
+        $mock = $this->strategy->build('foo, bar');
 
-        $this->assertTrue(true);
+        $this->assertInstanceOf($this->strategy->getMockType(), $mock);
     }
 
     public function testCallMissingMethodFailure()

@@ -18,11 +18,6 @@ abstract class MockingStrategyTestCase extends TestCase
     protected $strategy;
 
     /**
-     * @var string
-     */
-    protected $mockType;
-
-    /**
      * @var StubSet
      */
     protected $stubs;
@@ -40,7 +35,7 @@ abstract class MockingStrategyTestCase extends TestCase
     {
         $mock = $this->strategy->build(TestClass::class);
 
-        $this->assertInstanceOf($this->mockType, $mock);
+        $this->assertInstanceOf($this->strategy->getMockType(), $mock);
     }
 
     public function testDecorateSuccess()
@@ -74,13 +69,13 @@ abstract class MockingStrategyTestCase extends TestCase
         $this->strategy->get(new \stdClass());
     }
 
+    public function testGetMockTypeSuccess()
+    {
+        $this->assertInternalType('string', $this->strategy->getMockType());
+    }
+
     protected function setStrategy(MockingStrategyInterface $strategy)
     {
         $this->strategy = $strategy;
-    }
-
-    protected function setMockType(string $fqcn)
-    {
-        $this->mockType = $fqcn;
     }
 }

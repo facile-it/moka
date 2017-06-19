@@ -9,11 +9,11 @@ use Tests\IncompleteMockingStrategy;
 
 class IncompleteMockingStrategyTest extends TestCase
 {
-    public function testCheckMockTypeFailure()
+    public function testGetMockTypeFailure()
     {
         $strategy = new IncompleteMockingStrategy();
 
         $this->expectException(NotImplementedException::class);
-        $strategy->get(new \stdClass());
+        $strategy->getMockType();
     }
 }

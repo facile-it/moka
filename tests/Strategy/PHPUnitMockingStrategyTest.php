@@ -5,7 +5,6 @@ namespace Tests\Strategy;
 
 use Moka\Exception\MockNotCreatedException;
 use Moka\Strategy\PHPUnitMockingStrategy;
-use PHPUnit_Framework_MockObject_MockObject as MockObject;
 use Tests\TestClass;
 
 class PHPUnitMockingStrategyTest extends MockingStrategyTestCase
@@ -15,7 +14,6 @@ class PHPUnitMockingStrategyTest extends MockingStrategyTestCase
         parent::__construct($name, $data, $dataName);
 
         $this->setStrategy(new PHPUnitMockingStrategy());
-        $this->setMockType(MockObject::class);
     }
 
     public function testBuildEmptyFQCNFailure()

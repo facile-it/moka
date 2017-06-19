@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Tests\Strategy;
 
-use Mockery\MockInterface;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Strategy\MockeryMockingStrategy;
 use Tests\TestClass;
@@ -15,7 +14,6 @@ class MockeryMockingStrategyTest extends MockingStrategyTestCase
         parent::__construct($name, $data, $dataName);
 
         $this->setStrategy(new MockeryMockingStrategy());
-        $this->setMockType(MockInterface::class);
     }
 
     public function testBuildEmptyFQCNFailure()

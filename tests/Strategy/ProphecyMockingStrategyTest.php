@@ -17,7 +17,6 @@ class ProphecyMockingStrategyTest extends MockingStrategyTestCase
         parent::__construct($name, $data, $dataName);
 
         $this->setStrategy(new ProphecyMockingStrategy());
-        $this->setMockType(ObjectProphecy::class);
     }
 
     public function testGetCustomMockFailure()

@@ -5,6 +5,7 @@ namespace Moka\Strategy;
 
 use Moka\Exception\InvalidArgumentException;
 use Moka\Exception\MockNotCreatedException;
+use Moka\Exception\NotImplementedException;
 use Moka\Stub\StubSet;
 
 /**
@@ -38,4 +39,11 @@ interface MockingStrategyInterface
      * @throws MockNotCreatedException
      */
     public function get($mock);
+
+    /**
+     * @return string
+     *
+     * @throws NotImplementedException
+     */
+    public function getMockType(): string;
 }

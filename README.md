@@ -8,7 +8,7 @@
 [![Packagist](https://img.shields.io/packagist/dt/facile-it/moka.svg)](https://packagist.org/packages/facile-it/moka)
 
 Tired of spending most of your testing time mocking objects like there's no tomorrow? **Yes.**  
-**Moka** provides you with three simple methods to reduce your effort on such a tedious task and an incredible abstraction layer between the most importants mock engines and **you**.
+**Moka** provides you with three simple methods to reduce your effort on such a tedious task, and with an incredible abstraction layer between the most popular mock engines and **you**.
 
 ## Installation
 

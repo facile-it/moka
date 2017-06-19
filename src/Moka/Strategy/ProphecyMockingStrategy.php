@@ -63,6 +63,30 @@ class ProphecyMockingStrategy extends AbstractMockingStrategy
     }
 
     /**
+     * @param string $fqcn
+     * @return string[]
+     */
+    protected function filterMethods(string $fqcn): array
+    {
+        // The result is empty for nonexistent FQCNs (or empty ones).
+        $methodNames = get_class_methods($fqcn) ?: [];
+
+        // Filter magic and final methods.
+        return array_filter($methodNames, function ($methodName) use ($fqcn) {
+            if (preg_match('/^__/', $methodName)) {
+                return false;
+            }
+
+            $reflectionMethod = new \ReflectionMethod($fqcn, $methodName);
+            if ($reflectionMethod->isFinal()) {
+                return false;
+            }
+
+            return true;
+        });
+    }
+
+    /**
      * @param ObjectProphecy $mock
      * @param StubSet $stubs
      * @return void
@@ -105,29 +129,5 @@ class ProphecyMockingStrategy extends AbstractMockingStrategy
                 )
             );
         }
-    }
-
-    /**
-     * @param string $fqcn
-     * @return string[]
-     */
-    protected function filterMethods(string $fqcn): array
-    {
-        // The result is empty for nonexistent FQCNs (or empty ones).
-        $methodNames = get_class_methods($fqcn) ?: [];
-
-        // Filter magic and final methods.
-        return array_filter($methodNames, function ($methodName) use ($fqcn) {
-            if (preg_match('/^__/', $methodName)) {
-                return false;
-            }
-
-            $reflectionMethod = new \ReflectionMethod($fqcn, $methodName);
-            if ($reflectionMethod->isFinal()) {
-                return false;
-            }
-
-            return true;
-        });
     }
 }

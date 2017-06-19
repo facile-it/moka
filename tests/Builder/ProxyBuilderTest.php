@@ -4,12 +4,9 @@ declare(strict_types=1);
 namespace Tests\Builder;
 
 use Moka\Builder\ProxyBuilder;
-use Moka\Exception\MockNotCreatedException;
-use Moka\Exception\MockNotServedException;
 use Moka\Proxy\Proxy;
 use Moka\Strategy\MockingStrategyInterface;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_MockObject_Generator as MockGenerator;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 class ProxyBuilderTest extends TestCase

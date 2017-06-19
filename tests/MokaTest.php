@@ -19,17 +19,17 @@ class MokaTest extends TestCase
         }
     }
 
-    public function testClean()
-    {
-        $this->reset('clean');
-    }
-
     protected function getWithBuilder(string $builder)
     {
         $this->assertInstanceOf(
             Proxy::class,
             Moka::$builder(\stdClass::class)
         );
+    }
+
+    public function testClean()
+    {
+        $this->reset('clean');
     }
 
     protected function reset(string $method = 'clean')

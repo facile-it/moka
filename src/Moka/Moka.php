@@ -32,6 +32,19 @@ class Moka
     }
 
     /**
+     * @param string $fqcn
+     * @param string|null $alias
+     * @return Proxy
+     *
+     * @throws MockNotCreatedException
+     * @throws InvalidIdentifierException
+     */
+    public static function phpunit(string $fqcn, string $alias = null): Proxy
+    {
+        return ProxyBuilderFactory::get(new PHPUnitMockingStrategy())->getProxy($fqcn, $alias);
+    }
+
+    /**
      * @return void
      */
     public static function clean()
@@ -75,22 +88,8 @@ class Moka
      * @throws MockNotCreatedException
      * @throws InvalidIdentifierException
      */
-    public static function phpunit(string $fqcn, string $alias = null): Proxy
-    {
-        return ProxyBuilderFactory::get(new PHPUnitMockingStrategy())->getProxy($fqcn, $alias);
-    }
-
-    /**
-     * @param string $fqcn
-     * @param string|null $alias
-     * @return Proxy
-     *
-     * @throws MockNotCreatedException
-     * @throws InvalidIdentifierException
-     */
     public static function prophecy(string $fqcn, string $alias = null): Proxy
     {
         return ProxyBuilderFactory::get(new ProphecyMockingStrategy())->getProxy($fqcn, $alias);
     }
-
 }

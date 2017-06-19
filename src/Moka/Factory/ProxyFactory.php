@@ -5,7 +5,6 @@ namespace Moka\Factory;
 
 use Moka\Proxy\Proxy;
 use Moka\Strategy\MockingStrategyInterface;
-use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 /**
  * Class ProxyFactory

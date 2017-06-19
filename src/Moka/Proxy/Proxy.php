@@ -50,6 +50,14 @@ class Proxy
     }
 
     /**
+     * @return void
+     */
+    private function resetStubs()
+    {
+        $this->stubs = new StubSet();
+    }
+
+    /**
      * @param array $methodsWithValues
      * @return Proxy
      *
@@ -66,6 +74,17 @@ class Proxy
         }
 
         return $this;
+    }
+
+    /**
+     * @return void
+     *
+     * @throws InvalidArgumentException
+     */
+    private function decorateMock()
+    {
+        $this->mockingStrategy->decorate($this->mock, $this->stubs);
+        $this->resetStubs();
     }
 
     /**
@@ -87,14 +106,6 @@ class Proxy
     }
 
     /**
-     * @return void
-     */
-    private function resetStubs()
-    {
-        $this->stubs = new StubSet();
-    }
-
-    /**
      * @return object
      *
      * @throws MockNotCreatedException
@@ -107,16 +118,5 @@ class Proxy
         $this->decorateMock();
 
         return $this->mock;
-    }
-
-    /**
-     * @return void
-     *
-     * @throws InvalidArgumentException
-     */
-    private function decorateMock()
-    {
-        $this->mockingStrategy->decorate($this->mock, $this->stubs);
-        $this->resetStubs();
     }
 }

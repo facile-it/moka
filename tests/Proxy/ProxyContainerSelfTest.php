@@ -7,7 +7,6 @@ use Moka\Exception\InvalidIdentifierException;
 use Moka\Proxy\Proxy;
 use Moka\Proxy\ProxyContainer;
 use Moka\Traits\MokaCleanerTrait;
-use Moka\Traits\MokaTrait;
 use PHPUnit\Framework\TestCase;
 use Tests\TestTrait;
 

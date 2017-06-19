@@ -56,7 +56,7 @@ class FooTest extends \AnyTestCase
 }
 ```
 
-Alternatively, instead of using the trait and `$this->mock()`, you can call `Moka::brew(string $fqcn, string $alias = null): Proxy`.
+Alternatively, instead of using the trait and `$this->mock(/* ... */)`, you can call `Moka::brew(string $fqcn, string $alias = null): Proxy`.
 
 Being such a simple project, **Moka** can be integrated in an already existing test suite with no effort.
 
@@ -74,8 +74,7 @@ use PHPUnit\Framework\TestCase;
 
 class FooTest extends TestCase
 {
-    use MokaTrait;
-    use MokaCleanerTrait;
+    use MokaTrait, MokaCleanerTrait;
     
     public function setUp()
     {
@@ -133,7 +132,7 @@ If you need more granular control over invocation strategies, see `serve()`.
 
 ### `serve() // Actual mock object instance`
 
-Regain the control returning the actual mock object unwrapped from the proxy.
+Regain the control returning the actual mock object (in the example below, PHPUnit's) unwrapped from the proxy.
 
 ```php
 $this->mock(BarInterface::class)->serve()
@@ -153,21 +152,21 @@ var_dump($this->mock(BarInterface::class)->serve()->isValid());
 // throws \Exception
 ```
 
-## Supported mock objects generator
+## Supported mock objects generators
 
 Currently we support these generators:
 
 - [PHPUnit](https://phpunit.de/manual/current/en/test-doubles.html)
-- [Propechy](https://github.com/phpspec/prophecy)
+- [Prophecy](https://github.com/phpspec/prophecy)
 - [Mockery](http://docs.mockery.io/en/latest/)
 
 We provide a specific trait for each supported strategy, as well as a static method:
 
 - `MokaPHPUnitTrait` -> `Moka::phpunit(string $fqcn, string $alias = null): Proxy`
-- `MokaProphecyTrait` -> `Moka::prohpecy(string $fqcn, string $alias = null): Proxy`
+- `MokaProphecyTrait` -> `Moka::prophecy(string $fqcn, string $alias = null): Proxy`
 - `MokaMockeryTrait` -> `Moka::mockery(string $fqcn, string $alias = null): Proxy`
 
-Every trait defines method `mock(string $fqcn, string $alias = null): Proxy`, as described in the **Reference**.
+Every trait defines its own `mock(string $fqcn, string $alias = null): Proxy`, as described in the **Reference**. If you're not willing to choose a strategy and just sticking with `MokaTrait` or `Moka::brew(/* ... */)`, we're currently defaulting to **PHPUnit**.
 <!---
 ## Changelog
 
@@ -178,9 +177,9 @@ Please see [CHANGELOG](/CHANGELOG.md) for more information what has changed rece
 We highly suggest using [Paraunit](https://github.com/facile-it/paraunit) for a faster execution of tests:
 
 ```bash
-$ composer install
+composer install
 
-$ php vendor/bin/paraunit run
+php vendor/bin/paraunit run
 ```
 <!---
 ## Contributing

@@ -15,6 +15,7 @@ class NoPriorityToken extends AbstractPriorityToken
      */
     public function scoreArgument($argument)
     {
-        return 2;
+        // Ensure this matcher is overridden by Prophecy tokens.
+        return 2 - .1;
     }
 }

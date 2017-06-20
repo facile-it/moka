@@ -4,10 +4,10 @@ declare(strict_types=1);
 namespace Moka\Strategy\Prophecy;
 
 /**
- * Class NoPriorityToken
+ * Class LowPriorityToken
  * @package Moka\Strategy\Prophecy
  */
-class NoPriorityToken extends AbstractPriorityToken
+class LowPriorityToken extends AbstractPriorityToken
 {
     /**
      * @param $argument

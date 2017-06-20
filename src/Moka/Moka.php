@@ -23,11 +23,13 @@ use Moka\Strategy\ProphecyMockingStrategy;
  */
 class Moka
 {
-    const STRATEGIES = [
+    const MOCKING_STRATEGIES = [
         'mockery' => MockeryMockingStrategy::class,
         'phpunit' => PHPUnitMockingStrategy::class,
         'prophecy' => ProphecyMockingStrategy::class
     ];
+
+    const MOCKING_STRATEGY_DEFAULT = PHPUnitMockingStrategy::class;
 
     /**
      * @param string $fqcn
@@ -39,8 +41,12 @@ class Moka
      */
     public static function brew(string $fqcn, string $alias = null, MockingStrategyInterface $mockingStrategy = null): Proxy
     {
-        return ProxyBuilderFactory::get($mockingStrategy ?: new PHPUnitMockingStrategy())
-            ->getProxy($fqcn, $alias);
+        if (!$mockingStrategy instanceof MockingStrategyInterface) {
+            $defaultMockingStrategy = static::MOCKING_STRATEGY_DEFAULT;
+            $mockingStrategy = new $defaultMockingStrategy();
+        }
+
+        return ProxyBuilderFactory::get($mockingStrategy)->getProxy($fqcn, $alias);
     }
 
     /**
@@ -52,7 +58,7 @@ class Moka
      */
     public static function __callStatic($name, $arguments)
     {
-        if (!isset(static::STRATEGIES[$name])) {
+        if (!isset(static::MOCKING_STRATEGIES[$name])) {
             throw new NotImplementedException(
                 sprintf(
                     'Mocking strategy "%s" does not exist',
@@ -63,9 +69,9 @@ class Moka
 
         $fqcn = $arguments[0];
         $alias = $arguments[1] ?? null;
-        $mockingStrategy = static::STRATEGIES[$name];
+        $mockingStrategy = static::MOCKING_STRATEGIES[$name];
 
-        return self::brew($fqcn, $alias, new $mockingStrategy());
+        return static::brew($fqcn, $alias, new $mockingStrategy());
     }
 
     /**
@@ -88,6 +94,6 @@ class Moka
      */
     public static function get(string $fqcn, string $alias = null): Proxy
     {
-        return static::brew($fqcn, $alias, new PHPUnitMockingStrategy());
+        return static::brew($fqcn, $alias);
     }
 }

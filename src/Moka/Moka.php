@@ -23,6 +23,11 @@ use Moka\Strategy\MockingStrategyInterface;
 class Moka
 {
     /**
+     * The base namespace with plugin must be declared
+     */
+    const PLUGIN_NAMESPACE_TEMPLATE = 'Moka\\Plugin\\%s\\%sPlugin';
+
+    /**
      * @var array|MockingStrategyInterface[]
      */
     private static $mockingStrategies = [];
@@ -39,19 +44,31 @@ class Moka
     public static function __callStatic($name, $arguments)
     {
         if (!isset(self::$mockingStrategies[$name])) {
-            throw new NotImplementedException(
-                sprintf(
-                    'Mocking strategy "%s" does not exist',
-                    $name
-                )
+            $pluginFQCN = sprintf(
+                self::PLUGIN_NAMESPACE_TEMPLATE,
+                ucfirst($name),
+                ucfirst($name)
             );
+
+
+            if (!class_exists($pluginFQCN) || !in_array(PluginInterface::class, class_implements($pluginFQCN))) {
+                throw new NotImplementedException(
+                    sprintf(
+                        'Mocking strategy "%s" does not exist',
+                        $name
+                    )
+                );
+            }
+
+            /** @var PluginInterface $pluginFQCN */
+            $pluginFQCN::registerPlugin();
         }
 
-        $fqcn = $arguments[0];
+        $mockFQCN = $arguments[0];
         $alias = $arguments[1] ?? null;
         $mockingStrategy = self::$mockingStrategies[$name];
 
-        return static::brew($fqcn, $alias, $mockingStrategy);
+        return static::brew($mockFQCN, $alias, $mockingStrategy);
     }
 
     /**
@@ -104,14 +121,4 @@ class Moka
         return static::brew($fqcn, $alias);
     }
 
-    private static function init()
-    {
-        $declaredClasses = get_declared_classes();
-        $plugins = [];
-        foreach ($declaredClasses as $class) {
-            if (is_a($class, PluginInterface::class)) {
-                $class::registerPlugin();
-            }
-        }
-    }
 }

@@ -8,6 +8,7 @@ use Moka\Strategy\Prophecy\NoPriorityToken;
 use Moka\Stub\Stub;
 use Moka\Stub\StubSet;
 use Prophecy\Exception\Prophecy\ObjectProphecyException;
+use Prophecy\Prophecy\MethodProphecy;
 use Prophecy\Prophecy\ObjectProphecy;
 use Prophecy\Prophet;
 
@@ -49,9 +50,11 @@ class ProphecyMockingStrategy extends AbstractMockingStrategy
     {
         /** @var Stub $stub */
         foreach ($stubs as $stub) {
+            $methodName = $stub->getMethodName();
             $methodValue = $stub->getMethodValue();
 
-            $partial = $mock->{$stub->getMethodName()}(new NoPriorityToken());
+            /** @var MethodProphecy $partial */
+            $partial = $mock->$methodName(new NoPriorityToken());
             $methodValue instanceof \Throwable
                 ? $partial->willThrow($methodValue)
                 : $partial->willReturn($methodValue);

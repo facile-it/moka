@@ -5,7 +5,7 @@ namespace Tests\Strategy;
 
 use Moka\Exception\MockNotCreatedException;
 use Moka\Factory\StubFactory;
-use Moka\Strategy\ProphecyMockingStrategy;
+use Moka\Plugin\Prophecy\ProphecyMockingStrategy;
 use Prophecy\Doubler\Doubler;
 use Prophecy\Doubler\LazyDouble;
 use Prophecy\Prophecy\ObjectProphecy;

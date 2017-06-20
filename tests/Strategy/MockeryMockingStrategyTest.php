@@ -5,7 +5,7 @@ namespace Tests\Strategy;
 
 use Moka\Exception\MockNotCreatedException;
 use Moka\Factory\StubFactory;
-use Moka\Strategy\MockeryMockingStrategy;
+use Moka\Plugin\Mockery\MockeryMockingStrategy;
 use Tests\BarTestClass;
 use Tests\FooTestClass;
 use Tests\TestInterface;

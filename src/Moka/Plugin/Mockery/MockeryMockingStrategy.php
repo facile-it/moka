@@ -1,9 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace Moka\Strategy;
+namespace Moka\Plugin\Mockery;
 
 use Mockery\MockInterface;
+use Moka\Strategy\AbstractMockingStrategy;
 use Moka\Stub\Stub;
 use Moka\Stub\StubSet;
 

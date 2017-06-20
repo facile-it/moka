@@ -1,9 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace Moka\Strategy;
+namespace Moka\Plugin\Prophecy;
 
 use Moka\Exception\MockNotCreatedException;
+use Moka\Strategy\AbstractMockingStrategy;
 use Moka\Strategy\Prophecy\MaxPriorityToken;
 use Moka\Stub\Stub;
 use Moka\Stub\StubSet;

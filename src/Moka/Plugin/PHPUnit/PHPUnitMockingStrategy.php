@@ -1,13 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace Moka\Strategy;
+namespace Moka\Plugin\PHPUnit;
 
+use Moka\Strategy\AbstractMockingStrategy;
 use Moka\Stub\Stub;
 use Moka\Stub\StubSet;
 use PHPUnit_Framework_MockObject_Generator as MockGenerator;
-use PHPUnit_Framework_MockObject_MockObject as MockObject;
 use PHPUnit_Framework_MockObject_Matcher_AnyInvokedCount as AnyInvokedCountMatcher;
+use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 /**
  * Class PHPUnitMockingStrategy

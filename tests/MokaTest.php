@@ -5,11 +5,11 @@ namespace Tests;
 
 use Moka\Exception\NotImplementedException;
 use Moka\Moka;
+use Moka\Plugin\Mockery\MockeryMockingStrategy;
+use Moka\Plugin\PHPUnit\PHPUnitMockingStrategy;
+use Moka\Plugin\Prophecy\ProphecyMockingStrategy;
 use Moka\Proxy\Proxy;
-use Moka\Strategy\MockeryMockingStrategy;
 use Moka\Strategy\MockingStrategyInterface;
-use Moka\Strategy\PHPUnitMockingStrategy;
-use Moka\Strategy\ProphecyMockingStrategy;
 use PHPUnit\Framework\TestCase;
 
 class MokaTest extends TestCase

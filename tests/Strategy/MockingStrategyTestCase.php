@@ -9,7 +9,7 @@ use Moka\Strategy\MockingStrategyInterface;
 use Moka\Stub\StubSet;
 use PHPUnit\Framework\TestCase;
 use Tests\AbstractTestClass;
-use Tests\TestClass;
+use Tests\FooTestClass;
 use Tests\TestInterface;
 
 abstract class MockingStrategyTestCase extends TestCase
@@ -36,7 +36,7 @@ abstract class MockingStrategyTestCase extends TestCase
 
     public function testBuildClassSuccess()
     {
-        $mock = $this->strategy->build(TestClass::class);
+        $mock = $this->strategy->build(FooTestClass::class);
 
         $this->assertInstanceOf($this->strategy->getMockType(), $mock);
     }
@@ -57,14 +57,14 @@ abstract class MockingStrategyTestCase extends TestCase
 
     public function testBuildFakeFQCNSuccess()
     {
-        $this->strategy->build('foo');
+        $mock = $this->strategy->build($this->getRandomFQCN());
 
-        $this->assertTrue(true);
+        $this->assertInstanceOf($this->strategy->getMockType(), $mock);
     }
 
     public function testDecorateSingleCallSuccess()
     {
-        $mock = $this->strategy->build(TestClass::class);
+        $mock = $this->strategy->build(FooTestClass::class);
         $this->strategy->decorate($mock, $this->stubs);
         $this->assertSame(false, $this->strategy->get($mock)->isTrue());
 
@@ -74,7 +74,7 @@ abstract class MockingStrategyTestCase extends TestCase
 
     public function testDecorateMultipleCallsSuccess()
     {
-        $mock = $this->strategy->build(TestClass::class);
+        $mock = $this->strategy->build(FooTestClass::class);
         $this->strategy->decorate($mock, $this->stubs);
         $this->assertSame(3, $this->strategy->get($mock)->getInt());
         $this->assertSame(3, $this->strategy->get($mock)->getInt());
@@ -89,9 +89,9 @@ abstract class MockingStrategyTestCase extends TestCase
 
     public function testGetSuccess()
     {
-        $mock = $this->strategy->build(TestClass::class);
+        $mock = $this->strategy->build(FooTestClass::class);
 
-        $this->assertInstanceOf(TestClass::class, $this->strategy->get($mock));
+        $this->assertInstanceOf(FooTestClass::class, $this->strategy->get($mock));
     }
 
     public function testGetFailure()
@@ -109,5 +109,10 @@ abstract class MockingStrategyTestCase extends TestCase
     protected function setStrategy(MockingStrategyInterface $strategy)
     {
         $this->strategy = $strategy;
+    }
+
+    protected function getRandomFQCN()
+    {
+        return 'foo_' . rand();
     }
 }

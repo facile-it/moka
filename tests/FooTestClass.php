@@ -3,6 +3,6 @@ declare(strict_types=1);
 
 namespace Tests;
 
-class TestClass extends AbstractTestClass
+class FooTestClass extends AbstractTestClass
 {
 }

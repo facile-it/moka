@@ -8,7 +8,8 @@ use Moka\Strategy\ProphecyMockingStrategy;
 use Prophecy\Doubler\Doubler;
 use Prophecy\Doubler\LazyDouble;
 use Prophecy\Prophecy\ObjectProphecy;
-use Tests\TestClass;
+use Tests\FooTestClass;
+use Tests\TestInterface;
 
 class ProphecyMockingStrategyTest extends MockingStrategyTestCase
 {
@@ -19,16 +20,23 @@ class ProphecyMockingStrategyTest extends MockingStrategyTestCase
         $this->setStrategy(new ProphecyMockingStrategy());
     }
 
+    public function testBuildEmptyFQCNSuccess()
+    {
+        $mock = $this->strategy->build('');
+
+        $this->assertInstanceOf($this->strategy->getMockType(), $mock);
+    }
+
     public function testBuildMultipleFQCNSuccess()
     {
-        $mock = $this->strategy->build('foo, bar');
+        $mock = $this->strategy->build($this->getRandomFQCN() . ', ' . $this->getRandomFQCN());
 
         $this->assertInstanceOf($this->strategy->getMockType(), $mock);
     }
 
     public function testCallMissingMethodFailure()
     {
-        $mock = $this->strategy->build(TestClass::class);
+        $mock = $this->strategy->build(FooTestClass::class);
 
         $this->expectException(\Throwable::class);
         $this->strategy->get($mock)->getSelf();
@@ -43,24 +51,27 @@ class ProphecyMockingStrategyTest extends MockingStrategyTestCase
 
     public function testGetFakeFQCNFailure()
     {
-        $mock = $this->strategy->build('foo');
+        $fqcn = $this->getRandomFQCN();
+        $mock = $this->strategy->build($fqcn);
 
-        $this->assertFalse(is_a($this->strategy->get($mock), 'foo'));
+        $this->assertFalse(is_a($this->strategy->get($mock), $fqcn));
     }
 
-    public function testGetMultipleFQCNPartialSuccess()
+    public function testGetMultipleClassInterfaceFailure()
     {
-        $mock = $this->strategy->build(TestClass::class . ', ' . \stdClass::class);
+        $mock = $this->strategy->build(FooTestClass::class . ', ' . TestInterface::class);
 
-        $this->assertFalse(is_a($this->strategy->get($mock), TestClass::class));
-        $this->assertTrue(is_a($this->strategy->get($mock), \stdClass::class));
+        $this->assertFalse(is_a($this->strategy->get($mock), FooTestClass::class));
+        $this->assertFalse(is_a($this->strategy->get($mock), TestInterface::class));
     }
 
     public function testGetMultipleFakeFQCNFailure()
     {
-        $mock = $this->strategy->build('foo, bar');
+        $fqcn1 = $this->getRandomFQCN();
+        $fqcn2 = $this->getRandomFQCN();
+        $mock = $this->strategy->build($fqcn1 . ', ' . $fqcn2);
 
-        $this->assertFalse(is_a($this->strategy->get($mock), 'foo'));
-        $this->assertFalse(is_a($this->strategy->get($mock), 'bar'));
+        $this->assertFalse(is_a($this->strategy->get($mock), $fqcn1));
+        $this->assertFalse(is_a($this->strategy->get($mock), $fqcn2));
     }
 }

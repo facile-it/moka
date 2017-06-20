@@ -9,7 +9,9 @@
     "mock",
     "mocking",
     "mocking-library",
-    "phpunit"
+    "phpunit",
+    "prophecy",
+    "mockery"
   ],
   "homepage": "http://github.com/facile-it/moka",
   "authors": [

@@ -152,7 +152,7 @@ var_dump($this->mock(BarInterface::class)->serve()->isValid());
 // throws \Exception
 ```
 
-## Supported mock objects generators
+## Supported mock object generators
 
 Currently we support these generators:
 

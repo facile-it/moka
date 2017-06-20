@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Moka\Plugin\Prophecy;
 
-
 use Moka\Moka;
 use Moka\Plugin\PluginInterface;
 
@@ -13,5 +12,4 @@ class ProphecyPlugin implements PluginInterface
     {
         Moka::registerStrategy('prophecy', new ProphecyMockingStrategy());
     }
-
 }

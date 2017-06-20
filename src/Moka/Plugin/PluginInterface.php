@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Moka\Plugin;
 
-
 use Moka\Exception\PluginNotRegisteredException;
 
 interface PluginInterface

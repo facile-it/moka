@@ -44,12 +44,7 @@ class Moka
     public static function __callStatic($name, $arguments)
     {
         if (!isset(self::$mockingStrategies[$name])) {
-            $pluginFQCN = sprintf(
-                self::PLUGIN_NAMESPACE_TEMPLATE,
-                ucfirst($name),
-                ucfirst($name)
-            );
-
+            $pluginFQCN = self::generatePluginFQCN($name);
 
             if (!class_exists($pluginFQCN) || !in_array(PluginInterface::class, class_implements($pluginFQCN))) {
                 throw new NotImplementedException(
@@ -121,4 +116,12 @@ class Moka
         return static::brew($fqcn, $alias);
     }
 
+    public static function generatePluginFQCN(string $pluginName): string
+    {
+        return sprintf(
+            self::PLUGIN_NAMESPACE_TEMPLATE,
+            ucfirst($pluginName),
+            ucfirst($pluginName)
+        );
+    }
 }

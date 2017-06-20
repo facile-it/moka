@@ -1,15 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: angelogiuffredi
- * Date: 20/06/2017
- * Time: 17:37
- */
+declare(strict_types=1);
 
 namespace Moka\Exception;
 
-
 class PluginNotRegisteredException extends \RuntimeException
 {
-
 }

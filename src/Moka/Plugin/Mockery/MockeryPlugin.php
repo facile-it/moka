@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Moka\Plugin\Mockery;
 
-
 use Moka\Exception\PluginNotRegisteredException;
 use Moka\Moka;
 use Moka\Plugin\PluginInterface;
@@ -14,5 +13,4 @@ class MockeryPlugin implements PluginInterface
     {
         Moka::registerStrategy('mockery', new MockeryMockingStrategy());
     }
-
 }

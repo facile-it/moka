@@ -32,7 +32,7 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
         } catch (\Throwable $exception) {
             throw new MockNotCreatedException(
                 sprintf(
-                    'Cannot create mock object for FQCN %s: %s',
+                    'Cannot create mock object for FQCN "%s": %s',
                     $fqcn,
                     $exception->getMessage()
                 )
@@ -70,6 +70,18 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
     }
 
     /**
+     * @return string
+     *
+     * @throws NotImplementedException
+     */
+    public function getMockType(): string
+    {
+        $this->verifyMockType();
+
+        return $this->mockType;
+    }
+
+    /**
      * @param string $fqcn
      */
     final protected function setMockType(string $fqcn)
@@ -85,14 +97,12 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
      */
     final protected function checkMockType($mock)
     {
-        if (!$this->mockType) {
-            throw new NotImplementedException();
-        }
+        $this->verifyMockType();
 
         if (!is_a($mock, $this->mockType)) {
             throw new InvalidArgumentException(
                 sprintf(
-                    'Mock must be of type %s, %s given',
+                    'Mock must be of type "%s", "%s" given',
                     $this->mockType,
                     gettype($mock)
                 )
@@ -118,4 +128,16 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
      * @return object
      */
     abstract protected function doGet($mock);
+
+    /**
+     * @return void
+     *
+     * @throws NotImplementedException
+     */
+    private function verifyMockType()
+    {
+        if (!$this->mockType) {
+            throw new NotImplementedException('Mock type was not defined');
+        }
+    }
 }

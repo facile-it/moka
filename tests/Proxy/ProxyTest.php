@@ -9,7 +9,7 @@ use Moka\Proxy\Proxy;
 use Moka\Strategy\MockingStrategyInterface;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
-use Tests\TestClass;
+use Tests\FooTestClass;
 
 class ProxyTest extends TestCase
 {
@@ -36,7 +36,7 @@ class ProxyTest extends TestCase
             ->willReturn($mock);
 
         $this->proxy = new Proxy(
-            TestClass::class,
+            FooTestClass::class,
             $this->mockingStrategy
         );
     }
@@ -56,10 +56,10 @@ class ProxyTest extends TestCase
     public function testServeSuccess()
     {
         $this->mockingStrategy->method('get')->willReturn(
-            $this->getMockBuilder(TestClass::class)->getMock()
+            $this->getMockBuilder(FooTestClass::class)->getMock()
         );
 
-        $this->assertInstanceOf(TestClass::class, $this->proxy->serve());
+        $this->assertInstanceOf(FooTestClass::class, $this->proxy->serve());
     }
 
     public function testServeFailure()

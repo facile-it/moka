@@ -5,8 +5,8 @@ namespace Tests\Strategy;
 
 use Moka\Exception\MockNotCreatedException;
 use Moka\Strategy\PHPUnitMockingStrategy;
-use PHPUnit_Framework_MockObject_MockObject as MockObject;
-use Tests\TestClass;
+use Tests\FooTestClass;
+use Tests\TestInterface;
 
 class PHPUnitMockingStrategyTest extends MockingStrategyTestCase
 {
@@ -15,7 +15,6 @@ class PHPUnitMockingStrategyTest extends MockingStrategyTestCase
         parent::__construct($name, $data, $dataName);
 
         $this->setStrategy(new PHPUnitMockingStrategy());
-        $this->setMockType(MockObject::class);
     }
 
     public function testBuildEmptyFQCNFailure()
@@ -32,10 +31,25 @@ class PHPUnitMockingStrategyTest extends MockingStrategyTestCase
         $this->strategy->build('foo bar');
     }
 
+    public function testBuildMultipleFQCNFailure()
+    {
+        $this->expectException(MockNotCreatedException::class);
+
+        $this->strategy->build($this->getRandomFQCN() . ', ' . $this->getRandomFQCN());
+    }
+
     public function testCallMissingMethodSuccess()
     {
-        $mock = $this->strategy->build(TestClass::class);
+        $mock = $this->strategy->build(FooTestClass::class);
 
-        $this->assertInstanceOf(TestClass::class, $this->strategy->get($mock)->getSelf());
+        $this->assertInstanceOf(TestInterface::class, $this->strategy->get($mock)->getSelf());
+    }
+
+    public function testGetFakeFQCNSuccess()
+    {
+        $fqcn = $this->getRandomFQCN();
+        $mock = $this->strategy->build($fqcn);
+
+        $this->assertTrue(is_a($this->strategy->get($mock), $fqcn));
     }
 }

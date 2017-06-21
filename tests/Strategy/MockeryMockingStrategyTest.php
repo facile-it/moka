@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Tests\Strategy;
 
 use Moka\Exception\MockNotCreatedException;
+use Moka\Factory\StubFactory;
 use Moka\Strategy\MockeryMockingStrategy;
 use Tests\BarTestClass;
 use Tests\FooTestClass;
@@ -44,6 +45,15 @@ class MockeryMockingStrategyTest extends MockingStrategyTestCase
         $this->expectException(MockNotCreatedException::class);
 
         $this->strategy->build($this->getRandomFQCN() . ', ' . $this->getRandomFQCN());
+    }
+
+    public function testDecorateFakeMethodSuccess()
+    {
+        $this->strategy->decorate($this->mock, StubFactory::fromArray([
+            'fakeMethod' => true
+        ]));
+
+        $this->assertSame(true, $this->strategy->get($this->mock)->fakeMethod());
     }
 
     public function testCallMissingMethodFailure()

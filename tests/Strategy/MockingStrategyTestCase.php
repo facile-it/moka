@@ -37,6 +37,7 @@ abstract class MockingStrategyTestCase extends TestCase
         $this->stubs = StubFactory::fromArray([
             'isTrue' => false,
             'getInt' => 3,
+            'withArgument' => 7,
             'throwException' => new \Exception()
         ]);
 
@@ -76,7 +77,31 @@ abstract class MockingStrategyTestCase extends TestCase
         $this->strategy->decorate(new \stdClass(), $this->stubs);
     }
 
-    public function testDecorateSingleCallSuccess()
+    public function testDecorateWrongTypeHintFailure()
+    {
+        $this->strategy->decorate($this->mock, StubFactory::fromArray([
+            'getSelf' => 3
+        ]));
+
+        $this->expectException(\TypeError::class);
+        $this->strategy->get($this->mock)->getSelf();
+    }
+
+    public function testDecorateOverrideFailure()
+    {
+        $this->strategy->decorate($this->mock, StubFactory::fromArray([
+            'getInt' => 7,
+            'throwException' => 1138
+        ]));
+
+        $this->assertSame(3, $this->strategy->get($this->mock)->getInt());
+        $this->assertSame(3, $this->strategy->get($this->mock)->getInt());
+
+        $this->expectException(\Exception::class);
+        $this->strategy->get($this->mock)->throwException();
+    }
+
+    public function testSingleCallSuccess()
     {
         $this->assertSame(false, $this->strategy->get($this->mock)->isTrue());
 
@@ -84,20 +109,24 @@ abstract class MockingStrategyTestCase extends TestCase
         $this->strategy->get($this->mock)->throwException();
     }
 
-    public function testDecorateMultipleCallsSuccess()
+    public function testMultipleCallsSuccess()
     {
         $this->assertSame(3, $this->strategy->get($this->mock)->getInt());
         $this->assertSame(3, $this->strategy->get($this->mock)->getInt());
     }
 
-    public function testDecorateOverrideFailure()
+    public function testCallWithMissingArgumentFailure()
     {
-        $this->strategy->decorate($this->mock, StubFactory::fromArray([
-            'getInt' => 7
-        ]));
+        $this->expectException(\Error::class);
 
-        $this->assertSame(3, $this->strategy->get($this->mock)->getInt());
-        $this->assertSame(3, $this->strategy->get($this->mock)->getInt());
+        $this->strategy->get($this->mock)->withArgument();
+    }
+
+    public function testCallWithWrongArgumentFailure()
+    {
+        $this->expectException(\TypeError::class);
+
+        $this->strategy->get($this->mock)->withArgument('string');
     }
 
     public function testGetSuccess()

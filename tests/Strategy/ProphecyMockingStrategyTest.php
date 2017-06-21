@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Tests\Strategy;
 
 use Moka\Exception\MockNotCreatedException;
+use Moka\Factory\StubFactory;
 use Moka\Strategy\ProphecyMockingStrategy;
 use Prophecy\Doubler\Doubler;
 use Prophecy\Doubler\LazyDouble;
@@ -32,6 +33,15 @@ class ProphecyMockingStrategyTest extends MockingStrategyTestCase
         $mock = $this->strategy->build($this->getRandomFQCN() . ', ' . $this->getRandomFQCN());
 
         $this->assertInstanceOf($this->strategy->getMockType(), $mock);
+    }
+
+    public function testDecorateFakeMethodFailure()
+    {
+        $this->expectException(\Exception::class);
+
+        $this->strategy->decorate($this->mock, StubFactory::fromArray([
+            'fakeMethod' => true
+        ]));
     }
 
     public function testCallMissingMethodFailure()

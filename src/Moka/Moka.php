@@ -59,7 +59,7 @@ class Moka
     /**
      * @param string $fqcn
      * @param string|null $alias
-     * @param MockingStrategyInterface $mockingStrategy
+     * @param MockingStrategyInterface|null $mockingStrategy
      * @return Proxy
      *
      * @throws MockNotCreatedException

@@ -5,23 +5,31 @@ namespace Moka\Plugin;
 
 use Moka\Exception\NotImplementedException;
 
+/**
+ * Class PluginHelper
+ * @package Moka\Plugin
+ */
 final class PluginHelper
 {
     /**
-     * The template namespace with plugin must be declared
+     * Plugin FQCN has to match this template.
      */
-    const PLUGIN_NAMESPACE_TEMPLATE = 'Moka\\Plugin\\%s\\%sPlugin';
+    const PLUGIN_FQCN_TEMPLATE = 'Moka\\Plugin\\%s\\%sPlugin';
 
     /**
      * @param string $pluginName
      * @return string
+     *
      * @throws NotImplementedException
      */
     public static function load(string $pluginName): string
     {
-        $pluginFQCN = PluginHelper::generateFQCN($pluginName);
+        $pluginFQCN = self::generateFQCN($pluginName);
 
-        if (!class_exists($pluginFQCN) || !in_array(PluginInterface::class, class_implements($pluginFQCN), true)) {
+        if (
+            !class_exists($pluginFQCN) ||
+            !in_array(PluginInterface::class, class_implements($pluginFQCN), true)
+        ) {
             throw new NotImplementedException(
                 sprintf(
                     'Mocking strategy "%s" does not exist',
@@ -40,7 +48,7 @@ final class PluginHelper
     private static function generateFQCN(string $pluginName): string
     {
         return sprintf(
-            self::PLUGIN_NAMESPACE_TEMPLATE,
+            self::PLUGIN_FQCN_TEMPLATE,
             ucfirst($pluginName),
             ucfirst($pluginName)
         );

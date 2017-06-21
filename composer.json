@@ -27,7 +27,10 @@
   "autoload": {
     "psr-4": {
       "Moka\\": "src/Moka/"
-    }
+    },
+    "classmap": [
+      "src/"
+    ]
   },
   "autoload-dev": {
     "psr-4": {

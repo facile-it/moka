@@ -177,9 +177,9 @@ Please see [CHANGELOG](/CHANGELOG.md) for more information what has changed rece
 We highly suggest using [Paraunit](https://github.com/facile-it/paraunit) for a faster execution of tests:
 
 ```bash
-composer install
+composer global require facile-it/paraunit
 
-php vendor/bin/paraunit run
+paraunit run
 ```
 <!---
 ## Contributing

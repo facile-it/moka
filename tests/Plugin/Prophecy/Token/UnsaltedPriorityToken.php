@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Strategy\Prophecy;
+namespace Tests\Plugin\Prophecy\Token;
 
 class UnsaltedPriorityToken extends \Moka\Plugin\Prophecy\Token\AbstractPriorityToken
 {

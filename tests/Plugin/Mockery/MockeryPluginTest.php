@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Plugin;
+namespace Tests\Plugin\Mockery;
 
 use Moka\Plugin\Mockery\MockeryMockingStrategy;
 use Moka\Plugin\Mockery\MockeryPlugin;

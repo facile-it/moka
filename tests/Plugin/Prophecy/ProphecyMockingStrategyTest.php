@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Strategy;
+namespace Tests\Plugin\Prophecy;
 
 use Moka\Exception\MockNotCreatedException;
 use Moka\Factory\StubFactory;
@@ -10,6 +10,7 @@ use Prophecy\Doubler\Doubler;
 use Prophecy\Doubler\LazyDouble;
 use Prophecy\Prophecy\ObjectProphecy;
 use Tests\FooTestClass;
+use Tests\Strategy\MockingStrategyTestCase;
 use Tests\TestInterface;
 
 class ProphecyMockingStrategyTest extends MockingStrategyTestCase

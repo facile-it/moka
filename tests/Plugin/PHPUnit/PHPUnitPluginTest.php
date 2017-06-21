@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Plugin;
+namespace Tests\Plugin\PHPUnit;
 
 use Moka\Plugin\PHPUnit\PHPUnitMockingStrategy;
 use Moka\Plugin\PHPUnit\PHPUnitPlugin;

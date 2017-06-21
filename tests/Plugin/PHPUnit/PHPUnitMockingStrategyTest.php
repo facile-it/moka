@@ -1,12 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Strategy;
+namespace Tests\Plugin\PHPUnit;
 
 use Moka\Exception\MockNotCreatedException;
 use Moka\Factory\StubFactory;
 use Moka\Plugin\PHPUnit\PHPUnitMockingStrategy;
 use Tests\FooTestClass;
+use Tests\Strategy\MockingStrategyTestCase;
 use Tests\TestInterface;
 
 class PHPUnitMockingStrategyTest extends MockingStrategyTestCase

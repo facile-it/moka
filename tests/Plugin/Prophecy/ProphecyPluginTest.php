@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Plugin;
+namespace Tests\Plugin\Prophecy;
 
 use Moka\Plugin\Prophecy\ProphecyMockingStrategy;
 use Moka\Plugin\Prophecy\ProphecyPlugin;

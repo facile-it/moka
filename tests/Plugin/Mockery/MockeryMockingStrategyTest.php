@@ -1,13 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Strategy;
+namespace Tests\Plugin\Mockery;
 
 use Moka\Exception\MockNotCreatedException;
 use Moka\Factory\StubFactory;
 use Moka\Plugin\Mockery\MockeryMockingStrategy;
 use Tests\BarTestClass;
 use Tests\FooTestClass;
+use Tests\Strategy\MockingStrategyTestCase;
 use Tests\TestInterface;
 
 class MockeryMockingStrategyTest extends MockingStrategyTestCase

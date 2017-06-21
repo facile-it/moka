@@ -8,7 +8,7 @@ use Moka\Exception\NotImplementedException;
 final class PluginHelper
 {
     /**
-     * The base namespace with plugin must be declared
+     * The template namespace with plugin must be declared
      */
     const PLUGIN_NAMESPACE_TEMPLATE = 'Moka\\Plugin\\%s\\%sPlugin';
 

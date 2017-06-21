@@ -5,7 +5,7 @@ namespace Tests\Strategy;
 
 use Moka\Exception\MockNotCreatedException;
 use Moka\Factory\StubFactory;
-use Moka\Strategy\PHPUnitMockingStrategy;
+use Moka\Plugin\PHPUnit\PHPUnitMockingStrategy;
 use Tests\FooTestClass;
 use Tests\TestInterface;
 
@@ -15,7 +15,7 @@ class PHPUnitMockingStrategyTest extends MockingStrategyTestCase
     {
         parent::__construct($name, $data, $dataName);
 
-        $this->setStrategy(new \Moka\Plugin\PHPUnit\PHPUnitMockingStrategy());
+        $this->setStrategy(new PHPUnitMockingStrategy());
     }
 
     public function testBuildEmptyFQCNFailure()

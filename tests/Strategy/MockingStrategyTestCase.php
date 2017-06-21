@@ -37,6 +37,7 @@ abstract class MockingStrategyTestCase extends TestCase
         $this->stubs = StubFactory::fromArray([
             'isTrue' => false,
             'getInt' => 3,
+            'withArgument' => 7,
             'throwException' => new \Exception()
         ]);
 
@@ -112,6 +113,20 @@ abstract class MockingStrategyTestCase extends TestCase
     {
         $this->assertSame(3, $this->strategy->get($this->mock)->getInt());
         $this->assertSame(3, $this->strategy->get($this->mock)->getInt());
+    }
+
+    public function testCallWithMissingArgumentFailure()
+    {
+        $this->expectException(\Error::class);
+
+        $this->strategy->get($this->mock)->withArgument();
+    }
+
+    public function testCallWithWrongArgumentFailure()
+    {
+        $this->expectException(\TypeError::class);
+
+        $this->strategy->get($this->mock)->withArgument('string');
     }
 
     public function testGetSuccess()

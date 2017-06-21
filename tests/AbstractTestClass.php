@@ -20,6 +20,11 @@ abstract class AbstractTestClass implements TestInterface
         return $this;
     }
 
+    public function withArgument(int $argument): int
+    {
+        return $argument;
+    }
+
     public function throwException()
     {
     }

@@ -50,7 +50,7 @@ class MokaTest extends TestCase
     {
         $this->assertInstanceOf(
             Proxy::class,
-            Moka::get(\stdClass::class)
+            Moka::brew(\stdClass::class)
         );
     }
 

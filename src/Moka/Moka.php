@@ -81,19 +81,4 @@ class Moka
     {
         ProxyBuilderFactory::reset();
     }
-
-    /**
-     * @param string $fqcn
-     * @param string|null $alias
-     * @return Proxy
-     *
-     * @throws MockNotCreatedException
-     * @throws InvalidIdentifierException
-     *
-     * @deprecated since 0.3.0
-     */
-    public static function get(string $fqcn, string $alias = null): Proxy
-    {
-        return static::brew($fqcn, $alias);
-    }
 }

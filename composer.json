@@ -28,9 +28,6 @@
     "psr-4": {
       "Moka\\": "src/Moka/"
     },
-    "classmap": [
-      "src/"
-    ],
     "files": [
       "src/Moka/Plugin/PHPUnit/PHPUnitPlugin.php",
       "src/Moka/Plugin/Mockery/MockeryPlugin.php",

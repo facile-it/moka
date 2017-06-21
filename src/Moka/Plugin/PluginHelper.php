@@ -17,9 +17,9 @@ final class PluginHelper
      * @return string
      * @throws NotImplementedException
      */
-    public static function loadPlugin(string $pluginName): string
+    public static function load(string $pluginName): string
     {
-        $pluginFQCN = PluginHelper::generatePluginFQCN($pluginName);
+        $pluginFQCN = PluginHelper::generateFQCN($pluginName);
 
         if (!class_exists($pluginFQCN) || !in_array(PluginInterface::class, class_implements($pluginFQCN), true)) {
             throw new NotImplementedException(
@@ -37,7 +37,7 @@ final class PluginHelper
      * @param string $pluginName
      * @return string
      */
-    private static function generatePluginFQCN(string $pluginName): string
+    private static function generateFQCN(string $pluginName): string
     {
         return sprintf(
             self::PLUGIN_NAMESPACE_TEMPLATE,

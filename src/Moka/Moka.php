@@ -44,7 +44,7 @@ class Moka
     {
         if (!isset(self::$mockingStrategies[$name])) {
             /** @var PluginInterface $pluginFQCN */
-            $pluginFQCN = PluginHelper::loadPlugin($name);
+            $pluginFQCN = PluginHelper::load($name);
 
             self::$mockingStrategies[$name] = $pluginFQCN::getStrategy();
         }

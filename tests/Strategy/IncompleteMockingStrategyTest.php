@@ -5,7 +5,6 @@ namespace Tests\Strategy;
 
 use Moka\Exception\NotImplementedException;
 use PHPUnit\Framework\TestCase;
-use Tests\IncompleteMockingStrategy;
 
 class IncompleteMockingStrategyTest extends TestCase
 {

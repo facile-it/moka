@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests;
+namespace Tests\Strategy;
 
 use Moka\Strategy\AbstractMockingStrategy;
 use Moka\Stub\StubSet;

@@ -9,6 +9,7 @@ use Moka\Exception\NotImplementedException;
 use Moka\Exception\PluginNotRegisteredException;
 use Moka\Factory\ProxyBuilderFactory;
 use Moka\Plugin\PHPUnit\PHPUnitMockingStrategy;
+use Moka\Plugin\PluginHelper;
 use Moka\Plugin\PluginInterface;
 use Moka\Proxy\Proxy;
 use Moka\Strategy\MockingStrategyInterface;
@@ -23,10 +24,6 @@ use Moka\Strategy\MockingStrategyInterface;
  */
 class Moka
 {
-    /**
-     * The base namespace with plugin must be declared
-     */
-    const PLUGIN_NAMESPACE_TEMPLATE = 'Moka\\Plugin\\%s\\%sPlugin';
 
     /**
      * @var array|MockingStrategyInterface[]
@@ -47,9 +44,9 @@ class Moka
     {
         if (!isset(self::$mockingStrategies[$name])) {
             /** @var PluginInterface $pluginFQCN */
-            $pluginFQCN = self::loadPlugin($name);
+            $pluginFQCN = PluginHelper::loadPlugin($name);
 
-            self::registerStrategy($name, $pluginFQCN::getStrategy());
+            self::$mockingStrategies[$name] = $pluginFQCN::getStrategy();
         }
 
         $mockFQCN = $arguments[0];
@@ -57,49 +54,6 @@ class Moka
         $mockingStrategy = self::$mockingStrategies[$name];
 
         return static::brew($mockFQCN, $alias, $mockingStrategy);
-    }
-
-    /**
-     * @param string $pluginName
-     * @return string
-     * @throws NotImplementedException
-     */
-    private static function loadPlugin(string $pluginName): string
-    {
-        $pluginFQCN = self::generatePluginFQCN($pluginName);
-
-        if (!class_exists($pluginFQCN) || !in_array(PluginInterface::class, class_implements($pluginFQCN), true)) {
-            throw new NotImplementedException(
-                sprintf(
-                    'Mocking strategy "%s" does not exist',
-                    $pluginName
-                )
-            );
-        }
-
-        return $pluginFQCN;
-    }
-
-    /**
-     * @param string $pluginName
-     * @return string
-     */
-    public static function generatePluginFQCN(string $pluginName): string
-    {
-        return sprintf(
-            self::PLUGIN_NAMESPACE_TEMPLATE,
-            ucfirst($pluginName),
-            ucfirst($pluginName)
-        );
-    }
-
-    /**
-     * @param string $strategyName
-     * @param MockingStrategyInterface $mockingStrategy
-     */
-    public static function registerStrategy(string $strategyName, MockingStrategyInterface $mockingStrategy)
-    {
-        self::$mockingStrategies[$strategyName] = $mockingStrategy;
     }
 
     /**

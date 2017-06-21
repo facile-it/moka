@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Moka\Plugin\PHPUnit;
 
-use Moka\Exception\PluginNotRegisteredException;
-use Moka\Moka;
 use Moka\Plugin\PluginInterface;
 use Moka\Strategy\MockingStrategyInterface;
 

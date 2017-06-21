@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Moka\Plugin\Prophecy;
 
-use Moka\Moka;
 use Moka\Plugin\PluginInterface;
 use Moka\Strategy\MockingStrategyInterface;
 

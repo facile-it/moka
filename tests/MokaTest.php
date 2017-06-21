@@ -39,21 +39,20 @@ class MokaTest extends TestCase
         }
     }
 
-    public function testBrewWithBuilderFailure()
+    public function testBrewWithFakeBuilderFailure()
     {
         $this->expectException(NotImplementedException::class);
 
         Moka::foo(\stdClass::class);
     }
 
-    public function testReset()
-    {
-        $this->reset();
-    }
-
     public function testClean()
     {
-        $this->reset('clean');
+        $proxy1 = Moka::brew(\stdClass::class);
+        Moka::clean();
+        $proxy2 = Moka::brew(\stdClass::class);
+
+        $this->assertNotSame($proxy1, $proxy2);
     }
 
     protected function brewWithBuilder(MockingStrategyInterface $builder)
@@ -62,14 +61,5 @@ class MokaTest extends TestCase
             Proxy::class,
             Moka::brew(\stdClass::class, null, $builder)
         );
-    }
-
-    protected function reset(string $method = 'clean')
-    {
-        $proxy1 = Moka::brew(\stdClass::class);
-        Moka::$method();
-        $proxy2 = Moka::brew(\stdClass::class);
-
-        $this->assertNotSame($proxy1, $proxy2);
     }
 }

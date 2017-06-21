@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace Moka\Strategy\Prophecy;
+namespace Moka\Plugin\Prophecy\Token;
 
 use Prophecy\Argument\Token\TokenInterface;
 use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * Class AbstractPriorityToken
- * @package Moka\Strategy\Prophecy
+ * @package Moka\Plugin\Prophecy\Token
  */
 abstract class AbstractPriorityToken implements TokenInterface
 {

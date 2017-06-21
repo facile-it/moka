@@ -5,7 +5,6 @@ namespace Moka\Plugin\Prophecy;
 
 use Moka\Exception\MockNotCreatedException;
 use Moka\Strategy\AbstractMockingStrategy;
-use Moka\Strategy\Prophecy\MaxPriorityToken;
 use Moka\Stub\Stub;
 use Moka\Stub\StubSet;
 use Prophecy\Exception\Prophecy\ObjectProphecyException;
@@ -55,7 +54,7 @@ class ProphecyMockingStrategy extends AbstractMockingStrategy
             $methodValue = $stub->getMethodValue();
 
             /** @var MethodProphecy $partial */
-            $partial = $mock->$methodName(new MaxPriorityToken());
+            $partial = $mock->$methodName(new Token\MaxPriorityToken());
             $methodValue instanceof \Throwable
                 ? $partial->willThrow($methodValue)
                 : $partial->willReturn($methodValue);

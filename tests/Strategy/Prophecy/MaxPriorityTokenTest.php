@@ -3,7 +3,8 @@ declare(strict_types=1);
 
 namespace Tests\Strategy\Prophecy;
 
-use Moka\Strategy\Prophecy\MaxPriorityToken;
+
+use Moka\Plugin\Prophecy\Token\MaxPriorityToken;
 
 class MaxPriorityTokenTest extends PriorityTokenTestCase
 {

@@ -6,6 +6,7 @@ namespace Moka;
 use Moka\Exception\InvalidIdentifierException;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Exception\NotImplementedException;
+use Moka\Exception\PluginNotRegisteredException;
 use Moka\Factory\ProxyBuilderFactory;
 use Moka\Plugin\PHPUnit\PHPUnitMockingStrategy;
 use Moka\Plugin\PluginInterface;
@@ -40,23 +41,15 @@ class Moka
      * @throws NotImplementedException
      * @throws InvalidIdentifierException
      * @throws MockNotCreatedException
+     * @throws PluginNotRegisteredException
      */
     public static function __callStatic($name, $arguments)
     {
         if (!isset(self::$mockingStrategies[$name])) {
-            $pluginFQCN = self::generatePluginFQCN($name);
-
-            if (!class_exists($pluginFQCN) || !in_array(PluginInterface::class, class_implements($pluginFQCN))) {
-                throw new NotImplementedException(
-                    sprintf(
-                        'Mocking strategy "%s" does not exist',
-                        $name
-                    )
-                );
-            }
-
             /** @var PluginInterface $pluginFQCN */
-            $pluginFQCN::registerPlugin();
+            $pluginFQCN = self::loadPlugin($name);
+
+            self::registerStrategy($name, $pluginFQCN::getStrategy());
         }
 
         $mockFQCN = $arguments[0];
@@ -64,6 +57,49 @@ class Moka
         $mockingStrategy = self::$mockingStrategies[$name];
 
         return static::brew($mockFQCN, $alias, $mockingStrategy);
+    }
+
+    /**
+     * @param string $pluginName
+     * @return string
+     * @throws NotImplementedException
+     */
+    private static function loadPlugin(string $pluginName): string
+    {
+        $pluginFQCN = self::generatePluginFQCN($pluginName);
+
+        if (!class_exists($pluginFQCN) || !in_array(PluginInterface::class, class_implements($pluginFQCN), true)) {
+            throw new NotImplementedException(
+                sprintf(
+                    'Mocking strategy "%s" does not exist',
+                    $pluginName
+                )
+            );
+        }
+
+        return $pluginFQCN;
+    }
+
+    /**
+     * @param string $pluginName
+     * @return string
+     */
+    public static function generatePluginFQCN(string $pluginName): string
+    {
+        return sprintf(
+            self::PLUGIN_NAMESPACE_TEMPLATE,
+            ucfirst($pluginName),
+            ucfirst($pluginName)
+        );
+    }
+
+    /**
+     * @param string $strategyName
+     * @param MockingStrategyInterface $mockingStrategy
+     */
+    public static function registerStrategy(string $strategyName, MockingStrategyInterface $mockingStrategy)
+    {
+        self::$mockingStrategies[$strategyName] = $mockingStrategy;
     }
 
     /**
@@ -93,15 +129,6 @@ class Moka
     }
 
     /**
-     * @param string $strategyName
-     * @param MockingStrategyInterface $mockingStrategy
-     */
-    public static function registerStrategy(string $strategyName, MockingStrategyInterface $mockingStrategy)
-    {
-        self::$mockingStrategies[$strategyName] = $mockingStrategy;
-    }
-
-    /**
      * @param string $fqcn
      * @param string|null $alias
      * @return Proxy
@@ -114,14 +141,5 @@ class Moka
     public static function get(string $fqcn, string $alias = null): Proxy
     {
         return static::brew($fqcn, $alias);
-    }
-
-    public static function generatePluginFQCN(string $pluginName): string
-    {
-        return sprintf(
-            self::PLUGIN_NAMESPACE_TEMPLATE,
-            ucfirst($pluginName),
-            ucfirst($pluginName)
-        );
     }
 }

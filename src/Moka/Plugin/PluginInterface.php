@@ -3,14 +3,12 @@ declare(strict_types=1);
 
 namespace Moka\Plugin;
 
-use Moka\Exception\PluginNotRegisteredException;
+use Moka\Strategy\MockingStrategyInterface;
 
 interface PluginInterface
 {
     /**
-     * @return void
-     *
-     * @throws PluginNotRegisteredException
+     * @return MockingStrategyInterface
      */
-    public static function registerPlugin();
+    public static function getStrategy(): MockingStrategyInterface;
 }

@@ -5,11 +5,19 @@ namespace Moka\Plugin\Prophecy;
 
 use Moka\Moka;
 use Moka\Plugin\PluginInterface;
+use Moka\Strategy\MockingStrategyInterface;
 
+/**
+ * Class ProphecyPlugin
+ * @package Moka\Plugin\Prophecy
+ */
 class ProphecyPlugin implements PluginInterface
 {
-    public static function registerPlugin()
+    /**
+     * @return MockingStrategyInterface
+     */
+    public static function getStrategy(): MockingStrategyInterface
     {
-        Moka::registerStrategy('prophecy', new ProphecyMockingStrategy());
+        return new ProphecyMockingStrategy();
     }
 }

@@ -6,11 +6,19 @@ namespace Moka\Plugin\Mockery;
 use Moka\Exception\PluginNotRegisteredException;
 use Moka\Moka;
 use Moka\Plugin\PluginInterface;
+use Moka\Strategy\MockingStrategyInterface;
 
+/**
+ * Class MockeryPlugin
+ * @package Moka\Plugin\Mockery
+ */
 class MockeryPlugin implements PluginInterface
 {
-    public static function registerPlugin()
+    /**
+     * @return MockingStrategyInterface
+     */
+    public static function getStrategy(): MockingStrategyInterface
     {
-        Moka::registerStrategy('mockery', new MockeryMockingStrategy());
+        return new MockeryMockingStrategy();
     }
 }

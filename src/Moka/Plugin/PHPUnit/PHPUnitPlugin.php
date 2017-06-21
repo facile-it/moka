@@ -6,11 +6,19 @@ namespace Moka\Plugin\PHPUnit;
 use Moka\Exception\PluginNotRegisteredException;
 use Moka\Moka;
 use Moka\Plugin\PluginInterface;
+use Moka\Strategy\MockingStrategyInterface;
 
+/**
+ * Class PHPUnitPlugin
+ * @package Moka\Plugin\PHPUnit
+ */
 class PHPUnitPlugin implements PluginInterface
 {
-    public static function registerPlugin()
+    /**
+     * @return MockingStrategyInterface
+     */
+    public static function getStrategy(): MockingStrategyInterface
     {
-        Moka::registerStrategy('phpunit', new PHPUnitMockingStrategy());
+        return new PHPUnitMockingStrategy();
     }
 }

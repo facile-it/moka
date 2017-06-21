@@ -44,6 +44,9 @@
   },
   "require-dev": {
     "facile-it/facile-coding-standard": "dev-master",
-    "facile-it/paraunit": "^0.8.2"
+    "phpunit/phpunit": "^5.7"
+  },
+  "suggest": {
+    "facile-it/paraunit": "Provides a faster execution of tests"
   }
 }

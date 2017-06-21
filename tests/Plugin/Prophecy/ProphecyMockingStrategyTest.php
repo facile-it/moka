@@ -29,6 +29,13 @@ class ProphecyMockingStrategyTest extends MockingStrategyTestCase
         $this->assertInstanceOf($this->strategy->getMockType(), $mock);
     }
 
+    public function testBuildFakeFQCNSuccess()
+    {
+        $mock = $this->strategy->build($this->getRandomFQCN());
+
+        $this->assertInstanceOf($this->strategy->getMockType(), $mock);
+    }
+
     public function testBuildMultipleFQCNSuccess()
     {
         $mock = $this->strategy->build($this->getRandomFQCN() . ', ' . $this->getRandomFQCN());

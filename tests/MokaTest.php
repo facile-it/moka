@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 
 class MokaTest extends TestCase
 {
-    const BUILDERS = ['mockery', 'prophecy', 'phpunit'];
+    const BUILDERS = ['mockery', 'phake', 'prophecy', 'phpunit'];
 
     public function testBrewSuccess()
     {

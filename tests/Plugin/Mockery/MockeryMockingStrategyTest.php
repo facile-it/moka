@@ -34,6 +34,13 @@ class MockeryMockingStrategyTest extends MockingStrategyTestCase
         $this->strategy->build('foo bar');
     }
 
+    public function testBuildFakeFQCNSuccess()
+    {
+        $mock = $this->strategy->build($this->getRandomFQCN());
+
+        $this->assertInstanceOf($this->strategy->getMockType(), $mock);
+    }
+
     public function testBuildMultipleFQCNSuccess()
     {
         $mock = $this->strategy->build(FooTestClass::class . ', ' . BarTestClass::class);

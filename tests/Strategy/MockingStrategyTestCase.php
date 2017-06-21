@@ -20,25 +20,32 @@ abstract class MockingStrategyTestCase extends TestCase
     protected $strategy;
 
     /**
+     * @var object
+     */
+    protected $mock;
+
+    /**
      * @var StubSet
      */
     protected $stubs;
 
     public function setUp()
     {
+        $this->mock = $this->strategy->build(FooTestClass::class);
+
         // Mocking a StubSet is way too difficult.
         $this->stubs = StubFactory::fromArray([
             'isTrue' => false,
             'getInt' => 3,
             'throwException' => new \Exception()
         ]);
+
+        $this->strategy->decorate($this->mock, $this->stubs);
     }
 
     public function testBuildClassSuccess()
     {
-        $mock = $this->strategy->build(FooTestClass::class);
-
-        $this->assertInstanceOf($this->strategy->getMockType(), $mock);
+        $this->assertInstanceOf($this->strategy->getMockType(), $this->mock);
     }
 
     public function testBuildInterfaceSuccess()
@@ -62,24 +69,6 @@ abstract class MockingStrategyTestCase extends TestCase
         $this->assertInstanceOf($this->strategy->getMockType(), $mock);
     }
 
-    public function testDecorateSingleCallSuccess()
-    {
-        $mock = $this->strategy->build(FooTestClass::class);
-        $this->strategy->decorate($mock, $this->stubs);
-        $this->assertSame(false, $this->strategy->get($mock)->isTrue());
-
-        $this->expectException(\Exception::class);
-        $this->strategy->get($mock)->throwException();
-    }
-
-    public function testDecorateMultipleCallsSuccess()
-    {
-        $mock = $this->strategy->build(FooTestClass::class);
-        $this->strategy->decorate($mock, $this->stubs);
-        $this->assertSame(3, $this->strategy->get($mock)->getInt());
-        $this->assertSame(3, $this->strategy->get($mock)->getInt());
-    }
-
     public function testDecorateFailure()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -87,11 +76,33 @@ abstract class MockingStrategyTestCase extends TestCase
         $this->strategy->decorate(new \stdClass(), $this->stubs);
     }
 
+    public function testDecorateSingleCallSuccess()
+    {
+        $this->assertSame(false, $this->strategy->get($this->mock)->isTrue());
+
+        $this->expectException(\Exception::class);
+        $this->strategy->get($this->mock)->throwException();
+    }
+
+    public function testDecorateMultipleCallsSuccess()
+    {
+        $this->assertSame(3, $this->strategy->get($this->mock)->getInt());
+        $this->assertSame(3, $this->strategy->get($this->mock)->getInt());
+    }
+
+    public function testDecorateOverrideFailure()
+    {
+        $this->strategy->decorate($this->mock, StubFactory::fromArray([
+            'getInt' => 7
+        ]));
+
+        $this->assertSame(3, $this->strategy->get($this->mock)->getInt());
+        $this->assertSame(3, $this->strategy->get($this->mock)->getInt());
+    }
+
     public function testGetSuccess()
     {
-        $mock = $this->strategy->build(FooTestClass::class);
-
-        $this->assertInstanceOf(FooTestClass::class, $this->strategy->get($mock));
+        $this->assertInstanceOf(FooTestClass::class, $this->strategy->get($this->mock));
     }
 
     public function testGetFailure()

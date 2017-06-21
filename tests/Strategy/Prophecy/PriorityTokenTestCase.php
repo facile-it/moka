@@ -8,25 +8,22 @@ use Prophecy\Argument\Token\TokenInterface;
 
 class PriorityTokenTestCase extends TestCase
 {
-    const SCORE_MIN = 1; // See ArgumentsWildcard::scoreArguments().
-    const SCORE_MAX = 2; // 2 is the lowest number in Prophecy tokens.
-
     /**
      * @var TokenInterface
      */
-    private $token;
+    protected $token;
 
-    public function testScoreArgumentRange()
+    public function testTokensAreDifferent()
     {
-        $this->assertGreaterThan(
-            self::SCORE_MIN,
-            $this->token->scoreArgument(null)
-        );
+        $fqcn = get_class($this->token);
+        $token = new $fqcn();
 
-        $this->assertLessThan(
-            self::SCORE_MAX,
-            $this->token->scoreArgument(null)
-        );
+        $this->assertNotEquals((array)$this->token, (array)$token);
+    }
+
+    public function testScoreArgument()
+    {
+        $this->assertInternalType('int', $this->token->scoreArgument(null));
     }
 
     public function testIsLast()

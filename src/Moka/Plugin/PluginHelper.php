@@ -5,25 +5,12 @@ namespace Moka\Plugin;
 
 use Moka\Exception\NotImplementedException;
 
-class PluginHelper
+final class PluginHelper
 {
     /**
      * The base namespace with plugin must be declared
      */
     const PLUGIN_NAMESPACE_TEMPLATE = 'Moka\\Plugin\\%s\\%sPlugin';
-
-    /**
-     * @param string $pluginName
-     * @return string
-     */
-    public static function generatePluginFQCN(string $pluginName): string
-    {
-        return sprintf(
-            self::PLUGIN_NAMESPACE_TEMPLATE,
-            ucfirst($pluginName),
-            ucfirst($pluginName)
-        );
-    }
 
     /**
      * @param string $pluginName
@@ -44,5 +31,18 @@ class PluginHelper
         }
 
         return $pluginFQCN;
+    }
+
+    /**
+     * @param string $pluginName
+     * @return string
+     */
+    private static function generatePluginFQCN(string $pluginName): string
+    {
+        return sprintf(
+            self::PLUGIN_NAMESPACE_TEMPLATE,
+            ucfirst($pluginName),
+            ucfirst($pluginName)
+        );
     }
 }

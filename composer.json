@@ -30,6 +30,11 @@
     },
     "classmap": [
       "src/"
+    ],
+    "files": [
+      "src/Moka/Plugin/PHPUnit/PHPUnitPlugin.php",
+      "src/Moka/Plugin/Mockery/MockeryPlugin.php",
+      "src/Moka/Plugin/Prophecy/ProphecyPlugin.php"
     ]
   },
   "autoload-dev": {

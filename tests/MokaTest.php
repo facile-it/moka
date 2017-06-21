@@ -46,14 +46,6 @@ class MokaTest extends TestCase
         Moka::foo(\stdClass::class);
     }
 
-    public function testGetSuccess()
-    {
-        $this->assertInstanceOf(
-            Proxy::class,
-            Moka::brew(\stdClass::class)
-        );
-    }
-
     public function testReset()
     {
         $this->reset();

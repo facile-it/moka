@@ -93,11 +93,15 @@ abstract class MockingStrategyTestCase extends TestCase
     public function testDecorateOverrideFailure()
     {
         $this->strategy->decorate($this->mock, StubFactory::fromArray([
-            'getInt' => 7
+            'getInt' => 7,
+            'throwException' => 1138
         ]));
 
         $this->assertSame(3, $this->strategy->get($this->mock)->getInt());
         $this->assertSame(3, $this->strategy->get($this->mock)->getInt());
+
+        $this->expectException(\Exception::class);
+        $this->strategy->get($this->mock)->throwException();
     }
 
     public function testGetSuccess()

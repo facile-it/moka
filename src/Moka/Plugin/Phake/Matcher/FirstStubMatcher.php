@@ -18,28 +18,28 @@ class FirstStubMatcher extends AbstractChainableArgumentMatcher
     /**
      * @var string
      */
-    private $method;
+    private $methodName;
 
     /**
      * @var bool
      */
     private $isValid = true;
 
-    public function __construct(PhakeMock $mock, string $method)
+    public function __construct(PhakeMock $mock, string $methodName)
     {
-        $this->method = $method;
+        $this->methodName = $methodName;
 
-        $hash = spl_object_hash($mock);
-        if (!isset(self::$methods[$hash])) {
-            self::$methods[$hash] = [];
+        $mockHash = spl_object_hash($mock);
+        if (!isset(self::$methods[$mockHash])) {
+            self::$methods[$mockHash] = [];
         }
 
-        if (in_array($method, self::$methods[$hash])) {
+        if (in_array($methodName, self::$methods[$mockHash])) {
             $this->isValid = false;
             return;
         }
 
-        self::$methods[$hash][] = $method;
+        self::$methods[$mockHash][] = $methodName;
     }
 
     public function doArgumentsMatch(array &$arguments)
@@ -48,7 +48,7 @@ class FirstStubMatcher extends AbstractChainableArgumentMatcher
             throw new MethodMatcherException(
                 sprintf(
                     'Cannot override definition for method "%s()"',
-                    $this->method
+                    $this->methodName
                 )
             );
         }

@@ -25,7 +25,6 @@ use Moka\Strategy\MockingStrategyInterface;
  */
 class Moka
 {
-
     /**
      * @var array|MockingStrategyInterface[]
      */

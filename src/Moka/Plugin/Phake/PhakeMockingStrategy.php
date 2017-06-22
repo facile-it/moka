@@ -6,7 +6,6 @@ namespace Moka\Plugin\Phake;
 use Moka\Plugin\Phake\Matcher\FirstStubMatcher;
 use Moka\Strategy\AbstractMockingStrategy;
 use Moka\Stub\Stub;
-use Moka\Stub\StubSet;
 use Phake;
 use Phake_IMock as PhakeMock;
 use Phake_Proxies_AnswerBinderProxy as AnswerBinderProxy;
@@ -36,22 +35,19 @@ class PhakeMockingStrategy extends AbstractMockingStrategy
 
     /**
      * @param PhakeMock $mock
-     * @param StubSet $stubs
+     * @param Stub $stub
      * @return void
      */
-    protected function doDecorate($mock, StubSet $stubs)
+    protected function doDecorate($mock, Stub $stub)
     {
-        /** @var Stub $stub */
-        foreach ($stubs as $stub) {
-            $methodName = $stub->getMethodName();
-            $methodValue = $stub->getMethodValue();
+        $methodName = $stub->getMethodName();
+        $methodValue = $stub->getMethodValue();
 
-            /** @var AnswerBinderProxy $partial */
-            $partial = Phake::when($mock)->$methodName(new FirstStubMatcher($mock, $methodName));
-            $methodValue instanceof \Throwable
-                ? $partial->thenThrow($methodValue)
-                : $partial->thenReturn($methodValue);
-        }
+        /** @var AnswerBinderProxy $partial */
+        $partial = Phake::when($mock)->$methodName(new FirstStubMatcher($mock, $methodName));
+        $methodValue instanceof \Throwable
+            ? $partial->thenThrow($methodValue)
+            : $partial->thenReturn($methodValue);
     }
 
     /**

@@ -31,7 +31,7 @@
     },
     "files": [
       "src/Moka/Plugin/Mockery/MockeryPlugin.php",
-      "src/Moka/Plugin/Mockery/PhakePlugin.php",
+      "src/Moka/Plugin/Phake/PhakePlugin.php",
       "src/Moka/Plugin/PHPUnit/PHPUnitPlugin.php",
       "src/Moka/Plugin/Prophecy/ProphecyPlugin.php"
     ]

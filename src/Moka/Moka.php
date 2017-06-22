@@ -19,12 +19,12 @@ use Moka\Strategy\MockingStrategyInterface;
  * @package Moka
  *
  * @method static Proxy mockery(string $fqcn, string $alias = null)
+ * @method static Proxy phake(string $fqcn, string $alias = null)
  * @method static Proxy phpunit(string $fqcn, string $alias = null)
  * @method static Proxy prophecy(string $fqcn, string $alias = null)
  */
 class Moka
 {
-
     /**
      * @var array|MockingStrategyInterface[]
      */

@@ -63,13 +63,6 @@ abstract class MockingStrategyTestCase extends TestCase
         $this->assertInstanceOf($this->strategy->getMockType(), $mock);
     }
 
-    public function testBuildFakeFQCNSuccess()
-    {
-        $mock = $this->strategy->build($this->getRandomFQCN());
-
-        $this->assertInstanceOf($this->strategy->getMockType(), $mock);
-    }
-
     public function testDecorateFailure()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -113,6 +106,11 @@ abstract class MockingStrategyTestCase extends TestCase
     {
         $this->assertSame(3, $this->strategy->get($this->mock)->getInt());
         $this->assertSame(3, $this->strategy->get($this->mock)->getInt());
+    }
+
+    public function testCallWithArgumentSuccess()
+    {
+        $this->assertSame(7, $this->strategy->get($this->mock)->withArgument(11));
     }
 
     public function testCallWithMissingArgumentFailure()

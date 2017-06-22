@@ -1,23 +1,23 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Plugin\PHPUnit;
+namespace Tests\Plugin\Phake;
 
 use Moka\Exception\MockNotCreatedException;
 use Moka\Factory\StubFactory;
-use Moka\Plugin\PHPUnit\PHPUnitMockingStrategy;
+use Moka\Plugin\Phake\PhakeMockingStrategy;
 use Tests\BarTestClass;
 use Tests\FooTestClass;
 use Tests\Strategy\MockingStrategyTestCase;
 use Tests\TestInterface;
 
-class PHPUnitMockingStrategyTest extends MockingStrategyTestCase
+class PhakeMockingStrategyTest extends MockingStrategyTestCase
 {
     public function __construct($name = null, array $data = [], $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
 
-        $this->setStrategy(new PHPUnitMockingStrategy());
+        $this->setStrategy(new PhakeMockingStrategy());
     }
 
     public function testBuildEmptyFQCNFailure()
@@ -34,11 +34,11 @@ class PHPUnitMockingStrategyTest extends MockingStrategyTestCase
         $this->strategy->build('foo bar');
     }
 
-    public function testBuildFakeFQCNSuccess()
+    public function testBuildFakeFQCNFailure()
     {
-        $mock = $this->strategy->build($this->getRandomFQCN());
+        $this->expectException(MockNotCreatedException::class);
 
-        $this->assertInstanceOf($this->strategy->getMockType(), $mock);
+        $this->strategy->build($this->getRandomFQCN());
     }
 
     public function testBuildMultipleFQCNFailure()
@@ -50,25 +50,26 @@ class PHPUnitMockingStrategyTest extends MockingStrategyTestCase
 
     public function testDecorateFakeMethodFailure()
     {
-        $this->expectException(\Exception::class);
-
         $this->strategy->decorate($this->mock, StubFactory::fromArray([
             'fakeMethod' => true
         ]));
+
+        $this->expectException(\Error::class);
+        $this->strategy->get($this->mock)->fakeMethod();
     }
 
-    public function testCallMissingMethodSuccess()
+    public function testCallMissingMethodFailure()
     {
         $mock = $this->strategy->build(FooTestClass::class);
 
-        $this->assertInstanceOf(TestInterface::class, $this->strategy->get($mock)->getSelf());
+        $this->expectException(\Throwable::class);
+        $this->strategy->get($mock)->getSelf();
     }
 
-    public function testGetFakeFQCNSuccess()
+    public function testGetMultipleFQCNFailure()
     {
-        $fqcn = $this->getRandomFQCN();
-        $mock = $this->strategy->build($fqcn);
+        $this->expectException(\Exception::class);
 
-        $this->assertTrue(is_a($this->strategy->get($mock), $fqcn));
+        $this->strategy->build(FooTestClass::class . ', ' . TestInterface::class);
     }
 }

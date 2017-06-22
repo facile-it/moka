@@ -1,13 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace Moka\Strategy\Prophecy;
+namespace Moka\Plugin\Prophecy\Token;
 
 use Prophecy\Argument\ArgumentsWildcard;
 
 /**
  * Class MaxPriorityToken
- * @package Moka\Strategy\Prophecy
+ * @package Moka\Plugin\Prophecy\Token
  */
 class MaxPriorityToken extends AbstractPriorityToken
 {

@@ -11,7 +11,8 @@
     "mocking-library",
     "phpunit",
     "prophecy",
-    "mockery"
+    "mockery",
+    "phake"
   ],
   "homepage": "http://github.com/facile-it/moka",
   "authors": [
@@ -27,7 +28,13 @@
   "autoload": {
     "psr-4": {
       "Moka\\": "src/Moka/"
-    }
+    },
+    "files": [
+      "src/Moka/Plugin/Mockery/MockeryPlugin.php",
+      "src/Moka/Plugin/Phake/PhakePlugin.php",
+      "src/Moka/Plugin/PHPUnit/PHPUnitPlugin.php",
+      "src/Moka/Plugin/Prophecy/ProphecyPlugin.php"
+    ]
   },
   "autoload-dev": {
     "psr-4": {
@@ -40,7 +47,8 @@
     "phpspec/prophecy": "^1.6",
     "psr/container": "^1.0",
     "mockery/mockery": "^0.9.9",
-    "phpunit/phpunit-mock-objects": "^3.4"
+    "phpunit/phpunit-mock-objects": "^3.4",
+    "phake/phake": "^2.3"
   },
   "require-dev": {
     "facile-it/facile-coding-standard": "dev-master",

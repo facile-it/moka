@@ -6,6 +6,7 @@ namespace Moka\Strategy;
 use Moka\Exception\InvalidArgumentException;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Exception\NotImplementedException;
+use Moka\Stub\Stub;
 use Moka\Stub\StubSet;
 
 /**
@@ -52,7 +53,10 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
     {
         $this->checkMockType($mock);
 
-        $this->doDecorate($mock, $stubs);
+        /** @var Stub $stub */
+        foreach ($stubs as $stub) {
+            $this->doDecorate($mock, $stub);
+        }
     }
 
     /**
@@ -118,10 +122,10 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
 
     /**
      * @param object $mock
-     * @param StubSet $stubs
+     * @param Stub $stub
      * @return void
      */
-    abstract protected function doDecorate($mock, StubSet $stubs);
+    abstract protected function doDecorate($mock, Stub $stub);
 
     /**
      * @param object $mock

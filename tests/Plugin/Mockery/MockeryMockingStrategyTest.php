@@ -1,13 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Strategy;
+namespace Tests\Plugin\Mockery;
 
 use Moka\Exception\MockNotCreatedException;
 use Moka\Factory\StubFactory;
-use Moka\Strategy\MockeryMockingStrategy;
+use Moka\Plugin\Mockery\MockeryMockingStrategy;
 use Tests\BarTestClass;
 use Tests\FooTestClass;
+use Tests\Strategy\MockingStrategyTestCase;
 use Tests\TestInterface;
 
 class MockeryMockingStrategyTest extends MockingStrategyTestCase
@@ -31,6 +32,13 @@ class MockeryMockingStrategyTest extends MockingStrategyTestCase
         $this->expectException(MockNotCreatedException::class);
 
         $this->strategy->build('foo bar');
+    }
+
+    public function testBuildFakeFQCNSuccess()
+    {
+        $mock = $this->strategy->build($this->getRandomFQCN());
+
+        $this->assertInstanceOf($this->strategy->getMockType(), $mock);
     }
 
     public function testBuildMultipleFQCNSuccess()

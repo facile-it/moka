@@ -1,15 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Strategy;
+namespace Tests\Plugin\Prophecy;
 
 use Moka\Exception\MockNotCreatedException;
 use Moka\Factory\StubFactory;
-use Moka\Strategy\ProphecyMockingStrategy;
+use Moka\Plugin\Prophecy\ProphecyMockingStrategy;
 use Prophecy\Doubler\Doubler;
 use Prophecy\Doubler\LazyDouble;
 use Prophecy\Prophecy\ObjectProphecy;
 use Tests\FooTestClass;
+use Tests\Strategy\MockingStrategyTestCase;
 use Tests\TestInterface;
 
 class ProphecyMockingStrategyTest extends MockingStrategyTestCase
@@ -24,6 +25,13 @@ class ProphecyMockingStrategyTest extends MockingStrategyTestCase
     public function testBuildEmptyFQCNSuccess()
     {
         $mock = $this->strategy->build('');
+
+        $this->assertInstanceOf($this->strategy->getMockType(), $mock);
+    }
+
+    public function testBuildFakeFQCNSuccess()
+    {
+        $mock = $this->strategy->build($this->getRandomFQCN());
 
         $this->assertInstanceOf($this->strategy->getMockType(), $mock);
     }

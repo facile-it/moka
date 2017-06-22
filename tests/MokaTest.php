@@ -5,16 +5,16 @@ namespace Tests;
 
 use Moka\Exception\NotImplementedException;
 use Moka\Moka;
+use Moka\Plugin\Mockery\MockeryMockingStrategy;
+use Moka\Plugin\PHPUnit\PHPUnitMockingStrategy;
+use Moka\Plugin\Prophecy\ProphecyMockingStrategy;
 use Moka\Proxy\Proxy;
-use Moka\Strategy\MockeryMockingStrategy;
 use Moka\Strategy\MockingStrategyInterface;
-use Moka\Strategy\PHPUnitMockingStrategy;
-use Moka\Strategy\ProphecyMockingStrategy;
 use PHPUnit\Framework\TestCase;
 
 class MokaTest extends TestCase
 {
-    const BUILDERS = ['mockery', 'prophecy', 'phpunit'];
+    const BUILDERS = ['mockery', 'phake', 'prophecy', 'phpunit'];
 
     public function testBrewSuccess()
     {
@@ -39,29 +39,20 @@ class MokaTest extends TestCase
         }
     }
 
-    public function testBrewWithBuilderFailure()
+    public function testBrewWithFakeBuilderFailure()
     {
         $this->expectException(NotImplementedException::class);
 
         Moka::foo(\stdClass::class);
     }
 
-    public function testGetSuccess()
-    {
-        $this->assertInstanceOf(
-            Proxy::class,
-            Moka::get(\stdClass::class)
-        );
-    }
-
-    public function testReset()
-    {
-        $this->reset();
-    }
-
     public function testClean()
     {
-        $this->reset('clean');
+        $proxy1 = Moka::brew(\stdClass::class);
+        Moka::clean();
+        $proxy2 = Moka::brew(\stdClass::class);
+
+        $this->assertNotSame($proxy1, $proxy2);
     }
 
     protected function brewWithBuilder(MockingStrategyInterface $builder)
@@ -70,14 +61,5 @@ class MokaTest extends TestCase
             Proxy::class,
             Moka::brew(\stdClass::class, null, $builder)
         );
-    }
-
-    protected function reset(string $method = 'clean')
-    {
-        $proxy1 = Moka::brew(\stdClass::class);
-        Moka::$method();
-        $proxy2 = Moka::brew(\stdClass::class);
-
-        $this->assertNotSame($proxy1, $proxy2);
     }
 }

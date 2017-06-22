@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Strategy\Prophecy;
+namespace Tests\Plugin\Prophecy\Token;
 
-use Moka\Strategy\Prophecy\MaxPriorityToken;
+use Moka\Plugin\Prophecy\Token\MaxPriorityToken;
 
 class MaxPriorityTokenTest extends PriorityTokenTestCase
 {

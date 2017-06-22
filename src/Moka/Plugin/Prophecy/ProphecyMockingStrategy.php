@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace Moka\Strategy;
+namespace Moka\Plugin\Prophecy;
 
 use Moka\Exception\MockNotCreatedException;
-use Moka\Strategy\Prophecy\MaxPriorityToken;
+use Moka\Plugin\Prophecy\Token\MaxPriorityToken;
+use Moka\Strategy\AbstractMockingStrategy;
 use Moka\Stub\Stub;
-use Moka\Stub\StubSet;
 use Prophecy\Exception\Prophecy\ObjectProphecyException;
 use Prophecy\Prophecy\MethodProphecy;
 use Prophecy\Prophecy\ObjectProphecy;
@@ -43,22 +43,19 @@ class ProphecyMockingStrategy extends AbstractMockingStrategy
 
     /**
      * @param ObjectProphecy $mock
-     * @param StubSet $stubs
+     * @param Stub $stub
      * @return void
      */
-    protected function doDecorate($mock, StubSet $stubs)
+    protected function doDecorate($mock, Stub $stub)
     {
-        /** @var Stub $stub */
-        foreach ($stubs as $stub) {
-            $methodName = $stub->getMethodName();
-            $methodValue = $stub->getMethodValue();
+        $methodName = $stub->getMethodName();
+        $methodValue = $stub->getMethodValue();
 
-            /** @var MethodProphecy $partial */
-            $partial = $mock->$methodName(new MaxPriorityToken());
-            $methodValue instanceof \Throwable
-                ? $partial->willThrow($methodValue)
-                : $partial->willReturn($methodValue);
-        }
+        /** @var MethodProphecy $partial */
+        $partial = $mock->$methodName(new MaxPriorityToken());
+        $methodValue instanceof \Throwable
+            ? $partial->willThrow($methodValue)
+            : $partial->willReturn($methodValue);
     }
 
     /**

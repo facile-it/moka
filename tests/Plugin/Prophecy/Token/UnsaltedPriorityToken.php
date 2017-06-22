@@ -1,11 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Strategy\Prophecy;
+namespace Tests\Plugin\Prophecy\Token;
 
-use Moka\Strategy\Prophecy\AbstractPriorityToken;
-
-class UnsaltedPriorityToken extends AbstractPriorityToken
+class UnsaltedPriorityToken extends \Moka\Plugin\Prophecy\Token\AbstractPriorityToken
 {
     public function __construct()
     {

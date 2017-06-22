@@ -6,34 +6,60 @@ namespace Moka;
 use Moka\Exception\InvalidIdentifierException;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Exception\NotImplementedException;
+use Moka\Exception\PluginNotRegisteredException;
 use Moka\Factory\ProxyBuilderFactory;
+use Moka\Plugin\PHPUnit\PHPUnitMockingStrategy;
+use Moka\Plugin\PluginHelper;
+use Moka\Plugin\PluginInterface;
 use Moka\Proxy\Proxy;
-use Moka\Strategy\MockeryMockingStrategy;
 use Moka\Strategy\MockingStrategyInterface;
-use Moka\Strategy\PHPUnitMockingStrategy;
-use Moka\Strategy\ProphecyMockingStrategy;
 
 /**
  * Class Moka
  * @package Moka
  *
  * @method static Proxy mockery(string $fqcn, string $alias = null)
+ * @method static Proxy phake(string $fqcn, string $alias = null)
  * @method static Proxy phpunit(string $fqcn, string $alias = null)
  * @method static Proxy prophecy(string $fqcn, string $alias = null)
  */
 class Moka
 {
-    const MOCKING_STRATEGIES = [
-        'mockery' => MockeryMockingStrategy::class,
-        'phpunit' => PHPUnitMockingStrategy::class,
-        'prophecy' => ProphecyMockingStrategy::class
-    ];
+    /**
+     * @var array|MockingStrategyInterface[]
+     */
+    private static $mockingStrategies = [];
 
-    const MOCKING_STRATEGY_DEFAULT = PHPUnitMockingStrategy::class;
+    /**
+     * @param string $name
+     * @param array $arguments
+     * @return Proxy
+     *
+     * @throws NotImplementedException
+     * @throws InvalidIdentifierException
+     * @throws MockNotCreatedException
+     * @throws PluginNotRegisteredException
+     */
+    public static function __callStatic($name, $arguments)
+    {
+        if (!isset(self::$mockingStrategies[$name])) {
+            /** @var PluginInterface $pluginFQCN */
+            $pluginFQCN = PluginHelper::load($name);
+
+            self::$mockingStrategies[$name] = $pluginFQCN::getStrategy();
+        }
+
+        $mockFQCN = $arguments[0];
+        $alias = $arguments[1] ?? null;
+        $mockingStrategy = self::$mockingStrategies[$name];
+
+        return static::brew($mockFQCN, $alias, $mockingStrategy);
+    }
 
     /**
      * @param string $fqcn
      * @param string|null $alias
+     * @param MockingStrategyInterface|null $mockingStrategy
      * @return Proxy
      *
      * @throws MockNotCreatedException
@@ -42,36 +68,10 @@ class Moka
     public static function brew(string $fqcn, string $alias = null, MockingStrategyInterface $mockingStrategy = null): Proxy
     {
         if (!$mockingStrategy instanceof MockingStrategyInterface) {
-            $defaultMockingStrategy = static::MOCKING_STRATEGY_DEFAULT;
-            $mockingStrategy = new $defaultMockingStrategy();
+            $mockingStrategy = new PHPUnitMockingStrategy();
         }
 
         return ProxyBuilderFactory::get($mockingStrategy)->getProxy($fqcn, $alias);
-    }
-
-    /**
-     * @param string $name
-     * @param array $arguments
-     * @return Proxy
-     *
-     * @throws NotImplementedException
-     */
-    public static function __callStatic($name, $arguments)
-    {
-        if (!isset(static::MOCKING_STRATEGIES[$name])) {
-            throw new NotImplementedException(
-                sprintf(
-                    'Mocking strategy "%s" does not exist',
-                    $name
-                )
-            );
-        }
-
-        $fqcn = $arguments[0];
-        $alias = $arguments[1] ?? null;
-        $mockingStrategy = static::MOCKING_STRATEGIES[$name];
-
-        return static::brew($fqcn, $alias, new $mockingStrategy());
     }
 
     /**
@@ -80,20 +80,5 @@ class Moka
     public static function clean()
     {
         ProxyBuilderFactory::reset();
-    }
-
-    /**
-     * @param string $fqcn
-     * @param string|null $alias
-     * @return Proxy
-     *
-     * @throws MockNotCreatedException
-     * @throws InvalidIdentifierException
-     *
-     * @deprecated since 0.3.0
-     */
-    public static function get(string $fqcn, string $alias = null): Proxy
-    {
-        return static::brew($fqcn, $alias);
     }
 }

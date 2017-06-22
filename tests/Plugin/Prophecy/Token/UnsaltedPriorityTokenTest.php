@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Strategy\Prophecy;
+namespace Tests\Plugin\Prophecy\Token;
 
 use PHPUnit\Framework\TestCase;
 

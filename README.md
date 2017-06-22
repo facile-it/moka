@@ -159,12 +159,14 @@ Currently we support these generators:
 - [PHPUnit](https://phpunit.de/manual/current/en/test-doubles.html)
 - [Prophecy](https://github.com/phpspec/prophecy)
 - [Mockery](http://docs.mockery.io/en/latest/)
+- [Phake](http://phake.readthedocs.io/)
 
 We provide a specific trait for each supported strategy, as well as a static method:
 
 - `MokaPHPUnitTrait` -> `Moka::phpunit(string $fqcn, string $alias = null): Proxy`
 - `MokaProphecyTrait` -> `Moka::prophecy(string $fqcn, string $alias = null): Proxy`
 - `MokaMockeryTrait` -> `Moka::mockery(string $fqcn, string $alias = null): Proxy`
+- `MokaPhakeTrait` -> `Moka::phake(string $fqcn, string $alias = null): Proxy`
 
 Every trait defines its own `mock(string $fqcn, string $alias = null): Proxy`, as described in the **Reference**. If you're not willing to choose a strategy and just sticking with `MokaTrait` or `Moka::brew(/* ... */)`, we're currently defaulting to **PHPUnit**.
 <!---

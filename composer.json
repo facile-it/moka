@@ -11,7 +11,8 @@
     "mocking-library",
     "phpunit",
     "prophecy",
-    "mockery"
+    "mockery",
+    "phake"
   ],
   "homepage": "http://github.com/facile-it/moka",
   "authors": [
@@ -29,8 +30,9 @@
       "Moka\\": "src/Moka/"
     },
     "files": [
-      "src/Moka/Plugin/PHPUnit/PHPUnitPlugin.php",
       "src/Moka/Plugin/Mockery/MockeryPlugin.php",
+      "src/Moka/Plugin/Mockery/PhakePlugin.php",
+      "src/Moka/Plugin/PHPUnit/PHPUnitPlugin.php",
       "src/Moka/Plugin/Prophecy/ProphecyPlugin.php"
     ]
   },

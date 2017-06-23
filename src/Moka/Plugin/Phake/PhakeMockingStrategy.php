@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Moka\Plugin\Phake;
 
+use Moka\Exception\MissingDependencyException;
 use Moka\Plugin\Phake\Matcher\FirstStubMatcher;
 use Moka\Strategy\AbstractMockingStrategy;
 use Moka\Stub\Stub;
@@ -16,11 +17,15 @@ use Phake_Proxies_AnswerBinderProxy as AnswerBinderProxy;
  */
 class PhakeMockingStrategy extends AbstractMockingStrategy
 {
+    const PACKAGE_NAME = 'phake/phake';
     /**
      * PhakeMockingStrategy constructor.
+     *
+     * @throws MissingDependencyException
      */
     public function __construct()
     {
+        self::checkDependencies(Phake::class, self::PACKAGE_NAME);
         $this->setMockType(PhakeMock::class);
     }
 

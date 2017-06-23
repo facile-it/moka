@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Moka\Plugin\PHPUnit;
 
+use Moka\Exception\PluginNotRegisteredException;
 use Moka\Plugin\PluginInterface;
 use Moka\Strategy\MockingStrategyInterface;
 
@@ -12,6 +13,11 @@ use Moka\Strategy\MockingStrategyInterface;
  */
 class PHPUnitPlugin implements PluginInterface
 {
+    public static function check()
+    {
+        // TODO: Implement check() method.
+    }
+
     /**
      * @return MockingStrategyInterface
      */

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Moka\Plugin\PHPUnit;
 
+use Moka\Exception\MissingDependencyException;
 use Moka\Strategy\AbstractMockingStrategy;
 use Moka\Stub\Stub;
 use PHPUnit_Framework_MockObject_Generator as MockGenerator;
@@ -15,6 +16,8 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
  */
 class PHPUnitMockingStrategy extends AbstractMockingStrategy
 {
+    const PACKAGE_NAME = 'phpunit/phpunit-mock-object';
+
     /**
      * @var MockGenerator
      */
@@ -22,9 +25,12 @@ class PHPUnitMockingStrategy extends AbstractMockingStrategy
 
     /**
      * PHPUnitMockingStrategy constructor.
+     *
+     * @throws MissingDependencyException
      */
     public function __construct()
     {
+        self::checkDependencies(MockGenerator::class, self::PACKAGE_NAME);
         $this->generator = new MockGenerator();
         $this->setMockType(MockObject::class);
     }

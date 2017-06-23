@@ -44,17 +44,20 @@
   "require": {
     "php": ">=7.0",
     "phpcollection/phpcollection": "^0.5.0",
-    "phpspec/prophecy": "^1.6",
     "psr/container": "^1.0",
-    "mockery/mockery": "^0.9.9",
-    "phpunit/phpunit-mock-objects": "^3.4",
-    "phake/phake": "^2.3"
+    "phpunit/phpunit-mock-objects": "^3.4"
   },
   "require-dev": {
     "facile-it/facile-coding-standard": "dev-master",
-    "phpunit/phpunit": "^5.6"
+    "phpunit/phpunit": "^5.6",
+    "phpspec/prophecy": "^1.6",
+    "mockery/mockery": "^0.9.9",
+    "phake/phake": "^2.3"
   },
   "suggest": {
-    "facile-it/paraunit": "Provides a faster execution of tests"
+    "phake/phake": "To allow load of PhakePlugin.",
+    "phpspec/prophecy": "To allow load of PhrophecyPlugin.",
+    "mockery/mockery": "To allow load of MockeryPlugin.",
+    "facile-it/paraunit": "For parallel test running; it's faster!"
   }
 }

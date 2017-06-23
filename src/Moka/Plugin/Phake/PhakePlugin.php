@@ -13,7 +13,6 @@ use Moka\Strategy\MockingStrategyInterface;
  */
 class PhakePlugin implements PluginInterface
 {
-
     /**
      * @return MockingStrategyInterface
      *

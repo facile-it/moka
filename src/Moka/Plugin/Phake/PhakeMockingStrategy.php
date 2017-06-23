@@ -17,7 +17,9 @@ use Phake_Proxies_AnswerBinderProxy as AnswerBinderProxy;
  */
 class PhakeMockingStrategy extends AbstractMockingStrategy
 {
+    const CLASS_NAME = Phake::class;
     const PACKAGE_NAME = 'phake/phake';
+
     /**
      * PhakeMockingStrategy constructor.
      *
@@ -25,7 +27,8 @@ class PhakeMockingStrategy extends AbstractMockingStrategy
      */
     public function __construct()
     {
-        self::checkDependencies(Phake::class, self::PACKAGE_NAME);
+        self::checkDependencies(self::CLASS_NAME, self::PACKAGE_NAME);
+
         $this->setMockType(PhakeMock::class);
     }
 

@@ -40,6 +40,7 @@ final class PluginHelper
                 )
             );
         }
+
         /** @var PluginInterface $pluginFQCN */
         return $pluginFQCN::getStrategy();
     }

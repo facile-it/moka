@@ -15,6 +15,7 @@ use Moka\Stub\Stub;
  */
 class MockeryMockingStrategy extends AbstractMockingStrategy
 {
+    const CLASS_NAME = Mockery::class;
     const PACKAGE_NAME = 'mockery/mockery';
 
     /**
@@ -24,7 +25,8 @@ class MockeryMockingStrategy extends AbstractMockingStrategy
      */
     public function __construct()
     {
-        self::checkDependencies(Mockery::class, self::PACKAGE_NAME);
+        self::checkDependencies(self::CLASS_NAME, self::PACKAGE_NAME);
+
         $this->setMockType(MockInterface::class);
     }
 

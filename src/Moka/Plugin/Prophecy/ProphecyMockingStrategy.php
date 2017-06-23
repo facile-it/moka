@@ -19,7 +19,9 @@ use Prophecy\Prophet;
  */
 class ProphecyMockingStrategy extends AbstractMockingStrategy
 {
+    const CLASS_NAME = Prophet::class;
     const PACKAGE_NAME = 'phpspec/prophecy';
+
     /**
      * @var Prophet
      */
@@ -32,7 +34,8 @@ class ProphecyMockingStrategy extends AbstractMockingStrategy
      */
     public function __construct()
     {
-        self::checkDependencies(Prophet::class, self::PACKAGE_NAME);
+        self::checkDependencies(self::CLASS_NAME, self::PACKAGE_NAME);
+
         $this->prophet = new Prophet();
         $this->setMockType(ObjectProphecy::class);
     }

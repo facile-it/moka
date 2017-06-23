@@ -24,14 +24,15 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
     /**
      * @param $dependencyClassName
      * @param $dependencyPackageName
+     *
      * @throws MissingDependencyException
      */
-    final protected static function checkDependencies($dependencyClassName, $dependencyPackageName)
+    final protected static function checkDependencies(string $dependencyClassName, string $dependencyPackageName)
     {
         if (!class_exists($dependencyClassName)) {
             throw new MissingDependencyException(
                 sprintf(
-                    'Class %s does not exists. Please check that the package "%s" is installed',
+                    'Class "%s" does not exist, please install package "%s"',
                     $dependencyClassName,
                     $dependencyPackageName
                 )
@@ -61,12 +62,6 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
     }
 
     /**
-     * @param string $fqcn
-     * @return object
-     */
-    abstract protected function doBuild(string $fqcn);
-
-    /**
      * @param object $mock
      * @param StubSet $stubs
      * @return void
@@ -82,6 +77,40 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
         foreach ($stubs as $stub) {
             $this->doDecorate($mock, $stub);
         }
+    }
+
+    /**
+     * @param object $mock
+     * @return object
+     *
+     * @throws NotImplementedException
+     * @throws InvalidArgumentException
+     */
+    public function get($mock)
+    {
+        $this->checkMockType($mock);
+
+        return $this->doGet($mock);
+    }
+
+    /**
+     * @return string
+     *
+     * @throws NotImplementedException
+     */
+    public function getMockType(): string
+    {
+        $this->verifyMockType();
+
+        return $this->mockType;
+    }
+
+    /**
+     * @param string $fqcn
+     */
+    final protected function setMockType(string $fqcn)
+    {
+        $this->mockType = $fqcn;
     }
 
     /**
@@ -106,16 +135,10 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
     }
 
     /**
-     * @return void
-     *
-     * @throws NotImplementedException
+     * @param string $fqcn
+     * @return object
      */
-    private function verifyMockType()
-    {
-        if (!$this->mockType) {
-            throw new NotImplementedException('Mock type was not defined');
-        }
-    }
+    abstract protected function doBuild(string $fqcn);
 
     /**
      * @param object $mock
@@ -127,40 +150,18 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
     /**
      * @param object $mock
      * @return object
-     *
-     * @throws NotImplementedException
-     * @throws InvalidArgumentException
-     */
-    public function get($mock)
-    {
-        $this->checkMockType($mock);
-
-        return $this->doGet($mock);
-    }
-
-    /**
-     * @param object $mock
-     * @return object
      */
     abstract protected function doGet($mock);
 
     /**
-     * @return string
+     * @return void
      *
      * @throws NotImplementedException
      */
-    public function getMockType(): string
+    private function verifyMockType()
     {
-        $this->verifyMockType();
-
-        return $this->mockType;
-    }
-
-    /**
-     * @param string $fqcn
-     */
-    final protected function setMockType(string $fqcn)
-    {
-        $this->mockType = $fqcn;
+        if (!$this->mockType) {
+            throw new NotImplementedException('Mock type was not defined');
+        }
     }
 }

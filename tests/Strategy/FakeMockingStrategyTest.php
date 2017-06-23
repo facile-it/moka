@@ -9,7 +9,7 @@ use Tests\Strategy\FakeMockingStrategy;
 
 class FakeMockingStrategyTest extends TestCase
 {
-    public function testConstruction()
+    public function testConstructFailure()
     {
         $this->expectException(MissingDependencyException::class);
 

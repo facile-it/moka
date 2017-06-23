@@ -170,66 +170,60 @@ We provide a specific trait for each supported strategy, as well as a static met
 
 Every trait defines its own `mock(string $fqcn, string $alias = null): Proxy`, as described in the **[Reference](#reference)**.
 
-## Write your plugin
+## Plugin development
 
-If you feel a genius and you want to implement a custom mock generators you can simply define a Plugin class that must implement the `Moka\Plugin\PluginInterface` and the relative instance of `Moka\Moka\MockingStrategyInterface`. For example:
+If you feel a genius and want to create your own mock generator (or add support for an existing one), just implement `Moka\Plugin\PluginInterface` and the relative `Moka\Strategy\MockingStrategyInterface`:
 
 ```php
 <?php
 
-namespace Custom\Moka\Plugin;
+namespace Moka\Plugin\YourOwn;
 
 use Moka\Plugin\PluginInterface;
 use Moka\Strategy\MockingStrategyInterface;
-use Moka\Strategy\CustomMockingStrategyInterface;
 
-class CustomPlugin implements PluginInterface {
-    
+class YourOwnPlugin implements PluginInterface
+{
     public static function getStrategy(): MockingStrategyInterface 
     {
-       return new CustomMockingStrategyInterface();
+       return new YourOwnMockingStrategy();
     }
-    
 }
 ```
 
-And the strategy implementation:
+Extend `AbstractMockingStrategy` for an easier (and stricter) implementation of your strategy:
 
 ```php
 <?php
 
-namespace Custom\Moka\Strategy;
+namespace Moka\Plugin\YourOwn;
 
-use Moka\Strategy\MockingStrategyInterface;
-use Moka\Stub\StubSet;
+use Moka\Strategy\AbstractMockingStrategy;
+use Moka\Stub\Stub;
 
-class CustomMockingStrategyInterface implements MockingStrategyInterface 
+class YourOwnMockingStrategy extends AbstractMockingStrategy
 {
-    public function build(string $fqcn) 
-    {
-        // TODO: Implement build() method.
+    public function __construct() {
+        // TODO: Implement __construct() method.
     }
     
-    public function decorate($mock, StubSet $stubs) 
-    {
-        // TODO: Implement decorate() method.
+    protected function doBuild(string $fqcn) {
+        // TODO: Implement doBuild() method.
     }
     
-    public function get($mock) 
-    {
-        // TODO: Implement get() method.
+    protected function doDecorate($mock, Stub $stub) {
+        // TODO: Implement doDecorate() method.
     }
     
-    public function getMockType(): string 
-    {
-        // TODO: Implement getMockType() method.
+    protected function doGet($mock) {
+        // TODO: Implement doGet() method.
     }
-    
 }
 ```
 
-**WARNING:** You must put your plugin class under the FQCN styled `Moka\Plugin\Custom\CustomPlugin` where `Custom` identify your plugin name.
+**Warning:** your plugin *FQCN* must match the template `Moka\Plugin\YourOwn\YourOwnPlugin`, where `YourOwn` is the name of the plugin.
 
+Let [us](#credits) know of any **Moka**-related development!
 <!---
 ## Changelog
 

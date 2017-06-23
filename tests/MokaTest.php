@@ -48,9 +48,9 @@ class MokaTest extends TestCase
 
     public function testClean()
     {
-        $proxy1 = Moka::brew(\stdClass::class);
+        $proxy1 = Moka::phpunit(\stdClass::class);
         Moka::clean();
-        $proxy2 = Moka::brew(\stdClass::class);
+        $proxy2 = Moka::phpunit(\stdClass::class);
 
         $this->assertNotSame($proxy1, $proxy2);
     }
@@ -59,7 +59,7 @@ class MokaTest extends TestCase
     {
         $this->assertInstanceOf(
             Proxy::class,
-            Moka::brew(\stdClass::class, null, $builder)
+            Moka::phpunit(\stdClass::class, null, $builder)
         );
     }
 }

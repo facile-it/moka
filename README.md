@@ -168,6 +168,67 @@ We provide a specific trait for each supported strategy, as well as a static met
 - `MokaPhakeTrait`
 
 Every trait defines its own `mock(string $fqcn, string $alias = null): Proxy`, as described in the **[Reference](#reference)**.
+
+## Write your plugin
+
+If you feel a genius and you want to implement a custom mock generators you can simply define a Plugin class that must implement the `Moka\Plugin\PluginInterface` and the relative instance of `Moka\Moka\MockingStrategyInterface`. For example:
+
+```php
+<?php
+
+namespace Custom\Moka\Plugin;
+
+use Moka\Plugin\PluginInterface;
+use Moka\Strategy\MockingStrategyInterface;
+use Moka\Strategy\CustomMockingStrategyInterface;
+
+class CustomPlugin implements PluginInterface {
+    
+    public static function getStrategy(): MockingStrategyInterface 
+    {
+       return new CustomMockingStrategyInterface();
+    }
+    
+}
+```
+
+And the strategy implementation:
+
+```php
+<?php
+
+namespace Custom\Moka\Strategy;
+
+use Moka\Strategy\MockingStrategyInterface;
+use Moka\Stub\StubSet;
+
+class CustomMockingStrategyInterface implements MockingStrategyInterface 
+{
+    public function build(string $fqcn) 
+    {
+        // TODO: Implement build() method.
+    }
+    
+    public function decorate($mock, StubSet $stubs) 
+    {
+        // TODO: Implement decorate() method.
+    }
+    
+    public function get($mock) 
+    {
+        // TODO: Implement get() method.
+    }
+    
+    public function getMockType(): string 
+    {
+        // TODO: Implement getMockType() method.
+    }
+    
+}
+```
+
+**WARNING:** You must put your plugin class under the FQCN styled `Moka\Plugin\Custom\CustomPlugin` where `Custom` identify your plugin name.
+
 <!---
 ## Changelog
 

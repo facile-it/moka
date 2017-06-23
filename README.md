@@ -20,7 +20,7 @@ composer require --dev facile-it/moka
 
 ## Usage
 
-To use **Moka** in your tests simply `use` the `MokaTrait` and run `Moka::clean()` before every test. A simple interface will let you create *mock* objects, *serve* them easily, and decorate them with *stub* methods with a fluent interface.
+To use **Moka** in your tests simply `use` the `MokaPHPUnitTrait` (see generators section [below](#strategies)) and run `Moka::clean()` before every test. A simple interface will let you create *mock* objects, *serve* them easily, and decorate them with *stub* methods with a fluent interface.
 
 A complete example follows:
 
@@ -30,11 +30,11 @@ A complete example follows:
 namespace Foo\Tests;
 
 use Moka\Moka;
-use Moka\Traits\MokaTrait;
+use Moka\Traits\MokaPHPUnitTrait;
 
 class FooTest extends \AnyTestCase
 {
-    use MokaTrait;
+    use MokaPHPUnitTrait;
     
     private $foo;
     
@@ -56,7 +56,7 @@ class FooTest extends \AnyTestCase
 }
 ```
 
-Alternatively, instead of using the trait and `$this->mock(/* ... */)`, you can call `Moka::brew(string $fqcn, string $alias = null): Proxy`.
+Alternatively, instead of using the trait and `$this->mock(/* ... */)`, you can call `Moka::phpunit(string $fqcn, string $alias = null): Proxy`.
 
 Being such a simple project, **Moka** can be integrated in an already existing test suite with no effort.
 
@@ -69,12 +69,12 @@ Being such a simple project, **Moka** can be integrated in an already existing t
 namespace Foo\Tests;
 
 use Moka\Traits\MokaCleanerTrait;
-use Moka\Traits\MokaTrait;
+use Moka\Traits\MokaPHPUnitTrait;
 use PHPUnit\Framework\TestCase;
 
 class FooTest extends TestCase
 {
-    use MokaTrait, MokaCleanerTrait;
+    use MokaPHPUnitTrait, MokaCleanerTrait;
     
     public function setUp()
     {
@@ -87,7 +87,7 @@ class FooTest extends TestCase
 }
 ```
 
-## Reference
+## <a name="reference"></a>Reference
 
 ### `mock(string $fqcn, string $alias = null): Proxy`
 
@@ -152,23 +152,22 @@ var_dump($this->mock(BarInterface::class)->serve()->isValid());
 // throws \Exception
 ```
 
-## Supported mock object generators
+## <a name="strategies"></a>Supported mock object generators
 
-Currently we support these generators:
-
-- [PHPUnit](https://phpunit.de/manual/current/en/test-doubles.html)
-- [Prophecy](https://github.com/phpspec/prophecy)
-- [Mockery](http://docs.mockery.io/en/latest/)
-- [Phake](http://phake.readthedocs.io/)
+Currently we ship **Moka** with built-in support for [PHPUnit](https://phpunit.de/manual/current/en/test-doubles.html) mock objects.  
+We support other generators as well, but you need to install the relevant package:
+- [Prophecy](https://github.com/phpspec/prophecy) -> [phpspec/prophecy](http://packagist.io/phpspec/prophecy) 
+- [Mockery](http://docs.mockery.io/en/latest/) -> [mockery/mockery](http://packagist.io/mockery/mockery)
+- [Phake](http://phake.readthedocs.io/) -> [phake/phake](http://packagist.io/phake/phake)
 
 We provide a specific trait for each supported strategy, as well as a static method:
 
-- `MokaPHPUnitTrait` -> `Moka::phpunit(string $fqcn, string $alias = null): Proxy`
-- `MokaProphecyTrait` -> `Moka::prophecy(string $fqcn, string $alias = null): Proxy`
-- `MokaMockeryTrait` -> `Moka::mockery(string $fqcn, string $alias = null): Proxy`
-- `MokaPhakeTrait` -> `Moka::phake(string $fqcn, string $alias = null): Proxy`
+- `MokaPHPUnitTrait`
+- `MokaProphecyTrait`
+- `MokaMockeryTrait`
+- `MokaPhakeTrait`
 
-Every trait defines its own `mock(string $fqcn, string $alias = null): Proxy`, as described in the **Reference**. If you're not willing to choose a strategy and just sticking with `MokaTrait` or `Moka::brew(/* ... */)`, we're currently defaulting to **PHPUnit**.
+Every trait defines its own `mock(string $fqcn, string $alias = null): Proxy`, as described in the **[Reference](#reference)**.
 <!---
 ## Changelog
 

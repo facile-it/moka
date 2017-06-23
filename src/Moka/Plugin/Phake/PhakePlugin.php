@@ -22,6 +22,5 @@ class PhakePlugin implements PluginInterface
     public static function getStrategy(): MockingStrategyInterface
     {
         return new PhakeMockingStrategy();
-
     }
 }

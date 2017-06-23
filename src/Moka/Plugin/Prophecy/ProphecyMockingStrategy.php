@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Moka\Plugin\Prophecy;
 
+use Moka\Exception\MissingDependencyException;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Plugin\Prophecy\Token\MaxPriorityToken;
 use Moka\Strategy\AbstractMockingStrategy;
@@ -18,6 +19,7 @@ use Prophecy\Prophet;
  */
 class ProphecyMockingStrategy extends AbstractMockingStrategy
 {
+    const PACKAGE_NAME = 'phpspec/prophecy';
     /**
      * @var Prophet
      */
@@ -25,9 +27,12 @@ class ProphecyMockingStrategy extends AbstractMockingStrategy
 
     /**
      * PHPUnitMockingStrategy constructor.
+     *
+     * @throws MissingDependencyException
      */
     public function __construct()
     {
+        self::checkDependencies(Prophet::class, self::PACKAGE_NAME);
         $this->prophet = new Prophet();
         $this->setMockType(ObjectProphecy::class);
     }

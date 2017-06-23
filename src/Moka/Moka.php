@@ -4,13 +4,13 @@ declare(strict_types=1);
 namespace Moka;
 
 use Moka\Exception\InvalidIdentifierException;
+use Moka\Exception\MissingDependencyException;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Exception\NotImplementedException;
 use Moka\Exception\PluginNotRegisteredException;
 use Moka\Factory\ProxyBuilderFactory;
 use Moka\Plugin\PHPUnit\PHPUnitMockingStrategy;
 use Moka\Plugin\PluginHelper;
-use Moka\Plugin\PluginInterface;
 use Moka\Proxy\Proxy;
 use Moka\Strategy\MockingStrategyInterface;
 
@@ -39,14 +39,12 @@ class Moka
      * @throws InvalidIdentifierException
      * @throws MockNotCreatedException
      * @throws PluginNotRegisteredException
+     * @throws MissingDependencyException
      */
-    public static function __callStatic($name, $arguments)
+    public static function __callStatic(string $name, array $arguments)
     {
         if (!isset(self::$mockingStrategies[$name])) {
-            /** @var PluginInterface $pluginFQCN */
-            $pluginFQCN = PluginHelper::load($name);
-
-            self::$mockingStrategies[$name] = $pluginFQCN::getStrategy();
+            self::$mockingStrategies[$name] = PluginHelper::load($name);
         }
 
         $mockFQCN = $arguments[0];

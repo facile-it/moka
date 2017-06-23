@@ -60,7 +60,7 @@ Alternatively, instead of using the trait and `$this->mock(/* ... */)`, you can 
 
 Being such a simple project, **Moka** can be integrated in an already existing test suite with no effort.
 
-**Notice:** If you are extending PHPUnit `TestCase`, to simplify the cleaning phase we provide a `MokaCleanerTrait` which automatically runs `Moka::clean()` in `tearDown()`.
+**Notice:** if you are extending PHPUnit `TestCase`, to simplify the cleaning phase we provide a `MokaCleanerTrait` which automatically runs `Moka::clean()` in `tearDown()`.
 **Warning:** if you are defining your own `tearDown()`, you cannot use the trait!
 
 ```php
@@ -87,7 +87,7 @@ class FooTest extends TestCase
 }
 ```
 
-## <a name="reference"></a>Reference
+## <a name='reference'></a>Reference
 
 ### `mock(string $fqcn, string $alias = null): Proxy`
 
@@ -152,15 +152,16 @@ var_dump($this->mock(BarInterface::class)->serve()->isValid());
 // throws \Exception
 ```
 
-## <a name="strategies"></a>Supported mock object generators
+## <a name='strategies'></a>Supported mock object generators
 
 Currently we ship **Moka** with built-in support for [PHPUnit](https://phpunit.de/manual/current/en/test-doubles.html) mock objects.  
-We support other generators as well, but you need to install the relevant package:
-- [Prophecy](https://github.com/phpspec/prophecy) -> [phpspec/prophecy](http://packagist.io/phpspec/prophecy) 
-- [Mockery](http://docs.mockery.io/en/latest/) -> [mockery/mockery](http://packagist.io/mockery/mockery)
-- [Phake](http://phake.readthedocs.io/) -> [phake/phake](http://packagist.io/phake/phake)
+We support other generators as well, but you need to install the relevant packages to make them work:
 
-We provide a specific trait for each supported strategy, as well as a static method:
+- [Prophecy](https://github.com/phpspec/prophecy) -> [phpspec/prophecy](http://packagist.io/packages/phpspec/prophecy)
+- [Mockery](http://docs.mockery.io/en/latest/) -> [mockery/mockery](http://packagist.io/mo/packages/ckery/mockery)
+- [Phake](http://phake.readthedocs.io/) -> [phake/phake](http://packagist.io/packages/phake/phake)
+
+We provide a specific trait for each supported strategy, as well as a static method (self documented in the traits themself):
 
 - `MokaPHPUnitTrait`
 - `MokaProphecyTrait`
@@ -248,7 +249,7 @@ paraunit run
 
 Please see [CONTRIBUTING](/CONTRIBUTING.md) for details.
 -->
-## Credits
+## <a name='credits'></a>Credits
 
 - [Angelo Giuffredi](https://github.com/giuffre)
 - [Alberto Villa](https://github.com/xzhavilla)

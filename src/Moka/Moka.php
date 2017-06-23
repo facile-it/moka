@@ -9,7 +9,6 @@ use Moka\Exception\MockNotCreatedException;
 use Moka\Exception\NotImplementedException;
 use Moka\Exception\PluginNotRegisteredException;
 use Moka\Factory\ProxyBuilderFactory;
-use Moka\Plugin\PHPUnit\PHPUnitMockingStrategy;
 use Moka\Plugin\PluginHelper;
 use Moka\Proxy\Proxy;
 use Moka\Strategy\MockingStrategyInterface;
@@ -51,7 +50,7 @@ class Moka
         $alias = $arguments[1] ?? null;
         $mockingStrategy = self::$mockingStrategies[$name];
 
-        return static::brew($mockFQCN, $alias, $mockingStrategy);
+        return ProxyBuilderFactory::get($mockingStrategy)->getProxy($mockFQCN, $alias);
     }
 
     /**
@@ -60,16 +59,17 @@ class Moka
      * @param MockingStrategyInterface|null $mockingStrategy
      * @return Proxy
      *
-     * @throws MockNotCreatedException
+     * @throws NotImplementedException
      * @throws InvalidIdentifierException
+     * @throws MockNotCreatedException
+     * @throws PluginNotRegisteredException
+     * @throws MissingDependencyException
+     *
+     * @deprecated since 1.2.0
      */
     public static function brew(string $fqcn, string $alias = null, MockingStrategyInterface $mockingStrategy = null): Proxy
     {
-        if (!$mockingStrategy instanceof MockingStrategyInterface) {
-            $mockingStrategy = new PHPUnitMockingStrategy();
-        }
-
-        return ProxyBuilderFactory::get($mockingStrategy)->getProxy($fqcn, $alias);
+        return self::phpunit($fqcn, $alias);
     }
 
     /**

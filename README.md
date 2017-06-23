@@ -161,7 +161,7 @@ We support other generators as well, but you need to install the relevant packag
 - [Mockery](http://docs.mockery.io/en/latest/) -> [mockery/mockery](http://packagist.io/mo/packages/ckery/mockery)
 - [Phake](http://phake.readthedocs.io/) -> [phake/phake](http://packagist.io/packages/phake/phake)
 
-We provide a specific trait for each supported strategy, as well as a static method (self documented in the traits themself):
+We provide a specific trait for each supported strategy, as well as a static method (self documented in the trait itself):
 
 - `MokaPHPUnitTrait`
 - `MokaProphecyTrait`

@@ -26,7 +26,6 @@ class Stub
         $this->methodValue = $methodValue;
     }
 
-
     /**
      * @return string
      */

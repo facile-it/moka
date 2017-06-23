@@ -7,7 +7,6 @@ use Moka\Exception\InvalidIdentifierException;
 use Moka\Exception\MissingDependencyException;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Exception\NotImplementedException;
-use Moka\Exception\PluginNotRegisteredException;
 use Moka\Factory\ProxyBuilderFactory;
 use Moka\Plugin\PluginHelper;
 use Moka\Proxy\Proxy;
@@ -37,7 +36,6 @@ class Moka
      * @throws NotImplementedException
      * @throws InvalidIdentifierException
      * @throws MockNotCreatedException
-     * @throws PluginNotRegisteredException
      * @throws MissingDependencyException
      */
     public static function __callStatic(string $name, array $arguments)
@@ -62,7 +60,6 @@ class Moka
      * @throws NotImplementedException
      * @throws InvalidIdentifierException
      * @throws MockNotCreatedException
-     * @throws PluginNotRegisteredException
      * @throws MissingDependencyException
      *
      * @deprecated since 1.2.0

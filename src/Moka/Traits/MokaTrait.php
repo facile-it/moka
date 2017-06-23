@@ -21,9 +21,6 @@ trait MokaTrait
      * @param string|null $alias
      * @return Proxy
      *
-     * @throws MockNotCreatedException
-     * @throws InvalidIdentifierException
-     *
      * @deprecated since v1.2.0
      */
     protected function mock(string $fqcn, string $alias = null): Proxy

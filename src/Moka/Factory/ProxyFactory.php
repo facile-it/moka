@@ -12,7 +12,6 @@ use Moka\Strategy\MockingStrategyInterface;
  */
 class ProxyFactory
 {
-
     /**
      * @param string $fqcn
      * @param MockingStrategyInterface $mockingStrategy

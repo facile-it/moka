@@ -49,6 +49,9 @@ class ProxyBuilderFactory
         return new ProxyBuilder($mockingStrategy);
     }
 
+    /**
+     * @return void
+     */
     public static function reset()
     {
         foreach (self::$mockBuilders as $mockBuilder) {

@@ -19,7 +19,7 @@ abstract class MokaPluginTestCase extends TestCase
         $this->assertInstanceOf(MockingStrategyInterface::class, ($this->pluginFQCN)::getStrategy());
     }
 
-    final protected function setPluginFQCN(string $pluginFQCN): void
+    final protected function setPluginFQCN(string $pluginFQCN)
     {
         $this->pluginFQCN = $pluginFQCN;
     }

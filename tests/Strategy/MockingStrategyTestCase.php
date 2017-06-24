@@ -9,6 +9,7 @@ use Moka\Strategy\MockingStrategyInterface;
 use Moka\Stub\StubSet;
 use PHPUnit\Framework\TestCase;
 use Tests\AbstractTestClass;
+use Tests\BarTestClass;
 use Tests\FooTestClass;
 use Tests\TestInterface;
 
@@ -29,127 +30,146 @@ abstract class MockingStrategyTestCase extends TestCase
      */
     protected $stubs;
 
+    /**
+     * @var string
+     */
+    private $className;
+
+    /**
+     * @var array
+     */
+    private $methodsWithValues = [];
+
     public function setUp()
     {
-        $this->mock = $this->strategy->build(FooTestClass::class);
+        $this->className = [
+            FooTestClass::class,
+            BarTestClass::class
+        ][random_int(0, 1)];
+
+        $this->methodsWithValues = [
+            'isTrue' => !!random_int(0, 1),
+            'getInt' => mt_rand(),
+            'withArgument' => mt_rand(),
+            'throwException' => new \Exception('' . mt_rand())
+        ];
+
+        $this->mock = $this->strategy->build($this->className);
 
         // Mocking a StubSet is way too difficult.
-        $this->stubs = StubFactory::fromArray([
-            'isTrue' => false,
-            'getInt' => 3,
-            'withArgument' => 7,
-            'throwException' => new \Exception()
-        ]);
+        $this->stubs = StubFactory::fromArray($this->methodsWithValues);
 
         $this->strategy->decorate($this->mock, $this->stubs);
     }
 
-    public function testBuildClassSuccess()
+    final public function testGetMockTypeSuccess()
+    {
+        $this->assertInternalType('string', $this->strategy->getMockType());
+    }
+
+    final public function testBuildClassSuccess()
     {
         $this->assertInstanceOf($this->strategy->getMockType(), $this->mock);
     }
 
-    public function testBuildInterfaceSuccess()
+    final public function testBuildInterfaceSuccess()
     {
         $mock = $this->strategy->build(TestInterface::class);
 
         $this->assertInstanceOf($this->strategy->getMockType(), $mock);
     }
 
-    public function testBuildAbstractClassSuccess()
+    final public function testBuildAbstractClassSuccess()
     {
         $mock = $this->strategy->build(AbstractTestClass::class);
 
         $this->assertInstanceOf($this->strategy->getMockType(), $mock);
     }
 
-    public function testDecorateFailure()
+    final public function testDecorateFailure()
     {
         $this->expectException(InvalidArgumentException::class);
 
         $this->strategy->decorate(new \stdClass(), $this->stubs);
     }
 
-    public function testDecorateWrongTypeHintFailure()
+    final public function testDecorateWrongTypeHintFailure()
     {
         $this->strategy->decorate($this->mock, StubFactory::fromArray([
-            'getSelf' => 3
+            'getSelf' => mt_rand()
         ]));
 
         $this->expectException(\TypeError::class);
         $this->strategy->get($this->mock)->getSelf();
     }
 
-    public function testDecorateOverrideFailure()
+    final public function testDecorateSingleCallSuccess()
+    {
+        $this->assertSame($this->methodsWithValues['isTrue'], $this->strategy->get($this->mock)->isTrue());
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage($this->methodsWithValues['throwException']->getMessage());
+        $this->strategy->get($this->mock)->throwException();
+    }
+
+    final public function testDecorateMultipleCallsSuccess()
+    {
+        $this->assertSame($this->methodsWithValues['getInt'], $this->strategy->get($this->mock)->getInt());
+        $this->assertSame($this->methodsWithValues['getInt'], $this->strategy->get($this->mock)->getInt());
+    }
+
+    final public function testDecorateOverriddenCallsFailure()
     {
         $this->strategy->decorate($this->mock, StubFactory::fromArray([
-            'getInt' => 7,
-            'throwException' => 1138
+            'getInt' => mt_rand(),
+            'throwException' => mt_rand()
         ]));
 
-        $this->assertSame(3, $this->strategy->get($this->mock)->getInt());
-        $this->assertSame(3, $this->strategy->get($this->mock)->getInt());
+        $this->assertSame($this->methodsWithValues['getInt'], $this->strategy->get($this->mock)->getInt());
+        $this->assertSame($this->methodsWithValues['getInt'], $this->strategy->get($this->mock)->getInt());
 
         $this->expectException(\Exception::class);
+        $this->expectExceptionMessage($this->methodsWithValues['throwException']->getMessage());
         $this->strategy->get($this->mock)->throwException();
     }
 
-    public function testSingleCallSuccess()
+    final public function testDecorateCallWithArgumentSuccess()
     {
-        $this->assertSame(false, $this->strategy->get($this->mock)->isTrue());
-
-        $this->expectException(\Exception::class);
-        $this->strategy->get($this->mock)->throwException();
+        $this->assertSame($this->methodsWithValues['withArgument'], $this->strategy->get($this->mock)->withArgument(mt_rand()));
     }
 
-    public function testMultipleCallsSuccess()
-    {
-        $this->assertSame(3, $this->strategy->get($this->mock)->getInt());
-        $this->assertSame(3, $this->strategy->get($this->mock)->getInt());
-    }
-
-    public function testCallWithArgumentSuccess()
-    {
-        $this->assertSame(7, $this->strategy->get($this->mock)->withArgument(11));
-    }
-
-    public function testCallWithMissingArgumentFailure()
+    final public function testDecorateCallWithMissingArgumentFailure()
     {
         $this->expectException(\Error::class);
 
         $this->strategy->get($this->mock)->withArgument();
     }
 
-    public function testCallWithWrongArgumentFailure()
+    final public function testDecorateCallWithWrongArgumentFailure()
     {
         $this->expectException(\TypeError::class);
 
         $this->strategy->get($this->mock)->withArgument('string');
     }
 
-    public function testGetSuccess()
+    final public function testGetSuccess()
     {
-        $this->assertInstanceOf(FooTestClass::class, $this->strategy->get($this->mock));
+        $this->assertInstanceOf($this->className, $this->strategy->get($this->mock));
     }
 
-    public function testGetFailure()
+    final public function testGetFailure()
     {
         $this->expectException(InvalidArgumentException::class);
 
         $this->strategy->get(new \stdClass());
     }
 
-    public function testGetMockTypeSuccess()
-    {
-        $this->assertInternalType('string', $this->strategy->getMockType());
-    }
-
-    protected function setStrategy(MockingStrategyInterface $strategy)
+    final protected function setStrategy(MockingStrategyInterface $strategy)
     {
         $this->strategy = $strategy;
     }
 
-    protected function getRandomFQCN()
+    final protected function getRandomFQCN()
     {
         return 'foo_' . rand();
     }

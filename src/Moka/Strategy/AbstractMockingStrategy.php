@@ -22,8 +22,8 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
     private $mockType;
 
     /**
-     * @param $dependencyClassName
-     * @param $dependencyPackageName
+     * @param string $dependencyClassName
+     * @param string $dependencyPackageName
      *
      * @throws MissingDependencyException
      */

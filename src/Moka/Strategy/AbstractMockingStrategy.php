@@ -22,6 +22,25 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
     private $mockType;
 
     /**
+     * @param string $dependencyClassName
+     * @param string $dependencyPackageName
+     *
+     * @throws MissingDependencyException
+     */
+    final protected static function checkDependencies(string $dependencyClassName, string $dependencyPackageName)
+    {
+        if (!class_exists($dependencyClassName)) {
+            throw new MissingDependencyException(
+                sprintf(
+                    'Class "%s" does not exist, please install package "%s"',
+                    $dependencyClassName,
+                    $dependencyPackageName
+                )
+            );
+        }
+    }
+
+    /**
      * @param string $fqcn
      * @return object
      *
@@ -84,25 +103,6 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
         $this->verifyMockType();
 
         return $this->mockType;
-    }
-
-    /**
-     * @param string $dependencyClassName
-     * @param string $dependencyPackageName
-     *
-     * @throws MissingDependencyException
-     */
-    final protected static function checkDependencies(string $dependencyClassName, string $dependencyPackageName)
-    {
-        if (!class_exists($dependencyClassName)) {
-            throw new MissingDependencyException(
-                sprintf(
-                    'Class "%s" does not exist, please install package "%s"',
-                    $dependencyClassName,
-                    $dependencyPackageName
-                )
-            );
-        }
     }
 
     /**

@@ -3,24 +3,15 @@ declare(strict_types=1);
 
 namespace Tests\Plugin\Phake;
 
-use Moka\Plugin\Phake\PhakeMockingStrategy;
 use Moka\Plugin\Phake\PhakePlugin;
-use PHPUnit\Framework\TestCase;
+use Tests\Plugin\PluginTestCase;
 
-class PhakePluginTest extends TestCase
+class PhakePluginTest extends PluginTestCase
 {
-    /**
-     * @var PhakePlugin
-     */
-    private $phakePlugin;
-
-    protected function setUp()
+    public function __construct($name = null, array $data = [], $dataName = '')
     {
-        $this->phakePlugin = new PhakePlugin();
-    }
+        parent::__construct($name, $data, $dataName);
 
-    public function testGetStrategy()
-    {
-        $this->assertInstanceOf(PhakeMockingStrategy::class, $this->phakePlugin::getStrategy());
+        $this->setPluginFQCN(PhakePlugin::class);
     }
 }

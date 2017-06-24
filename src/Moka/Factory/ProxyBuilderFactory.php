@@ -25,7 +25,7 @@ class ProxyBuilderFactory
     {
         $key = self::key($mockingStrategy);
         if (!array_key_exists($key, self::$mockBuilders) || !self::$mockBuilders[$key] instanceof ProxyBuilder) {
-            self::$mockBuilders[$key] = static::build(new $mockingStrategy);
+            self::$mockBuilders[$key] = static::build($mockingStrategy);
         }
 
         return self::$mockBuilders[$key];

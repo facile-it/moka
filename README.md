@@ -157,9 +157,9 @@ var_dump($this->mock(BarInterface::class)->serve()->isValid());
 Currently we ship **Moka** with built-in support for [PHPUnit](https://phpunit.de/manual/current/en/test-doubles.html) mock objects.  
 We support other generators as well, but you need to install the relevant packages to make them work:
 
-- [Prophecy](https://github.com/phpspec/prophecy) -> [phpspec/prophecy](http://packagist.io/packages/phpspec/prophecy)
-- [Mockery](http://docs.mockery.io/en/latest/) -> [mockery/mockery](http://packagist.io/mo/packages/ckery/mockery)
-- [Phake](http://phake.readthedocs.io/) -> [phake/phake](http://packagist.io/packages/phake/phake)
+- [Prophecy](https://github.com/phpspec/prophecy) -> [phpspec/prophecy](https://packagist.org/packages/phpspec/prophecy)
+- [Mockery](http://docs.mockery.io/en/latest/) -> [mockery/mockery](https://packagist.org/packages/mockery/mockery)
+- [Phake](http://phake.readthedocs.io/) -> [phake/phake](https://packagist.org/packages/phake/phake)
 
 We provide a specific trait for each supported strategy, as well as a static method (self documented in the trait itself):
 

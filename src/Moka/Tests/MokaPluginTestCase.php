@@ -1,13 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Plugin;
+namespace Moka\Tests;
 
 use Moka\Plugin\PluginInterface;
 use Moka\Strategy\MockingStrategyInterface;
 use PHPUnit\Framework\TestCase;
 
-class PluginTestCase extends TestCase
+abstract class MokaPluginTestCase extends TestCase
 {
     /**
      * @var PluginInterface
@@ -19,7 +19,7 @@ class PluginTestCase extends TestCase
         $this->assertInstanceOf(MockingStrategyInterface::class, ($this->pluginFQCN)::getStrategy());
     }
 
-    final protected function setPluginFQCN(string $pluginFQCN)
+    final protected function setPluginFQCN(string $pluginFQCN): void
     {
         $this->pluginFQCN = $pluginFQCN;
     }

@@ -6,12 +6,12 @@ namespace Tests\Plugin\Mockery;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Factory\StubFactory;
 use Moka\Plugin\Mockery\MockeryMockingStrategy;
+use Moka\Tests\MokaMockingStrategyTestCase;
 use Tests\BarTestClass;
 use Tests\FooTestClass;
-use Tests\Strategy\MockingStrategyTestCase;
 use Tests\TestInterface;
 
-class MockeryMockingStrategyTest extends MockingStrategyTestCase
+class MockeryMockingStrategyTest extends MokaMockingStrategyTestCase
 {
     public function __construct($name = null, array $data = [], $dataName = '')
     {

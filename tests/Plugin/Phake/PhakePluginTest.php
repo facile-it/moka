@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace Tests\Plugin\Phake;
 
 use Moka\Plugin\Phake\PhakePlugin;
-use Tests\Plugin\PluginTestCase;
+use Moka\Tests\MokaPluginTestCase;
 
-class PhakePluginTest extends PluginTestCase
+class PhakePluginTest extends MokaPluginTestCase
 {
     public function __construct($name = null, array $data = [], $dataName = '')
     {

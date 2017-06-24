@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace Tests\Plugin\PHPUnit;
 
 use Moka\Plugin\PHPUnit\PHPUnitPlugin;
-use Tests\Plugin\PluginTestCase;
+use Moka\Tests\MokaPluginTestCase;
 
-class PHPUnitPluginTest extends PluginTestCase
+class PHPUnitPluginTest extends MokaPluginTestCase
 {
     public function __construct($name = null, array $data = [], $dataName = '')
     {

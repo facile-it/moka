@@ -55,9 +55,9 @@
     "phake/phake": "^2.3"
   },
   "suggest": {
-    "phake/phake": "To allow load of PhakePlugin.",
-    "phpspec/prophecy": "To allow load of PhrophecyPlugin.",
-    "mockery/mockery": "To allow load of MockeryPlugin.",
+    "phpspec/prophecy": "To allow loading of ProphecyPlugin",
+    "mockery/mockery": "To allow loading of MockeryPlugin",
+    "phake/phake": "To allow loading of PhakePlugin",
     "facile-it/paraunit": "For parallel test running; it's faster!"
   }
 }

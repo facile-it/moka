@@ -126,7 +126,7 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
         if (!is_a($mock, $this->mockType)) {
             throw new InvalidArgumentException(
                 sprintf(
-                    'Mock must be of type "%s", "%s" given',
+                    'Mock object must be of type "%s", "%s" given',
                     $this->mockType,
                     gettype($mock)
                 )

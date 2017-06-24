@@ -23,7 +23,7 @@ class StubSet extends Set
         if (!$elem instanceof Stub) {
             throw new InvalidArgumentException(
                 sprintf(
-                    'Element must be of type %s, %s given',
+                    'Element must be of type "%s", "%s" given',
                     Stub::class,
                     gettype($elem)
                 )

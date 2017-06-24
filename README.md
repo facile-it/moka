@@ -233,7 +233,11 @@ class YourOwnMockingStrategy extends AbstractMockingStrategy
 }
 ```
 
-**Warning:** your plugin *FQCN* must match the template `Moka\Plugin\YourOwn\YourOwnPlugin`, where `YourOwn` is the name of the plugin.
+**Warning:** your plugin *FQCN* must match the template `Moka\Plugin\YourOwn\YourOwnPlugin`, where `YourOwn` is the name of the plugin.  
+Both your plugin and your strategy must pass our test cases (please install [phpunit/phpunit](https://packagist.org/packages/phpunit/phpunit) to run them):
+
+- `MokaPluginTestCase`
+- `MokaMockingStrategyTestCase`
 
 Let [us](#credits) know of any **Moka**-related development!
 <!---

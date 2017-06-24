@@ -3,24 +3,15 @@ declare(strict_types=1);
 
 namespace Tests\Plugin\Mockery;
 
-use Moka\Plugin\Mockery\MockeryMockingStrategy;
 use Moka\Plugin\Mockery\MockeryPlugin;
-use PHPUnit\Framework\TestCase;
+use Tests\Plugin\PluginTestCase;
 
-class MockeryPluginTest extends TestCase
+class MockeryPluginTest extends PluginTestCase
 {
-    /**
-     * @var MockeryPlugin
-     */
-    private $mockeryPlugin;
-
-    public function setUp()
+    public function __construct($name = null, array $data = [], $dataName = '')
     {
-        $this->mockeryPlugin = new MockeryPlugin();
-    }
+        parent::__construct($name, $data, $dataName);
 
-    public function testGetStrategy()
-    {
-        $this->assertInstanceOf(MockeryMockingStrategy::class, $this->mockeryPlugin::getStrategy());
+        $this->setPluginFQCN(MockeryPlugin::class);
     }
 }

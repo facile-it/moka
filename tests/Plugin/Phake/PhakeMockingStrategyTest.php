@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Plugin\Phake;
@@ -45,13 +46,13 @@ class PhakeMockingStrategyTest extends MokaMockingStrategyTestCase
     {
         $this->expectException(MockNotCreatedException::class);
 
-        $this->strategy->build(FooTestClass::class . ', ' . BarTestClass::class);
+        $this->strategy->build(FooTestClass::class.', '.BarTestClass::class);
     }
 
     public function testDecorateFakeMethodFailure()
     {
         $this->strategy->decorate($this->mock, StubFactory::fromArray([
-            'fakeMethod' => true
+            'fakeMethod' => true,
         ]));
 
         $this->expectException(\Error::class);
@@ -70,6 +71,6 @@ class PhakeMockingStrategyTest extends MokaMockingStrategyTestCase
     {
         $this->expectException(\Exception::class);
 
-        $this->strategy->build(FooTestClass::class . ', ' . TestInterface::class);
+        $this->strategy->build(FooTestClass::class.', '.TestInterface::class);
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Factory;
@@ -13,7 +14,7 @@ class StubFactoryTest extends TestCase
     public function testSuccess()
     {
         $array = [
-            'methodName' => true
+            'methodName' => true,
         ];
 
         $stubs = StubFactory::fromArray($array);
@@ -28,7 +29,7 @@ class StubFactoryTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
 
         StubFactory::fromArray([
-            true => false
+            true => false,
         ]);
     }
 }

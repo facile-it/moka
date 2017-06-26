@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Moka\Proxy;
@@ -33,7 +34,7 @@ final class ProxyContainer implements ContainerInterface
      */
     public function get($id): Proxy
     {
-        if (!$this->has($id)) {
+        if (! $this->has($id)) {
             throw new InvalidIdentifierException(
                 sprintf(
                     'Cannot find mock object with identifier "%s"',

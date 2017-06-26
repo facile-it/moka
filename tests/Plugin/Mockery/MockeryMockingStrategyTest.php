@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Plugin\Mockery;
@@ -43,7 +44,7 @@ class MockeryMockingStrategyTest extends MokaMockingStrategyTestCase
 
     public function testBuildMultipleFQCNSuccess()
     {
-        $mock = $this->strategy->build(FooTestClass::class . ', ' . BarTestClass::class);
+        $mock = $this->strategy->build(FooTestClass::class.', '.BarTestClass::class);
 
         $this->assertInstanceOf($this->strategy->getMockType(), $mock);
     }
@@ -52,13 +53,13 @@ class MockeryMockingStrategyTest extends MokaMockingStrategyTestCase
     {
         $this->expectException(MockNotCreatedException::class);
 
-        $this->strategy->build($this->getRandomFQCN() . ', ' . $this->getRandomFQCN());
+        $this->strategy->build($this->getRandomFQCN().', '.$this->getRandomFQCN());
     }
 
     public function testDecorateFakeMethodSuccess()
     {
         $this->strategy->decorate($this->mock, StubFactory::fromArray([
-            'fakeMethod' => true
+            'fakeMethod' => true,
         ]));
 
         $this->assertSame(true, $this->strategy->get($this->mock)->fakeMethod());
@@ -82,7 +83,7 @@ class MockeryMockingStrategyTest extends MokaMockingStrategyTestCase
 
     public function testGetMultipleClassInterfaceSuccess()
     {
-        $mock = $this->strategy->build(FooTestClass::class . ', ' . TestInterface::class);
+        $mock = $this->strategy->build(FooTestClass::class.', '.TestInterface::class);
 
         $this->assertTrue(is_a($this->strategy->get($mock), FooTestClass::class));
         $this->assertTrue(is_a($this->strategy->get($mock), TestInterface::class));
@@ -90,7 +91,7 @@ class MockeryMockingStrategyTest extends MokaMockingStrategyTestCase
 
     public function testGetMultipleFQCNPartialSuccess()
     {
-        $mock = $this->strategy->build(FooTestClass::class . ', ' . BarTestClass::class);
+        $mock = $this->strategy->build(FooTestClass::class.', '.BarTestClass::class);
 
         $this->assertFalse(is_a($this->strategy->get($mock), FooTestClass::class));
         $this->assertTrue(is_a($this->strategy->get($mock), BarTestClass::class));

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Plugin\Prophecy\Token;
@@ -12,6 +13,6 @@ class UnsaltedPriorityTokenTest extends TestCase
         $token1 = new UnsaltedPriorityToken();
         $token2 = new UnsaltedPriorityToken();
 
-        $this->assertEquals((array)$token1, (array)$token2);
+        $this->assertEquals((array) $token1, (array) $token2);
     }
 }

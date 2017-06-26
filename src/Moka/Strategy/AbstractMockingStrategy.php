@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Moka\Strategy;
@@ -29,7 +30,7 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
      */
     final protected static function checkDependencies(string $dependencyClassName, string $dependencyPackageName)
     {
-        if (!class_exists($dependencyClassName)) {
+        if (! class_exists($dependencyClassName)) {
             throw new MissingDependencyException(
                 sprintf(
                     'Class "%s" does not exist, please install package "%s"',
@@ -123,7 +124,7 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
     {
         $this->verifyMockType();
 
-        if (!is_a($mock, $this->mockType)) {
+        if (! is_a($mock, $this->mockType)) {
             throw new InvalidArgumentException(
                 sprintf(
                     'Mock object must be of type "%s", "%s" given',
@@ -160,7 +161,7 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
      */
     private function verifyMockType()
     {
-        if (!$this->mockType) {
+        if (! $this->mockType) {
             throw new NotImplementedException('Mock type was not defined');
         }
     }

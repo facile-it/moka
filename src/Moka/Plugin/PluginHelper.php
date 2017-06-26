@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Moka\Plugin;
@@ -30,8 +31,8 @@ final class PluginHelper
         $pluginFQCN = self::generateFQCN($pluginName);
 
         if (
-            !class_exists($pluginFQCN) ||
-            !in_array(PluginInterface::class, class_implements($pluginFQCN), true)
+            ! class_exists($pluginFQCN) ||
+            ! in_array(PluginInterface::class, class_implements($pluginFQCN), true)
         ) {
             throw new NotImplementedException(
                 sprintf(

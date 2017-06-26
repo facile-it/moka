@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Plugin\Prophecy;
@@ -38,7 +39,7 @@ class ProphecyMockingStrategyTest extends MokaMockingStrategyTestCase
 
     public function testBuildMultipleFQCNSuccess()
     {
-        $mock = $this->strategy->build($this->getRandomFQCN() . ', ' . $this->getRandomFQCN());
+        $mock = $this->strategy->build($this->getRandomFQCN().', '.$this->getRandomFQCN());
 
         $this->assertInstanceOf($this->strategy->getMockType(), $mock);
     }
@@ -48,7 +49,7 @@ class ProphecyMockingStrategyTest extends MokaMockingStrategyTestCase
         $this->expectException(\Exception::class);
 
         $this->strategy->decorate($this->mock, StubFactory::fromArray([
-            'fakeMethod' => true
+            'fakeMethod' => true,
         ]));
     }
 
@@ -77,7 +78,7 @@ class ProphecyMockingStrategyTest extends MokaMockingStrategyTestCase
 
     public function testGetMultipleClassInterfaceFailure()
     {
-        $mock = $this->strategy->build(FooTestClass::class . ', ' . TestInterface::class);
+        $mock = $this->strategy->build(FooTestClass::class.', '.TestInterface::class);
 
         $this->assertFalse(is_a($this->strategy->get($mock), FooTestClass::class));
         $this->assertFalse(is_a($this->strategy->get($mock), TestInterface::class));
@@ -87,7 +88,7 @@ class ProphecyMockingStrategyTest extends MokaMockingStrategyTestCase
     {
         $fqcn1 = $this->getRandomFQCN();
         $fqcn2 = $this->getRandomFQCN();
-        $mock = $this->strategy->build($fqcn1 . ', ' . $fqcn2);
+        $mock = $this->strategy->build($fqcn1.', '.$fqcn2);
 
         $this->assertFalse(is_a($this->strategy->get($mock), $fqcn1));
         $this->assertFalse(is_a($this->strategy->get($mock), $fqcn2));

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Moka;
@@ -40,7 +41,7 @@ class Moka
      */
     public static function __callStatic(string $name, array $arguments)
     {
-        if (!isset(self::$mockingStrategies[$name])) {
+        if (! isset(self::$mockingStrategies[$name])) {
             self::$mockingStrategies[$name] = PluginHelper::load($name);
         }
 

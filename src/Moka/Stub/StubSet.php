@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Moka\Stub;
@@ -20,7 +21,7 @@ class StubSet extends Set
      */
     public function add($elem)
     {
-        if (!$elem instanceof Stub) {
+        if (! $elem instanceof Stub) {
             throw new InvalidArgumentException(
                 sprintf(
                     'Element must be of type "%s", "%s" given',

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Moka\Plugin\Phake\Matcher;
@@ -39,7 +40,7 @@ class FirstStubMatcher extends AbstractChainableArgumentMatcher
         $this->methodName = $methodName;
 
         $mockHash = spl_object_hash($mock);
-        if (!isset(self::$stubsPerMock[$mockHash])) {
+        if (! isset(self::$stubsPerMock[$mockHash])) {
             self::$stubsPerMock[$mockHash] = [];
         }
 
@@ -58,7 +59,7 @@ class FirstStubMatcher extends AbstractChainableArgumentMatcher
      */
     public function doArgumentsMatch(array &$arguments)
     {
-        if (!$this->isFirstStub) {
+        if (! $this->isFirstStub) {
             throw new MethodMatcherException(
                 sprintf(
                     'Cannot override definition for method "%s()"',

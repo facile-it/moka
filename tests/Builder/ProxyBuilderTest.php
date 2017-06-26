@@ -67,4 +67,13 @@ class ProxyBuilderTest extends TestCase
 
         $this->assertSame($proxy1, $proxy2);
     }
+
+    public function testGetProxySuccessWithSameAliasOnly()
+    {
+        $proxy = $this->proxyBuilder->getProxy(\stdClass::class, 'bar');
+
+        $this->assertInstanceOf(Proxy::class, $proxy);
+
+        $this->assertSame($proxy, $this->proxyBuilder->getProxy('bar'));
+    }
 }

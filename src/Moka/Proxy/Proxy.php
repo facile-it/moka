@@ -64,7 +64,7 @@ class Proxy
      */
     public function __call(string $name, array $arguments)
     {
-        return $this->getMock()->{$name}(...$arguments);
+        return $this->getMock()->$name(...$arguments);
     }
 
     /**

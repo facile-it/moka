@@ -18,6 +18,7 @@ class MockeryMockingStrategyTest extends MockingStrategyTestCase
         parent::__construct($name, $data, $dataName);
 
         $this->setStrategy(new MockeryMockingStrategy());
+        $this->setMethodName('shouldReceive');
     }
 
     public function testBuildEmptyFQCNFailure()

@@ -20,6 +20,7 @@ class ProphecyMockingStrategyTest extends MockingStrategyTestCase
         parent::__construct($name, $data, $dataName);
 
         $this->setStrategy(new ProphecyMockingStrategy());
+        $this->setMethodName('reveal');
     }
 
     public function testBuildEmptyFQCNSuccess()

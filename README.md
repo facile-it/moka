@@ -87,7 +87,7 @@ class FooTest extends TestCase
 }
 ```
 
-You can rely on the original implementation to be accessible (in the example below, PHPUnit's):
+You can rely on the original mock object implementation to be accessible (in the example below, PHPUnit's):
 
 ```php
 $this->mock(BarInterface::class)
@@ -155,12 +155,13 @@ If you need more granular control over invocation strategies, see `serve()`.
 Return the final object good to passed as argument in place of the real implementation.
 
 ```php
-function foo(BarInterface $bar) {
+function foo(BarInterface $bar)
+{
     return $bar->chill();
 }
 
 $chill = foo(
-    $this->mock(BarInterface)->serve()
+    $this->mock(BarInterface::class)->serve()
 );
 ```
 

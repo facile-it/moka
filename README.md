@@ -152,7 +152,7 @@ If you need more granular control over invocation strategies, see `serve()`.
 
 ### `serve() // Actual mocked object`
 
-Return the final object good to passed as argument in place of the real implementation.
+Returns the final *fake* object good to be used in place of the real implementation:
 
 ```php
 function foo(BarInterface $bar)

@@ -6,6 +6,7 @@ namespace Moka\Builder;
 use Moka\Exception\InvalidIdentifierException;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Factory\ProxyFactory;
+use Moka\Proxy\Proxy;
 use Moka\Proxy\ProxyContainer;
 use Moka\Strategy\MockingStrategyInterface;
 

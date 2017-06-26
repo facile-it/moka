@@ -57,9 +57,14 @@ class Proxy
         $this->stubs = new StubSet();
     }
 
-    public function __call($name, $arguments)
+    /**
+     * @param string $name
+     * @param array $arguments
+     * @return mixed
+     */
+    public function __call(string $name, array $arguments)
     {
-        $this->getMock()->{$name}(...$arguments);
+        return $this->getMock()->{$name}(...$arguments);
     }
 
     /**

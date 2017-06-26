@@ -14,7 +14,7 @@ trait MokaCleanerTrait
     /**
      * @return void
      */
-    public function tearDown()
+    protected function tearDown()
     {
         Moka::clean();
     }

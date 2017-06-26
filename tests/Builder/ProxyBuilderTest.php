@@ -21,7 +21,7 @@ class ProxyBuilderTest extends TestCase
      */
     private $mockingStrategy;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->mockingStrategy = $this->getMockBuilder(MockingStrategyInterface::class)
             ->disableOriginalConstructor()

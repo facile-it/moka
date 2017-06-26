@@ -20,7 +20,7 @@ class ProxyContainerTest extends TestCase
      */
     private $proxy;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->proxyContainer = new ProxyContainer();
         /** @var Proxy $proxy */

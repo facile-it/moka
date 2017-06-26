@@ -14,7 +14,7 @@ class PHPUnitPluginTest extends TestCase
      */
     private $phpUnitPlugin;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->phpUnitPlugin = new PHPUnitPlugin();
     }

@@ -15,7 +15,7 @@ class StubSetTest extends TestCase
      */
     private $set;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->set = new StubSet();
     }

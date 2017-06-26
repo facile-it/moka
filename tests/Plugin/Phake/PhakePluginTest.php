@@ -14,7 +14,7 @@ class PhakePluginTest extends TestCase
      */
     private $phakePlugin;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->phakePlugin = new PhakePlugin();
     }

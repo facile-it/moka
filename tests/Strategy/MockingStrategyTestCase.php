@@ -29,7 +29,7 @@ abstract class MockingStrategyTestCase extends TestCase
      */
     protected $stubs;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->mock = $this->strategy->build(FooTestClass::class);
 

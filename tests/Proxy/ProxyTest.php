@@ -23,7 +23,7 @@ class ProxyTest extends TestCase
      */
     private $mockingStrategy;
 
-    public function setUp()
+    protected function setUp()
     {
         $mock = $this->getMockBuilder(\stdClass::class)
             ->getMock();

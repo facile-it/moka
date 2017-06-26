@@ -14,7 +14,7 @@ class MockeryPluginTest extends TestCase
      */
     private $mockeryPlugin;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->mockeryPlugin = new MockeryPlugin();
     }

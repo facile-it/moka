@@ -58,13 +58,12 @@ class ProxyBuilder
             return $this->container->get($fqcn);
         }
 
-        $proxy = $this->buildProxy($fqcn);
         if (null === $alias) {
-            return $proxy;
+            return $this->buildProxy($fqcn);
         }
 
         if (!$this->container->has($alias)) {
-            $this->container->set($alias, $proxy);
+            $this->container->set($alias, $this->buildProxy($fqcn));
         }
 
         return $this->container->get($alias);

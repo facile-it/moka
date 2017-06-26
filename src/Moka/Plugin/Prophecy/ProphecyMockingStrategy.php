@@ -67,7 +67,7 @@ class ProphecyMockingStrategy extends AbstractMockingStrategy
     }
 
     /**
-     * @param object $mock
+     * @param ObjectProphecy $mock
      * @return mixed
      *
      * @throws MockNotCreatedException

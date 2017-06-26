@@ -90,20 +90,20 @@ class FooTest extends TestCase
 You can rely on the original mock object implementation to be accessible (in the example below, PHPUnit's):
 
 ```php
-$this->mock(BarInterface::class)
+$this->mock(BarInterface::class, 'bar')
     ->expects($this->at(0))
     ->method('isValid')
     ->willReturn(true);
 
-$this->mock(BarInterface::class)
+$this->mock('bar')
     ->expects($this->at(1))
     ->method('isValid')
     ->willThrowException(new \Exception());
 
-var_dump($this->mock(BarInterface::class)->serve()->isValid());
+var_dump($this->mock('bar')->serve()->isValid());
 // bool(true)
 
-var_dump($this->mock(BarInterface::class)->serve()->isValid());
+var_dump($this->mock('bar')->serve()->isValid());
 // throws \Exception
 ```
 
@@ -111,29 +111,29 @@ var_dump($this->mock(BarInterface::class)->serve()->isValid());
 
 ### `mock(string $fqcn, string $alias = null): Proxy`
 
-Creates (if not existing already) a proxy containing a mock object according to selected strategy for the class identified by `$fqcn` and optionally assigns an `$alias` to it.
+Creates a proxy containing a mock object (according to the selected strategy) for the class identified by `$fqcn` and optionally assigns an `$alias` to it to be able to get it later:
 
 ```php
 $mock1 = $this->mock(FooInterface::class)->serve(); // Creates the mock for FooInterface.
-$mock2 = $this->mock(FooInterface::class)->serve(); // Gets the mock previously created.
+$mock2 = $this->mock(FooInterface::class)->serve(); // Gets a different mock.
+
+var_dump($mock1 === $mock2);
+// bool(false)
+```
+
+The `$alias` allows you to store mock instances:
+
+```php
+$mock1 = $this->mock(FooInterface::class, 'foo')->serve(); // Creates a mock for FooInterface.
+$mock2 = $this->mock('foo')->serve(); // Get the mock previously created.
 
 var_dump($mock1 === $mock2);
 // bool(true)
 ```
 
-The `$alias` allows you to create different instances of the same `$fqcn`; you will refer to them by the `$alias` from now on.
-
-```php
-$this->mock(FooInterface::class, 'foo1')->serve(); // Creates a mock for FooInterface.
-$this->mock(FooInterface::class, 'foo2')->serve(); // Gets a different mock.
-
-var_dump($this->mock('foo1') === $this->mock('foo2'));
-// bool(false)
-```
-
 ### `stub(array $methodsWithValues): self`
 
-Accepts an array of method stubs with format `[$methodName => $methodValue]`, where `$methodName` **must** be a string and `$methodValue` can be of any type, including another mock object or an exception instance.
+Accepts an array of method stubs with format `[$methodName => $methodValue]`, where `$methodName` **must** be a string and `$methodValue` can be of any type, including another mock object or an exception instance:
 
 ```php
 $actualMock = $this->mock(BarInterface::class)->stub([

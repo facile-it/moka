@@ -11,9 +11,6 @@ matrix:
         - DEPS="low"
     - php: 7.0
       env: 
-        - DEPS="lock"
-    - php: 7.0
-      env: 
         - TEST_COVERAGE=true
     - php: 7.1
     - php: nightly
@@ -24,7 +21,6 @@ matrix:
 install:
   - phpenv config-rm xdebug.ini
   - if [[ $DEPS == "low" ]]; then composer update --prefer-lowest --prefer-dist --prefer-stable --no-interaction; fi
-  - if [[ $DEPS == "lock" ]]; then composer install --prefer-dist --no-interaction; fi
   - if [[ -z $DEPS ]]; then composer update --prefer-dist --prefer-stable --no-interaction; fi
 
 script:

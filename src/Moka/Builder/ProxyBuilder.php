@@ -54,6 +54,10 @@ class ProxyBuilder
      */
     public function getProxy(string $fqcn, string $alias = null): Proxy
     {
+        if ($this->container->has($fqcn)) {
+            return $this->container->get($fqcn);
+        }
+
         $alias = $alias ?: sprintf('%s_%d', $fqcn, mt_rand());
 
         if (!$this->container->has($alias)) {

@@ -87,6 +87,26 @@ class FooTest extends TestCase
 }
 ```
 
+You can rely on the original implementation to be accessible (in the example below, PHPUnit's):
+
+```php
+$this->mock(BarInterface::class)
+    ->expects($this->at(0))
+    ->method('isValid')
+    ->willReturn(true);
+
+$this->mock(BarInterface::class)
+    ->expects($this->at(1))
+    ->method('isValid')
+    ->willThrowException(new \Exception());
+
+var_dump($this->mock(BarInterface::class)->serve()->isValid());
+// bool(true)
+
+var_dump($this->mock(BarInterface::class)->serve()->isValid());
+// throws \Exception
+```
+
 ## <a name='reference'></a>Reference
 
 ### `mock(string $fqcn, string $alias = null): Proxy`
@@ -130,26 +150,18 @@ var_dump($actualMock->isValid());
 **Notice:** the stub is valid for **any** invocation of the method.  
 If you need more granular control over invocation strategies, see `serve()`.
 
-### `serve() // Actual mock object instance`
+### `serve() // Actual mocked object`
 
-Regain the control returning the actual mock object (in the example below, PHPUnit's) unwrapped from the proxy.
+Return the final object good to passed as argument in place of the real implementation.
 
 ```php
-$this->mock(BarInterface::class)->serve()
-    ->expects($this->at(0))
-    ->method('isValid')
-    ->willReturn(true);
+function foo(BarInterface $bar) {
+    return $bar->chill();
+}
 
-$this->mock(BarInterface::class)->serve()
-    ->expects($this->at(1))
-    ->method('isValid')
-    ->willThrowException(new \Exception());
-
-var_dump($this->mock(BarInterface::class)->serve()->isValid());
-// bool(true)
-
-var_dump($this->mock(BarInterface::class)->serve()->isValid());
-// throws \Exception
+$chill = foo(
+    $this->mock(BarInterface)->serve()
+);
 ```
 
 ## <a name='strategies'></a>Supported mock object generators

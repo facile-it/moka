@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Strategy;
+namespace Moka\Tests;
 
 use Moka\Exception\InvalidArgumentException;
 use Moka\Factory\StubFactory;
@@ -13,7 +13,7 @@ use Tests\BarTestClass;
 use Tests\FooTestClass;
 use Tests\TestInterface;
 
-abstract class MockingStrategyTestCase extends TestCase
+abstract class MokaMockingStrategyTestCase extends TestCase
 {
     /**
      * @var MockingStrategyInterface

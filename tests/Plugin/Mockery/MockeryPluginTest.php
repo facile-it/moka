@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace Tests\Plugin\Mockery;
 
 use Moka\Plugin\Mockery\MockeryPlugin;
-use Tests\Plugin\PluginTestCase;
+use Moka\Tests\MokaPluginTestCase;
 
-class MockeryPluginTest extends PluginTestCase
+class MockeryPluginTest extends MokaPluginTestCase
 {
     public function __construct($name = null, array $data = [], $dataName = '')
     {

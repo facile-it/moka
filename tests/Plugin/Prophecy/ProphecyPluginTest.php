@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace Tests\Plugin\Prophecy;
 
 use Moka\Plugin\Prophecy\ProphecyPlugin;
-use Tests\Plugin\PluginTestCase;
+use Moka\Tests\MokaPluginTestCase;
 
-class ProphecyPluginTest extends PluginTestCase
+class ProphecyPluginTest extends MokaPluginTestCase
 {
     public function __construct($name = null, array $data = [], $dataName = '')
     {

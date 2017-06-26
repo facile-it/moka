@@ -54,7 +54,13 @@ class ProxyBuilder
      */
     public function getProxy(string $fqcn, string $alias = null): Proxy
     {
-        $alias = $alias ?: $fqcn;
+        if ($this->container->has($fqcn)) {
+            return $this->container->get($fqcn);
+        }
+
+        if (null === $alias) {
+            return $this->buildProxy($fqcn);
+        }
 
         if (!$this->container->has($alias)) {
             $this->container->set($alias, $this->buildProxy($fqcn));

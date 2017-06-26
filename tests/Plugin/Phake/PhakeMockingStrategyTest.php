@@ -18,7 +18,6 @@ class PhakeMockingStrategyTest extends MokaMockingStrategyTestCase
         parent::__construct($name, $data, $dataName);
 
         $this->setStrategy(new PhakeMockingStrategy());
-//        $this->setMethodName('__construct');
     }
 
     public function testBuildEmptyFQCNFailure()

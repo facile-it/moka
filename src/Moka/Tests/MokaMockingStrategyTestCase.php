@@ -40,8 +40,6 @@ abstract class MokaMockingStrategyTestCase extends TestCase
      */
     private $methodsWithValues = [];
 
-    private $methodName;
-
     final public function testGetMockTypeSuccess()
     {
         $this->assertInternalType('string', $this->strategy->getMockType());
@@ -144,20 +142,6 @@ abstract class MokaMockingStrategyTestCase extends TestCase
         $this->strategy->get(new \stdClass());
     }
 
-    public function testMethodForward()
-    {
-        if (!$this->methodName) {
-            return;
-        }
-
-        try {
-            $this->strategy->build(\stdClass::class)->{$this->methodName}();
-            $this->assertTrue(true);
-        } catch (\Error $e) {
-            $this->assertEquals(0, preg_match('/^Call to undefined method/', $e->getMessage()));
-        }
-    }
-
     protected function setUp()
     {
         $this->className = [
@@ -183,11 +167,6 @@ abstract class MokaMockingStrategyTestCase extends TestCase
     final protected function setStrategy(MockingStrategyInterface $strategy)
     {
         $this->strategy = $strategy;
-    }
-
-    final protected function setMethodName(string $methodName)
-    {
-        $this->methodName = $methodName;
     }
 
     final protected function getRandomFQCN()

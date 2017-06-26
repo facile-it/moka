@@ -18,7 +18,6 @@ class PHPUnitMockingStrategyTest extends MokaMockingStrategyTestCase
         parent::__construct($name, $data, $dataName);
 
         $this->setStrategy(new PHPUnitMockingStrategy());
-        $this->setMethodName('expects');
     }
 
     public function testBuildEmptyFQCNFailure()

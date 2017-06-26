@@ -54,6 +54,10 @@
     "mockery/mockery": "^0.9.9",
     "phake/phake": "^2.3"
   },
+  "scripts": {
+    "cs-check": "php-cs-fixer fix --dry-run --diff --allow-risky=yes",
+    "cs-fix": "php-cs-fixer fix --allow-risky=yes"
+  },
   "suggest": {
     "phpspec/prophecy": "To allow loading of ProphecyPlugin",
     "mockery/mockery": "To allow loading of MockeryPlugin",

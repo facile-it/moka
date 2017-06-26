@@ -1,12 +1,12 @@
 <?php
 
 /** @var PhpCsFixer\ConfigInterface $config */
-$config = include __DIR__ . '/vendor/facile-it/facile-coding-standard/.php_cs';
+$config = include __DIR__.'/vendor/facile-it/facile-coding-standard/.php_cs';
 
 $finder = PhpCsFixer\Finder::create();
 $finder->in([
-    __DIR__ . '/src',
-    __DIR__ . '/tests'
+    __DIR__.'/src',
+    __DIR__.'/tests',
 ]);
 
 $config->setFinder($finder);

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Plugin\Prophecy\Token;
@@ -18,7 +19,7 @@ class PriorityTokenTestCase extends TestCase
         $fqcn = get_class($this->token);
         $token = new $fqcn();
 
-        $this->assertNotEquals((array)$this->token, (array)$token);
+        $this->assertNotEquals((array) $this->token, (array) $token);
     }
 
     public function testScoreArgument()

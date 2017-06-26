@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Moka\Proxy;
@@ -75,7 +76,7 @@ class Proxy
      */
     private function getMock()
     {
-        if (!$this->mock) {
+        if (! $this->mock) {
             $this->mock = $this->mockingStrategy->build($this->fqcn);
         }
 

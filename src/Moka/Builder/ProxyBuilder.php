@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Moka\Builder;
@@ -62,7 +63,7 @@ class ProxyBuilder
             return $this->buildProxy($fqcn);
         }
 
-        if (!$this->container->has($alias)) {
+        if (! $this->container->has($alias)) {
             $this->container->set($alias, $this->buildProxy($fqcn));
         }
 

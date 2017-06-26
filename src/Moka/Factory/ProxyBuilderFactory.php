@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Moka\Factory;
@@ -24,7 +25,7 @@ class ProxyBuilderFactory
     public static function get(MockingStrategyInterface $mockingStrategy): ProxyBuilder
     {
         $key = self::key($mockingStrategy);
-        if (!array_key_exists($key, self::$mockBuilders) || !self::$mockBuilders[$key] instanceof ProxyBuilder) {
+        if (! array_key_exists($key, self::$mockBuilders) || ! self::$mockBuilders[$key] instanceof ProxyBuilder) {
             self::$mockBuilders[$key] = static::build($mockingStrategy);
         }
 

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Moka\Tests;
@@ -74,7 +75,7 @@ abstract class MokaMockingStrategyTestCase extends TestCase
     final public function testDecorateWrongTypeHintFailure()
     {
         $this->strategy->decorate($this->mock, StubFactory::fromArray([
-            'getSelf' => mt_rand()
+            'getSelf' => mt_rand(),
         ]));
 
         $this->expectException(\TypeError::class);
@@ -100,7 +101,7 @@ abstract class MokaMockingStrategyTestCase extends TestCase
     {
         $this->strategy->decorate($this->mock, StubFactory::fromArray([
             'getInt' => mt_rand(),
-            'throwException' => mt_rand()
+            'throwException' => mt_rand(),
         ]));
 
         $this->assertSame($this->methodsWithValues['getInt'], $this->strategy->get($this->mock)->getInt());
@@ -146,14 +147,14 @@ abstract class MokaMockingStrategyTestCase extends TestCase
     {
         $this->className = [
             FooTestClass::class,
-            BarTestClass::class
+            BarTestClass::class,
         ][random_int(0, 1)];
 
         $this->methodsWithValues = [
-            'isTrue' => (bool)random_int(0, 1),
+            'isTrue' => (bool) random_int(0, 1),
             'getInt' => mt_rand(),
             'withArgument' => mt_rand(),
-            'throwException' => new \Exception('' . mt_rand())
+            'throwException' => new \Exception(''.mt_rand()),
         ];
 
         $this->mock = $this->strategy->build($this->className);
@@ -171,6 +172,6 @@ abstract class MokaMockingStrategyTestCase extends TestCase
 
     final protected function getRandomFQCN()
     {
-        return 'foo_' . mt_rand();
+        return 'foo_'.mt_rand();
     }
 }

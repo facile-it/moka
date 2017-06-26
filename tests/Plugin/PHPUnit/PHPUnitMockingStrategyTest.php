@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Plugin\PHPUnit;
@@ -45,7 +46,7 @@ class PHPUnitMockingStrategyTest extends MokaMockingStrategyTestCase
     {
         $this->expectException(MockNotCreatedException::class);
 
-        $this->strategy->build(FooTestClass::class . ', ' . BarTestClass::class);
+        $this->strategy->build(FooTestClass::class.', '.BarTestClass::class);
     }
 
     public function testDecorateFakeMethodFailure()
@@ -53,7 +54,7 @@ class PHPUnitMockingStrategyTest extends MokaMockingStrategyTestCase
         $this->expectException(\Exception::class);
 
         $this->strategy->decorate($this->mock, StubFactory::fromArray([
-            'fakeMethod' => true
+            'fakeMethod' => true,
         ]));
     }
 

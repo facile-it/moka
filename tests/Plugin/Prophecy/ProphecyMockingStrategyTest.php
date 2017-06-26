@@ -6,20 +6,21 @@ namespace Tests\Plugin\Prophecy;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Factory\StubFactory;
 use Moka\Plugin\Prophecy\ProphecyMockingStrategy;
+use Moka\Tests\MokaMockingStrategyTestCase;
 use Prophecy\Doubler\Doubler;
 use Prophecy\Doubler\LazyDouble;
 use Prophecy\Prophecy\ObjectProphecy;
 use Tests\FooTestClass;
-use Tests\Strategy\MockingStrategyTestCase;
 use Tests\TestInterface;
 
-class ProphecyMockingStrategyTest extends MockingStrategyTestCase
+class ProphecyMockingStrategyTest extends MokaMockingStrategyTestCase
 {
     public function __construct($name = null, array $data = [], $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
 
         $this->setStrategy(new ProphecyMockingStrategy());
+        $this->setMethodName('reveal');
     }
 
     public function testBuildEmptyFQCNSuccess()

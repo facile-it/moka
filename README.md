@@ -20,7 +20,7 @@ composer require --dev facile-it/moka
 
 ## Usage
 
-To use **Moka** in your tests simply `use` the `MokaTrait` and run `Moka::clean()` before every test. A simple interface will let you create *mock* objects, *serve* them easily, and decorate them with *stub* methods with a fluent interface.
+To use **Moka** in your tests simply `use` the `MokaPHPUnitTrait` (see generators section [below](#strategies)) and run `Moka::clean()` before every test. A simple interface will let you create *mock* objects, *serve* them easily, and decorate them with *stub* methods with a fluent interface.
 
 A complete example follows:
 
@@ -30,11 +30,11 @@ A complete example follows:
 namespace Foo\Tests;
 
 use Moka\Moka;
-use Moka\Traits\MokaTrait;
+use Moka\Traits\MokaPHPUnitTrait;
 
 class FooTest extends \AnyTestCase
 {
-    use MokaTrait;
+    use MokaPHPUnitTrait;
     
     private $foo;
     
@@ -56,11 +56,11 @@ class FooTest extends \AnyTestCase
 }
 ```
 
-Alternatively, instead of using the trait and `$this->mock(/* ... */)`, you can call `Moka::brew(string $fqcn, string $alias = null): Proxy`.
+Alternatively, instead of using the trait and `$this->mock(/* ... */)`, you can call `Moka::phpunit(string $fqcn, string $alias = null): Proxy`.
 
 Being such a simple project, **Moka** can be integrated in an already existing test suite with no effort.
 
-**Notice:** If you are extending PHPUnit `TestCase`, to simplify the cleaning phase we provide a `MokaCleanerTrait` which automatically runs `Moka::clean()` in `tearDown()`.
+**Notice:** if you are extending PHPUnit `TestCase`, to simplify the cleaning phase we provide a `MokaCleanerTrait` which automatically runs `Moka::clean()` in `tearDown()`.
 **Warning:** if you are defining your own `tearDown()`, you cannot use the trait!
 
 ```php
@@ -69,12 +69,12 @@ Being such a simple project, **Moka** can be integrated in an already existing t
 namespace Foo\Tests;
 
 use Moka\Traits\MokaCleanerTrait;
-use Moka\Traits\MokaTrait;
+use Moka\Traits\MokaPHPUnitTrait;
 use PHPUnit\Framework\TestCase;
 
 class FooTest extends TestCase
 {
-    use MokaTrait, MokaCleanerTrait;
+    use MokaPHPUnitTrait, MokaCleanerTrait;
     
     public function setUp()
     {
@@ -87,7 +87,27 @@ class FooTest extends TestCase
 }
 ```
 
-## Reference
+You can rely on the original implementation to be accessible (in the example below, PHPUnit's):
+
+```php
+$this->mock(BarInterface::class)
+    ->expects($this->at(0))
+    ->method('isValid')
+    ->willReturn(true);
+
+$this->mock(BarInterface::class)
+    ->expects($this->at(1))
+    ->method('isValid')
+    ->willThrowException(new \Exception());
+
+var_dump($this->mock(BarInterface::class)->serve()->isValid());
+// bool(true)
+
+var_dump($this->mock(BarInterface::class)->serve()->isValid());
+// throws \Exception
+```
+
+## <a name='reference'></a>Reference
 
 ### `mock(string $fqcn, string $alias = null): Proxy`
 
@@ -130,45 +150,96 @@ var_dump($actualMock->isValid());
 **Notice:** the stub is valid for **any** invocation of the method.  
 If you need more granular control over invocation strategies, see `serve()`.
 
-### `serve() // Actual mock object instance`
+### `serve() // Actual mocked object`
 
-Regain the control returning the actual mock object (in the example below, PHPUnit's) unwrapped from the proxy.
+Return the final object good to passed as argument in place of the real implementation.
 
 ```php
-$this->mock(BarInterface::class)->serve()
-    ->expects($this->at(0))
-    ->method('isValid')
-    ->willReturn(true);
+function foo(BarInterface $bar) {
+    return $bar->chill();
+}
 
-$this->mock(BarInterface::class)->serve()
-    ->expects($this->at(1))
-    ->method('isValid')
-    ->willThrowException(new \Exception());
-
-var_dump($this->mock(BarInterface::class)->serve()->isValid());
-// bool(true)
-
-var_dump($this->mock(BarInterface::class)->serve()->isValid());
-// throws \Exception
+$chill = foo(
+    $this->mock(BarInterface)->serve()
+);
 ```
 
-## Supported mock object generators
+## <a name='strategies'></a>Supported mock object generators
 
-Currently we support these generators:
+Currently we ship **Moka** with built-in support for [PHPUnit](https://phpunit.de/manual/current/en/test-doubles.html) mock objects.  
+We support other generators as well, but you need to install the relevant packages to make them work:
 
-- [PHPUnit](https://phpunit.de/manual/current/en/test-doubles.html)
-- [Prophecy](https://github.com/phpspec/prophecy)
-- [Mockery](http://docs.mockery.io/en/latest/)
-- [Phake](http://phake.readthedocs.io/)
+- [Prophecy](https://github.com/phpspec/prophecy) -> [phpspec/prophecy](https://packagist.org/packages/phpspec/prophecy)
+- [Mockery](http://docs.mockery.io/en/latest/) -> [mockery/mockery](https://packagist.org/packages/mockery/mockery)
+- [Phake](http://phake.readthedocs.io/) -> [phake/phake](https://packagist.org/packages/phake/phake)
 
-We provide a specific trait for each supported strategy, as well as a static method:
+We provide a specific trait for each supported strategy, as well as a static method (self documented in the trait itself):
 
-- `MokaPHPUnitTrait` -> `Moka::phpunit(string $fqcn, string $alias = null): Proxy`
-- `MokaProphecyTrait` -> `Moka::prophecy(string $fqcn, string $alias = null): Proxy`
-- `MokaMockeryTrait` -> `Moka::mockery(string $fqcn, string $alias = null): Proxy`
-- `MokaPhakeTrait` -> `Moka::phake(string $fqcn, string $alias = null): Proxy`
+- `MokaPHPUnitTrait`
+- `MokaProphecyTrait`
+- `MokaMockeryTrait`
+- `MokaPhakeTrait`
 
-Every trait defines its own `mock(string $fqcn, string $alias = null): Proxy`, as described in the **Reference**. If you're not willing to choose a strategy and just sticking with `MokaTrait` or `Moka::brew(/* ... */)`, we're currently defaulting to **PHPUnit**.
+Every trait defines its own `mock(string $fqcn, string $alias = null): Proxy`, as described in the **[Reference](#reference)**.
+
+## Plugin development
+
+If you feel a genius and want to create your own mock generator (or add support for an existing one), just implement `Moka\Plugin\PluginInterface` and the relative `Moka\Strategy\MockingStrategyInterface`:
+
+```php
+<?php
+
+namespace Moka\Plugin\YourOwn;
+
+use Moka\Plugin\PluginInterface;
+use Moka\Strategy\MockingStrategyInterface;
+
+class YourOwnPlugin implements PluginInterface
+{
+    public static function getStrategy(): MockingStrategyInterface 
+    {
+       return new YourOwnMockingStrategy();
+    }
+}
+```
+
+Extend `AbstractMockingStrategy` for an easier (and stricter) implementation of your strategy:
+
+```php
+<?php
+
+namespace Moka\Plugin\YourOwn;
+
+use Moka\Strategy\AbstractMockingStrategy;
+use Moka\Stub\Stub;
+
+class YourOwnMockingStrategy extends AbstractMockingStrategy
+{
+    public function __construct() {
+        // TODO: Implement __construct() method.
+    }
+    
+    protected function doBuild(string $fqcn) {
+        // TODO: Implement doBuild() method.
+    }
+    
+    protected function doDecorate($mock, Stub $stub) {
+        // TODO: Implement doDecorate() method.
+    }
+    
+    protected function doGet($mock) {
+        // TODO: Implement doGet() method.
+    }
+}
+```
+
+**Warning:** your plugin *FQCN* must match the template `Moka\Plugin\YourOwn\YourOwnPlugin`, where `YourOwn` is the name of the plugin.  
+Both your plugin and your strategy must pass our test cases (please install [phpunit/phpunit](https://packagist.org/packages/phpunit/phpunit) to run them):
+
+- `MokaPluginTestCase`
+- `MokaMockingStrategyTestCase`
+
+Let [us](#credits) know of any **Moka**-related development!
 <!---
 ## Changelog
 
@@ -188,7 +259,7 @@ paraunit run
 
 Please see [CONTRIBUTING](/CONTRIBUTING.md) for details.
 -->
-## Credits
+## <a name='credits'></a>Credits
 
 - [Angelo Giuffredi](https://github.com/giuffre)
 - [Alberto Villa](https://github.com/xzhavilla)

@@ -3,24 +3,15 @@ declare(strict_types=1);
 
 namespace Tests\Plugin\PHPUnit;
 
-use Moka\Plugin\PHPUnit\PHPUnitMockingStrategy;
 use Moka\Plugin\PHPUnit\PHPUnitPlugin;
-use PHPUnit\Framework\TestCase;
+use Moka\Tests\MokaPluginTestCase;
 
-class PHPUnitPluginTest extends TestCase
+class PHPUnitPluginTest extends MokaPluginTestCase
 {
-    /**
-     * @var PHPUnitPlugin
-     */
-    private $phpUnitPlugin;
-
-    protected function setUp()
+    public function __construct($name = null, array $data = [], $dataName = '')
     {
-        $this->phpUnitPlugin = new PHPUnitPlugin();
-    }
+        parent::__construct($name, $data, $dataName);
 
-    public function testGetStrategy()
-    {
-        $this->assertInstanceOf(PHPUnitMockingStrategy::class, $this->phpUnitPlugin::getStrategy());
+        $this->setPluginFQCN(PHPUnitPlugin::class);
     }
 }

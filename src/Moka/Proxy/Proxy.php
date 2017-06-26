@@ -57,11 +57,48 @@ class Proxy
         $this->stubs = new StubSet();
     }
 
+    public function __call($name, $arguments)
+    {
+        $this->getMock()->{$name}(...$arguments);
+    }
+
+    /**
+     * @return object
+     *
+     * @throws MockNotCreatedException
+     * @throws NotImplementedException
+     * @throws InvalidArgumentException
+     */
+    private function getMock()
+    {
+        if (!$this->mock) {
+            $this->mock = $this->mockingStrategy->build($this->fqcn);
+            $this->decorateMock();
+        }
+
+        return $this->mock;
+    }
+
+    /**
+     * @return void
+     *
+     * @throws InvalidArgumentException
+     * @throws MockNotCreatedException
+     * @throws NotImplementedException
+     */
+    private function decorateMock()
+    {
+        $this->mockingStrategy->decorate($this->getMock(), $this->stubs);
+        $this->resetStubs();
+    }
+
     /**
      * @param array $methodsWithValues
      * @return Proxy
      *
      * @throws InvalidArgumentException
+     * @throws MockNotCreatedException
+     * @throws NotImplementedException
      */
     public function stub(array $methodsWithValues): self
     {
@@ -69,22 +106,9 @@ class Proxy
             StubFactory::fromArray($methodsWithValues)->all()
         );
 
-        if ($this->mock) {
-            $this->decorateMock();
-        }
+        $this->decorateMock();
 
         return $this;
-    }
-
-    /**
-     * @return void
-     *
-     * @throws InvalidArgumentException
-     */
-    private function decorateMock()
-    {
-        $this->mockingStrategy->decorate($this->mock, $this->stubs);
-        $this->resetStubs();
     }
 
     /**
@@ -95,28 +119,9 @@ class Proxy
     public function serve()
     {
         try {
-            if (!$this->mock) {
-                $this->buildMock();
-            }
-
-            return $this->mockingStrategy->get($this->mock);
+            return $this->mockingStrategy->get($this->getMock());
         } catch (\Exception $exception) {
             throw new MockNotServedException($exception->getMessage());
         }
-    }
-
-    /**
-     * @return object
-     *
-     * @throws MockNotCreatedException
-     * @throws NotImplementedException
-     * @throws InvalidArgumentException
-     */
-    private function buildMock()
-    {
-        $this->mock = $this->mockingStrategy->build($this->fqcn);
-        $this->decorateMock();
-
-        return $this->mock;
     }
 }

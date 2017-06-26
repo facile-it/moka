@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace Moka\Exception;
 
 /**
- * Class NotImplementedException
+ * Class MissingDependencyException
  * @package Moka\Exception
  */
-class NotImplementedException extends \Exception
+class MissingDependencyException extends \Exception
 {
 }

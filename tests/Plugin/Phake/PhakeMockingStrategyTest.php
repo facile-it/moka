@@ -6,18 +6,19 @@ namespace Tests\Plugin\Phake;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Factory\StubFactory;
 use Moka\Plugin\Phake\PhakeMockingStrategy;
+use Moka\Tests\MokaMockingStrategyTestCase;
 use Tests\BarTestClass;
 use Tests\FooTestClass;
-use Tests\Strategy\MockingStrategyTestCase;
 use Tests\TestInterface;
 
-class PhakeMockingStrategyTest extends MockingStrategyTestCase
+class PhakeMockingStrategyTest extends MokaMockingStrategyTestCase
 {
     public function __construct($name = null, array $data = [], $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
 
         $this->setStrategy(new PhakeMockingStrategy());
+//        $this->setMethodName('__construct');
     }
 
     public function testBuildEmptyFQCNFailure()

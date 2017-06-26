@@ -11,6 +11,8 @@ use Moka\Proxy\Proxy;
 /**
  * Trait MokaTrait
  * @package Moka\Traits
+ *
+ * @deprecated since v1.2.0
  */
 trait MokaTrait
 {
@@ -19,11 +21,10 @@ trait MokaTrait
      * @param string|null $alias
      * @return Proxy
      *
-     * @throws MockNotCreatedException
-     * @throws InvalidIdentifierException
+     * @deprecated since v1.2.0
      */
     protected function mock(string $fqcn, string $alias = null): Proxy
     {
-        return Moka::brew($fqcn, $alias);
+        return Moka::phpunit($fqcn, $alias);
     }
 }

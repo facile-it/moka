@@ -5,6 +5,7 @@ namespace Moka\Plugin\Mockery;
 
 use Mockery;
 use Mockery\MockInterface;
+use Moka\Exception\MissingDependencyException;
 use Moka\Strategy\AbstractMockingStrategy;
 use Moka\Stub\Stub;
 
@@ -14,11 +15,18 @@ use Moka\Stub\Stub;
  */
 class MockeryMockingStrategy extends AbstractMockingStrategy
 {
+    const CLASS_NAME = Mockery::class;
+    const PACKAGE_NAME = 'mockery/mockery';
+
     /**
      * MockeryMockingStrategy constructor.
+     *
+     * @throws MissingDependencyException
      */
     public function __construct()
     {
+        self::checkDependencies(self::CLASS_NAME, self::PACKAGE_NAME);
+
         $this->setMockType(MockInterface::class);
     }
 

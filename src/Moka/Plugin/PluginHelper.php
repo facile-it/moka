@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace Moka\Plugin;
 
+use Moka\Exception\MissingDependencyException;
 use Moka\Exception\NotImplementedException;
+use Moka\Strategy\MockingStrategyInterface;
 
 /**
  * Class PluginHelper
@@ -18,11 +20,12 @@ final class PluginHelper
 
     /**
      * @param string $pluginName
-     * @return string
+     * @return MockingStrategyInterface
      *
      * @throws NotImplementedException
+     * @throws MissingDependencyException
      */
-    public static function load(string $pluginName): string
+    public static function load(string $pluginName): MockingStrategyInterface
     {
         $pluginFQCN = self::generateFQCN($pluginName);
 
@@ -38,7 +41,8 @@ final class PluginHelper
             );
         }
 
-        return $pluginFQCN;
+        /** @var PluginInterface $pluginFQCN */
+        return $pluginFQCN::getStrategy();
     }
 
     /**

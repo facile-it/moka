@@ -34,7 +34,12 @@ final class ProxyContainer implements ContainerInterface
     public function get($id): Proxy
     {
         if (!$this->has($id)) {
-            throw new InvalidIdentifierException(sprintf('The mock object with id "%s" is not found', $id));
+            throw new InvalidIdentifierException(
+                sprintf(
+                    'Cannot find mock object with identifier "%s"',
+                    $id
+                )
+            );
         }
 
         return $this->mocks[$id];

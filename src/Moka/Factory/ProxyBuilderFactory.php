@@ -25,19 +25,20 @@ class ProxyBuilderFactory
     {
         $key = self::key($mockingStrategy);
         if (!array_key_exists($key, self::$mockBuilders) || !self::$mockBuilders[$key] instanceof ProxyBuilder) {
-            self::$mockBuilders[$key] = static::build(new $mockingStrategy);
+            self::$mockBuilders[$key] = static::build($mockingStrategy);
         }
 
         return self::$mockBuilders[$key];
     }
 
     /**
-     * @param MockingStrategyInterface $mockingStrategy
-     * @return string
+     * @return void
      */
-    private static function key(MockingStrategyInterface $mockingStrategy): string
+    public static function reset()
     {
-        return get_class($mockingStrategy);
+        foreach (self::$mockBuilders as $mockBuilder) {
+            $mockBuilder->reset();
+        }
     }
 
     /**
@@ -49,10 +50,12 @@ class ProxyBuilderFactory
         return new ProxyBuilder($mockingStrategy);
     }
 
-    public static function reset()
+    /**
+     * @param MockingStrategyInterface $mockingStrategy
+     * @return string
+     */
+    private static function key(MockingStrategyInterface $mockingStrategy): string
     {
-        foreach (self::$mockBuilders as $mockBuilder) {
-            $mockBuilder->reset();
-        }
+        return get_class($mockingStrategy);
     }
 }

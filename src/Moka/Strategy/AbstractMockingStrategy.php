@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Moka\Strategy;
 
 use Moka\Exception\InvalidArgumentException;
+use Moka\Exception\MissingDependencyException;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Exception\NotImplementedException;
 use Moka\Stub\Stub;
@@ -19,6 +20,25 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
      * @var string
      */
     private $mockType;
+
+    /**
+     * @param string $dependencyClassName
+     * @param string $dependencyPackageName
+     *
+     * @throws MissingDependencyException
+     */
+    final protected static function checkDependencies(string $dependencyClassName, string $dependencyPackageName)
+    {
+        if (!class_exists($dependencyClassName)) {
+            throw new MissingDependencyException(
+                sprintf(
+                    'Class "%s" does not exist, please install package "%s"',
+                    $dependencyClassName,
+                    $dependencyPackageName
+                )
+            );
+        }
+    }
 
     /**
      * @param string $fqcn
@@ -106,7 +126,7 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
         if (!is_a($mock, $this->mockType)) {
             throw new InvalidArgumentException(
                 sprintf(
-                    'Mock must be of type "%s", "%s" given',
+                    'Mock object must be of type "%s", "%s" given',
                     $this->mockType,
                     gettype($mock)
                 )

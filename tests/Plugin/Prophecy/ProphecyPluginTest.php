@@ -3,24 +3,15 @@ declare(strict_types=1);
 
 namespace Tests\Plugin\Prophecy;
 
-use Moka\Plugin\Prophecy\ProphecyMockingStrategy;
 use Moka\Plugin\Prophecy\ProphecyPlugin;
-use PHPUnit\Framework\TestCase;
+use Moka\Tests\MokaPluginTestCase;
 
-class ProphecyPluginTest extends TestCase
+class ProphecyPluginTest extends MokaPluginTestCase
 {
-    /**
-     * @var ProphecyPlugin
-     */
-    private $prophecyPlugin;
-
-    protected function setUp()
+    public function __construct($name = null, array $data = [], $dataName = '')
     {
-        $this->prophecyPlugin = new ProphecyPlugin();
-    }
+        parent::__construct($name, $data, $dataName);
 
-    public function testGetStrategy()
-    {
-        $this->assertInstanceOf(ProphecyMockingStrategy::class, $this->prophecyPlugin::getStrategy());
+        $this->setPluginFQCN(ProphecyPlugin::class);
     }
 }

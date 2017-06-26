@@ -14,7 +14,7 @@ class ProphecyPluginTest extends TestCase
      */
     private $prophecyPlugin;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->prophecyPlugin = new ProphecyPlugin();
     }

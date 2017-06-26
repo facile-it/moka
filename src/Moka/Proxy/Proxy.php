@@ -78,7 +78,6 @@ class Proxy
     {
         if (!$this->mock) {
             $this->mock = $this->mockingStrategy->build($this->fqcn);
-            $this->decorateMock();
         }
 
         return $this->mock;

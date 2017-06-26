@@ -6,7 +6,6 @@ namespace Moka\Proxy;
 use Moka\Exception\InvalidArgumentException;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Exception\MockNotServedException;
-use Moka\Exception\NotImplementedException;
 use Moka\Factory\StubFactory;
 use Moka\Strategy\MockingStrategyInterface;
 use Moka\Stub\StubSet;
@@ -61,6 +60,8 @@ class Proxy
      * @param string $name
      * @param array $arguments
      * @return mixed
+     *
+     * @throws MockNotCreatedException
      */
     public function __call(string $name, array $arguments)
     {
@@ -71,8 +72,6 @@ class Proxy
      * @return object
      *
      * @throws MockNotCreatedException
-     * @throws NotImplementedException
-     * @throws InvalidArgumentException
      */
     private function getMock()
     {
@@ -84,25 +83,11 @@ class Proxy
     }
 
     /**
-     * @return void
-     *
-     * @throws InvalidArgumentException
-     * @throws MockNotCreatedException
-     * @throws NotImplementedException
-     */
-    private function decorateMock()
-    {
-        $this->mockingStrategy->decorate($this->getMock(), $this->stubs);
-        $this->resetStubs();
-    }
-
-    /**
      * @param array $methodsWithValues
      * @return Proxy
      *
      * @throws InvalidArgumentException
      * @throws MockNotCreatedException
-     * @throws NotImplementedException
      */
     public function stub(array $methodsWithValues): self
     {
@@ -113,6 +98,18 @@ class Proxy
         $this->decorateMock();
 
         return $this;
+    }
+
+    /**
+     * @return void
+     *
+     * @throws InvalidArgumentException
+     * @throws MockNotCreatedException
+     */
+    private function decorateMock()
+    {
+        $this->mockingStrategy->decorate($this->getMock(), $this->stubs);
+        $this->resetStubs();
     }
 
     /**

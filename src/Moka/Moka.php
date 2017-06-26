@@ -54,7 +54,6 @@ class Moka
     /**
      * @param string $fqcn
      * @param string|null $alias
-     * @param MockingStrategyInterface|null $mockingStrategy
      * @return Proxy
      *
      * @throws NotImplementedException
@@ -64,7 +63,7 @@ class Moka
      *
      * @deprecated since 1.2.0
      */
-    public static function brew(string $fqcn, string $alias = null, MockingStrategyInterface $mockingStrategy = null): Proxy
+    public static function brew(string $fqcn, string $alias = null): Proxy
     {
         return self::phpunit($fqcn, $alias);
     }

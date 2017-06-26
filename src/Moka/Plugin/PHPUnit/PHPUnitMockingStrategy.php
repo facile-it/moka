@@ -40,6 +40,9 @@ class PHPUnitMockingStrategy extends AbstractMockingStrategy
     /**
      * @param string $fqcn
      * @return MockObject
+     *
+     * @throws \InvalidArgumentException
+     * @throws \PHPUnit_Framework_MockObject_RuntimeException
      */
     protected function doBuild(string $fqcn)
     {

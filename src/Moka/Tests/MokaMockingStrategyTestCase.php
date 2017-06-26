@@ -150,7 +150,7 @@ abstract class MokaMockingStrategyTestCase extends TestCase
         ][random_int(0, 1)];
 
         $this->methodsWithValues = [
-            'isTrue' => !!random_int(0, 1),
+            'isTrue' => (bool)random_int(0, 1),
             'getInt' => mt_rand(),
             'withArgument' => mt_rand(),
             'throwException' => new \Exception('' . mt_rand())
@@ -171,6 +171,6 @@ abstract class MokaMockingStrategyTestCase extends TestCase
 
     final protected function getRandomFQCN()
     {
-        return 'foo_' . rand();
+        return 'foo_' . mt_rand();
     }
 }

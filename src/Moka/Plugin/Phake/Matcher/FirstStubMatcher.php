@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace Moka\Plugin\Phake\Matcher;
 
 use Phake_Exception_MethodMatcherException as MethodMatcherException;
+use Phake_IMock as PhakeMock;
 use Phake_Matchers_AbstractChainableArgumentMatcher as AbstractChainableArgumentMatcher;
 use Phake_Matchers_IChainableArgumentMatcher;
-use Phake_IMock as PhakeMock;
 
 /**
  * Class FirstStubMatcher
@@ -43,7 +43,7 @@ class FirstStubMatcher extends AbstractChainableArgumentMatcher
             self::$stubsPerMock[$mockHash] = [];
         }
 
-        if (in_array($methodName, self::$stubsPerMock[$mockHash])) {
+        if (in_array($methodName, self::$stubsPerMock[$mockHash], $strict = true)) {
             $this->isFirstStub = false;
             return;
         }
@@ -78,6 +78,7 @@ class FirstStubMatcher extends AbstractChainableArgumentMatcher
 
     /**
      * @param Phake_Matchers_IChainableArgumentMatcher $nextMatcher
+     * @return void
      */
     public function setNextMatcher(Phake_Matchers_IChainableArgumentMatcher $nextMatcher)
     {

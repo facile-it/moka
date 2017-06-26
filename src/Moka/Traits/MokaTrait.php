@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Moka\Traits;
 
-use Moka\Exception\InvalidIdentifierException;
-use Moka\Exception\MockNotCreatedException;
 use Moka\Moka;
 use Moka\Proxy\Proxy;
 

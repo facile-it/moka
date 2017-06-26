@@ -43,7 +43,7 @@ class ProxyBuilderTest extends TestCase
 
         $this->assertInstanceOf(Proxy::class, $proxy1);
 
-        $this->assertSame($proxy1, $proxy2);
+        $this->assertNotSame($proxy1, $proxy2);
     }
 
     public function testGetProxySuccessWithAlias()

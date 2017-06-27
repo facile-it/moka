@@ -6,9 +6,7 @@ namespace Moka\Proxy;
 use Moka\Exception\InvalidArgumentException;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Exception\MockNotServedException;
-use Moka\Factory\StubFactory;
 use Moka\Strategy\MockingStrategyInterface;
-use Moka\Stub\StubSet;
 
 /**
  * Class Proxy
@@ -20,11 +18,6 @@ class Proxy
      * @var string
      */
     private $fqcn;
-
-    /**
-     * @var StubSet
-     */
-    private $stubs;
 
     /**
      * @var MockingStrategyInterface
@@ -45,15 +38,6 @@ class Proxy
     {
         $this->fqcn = $fqcn;
         $this->mockingStrategy = $mockingStrategy;
-        $this->resetStubs();
-    }
-
-    /**
-     * @return void
-     */
-    private function resetStubs()
-    {
-        $this->stubs = new StubSet();
     }
 
     /**
@@ -91,25 +75,9 @@ class Proxy
      */
     public function stub(array $methodsWithValues): self
     {
-        $this->stubs->addAll(
-            StubFactory::fromArray($methodsWithValues)->all()
-        );
-
-        $this->decorateMock();
+        $this->mockingStrategy->decorate($this->getMock(), $methodsWithValues);
 
         return $this;
-    }
-
-    /**
-     * @return void
-     *
-     * @throws InvalidArgumentException
-     * @throws MockNotCreatedException
-     */
-    private function decorateMock()
-    {
-        $this->mockingStrategy->decorate($this->getMock(), $this->stubs);
-        $this->resetStubs();
     }
 
     /**

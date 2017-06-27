@@ -50,9 +50,9 @@ class PhakeMockingStrategyTest extends MokaMockingStrategyTestCase
 
     public function testDecorateFakeMethodFailure()
     {
-        $this->strategy->decorate($this->mock, StubFactory::fromArray([
+        $this->strategy->decorate($this->mock, [
             'fakeMethod' => true
-        ]));
+        ]);
 
         $this->expectException(\Error::class);
         $this->strategy->get($this->mock)->fakeMethod();

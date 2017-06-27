@@ -32,13 +32,12 @@ class ProxyBuilderFactory
     }
 
     /**
-     * @return void
+     * @param MockingStrategyInterface $mockingStrategy
+     * @return string
      */
-    public static function reset()
+    private static function key(MockingStrategyInterface $mockingStrategy): string
     {
-        foreach (self::$mockBuilders as $mockBuilder) {
-            $mockBuilder->reset();
-        }
+        return get_class($mockingStrategy);
     }
 
     /**
@@ -51,11 +50,12 @@ class ProxyBuilderFactory
     }
 
     /**
-     * @param MockingStrategyInterface $mockingStrategy
-     * @return string
+     * @return void
      */
-    private static function key(MockingStrategyInterface $mockingStrategy): string
+    public static function reset()
     {
-        return get_class($mockingStrategy);
+        foreach (self::$mockBuilders as $mockBuilder) {
+            $mockBuilder->reset();
+        }
     }
 }

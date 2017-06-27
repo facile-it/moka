@@ -6,7 +6,6 @@ namespace Moka\Strategy;
 use Moka\Exception\InvalidArgumentException;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Exception\NotImplementedException;
-use Moka\Stub\StubSet;
 
 /**
  * Interface MockingStrategyInterface
@@ -24,12 +23,10 @@ interface MockingStrategyInterface
 
     /**
      * @param object $mock
-     * @param StubSet $stubs
+     * @param array $stubs
      * @return void
-     *
-     * @throws InvalidArgumentException
      */
-    public function decorate($mock, StubSet $stubs);
+    public function decorate($mock, array $stubs);
 
     /**
      * @param object $mock

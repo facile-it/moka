@@ -57,9 +57,9 @@ class MockeryMockingStrategyTest extends MokaMockingStrategyTestCase
 
     public function testDecorateFakeMethodSuccess()
     {
-        $this->strategy->decorate($this->mock, StubFactory::fromArray([
+        $this->strategy->decorate($this->mock, [
             'fakeMethod' => true
-        ]));
+        ]);
 
         $this->assertSame(true, $this->strategy->get($this->mock)->fakeMethod());
     }

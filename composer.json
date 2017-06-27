@@ -48,7 +48,7 @@
     "phpunit/phpunit-mock-objects": "^3.4||^4.0"
   },
   "require-dev": {
-    "facile-it/facile-coding-standard": "dev-master",
+    "friendsofphp/php-cs-fixer": "^2.3",
     "phpunit/phpunit": "^5.6||^6.0",
     "phpspec/prophecy": "^1.6",
     "mockery/mockery": "^0.9.9",

@@ -24,12 +24,10 @@ interface MockingStrategyInterface
 
     /**
      * @param object $mock
-     * @param StubSet $stubs
+     * @param array $stubs
      * @return void
-     *
-     * @throws InvalidArgumentException
      */
-    public function decorate($mock, StubSet $stubs);
+    public function decorate($mock, array $stubs);
 
     /**
      * @param object $mock

@@ -6,6 +6,7 @@ namespace Moka\Tests;
 use Moka\Exception\InvalidArgumentException;
 use Moka\Factory\StubFactory;
 use Moka\Strategy\MockingStrategyInterface;
+use Moka\Stub\Stub;
 use Moka\Stub\StubSet;
 use PHPUnit\Framework\TestCase;
 use Tests\AbstractTestClass;
@@ -26,19 +27,14 @@ abstract class MokaMockingStrategyTestCase extends TestCase
     protected $mock;
 
     /**
-     * @var StubSet
+     * @var array
      */
-    protected $stubs;
+    protected $methodsWithValues;
 
     /**
      * @var string
      */
     private $className;
-
-    /**
-     * @var array
-     */
-    private $methodsWithValues = [];
 
     final public function testGetMockTypeSuccess()
     {
@@ -68,14 +64,14 @@ abstract class MokaMockingStrategyTestCase extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
-        $this->strategy->decorate(new \stdClass(), $this->stubs);
+        $this->strategy->decorate(new \stdClass(), $this->methodsWithValues);
     }
 
     final public function testDecorateWrongTypeHintFailure()
     {
-        $this->strategy->decorate($this->mock, StubFactory::fromArray([
+        $this->strategy->decorate($this->mock, [
             'getSelf' => mt_rand()
-        ]));
+        ]);
 
         $this->expectException(\TypeError::class);
         $this->strategy->get($this->mock)->getSelf();
@@ -98,10 +94,10 @@ abstract class MokaMockingStrategyTestCase extends TestCase
 
     final public function testDecorateOverriddenCallsFailure()
     {
-        $this->strategy->decorate($this->mock, StubFactory::fromArray([
+        $this->strategy->decorate($this->mock, [
             'getInt' => mt_rand(),
             'throwException' => mt_rand()
-        ]));
+        ]);
 
         $this->assertSame($this->methodsWithValues['getInt'], $this->strategy->get($this->mock)->getInt());
         $this->assertSame($this->methodsWithValues['getInt'], $this->strategy->get($this->mock)->getInt());
@@ -158,10 +154,7 @@ abstract class MokaMockingStrategyTestCase extends TestCase
 
         $this->mock = $this->strategy->build($this->className);
 
-        // Mocking a StubSet is way too difficult.
-        $this->stubs = StubFactory::fromArray($this->methodsWithValues);
-
-        $this->strategy->decorate($this->mock, $this->stubs);
+        $this->strategy->decorate($this->mock, $this->methodsWithValues);
     }
 
     final protected function setStrategy(MockingStrategyInterface $strategy)

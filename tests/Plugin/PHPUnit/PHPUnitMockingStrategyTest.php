@@ -52,9 +52,9 @@ class PHPUnitMockingStrategyTest extends MokaMockingStrategyTestCase
     {
         $this->expectException(\Exception::class);
 
-        $this->strategy->decorate($this->mock, StubFactory::fromArray([
+        $this->strategy->decorate($this->mock, [
             'fakeMethod' => true
-        ]));
+        ]);
     }
 
     public function testCallMissingMethodSuccess()

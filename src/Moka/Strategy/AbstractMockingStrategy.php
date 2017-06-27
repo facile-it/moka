@@ -7,6 +7,7 @@ use Moka\Exception\InvalidArgumentException;
 use Moka\Exception\MissingDependencyException;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Exception\NotImplementedException;
+use Moka\Factory\StubFactory;
 use Moka\Stub\Stub;
 use Moka\Stub\StubSet;
 
@@ -63,15 +64,14 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
 
     /**
      * @param object $mock
-     * @param StubSet $stubs
+     * @param array $stubs
      * @return void
-     *
-     * @throws NotImplementedException
-     * @throws InvalidArgumentException
      */
-    public function decorate($mock, StubSet $stubs)
+    public function decorate($mock, array $stubs)
     {
         $this->checkMockType($mock);
+
+        $stubs = StubFactory::fromArray($stubs);
 
         /** @var Stub $stub */
         foreach ($stubs as $stub) {

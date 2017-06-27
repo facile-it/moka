@@ -5,7 +5,6 @@ namespace Moka\Traits;
 
 use Mockery\MockInterface;
 use Moka\Moka;
-use Moka\Proxy\Proxy;
 use Moka\Proxy\ProxyInterface;
 
 /**

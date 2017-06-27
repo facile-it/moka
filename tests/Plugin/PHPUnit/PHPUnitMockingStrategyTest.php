@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Tests\Plugin\PHPUnit;
 
 use Moka\Exception\MockNotCreatedException;
-use Moka\Factory\StubFactory;
 use Moka\Plugin\PHPUnit\PHPUnitMockingStrategy;
 use Moka\Tests\MokaMockingStrategyTestCase;
 use Tests\BarTestClass;

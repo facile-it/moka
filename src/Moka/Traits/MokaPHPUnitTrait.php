@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Moka\Traits;
 
 use Moka\Moka;
-use Moka\Proxy\Proxy;
 use Moka\Proxy\ProxyInterface;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 

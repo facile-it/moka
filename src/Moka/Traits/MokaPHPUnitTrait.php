@@ -5,6 +5,7 @@ namespace Moka\Traits;
 
 use Moka\Moka;
 use Moka\Proxy\Proxy;
+use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 /**
  * Trait MokaPHPUnitTrait
@@ -15,7 +16,7 @@ trait MokaPHPUnitTrait
     /**
      * @param string $fqcnOrAlias
      * @param string|null $alias
-     * @return Proxy
+     * @return Proxy|MockObject
      */
     protected function mock(string $fqcnOrAlias, string $alias = null): Proxy
     {

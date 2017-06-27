@@ -19,7 +19,7 @@ trait MokaTrait
      * @param string|null $alias
      * @return Proxy
      *
-     * @deprecated since v.1.4.0
+     * @deprecated since v.1.2.0
      */
     protected function mock(string $fqcnOrAlias, string $alias = null): Proxy
     {

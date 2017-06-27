@@ -5,6 +5,7 @@ namespace Moka\Traits;
 
 use Moka\Moka;
 use Moka\Proxy\Proxy;
+use Phake_IMock as PhakeMock;
 
 /**
  * Trait MokaPhakeTrait
@@ -15,7 +16,7 @@ trait MokaPhakeTrait
     /**
      * @param string $fqcnOrAlias
      * @param string|null $alias
-     * @return Proxy
+     * @return Proxy|PhakeMock
      */
     protected function mock(string $fqcnOrAlias, string $alias = null): Proxy
     {

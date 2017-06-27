@@ -11,15 +11,19 @@ use Moka\Factory\ProxyBuilderFactory;
 use Moka\Plugin\PluginHelper;
 use Moka\Proxy\Proxy;
 use Moka\Strategy\MockingStrategyInterface;
+use Prophecy\Prophecy\ObjectProphecy;
+use \PHPUnit_Framework_MockObject_MockObject as MockObject;
+use Phake_IMock as PhakeMock;
+use Mockery\MockInterface;
 
 /**
  * Class Moka
  * @package Moka
  *
- * @method static Proxy mockery(string $fqcnOrAlias, string $alias = null)
- * @method static Proxy phake(string $fqcnOrAlias, string $alias = null)
- * @method static Proxy phpunit(string $fqcnOrAlias, string $alias = null)
- * @method static Proxy prophecy(string $fqcnOrAlias, string $alias = null)
+ * @method static Proxy|MockInterface mockery(string $fqcnOrAlias, string $alias = null)
+ * @method static Proxy|PhakeMock phake(string $fqcnOrAlias, string $alias = null)
+ * @method static Proxy|MockObject phpunit(string $fqcnOrAlias, string $alias = null)
+ * @method static Proxy|ObjectProphecy prophecy(string $fqcnOrAlias, string $alias = null)
  */
 class Moka
 {

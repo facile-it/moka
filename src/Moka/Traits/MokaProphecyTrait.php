@@ -5,6 +5,7 @@ namespace Moka\Traits;
 
 use Moka\Moka;
 use Moka\Proxy\Proxy;
+use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * Trait MokaProphecyTrait
@@ -15,7 +16,7 @@ trait MokaProphecyTrait
     /**
      * @param string $fqcnOrAlias
      * @param string|null $alias
-     * @return Proxy
+     * @return Proxy|ObjectProphecy
      */
     protected function mock(string $fqcnOrAlias, string $alias = null): Proxy
     {

@@ -4,10 +4,7 @@ declare(strict_types=1);
 namespace Moka\Tests;
 
 use Moka\Exception\InvalidArgumentException;
-use Moka\Factory\StubFactory;
 use Moka\Strategy\MockingStrategyInterface;
-use Moka\Stub\Stub;
-use Moka\Stub\StubSet;
 use PHPUnit\Framework\TestCase;
 use Tests\AbstractTestClass;
 use Tests\BarTestClass;

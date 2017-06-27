@@ -6,7 +6,6 @@ namespace Moka\Strategy;
 use Moka\Exception\InvalidArgumentException;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Exception\NotImplementedException;
-use Moka\Stub\StubSet;
 
 /**
  * Interface MockingStrategyInterface

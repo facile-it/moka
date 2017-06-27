@@ -56,7 +56,7 @@ class FooTest extends \AnyTestCase
 }
 ```
 
-Alternatively, instead of using the trait and `$this->mock(/* ... */)`, you can call `Moka::phpunit(string $fqcn, string $alias = null): Proxy`.
+Alternatively, instead of using the trait and `$this->mock(/* ... */)`, you can call `Moka::phpunit(string $fqcnOrAlias, string $alias = null): Proxy`.
 
 Being such a simple project, **Moka** can be integrated in an already existing test suite with no effort.
 
@@ -109,9 +109,9 @@ var_dump($this->mock('bar')->serve()->isValid());
 
 ## <a name='reference'></a>Reference
 
-### `mock(string $fqcn, string $alias = null): Proxy`
+### `mock(string $fqcnOrAlias, string $alias = null): Proxy`
 
-Creates a proxy containing a mock object (according to the selected strategy) for the class identified by `$fqcn` and optionally assigns an `$alias` to it to be able to get it later:
+Creates a proxy containing a mock object (according to the selected strategy) for the provided *FQCN* and optionally assigns an `$alias` to it to be able to get it later:
 
 ```php
 $mock1 = $this->mock(FooInterface::class)->serve(); // Creates the mock for FooInterface.
@@ -181,7 +181,7 @@ We provide a specific trait for each supported strategy, as well as a static met
 - `MokaMockeryTrait`
 - `MokaPhakeTrait`
 
-Every trait defines its own `mock(string $fqcn, string $alias = null): Proxy`, as described in the **[Reference](#reference)**.
+Every trait defines its own `mock(string $fqcnOrAlias, string $alias = null): Proxy`, as described in the **[Reference](#reference)**.
 
 ## Plugin development
 

@@ -13,12 +13,12 @@ use Moka\Proxy\Proxy;
 trait MokaPHPUnitTrait
 {
     /**
-     * @param string $fqcn
+     * @param string $fqcnOrAlias
      * @param string|null $alias
      * @return Proxy
      */
-    protected function mock(string $fqcn, string $alias = null): Proxy
+    protected function mock(string $fqcnOrAlias, string $alias = null): Proxy
     {
-        return Moka::phpunit($fqcn, $alias);
+        return Moka::phpunit($fqcnOrAlias, $alias);
     }
 }

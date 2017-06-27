@@ -44,15 +44,15 @@ class Moka
             self::$mockingStrategies[$name] = PluginHelper::load($name);
         }
 
-        $mockFQCN = $arguments[0];
+        $fqcnOrAlias = $arguments[0];
         $alias = $arguments[1] ?? null;
         $mockingStrategy = self::$mockingStrategies[$name];
 
-        return ProxyBuilderFactory::get($mockingStrategy)->getProxy($mockFQCN, $alias);
+        return ProxyBuilderFactory::get($mockingStrategy)->getProxy($fqcnOrAlias, $alias);
     }
 
     /**
-     * @param string $fqcn
+     * @param string $fqcnOrAlias
      * @param string|null $alias
      * @return Proxy
      *
@@ -63,9 +63,9 @@ class Moka
      *
      * @deprecated since 1.2.0
      */
-    public static function brew(string $fqcn, string $alias = null): Proxy
+    public static function brew(string $fqcnOrAlias, string $alias = null): Proxy
     {
-        return self::phpunit($fqcn, $alias);
+        return self::phpunit($fqcnOrAlias, $alias);
     }
 
     /**

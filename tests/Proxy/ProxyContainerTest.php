@@ -6,6 +6,7 @@ namespace Tests\Proxy;
 use Moka\Exception\InvalidIdentifierException;
 use Moka\Proxy\Proxy;
 use Moka\Proxy\ProxyContainer;
+use Moka\Proxy\ProxyInterface;
 use PHPUnit\Framework\TestCase;
 
 class ProxyContainerTest extends TestCase
@@ -16,14 +17,14 @@ class ProxyContainerTest extends TestCase
     private $proxyContainer;
 
     /**
-     * @var Proxy
+     * @var ProxyInterface
      */
     private $proxy;
 
     protected function setUp()
     {
         $this->proxyContainer = new ProxyContainer();
-        /** @var Proxy $proxy */
+        /** @var ProxyInterface $proxy */
         $this->proxy = $this->getMockBuilder(Proxy::class)
             ->disableOriginalConstructor()
             ->getMock();

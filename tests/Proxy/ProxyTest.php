@@ -6,6 +6,7 @@ namespace Tests\Proxy;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Exception\MockNotServedException;
 use Moka\Proxy\Proxy;
+use Moka\Proxy\ProxyInterface;
 use Moka\Strategy\MockingStrategyInterface;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
@@ -15,7 +16,7 @@ use Tests\FooTestClass;
 class ProxyTest extends TestCase
 {
     /**
-     * @var Proxy
+     * @var ProxyInterface
      */
     private $proxy;
 

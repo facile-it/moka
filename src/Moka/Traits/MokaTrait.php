@@ -5,6 +5,7 @@ namespace Moka\Traits;
 
 use Moka\Moka;
 use Moka\Proxy\Proxy;
+use Moka\Proxy\ProxyInterface;
 
 /**
  * Trait MokaTrait
@@ -17,11 +18,11 @@ trait MokaTrait
     /**
      * @param string $fqcnOrAlias
      * @param string|null $alias
-     * @return Proxy
+     * @return ProxyInterface
      *
      * @deprecated since v1.2.0
      */
-    protected function mock(string $fqcnOrAlias, string $alias = null): Proxy
+    protected function mock(string $fqcnOrAlias, string $alias = null): ProxyInterface
     {
         return Moka::phpunit($fqcnOrAlias, $alias);
     }

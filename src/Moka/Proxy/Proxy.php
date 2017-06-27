@@ -12,7 +12,7 @@ use Moka\Strategy\MockingStrategyInterface;
  * Class Proxy
  * @package Moka\Proxy
  */
-class Proxy
+class Proxy implements ProxyInterface
 {
     /**
      * @var string
@@ -68,12 +68,12 @@ class Proxy
 
     /**
      * @param array $methodsWithValues
-     * @return Proxy
+     * @return ProxyInterface
      *
      * @throws InvalidArgumentException
      * @throws MockNotCreatedException
      */
-    public function stub(array $methodsWithValues): self
+    public function stub(array $methodsWithValues): ProxyInterface
     {
         $this->mockingStrategy->decorate($this->getMock(), $methodsWithValues);
 

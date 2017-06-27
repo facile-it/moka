@@ -6,6 +6,7 @@ namespace Moka\Traits;
 use Mockery\MockInterface;
 use Moka\Moka;
 use Moka\Proxy\Proxy;
+use Moka\Proxy\ProxyInterface;
 
 /**
  * Trait MokaMockeryTrait
@@ -16,9 +17,9 @@ trait MokaMockeryTrait
     /**
      * @param string $fqcnOrAlias
      * @param string|null $alias
-     * @return Proxy|MockInterface
+     * @return ProxyInterface|MockInterface
      */
-    protected function moka(string $fqcnOrAlias, string $alias = null): Proxy
+    protected function moka(string $fqcnOrAlias, string $alias = null): ProxyInterface
     {
         return Moka::mockery($fqcnOrAlias, $alias);
     }

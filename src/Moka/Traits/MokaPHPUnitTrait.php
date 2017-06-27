@@ -28,7 +28,7 @@ trait MokaPHPUnitTrait
      * @param string|null $alias
      * @return Proxy|MockObject
      *
-     * @deprecated since v.1.4.0
+     * @deprecated since v1.4.0
      */
     protected function mock(string $fqcnOrAlias, string $alias = null): Proxy
     {

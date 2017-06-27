@@ -16,10 +16,10 @@ use Moka\Strategy\MockingStrategyInterface;
  * Class Moka
  * @package Moka
  *
- * @method static Proxy mockery(string $fqcn, string $alias = null)
- * @method static Proxy phake(string $fqcn, string $alias = null)
- * @method static Proxy phpunit(string $fqcn, string $alias = null)
- * @method static Proxy prophecy(string $fqcn, string $alias = null)
+ * @method static Proxy mockery(string $fqcnOrAlias, string $alias = null)
+ * @method static Proxy phake(string $fqcnOrAlias, string $alias = null)
+ * @method static Proxy phpunit(string $fqcnOrAlias, string $alias = null)
+ * @method static Proxy prophecy(string $fqcnOrAlias, string $alias = null)
  */
 class Moka
 {

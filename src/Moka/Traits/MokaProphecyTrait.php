@@ -26,7 +26,7 @@ trait MokaProphecyTrait
     /**
      * @param string $fqcnOrAlias
      * @param string|null $alias
-     * @return Proxy|MockInterface
+     * @return Proxy|ObjectProphecy
      *
      * @deprecated since v.1.4.0
      */

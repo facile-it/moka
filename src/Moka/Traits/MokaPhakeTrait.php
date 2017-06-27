@@ -26,7 +26,7 @@ trait MokaPhakeTrait
     /**
      * @param string $fqcnOrAlias
      * @param string|null $alias
-     * @return Proxy|MockInterface
+     * @return Proxy|PhakeMock
      *
      * @deprecated since v.1.4.0
      */

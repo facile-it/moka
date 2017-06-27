@@ -26,7 +26,7 @@ trait MokaPHPUnitTrait
     /**
      * @param string $fqcnOrAlias
      * @param string|null $alias
-     * @return Proxy|MockInterface
+     * @return Proxy|MockObject
      *
      * @deprecated since v.1.4.0
      */

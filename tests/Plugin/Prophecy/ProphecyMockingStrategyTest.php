@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Tests\Plugin\Prophecy;
 
 use Moka\Exception\MockNotCreatedException;
-use Moka\Factory\StubFactory;
 use Moka\Plugin\Prophecy\ProphecyMockingStrategy;
 use Moka\Tests\MokaMockingStrategyTestCase;
 use Prophecy\Doubler\Doubler;

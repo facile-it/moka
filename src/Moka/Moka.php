@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Moka;
 
+use Mockery\MockInterface;
 use Moka\Exception\InvalidIdentifierException;
 use Moka\Exception\MissingDependencyException;
 use Moka\Exception\MockNotCreatedException;
@@ -10,11 +11,11 @@ use Moka\Exception\NotImplementedException;
 use Moka\Factory\ProxyBuilderFactory;
 use Moka\Plugin\PluginHelper;
 use Moka\Proxy\Proxy;
+use Moka\Proxy\ProxyInterface;
 use Moka\Strategy\MockingStrategyInterface;
-use Prophecy\Prophecy\ObjectProphecy;
-use \PHPUnit_Framework_MockObject_MockObject as MockObject;
 use Phake_IMock as PhakeMock;
-use Mockery\MockInterface;
+use PHPUnit_Framework_MockObject_MockObject as MockObject;
+use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * Class Moka
@@ -35,7 +36,7 @@ class Moka
     /**
      * @param string $name
      * @param array $arguments
-     * @return Proxy
+     * @return ProxyInterface
      *
      * @throws NotImplementedException
      * @throws InvalidIdentifierException
@@ -58,7 +59,7 @@ class Moka
     /**
      * @param string $fqcnOrAlias
      * @param string|null $alias
-     * @return Proxy
+     * @return ProxyInterface
      *
      * @throws NotImplementedException
      * @throws InvalidIdentifierException
@@ -67,7 +68,7 @@ class Moka
      *
      * @deprecated since 1.2.0
      */
-    public static function brew(string $fqcnOrAlias, string $alias = null): Proxy
+    public static function brew(string $fqcnOrAlias, string $alias = null): ProxyInterface
     {
         return self::phpunit($fqcnOrAlias, $alias);
     }

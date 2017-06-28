@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Moka\Traits;
 
 use Moka\Moka;
-use Moka\Proxy\Proxy;
+use Moka\Proxy\ProxyInterface;
 use Phake_IMock as PhakeMock;
 
 /**
@@ -16,9 +16,9 @@ trait MokaPhakeTrait
     /**
      * @param string $fqcnOrAlias
      * @param string|null $alias
-     * @return Proxy|PhakeMock
+     * @return ProxyInterface|PhakeMock
      */
-    protected function moka(string $fqcnOrAlias, string $alias = null): Proxy
+    protected function moka(string $fqcnOrAlias, string $alias = null): ProxyInterface
     {
         return Moka::phake($fqcnOrAlias, $alias);
     }
@@ -26,11 +26,11 @@ trait MokaPhakeTrait
     /**
      * @param string $fqcnOrAlias
      * @param string|null $alias
-     * @return Proxy|PhakeMock
+     * @return ProxyInterface|PhakeMock
      *
      * @deprecated since v1.4.0
      */
-    protected function mock(string $fqcnOrAlias, string $alias = null): Proxy
+    protected function mock(string $fqcnOrAlias, string $alias = null): ProxyInterface
     {
         return $this->moka($fqcnOrAlias, $alias);
     }

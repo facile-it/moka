@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Moka\Traits;
 
 use Moka\Moka;
-use Moka\Proxy\Proxy;
+use Moka\Proxy\ProxyInterface;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 /**
@@ -16,9 +16,9 @@ trait MokaPHPUnitTrait
     /**
      * @param string $fqcnOrAlias
      * @param string|null $alias
-     * @return Proxy|MockObject
+     * @return ProxyInterface|MockObject
      */
-    protected function moka(string $fqcnOrAlias, string $alias = null): Proxy
+    protected function moka(string $fqcnOrAlias, string $alias = null): ProxyInterface
     {
         return Moka::phpunit($fqcnOrAlias, $alias);
     }
@@ -26,11 +26,11 @@ trait MokaPHPUnitTrait
     /**
      * @param string $fqcnOrAlias
      * @param string|null $alias
-     * @return Proxy|MockObject
+     * @return ProxyInterface|MockObject
      *
      * @deprecated since v1.4.0
      */
-    protected function mock(string $fqcnOrAlias, string $alias = null): Proxy
+    protected function mock(string $fqcnOrAlias, string $alias = null): ProxyInterface
     {
         return $this->moka($fqcnOrAlias, $alias);
     }

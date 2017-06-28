@@ -27,6 +27,7 @@ class ProxyClassGenerator
         $reflection = new \ReflectionClass($classWillBeEtended);
         $methods = $reflection->getMethods();
         $methodsArray = [];
+        $p = array_fill(0, 2, '');
 
         foreach ($methods as $method) {
             if (!$method->isFinal() && !in_array($method->getName(), self::UNSAFE_METHODS, true)) {
@@ -34,7 +35,6 @@ class ProxyClassGenerator
             }
 
             if ($method->getName() === '__call') {
-                $p = [];
                 $callParameters = $method->getParameters();
                 foreach ($callParameters as $callParameter) {
                     $p[$callParameter->getPosition()] = (string)$callParameter->getType();
@@ -42,8 +42,7 @@ class ProxyClassGenerator
             }
         }
 
-        $callName = $p[0] ?? '';
-        $callArguments = $p[1] ?? '';
+        list($callName, $callArguments) = $p;
 
         return sprintf(
             self::$template,
@@ -51,8 +50,8 @@ class ProxyClassGenerator
             ProxyInterface::class,
             ProxyTrait::class,
             implode(PHP_EOL, $methodsArray),
-            $callName,
-            $callArguments
+            $callName?? '',
+            $callArguments?? ''
         );
     }
 }

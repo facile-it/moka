@@ -8,7 +8,6 @@ use Moka\Proxy\ProxyInterface;
 class ProxyClassGenerator
 {
     const UNSAFE_METHODS = ['__call', '__construct', '__destruct', '__clone'];
-//    const CALL_PARAMETERS = ['name', 'arguments'];
 
     private static $template = '
     return new class extends %s implements %s
@@ -30,7 +29,7 @@ class ProxyClassGenerator
         $methodsArray = [];
 
         foreach ($methods as $method) {
-            if (!in_array($method->getName(), self::UNSAFE_METHODS, true)) {
+            if (!$method->isFinal() && !in_array($method->getName(), self::UNSAFE_METHODS, true)) {
                 $methodsArray[] = ProxyMethodGenerator::generateMethodString($method);
             }
 

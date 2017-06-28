@@ -66,7 +66,7 @@ class Moka
      * @throws MockNotCreatedException
      * @throws MissingDependencyException
      *
-     * @deprecated since 1.2.0
+     * @deprecated since v1.2.0
      */
     public static function brew(string $fqcnOrAlias, string $alias = null): ProxyInterface
     {

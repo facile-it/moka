@@ -26,11 +26,11 @@ trait MokaPHPUnitTrait
     /**
      * @param string $fqcnOrAlias
      * @param string|null $alias
-     * @return Proxy|MockObject
+     * @return ProxyInterface|MockObject
      *
      * @deprecated since v1.4.0
      */
-    protected function mock(string $fqcnOrAlias, string $alias = null): Proxy
+    protected function mock(string $fqcnOrAlias, string $alias = null): ProxyInterface
     {
         return $this->moka($fqcnOrAlias, $alias);
     }

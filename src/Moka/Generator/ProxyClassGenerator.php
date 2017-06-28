@@ -1,10 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Coffee\Generator;
+namespace Moka\Generator;
 
 
-use Coffee\ProxyTrait;
 use Moka\Proxy\ProxyInterface;
 
 class ProxyClassGenerator

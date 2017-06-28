@@ -3,14 +3,14 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use Coffee\Generator\ProxyClassGenerator;
+use Moka\Generator\ProxyClassGenerator;
 use Moka\Proxy\ProxyInterface;
 use PHPUnit\Framework\TestCase;
 
-class CoffeeTest extends TestCase
+class GeneratorTest extends TestCase
 {
     /**
-     * @var \Coffee\Generator\ProxyClassGenerator
+     * @var \Moka\Generator\ProxyClassGenerator
      */
     private $proxyGenerator;
 

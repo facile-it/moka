@@ -43,4 +43,6 @@ interface MockingStrategyInterface
      * @throws NotImplementedException
      */
     public function getMockType(): string;
+
+    public function call($object, string $name, array $arguments);
 }

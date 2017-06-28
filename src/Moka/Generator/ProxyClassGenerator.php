@@ -8,58 +8,33 @@ use Moka\Proxy\ProxyInterface;
 
 class ProxyClassGenerator
 {
-    private $template = '
-    class %s extends %s implements %s
+    const UNSAFE_METHODS = ['__call', '__construct', '__destruct', '__clone'];
+
+    private static $template = '
+    return new class extends %s implements %s
     {
         use %s;
         %s
     };
-    
-    $instantiator = new \Doctrine\Instantiator\Instantiator();
-
-    return $instantiator->instantiate("%s");
     ';
 
-    private $methodGenerator;
-
-    public function __construct()
+    public static function generateCode(string $classWillBeEtended): string
     {
-        $this->methodGenerator = new ProxyMethodGenerator();
-    }
-
-    public function generate($object): ProxyInterface
-    {
-        $objectFQCN = get_class($object);
-        $codeWillBeEvalueted = $this->generateCode($objectFQCN);
-        /** @var ProxyInterface|ProxyTrait $proxy */
-        $proxy = eval($codeWillBeEvalueted);
-        $proxy->setObject($object);
-
-        return $proxy;
-    }
-
-    protected function generateCode(string $classWillBeEtended): string
-    {
-
         $reflection = new \ReflectionClass($classWillBeEtended);
         $methods = $reflection->getMethods();
         $methodsArray = [];
         foreach ($methods as $method) {
-            if ($method->getName() !== '__call') {
-                $methodsArray[] = $this->methodGenerator->generateMethodString($method);
+            if (!in_array($method->getName(), self::UNSAFE_METHODS, true)) {
+                $methodsArray[] = ProxyMethodGenerator::generateMethodString($method);
             }
         }
 
-        $className = 'Cofffee' . '_' . mt_rand();
-
         return sprintf(
-            $this->template,
-            $className,
+            self::$template,
             $classWillBeEtended,
             ProxyInterface::class,
             ProxyTrait::class,
-            implode(PHP_EOL, $methodsArray),
-            $className
+            implode(PHP_EOL, $methodsArray)
         );
     }
 }

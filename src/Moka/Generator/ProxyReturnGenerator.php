@@ -6,14 +6,14 @@ namespace Moka\Generator;
 
 class ProxyReturnGenerator
 {
-    public function generateMethodReturnType(\ReflectionType $type, \ReflectionMethod $method)
+    public static function generateMethodReturnType(\ReflectionType $type, \ReflectionMethod $method)
     {
         $allowNull = '';
         if ($type->allowsNull()) {
             $allowNull = '?';
         }
 
-        $returnType = $this->getType($type);
+        $returnType = self::getType($type);
         if ($returnType === 'self') {
             $returnType = $method->getDeclaringClass()->getName();
         }
@@ -25,7 +25,7 @@ class ProxyReturnGenerator
         );
     }
 
-    public function getType(\ReflectionType $type)
+    public static function getType(\ReflectionType $type)
     {
         return (string)$type;
     }

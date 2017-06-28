@@ -6,7 +6,7 @@ namespace Moka\Generator;
 
 class ProxyArgumentGenerator
 {
-    public function generateMethodParameter(\ReflectionParameter $parameter)
+    public static function generateMethodParameter(\ReflectionParameter $parameter)
     {
         try {
             $allowsNull = $parameter->allowsNull();
@@ -27,7 +27,7 @@ class ProxyArgumentGenerator
         try {
             $type = $parameter->getType();
             if ($type) {
-                $type = ' ' . $this->getType($type) . ' ';
+                $type = ' ' . self::getType($type) . ' ';
             } else {
                 $type = '';
             }
@@ -62,7 +62,7 @@ class ProxyArgumentGenerator
         );
     }
 
-    protected function getType(\ReflectionType $type)
+    protected static function getType(\ReflectionType $type)
     {
         return (string)$type;
     }

@@ -6,47 +6,37 @@ namespace Moka\Generator;
 
 class ProxyMethodGenerator
 {
-    private $template = '
+    private static $template = '
         public %s function %s(%s)%s
         {
             %s$this->__call("%s", func_get_args());
         }
     ';
 
-    private $argumentGenerator;
-    private $returnGenerator;
-
-    public function __construct()
-    {
-        $this->argumentGenerator = new ProxyArgumentGenerator();
-        $this->returnGenerator = new ProxyReturnGenerator();
-    }
-
-    public function generateMethodString(\ReflectionMethod $method)
+    public static function generateMethodString(\ReflectionMethod $method)
     {
         $static = $method->isStatic() ? 'static' : '';
         $originalReturnType = $method->getReturnType();
 
-        $returnType = !$originalReturnType ? '' : $this->returnGenerator->generateMethodReturnType($originalReturnType, $method);
+        $returnType = !$originalReturnType ? '' : ProxyReturnGenerator::generateMethodReturnType($originalReturnType, $method);
 
         $parameters = $method->getParameters();
         $arguments = [];
         if ($parameters) {
             foreach ($method->getParameters() as $parameter) {
-                $arguments[] = $this->argumentGenerator->generateMethodParameter($parameter);
+                $arguments[] = ProxyArgumentGenerator::generateMethodParameter($parameter);
             }
         }
 
         $method->getReturnType();
 
         $returnStatement = 'return ';
-        if (null !== $originalReturnType && $this->getType($originalReturnType) === 'void') {
+        if (null !== $originalReturnType && self::getType($originalReturnType) === 'void') {
             $returnStatement = '';
         }
 
-
         return sprintf(
-            $this->template,
+            self::$template,
             $static,
             $method->getName(),
             implode(', ', $arguments),
@@ -56,7 +46,7 @@ class ProxyMethodGenerator
         );
     }
 
-    protected function getType(\ReflectionType $type)
+    protected static function getType(\ReflectionType $type)
     {
         return (string)$type;
     }

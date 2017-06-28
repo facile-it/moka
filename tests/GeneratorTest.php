@@ -3,7 +3,8 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use Moka\Generator\ProxyClassGenerator;
+use Moka\Generator\ProxyGenerator;
+use Moka\Plugin\PHPUnit\PHPUnitMockingStrategy;
 use Moka\Proxy\ProxyInterface;
 use PHPUnit\Framework\TestCase;
 
@@ -16,40 +17,24 @@ class GeneratorTest extends TestCase
 
     public function setUp()
     {
-        $this->proxyGenerator = new ProxyClassGenerator();
+        $this->proxyGenerator = new ProxyGenerator(
+            new PHPUnitMockingStrategy()
+        );
     }
 
     public function testCreation()
     {
         /** @var ProxyInterface|FooTestClass $proxy */
-        $proxy = $this->proxyGenerator->generate($this->getMockBuilder(FooTestClass::class)->getMock());
+        $proxy = $this->proxyGenerator->generate(FooTestClass::class);
 
         $this->assertInstanceOf(ProxyInterface::class, $proxy);
-    }
-
-    public function testForwardPHPUnit()
-    {
-        $mock = $this->getMockBuilder(FooTestClass::class)->getMock();
-
-        $mock->expects($this->any())
-            ->method('something')
-            ->willReturn(new \stdClass());
-
-        /** @var ProxyInterface|FooTestClass $proxy */
-        $proxy = $this->proxyGenerator->generate($mock);
-
-        $this->assertInstanceOf(\stdClass::class, $proxy->something());
-
-        $this->assertInstanceOf(ProxyInterface::class, $proxy);
-
     }
 
     public function testUseMockEngineMethod()
     {
-        $mock = $this->getMockBuilder(FooTestClass::class)->getMock();
 
         /** @var ProxyInterface|FooTestClass $proxy */
-        $proxy = $this->proxyGenerator->generate($mock);
+        $proxy = $this->proxyGenerator->generate(FooTestClass::class);
 
         $proxy->expects($this->any())
             ->method('something')
@@ -58,22 +43,6 @@ class GeneratorTest extends TestCase
         $this->assertInstanceOf(\stdClass::class, $proxy->something());
 
         $this->assertInstanceOf(ProxyInterface::class, $proxy);
-    }
-
-    public function testForwardProphecy()
-    {
-        $mock = $this->prophesize(FooTestClass::class);
-//        $mock = $this->getMockBuilder(FooTestClass::class)->getMock();
-
-        $mock->something()->willReturn(new \stdClass());
-
-        /** @var ProxyInterface|FooTestClass $proxy */
-        $proxy = $this->proxyGenerator->generate($mock);
-
-        $this->assertInstanceOf(\stdClass::class, $proxy->something());
-
-        $this->assertInstanceOf(ProxyInterface::class, $proxy);
-
     }
 
 //    public function testUseMockEngineMethodProphecy()

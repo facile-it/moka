@@ -5,7 +5,7 @@ namespace Tests;
 
 use Moka\Exception\NotImplementedException;
 use Moka\Moka;
-use Moka\Proxy\Proxy;
+use Moka\Proxy\ProxyInterface;
 use PHPUnit\Framework\TestCase;
 
 class MokaTest extends TestCase
@@ -13,13 +13,19 @@ class MokaTest extends TestCase
     /**
      * Moka::brew() is deprecated, but it still needs to be tested.
      */
-    const METHODS = ['brew', 'mockery', 'phake', 'phpunit', 'prophecy'];
+    const METHODS = [
+        'brew',
+        'mockery',
+        'phake',
+        'phpunit',
+        'prophecy'
+    ];
 
     public function testBrewSuccess()
     {
         foreach (self::METHODS as $method) {
             $this->assertInstanceOf(
-                Proxy::class,
+                ProxyInterface::class,
                 Moka::$method(\stdClass::class)
             );
         }

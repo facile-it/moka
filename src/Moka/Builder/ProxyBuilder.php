@@ -5,7 +5,7 @@ namespace Moka\Builder;
 
 use Moka\Exception\InvalidIdentifierException;
 use Moka\Exception\MockNotCreatedException;
-use Moka\Factory\ProxyFactory;
+use Moka\Generator\ProxyGenerator;
 use Moka\Proxy\ProxyContainer;
 use Moka\Proxy\ProxyInterface;
 use Moka\Strategy\MockingStrategyInterface;
@@ -75,6 +75,6 @@ class ProxyBuilder
      */
     protected function buildProxy(string $fqcn): ProxyInterface
     {
-        return ProxyFactory::get($fqcn, $this->mockingStrategy);
+        return (new ProxyGenerator($this->mockingStrategy))->generate($fqcn);
     }
 }

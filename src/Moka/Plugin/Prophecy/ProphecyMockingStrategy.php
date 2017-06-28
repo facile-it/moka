@@ -85,4 +85,11 @@ class ProphecyMockingStrategy extends AbstractMockingStrategy
             );
         }
     }
+
+    public function call($object, string $name, array $arguments)
+    {
+        return parent::call($object->reveal(), $name, $arguments);
+    }
+
+
 }

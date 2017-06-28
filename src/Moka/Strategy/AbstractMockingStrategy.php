@@ -163,4 +163,11 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
     {
         $this->mockType = $fqcn;
     }
+
+    public function call($object, string $name, array $arguments)
+    {
+        return $object->$name(...$arguments);
+    }
+
+
 }

@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Moka\Generator;
 
-
 class ProxyArgumentGenerator
 {
     public static function generateMethodParameter(\ReflectionParameter $parameter)
@@ -47,10 +46,7 @@ class ProxyArgumentGenerator
                 $byReference = '';
                 $defaultValue = '';
             }
-
-
         } catch (\ReflectionException $e) {
-
         }
 
         return sprintf(

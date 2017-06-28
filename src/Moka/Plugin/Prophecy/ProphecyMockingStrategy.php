@@ -90,6 +90,4 @@ class ProphecyMockingStrategy extends AbstractMockingStrategy
     {
         return parent::call($object->reveal(), $name, $arguments);
     }
-
-
 }

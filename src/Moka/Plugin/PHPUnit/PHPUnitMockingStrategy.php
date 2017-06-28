@@ -79,6 +79,4 @@ class PHPUnitMockingStrategy extends AbstractMockingStrategy
     {
         return $mock;
     }
-
-
 }

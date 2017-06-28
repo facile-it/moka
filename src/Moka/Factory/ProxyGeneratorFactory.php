@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Moka\Factory;
 
-
 use Moka\Generator\ProxyGenerator;
 
 class ProxyGeneratorFactory

@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Moka\Generator;
 
-
 class ProxyReturnGenerator
 {
     public static function generateMethodReturnType(\ReflectionType $type, \ReflectionMethod $method)

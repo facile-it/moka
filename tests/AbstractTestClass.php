@@ -22,7 +22,6 @@ abstract class AbstractTestClass implements TestInterface
 
     public function something()
     {
-
     }
 
     public function withArgument(int $argument): int

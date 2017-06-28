@@ -168,6 +168,4 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
     {
         return $object->$name(...$arguments);
     }
-
-
 }

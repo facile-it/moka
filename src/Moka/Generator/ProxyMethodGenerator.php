@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Moka\Generator;
 
-
 class ProxyMethodGenerator
 {
     private static $template = '
@@ -50,5 +49,4 @@ class ProxyMethodGenerator
     {
         return (string)$type;
     }
-
 }

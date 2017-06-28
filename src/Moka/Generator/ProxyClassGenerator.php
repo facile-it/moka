@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Moka\Generator;
 
-
 use Moka\Proxy\ProxyInterface;
 
 class ProxyClassGenerator

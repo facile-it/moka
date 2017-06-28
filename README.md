@@ -20,7 +20,7 @@ composer require --dev facile-it/moka
 
 ## Usage
 
-To use **Moka** in your tests simply `use` the `MokaPHPUnitTrait` (see generators section [below](#strategies)) and run `Moka::clean()` before every test. A simple interface will let you create *mock* objects, *serve* them easily, and decorate them with *stub* methods with a fluent interface.
+To use **Moka** in your tests simply `use` the `MokaPHPUnitTrait` (see generators section [below](#strategies)) and run `Moka::clean()` before every test. A simple interface will let you create *moka* (mock) objects, *serve* them easily, and decorate them with *stub* methods with a fluent interface.
 
 A complete example follows:
 
@@ -44,9 +44,9 @@ class FooTest extends \AnyTestCase
         
         // The subject of the test.
         $this->foo = new Foo(
-            $this->mock(BarInterface::class)->stub([
+            $this->moka(BarInterface::class)->stub([
                 // Method name => return value.
-                'method1' => $this->mock(AcmeInterface::class)->serve(),
+                'method1' => $this->moka(AcmeInterface::class)->serve(),
                 'method2' => true // Any return value.
             ])->serve()
         );
@@ -56,7 +56,7 @@ class FooTest extends \AnyTestCase
 }
 ```
 
-Alternatively, instead of using the trait and `$this->mock(/* ... */)`, you can call `Moka::phpunit(string $fqcnOrAlias, string $alias = null): Proxy`.
+Alternatively, instead of using the trait and `$this->moka(/* ... */)`, you can call `Moka::phpunit(string $fqcnOrAlias, string $alias = null): ProxyInterface`.
 
 Being such a simple project, **Moka** can be integrated in an already existing test suite with no effort.
 
@@ -90,32 +90,32 @@ class FooTest extends TestCase
 You can rely on the original mock object implementation to be accessible (in the example below, PHPUnit's):
 
 ```php
-$this->mock(BarInterface::class, 'bar')
+$this->moka(BarInterface::class, 'bar')
     ->expects($this->at(0))
     ->method('isValid')
     ->willReturn(true);
 
-$this->mock('bar')
+$this->moka('bar')
     ->expects($this->at(1))
     ->method('isValid')
     ->willThrowException(new \Exception());
 
-var_dump($this->mock('bar')->serve()->isValid());
+var_dump($this->moka('bar')->serve()->isValid());
 // bool(true)
 
-var_dump($this->mock('bar')->serve()->isValid());
+var_dump($this->moka('bar')->serve()->isValid());
 // throws \Exception
 ```
 
 ## <a name='reference'></a>Reference
 
-### `mock(string $fqcnOrAlias, string $alias = null): Proxy`
+### `moka(string $fqcnOrAlias, string $alias = null): ProxyInterface`
 
 Creates a proxy containing a mock object (according to the selected strategy) for the provided *FQCN* and optionally assigns an `$alias` to it to be able to get it later:
 
 ```php
-$mock1 = $this->mock(FooInterface::class)->serve(); // Creates the mock for FooInterface.
-$mock2 = $this->mock(FooInterface::class)->serve(); // Gets a different mock.
+$mock1 = $this->moka(FooInterface::class)->serve(); // Creates the mock for FooInterface.
+$mock2 = $this->moka(FooInterface::class)->serve(); // Gets a different mock.
 
 var_dump($mock1 === $mock2);
 // bool(false)
@@ -124,22 +124,22 @@ var_dump($mock1 === $mock2);
 The `$alias` allows you to store mock instances:
 
 ```php
-$mock1 = $this->mock(FooInterface::class, 'foo')->serve(); // Creates a mock for FooInterface.
-$mock2 = $this->mock('foo')->serve(); // Get the mock previously created.
+$mock1 = $this->moka(FooInterface::class, 'foo')->serve(); // Creates a mock for FooInterface.
+$mock2 = $this->moka('foo')->serve(); // Get the mock previously created.
 
 var_dump($mock1 === $mock2);
 // bool(true)
 ```
 
-### `stub(array $methodsWithValues): self`
+### `stub(array $methodsWithValues): ProxyInterface`
 
 Accepts an array of method stubs with format `[$methodName => $methodValue]`, where `$methodName` **must** be a string and `$methodValue` can be of any type, including another mock object or an exception instance:
 
 ```php
-$actualMock = $this->mock(BarInterface::class)->stub([
+$actualMock = $this->moka(BarInterface::class)->stub([
     'isValid' => true,
     // Remember to use serve() to pass the actual mock.
-    'getMock' => $this->mock(AcmeInterface::class)->serve(),
+    'getMock' => $this->moka(AcmeInterface::class)->serve(),
     'throwException' => new \Exception()
 ])->serve();
 
@@ -147,10 +147,10 @@ var_dump($actualMock->isValid());
 // bool(true)
 ```
 
-**Notice:** the stub is valid for **any** invocation of the method.  
+**Notice:** the stub is valid for **any** invocation of the method and it cannot be overridden.  
 If you need more granular control over invocation strategies, see `serve()`.
 
-### `serve() // Actual mocked object`
+### `serve() // Returns the actual mocked object.`
 
 Returns the final *fake* object good to be used in place of the real implementation:
 
@@ -161,7 +161,7 @@ function foo(BarInterface $bar)
 }
 
 $chill = foo(
-    $this->mock(BarInterface::class)->serve()
+    $this->moka(BarInterface::class)->serve()
 );
 ```
 
@@ -181,7 +181,7 @@ We provide a specific trait for each supported strategy, as well as a static met
 - `MokaMockeryTrait`
 - `MokaPhakeTrait`
 
-Every trait defines its own `mock(string $fqcnOrAlias, string $alias = null): Proxy`, as described in the **[Reference](#reference)**.
+Every trait defines its own `moka(string $fqcnOrAlias, string $alias = null): ProxyInterface`, as described in the **[Reference](#reference)**.
 
 ## Plugin development
 

@@ -11,7 +11,10 @@ use Moka\Strategy\MockingStrategyInterface;
 
 trait ProxyTrait
 {
-    private $object;
+    /**
+     * @var object
+     */
+    private $mock;
 
     /**
      * @var MockingStrategyInterface
@@ -25,7 +28,7 @@ trait ProxyTrait
     public function __call($name, array $arguments)
     {
         if ($this->mockingStrategy instanceof MockingStrategyInterface) {
-            return $this->mockingStrategy->call($this->object, $name, $arguments);
+            return $this->mockingStrategy->call($this->mock, $name, $arguments);
         }
     }
 
@@ -34,7 +37,7 @@ trait ProxyTrait
      */
     public function _moka_setObject($object)
     {
-        $this->object = $object;
+        $this->mock = $object;
     }
 
     public function _moka_setMockingStrategy(MockingStrategyInterface $mockingStrategy)
@@ -51,7 +54,7 @@ trait ProxyTrait
      */
     public function stub(array $methodsWithValues): ProxyInterface
     {
-        $this->mockingStrategy->decorate($this->object, $methodsWithValues);
+        $this->mockingStrategy->decorate($this->mock, $methodsWithValues);
 
         return $this;
     }
@@ -60,9 +63,11 @@ trait ProxyTrait
      * @return object
      *
      * @throws MockNotServedException
+     *
+     * @deprecated since v2.0.0
      */
     public function serve()
     {
-        return $this->object;
+        return $this->mock;
     }
 }

@@ -26,6 +26,8 @@ interface ProxyInterface
      * @return object
      *
      * @throws MockNotServedException
+     *
+     * @deprecated since v2.0.0
      */
     public function serve();
 }

@@ -71,6 +71,9 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
      * @param object $mock
      * @param array $stubs
      * @return void
+     *
+     * @throws InvalidArgumentException
+     * @throws NotImplementedException
      */
     public function decorate($mock, array $stubs)
     {

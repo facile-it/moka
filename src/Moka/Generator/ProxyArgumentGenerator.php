@@ -3,9 +3,13 @@ declare(strict_types=1);
 
 namespace Moka\Generator;
 
+/**
+ * Class ProxyArgumentGenerator
+ * @package Moka\Generator
+ */
 class ProxyArgumentGenerator
 {
-    public static function generateMethodParameter(\ReflectionParameter $parameter)
+    public static function generateMethodParameter(\ReflectionParameter $parameter): string
     {
         try {
             $allowsNull = $parameter->allowsNull();
@@ -33,7 +37,6 @@ class ProxyArgumentGenerator
 
             $name = '$' . $parameter->getName();
 
-//            $canBePassByValue = $parameter->canBePassedByValue();
             $isPassedByReference = $parameter->isPassedByReference();
             $byReference = '';
             if ($isPassedByReference) {

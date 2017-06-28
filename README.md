@@ -8,7 +8,7 @@
 [![Packagist](https://img.shields.io/packagist/dt/facile-it/moka.svg)](https://packagist.org/packages/facile-it/moka)
 
 Tired of spending most of your testing time mocking objects like there's no tomorrow? **Yes.**  
-**Moka** provides you with three simple methods to reduce your effort on such a tedious task, and with an incredible abstraction layer between the most popular mock engines and **you**.
+**Moka** provides you with two simple methods to reduce your effort on such a tedious task, and with an incredible abstraction layer between the most popular mock engines and **you**.
 
 ## Installation
 
@@ -20,7 +20,7 @@ composer require --dev facile-it/moka
 
 ## Usage
 
-To use **Moka** in your tests simply `use` the `MokaPHPUnitTrait` (see generators section [below](#strategies)) and run `Moka::clean()` before every test. A simple interface will let you create *moka* (mock) objects, *serve* them easily, and decorate them with *stub* methods with a fluent interface.
+To use **Moka** in your tests simply `use` the `MokaPHPUnitTrait` (see generators section [below](#strategies)) and run `Moka::clean()` before every test. A simple interface will let you create *moka* (mock) objects, and decorate them with *stub* methods with a fluent interface.
 
 A complete example follows:
 
@@ -46,9 +46,9 @@ class FooTest extends \AnyTestCase
         $this->foo = new Foo(
             $this->moka(BarInterface::class)->stub([
                 // Method name => return value.
-                'method1' => $this->moka(AcmeInterface::class)->serve(),
+                'method1' => $this->moka(AcmeInterface::class),
                 'method2' => true // Any return value.
-            ])->serve()
+            ])
         );
     }
     
@@ -87,7 +87,7 @@ class FooTest extends TestCase
 }
 ```
 
-You can rely on the original mock object implementation to be accessible (in the example below, PHPUnit's):
+<a name='original-mock'></a>You can rely on the original mock object implementation to be accessible (in the example below, PHPUnit's):
 
 ```php
 $this->moka(BarInterface::class, 'bar')
@@ -100,10 +100,10 @@ $this->moka('bar')
     ->method('isValid')
     ->willThrowException(new \Exception());
 
-var_dump($this->moka('bar')->serve()->isValid());
+var_dump($this->moka('bar')->isValid());
 // bool(true)
 
-var_dump($this->moka('bar')->serve()->isValid());
+var_dump($this->moka('bar')->isValid());
 // throws \Exception
 ```
 
@@ -114,8 +114,8 @@ var_dump($this->moka('bar')->serve()->isValid());
 Creates a proxy containing a mock object (according to the selected strategy) for the provided *FQCN* and optionally assigns an `$alias` to it to be able to get it later:
 
 ```php
-$mock1 = $this->moka(FooInterface::class)->serve(); // Creates the mock for FooInterface.
-$mock2 = $this->moka(FooInterface::class)->serve(); // Gets a different mock.
+$mock1 = $this->moka(FooInterface::class); // Creates the mock for FooInterface.
+$mock2 = $this->moka(FooInterface::class); // Gets a different mock.
 
 var_dump($mock1 === $mock2);
 // bool(false)
@@ -124,8 +124,8 @@ var_dump($mock1 === $mock2);
 The `$alias` allows you to store mock instances:
 
 ```php
-$mock1 = $this->moka(FooInterface::class, 'foo')->serve(); // Creates a mock for FooInterface.
-$mock2 = $this->moka('foo')->serve(); // Get the mock previously created.
+$mock1 = $this->moka(FooInterface::class, 'foo'); // Creates a mock for FooInterface.
+$mock2 = $this->moka('foo'); // Get the mock previously created.
 
 var_dump($mock1 === $mock2);
 // bool(true)
@@ -138,32 +138,16 @@ Accepts an array of method stubs with format `[$methodName => $methodValue]`, wh
 ```php
 $actualMock = $this->moka(BarInterface::class)->stub([
     'isValid' => true,
-    // Remember to use serve() to pass the actual mock.
-    'getMock' => $this->moka(AcmeInterface::class)->serve(),
+    'getMock' => $this->moka(AcmeInterface::class),
     'throwException' => new \Exception()
-])->serve();
+]);
 
 var_dump($actualMock->isValid());
 // bool(true)
 ```
 
 **Notice:** the stub is valid for **any** invocation of the method and it cannot be overridden.  
-If you need more granular control over invocation strategies, see `serve()`.
-
-### `serve() // Returns the actual mocked object.`
-
-Returns the final *fake* object good to be used in place of the real implementation:
-
-```php
-function foo(BarInterface $bar)
-{
-    return $bar->chill();
-}
-
-$chill = foo(
-    $this->moka(BarInterface::class)->serve()
-);
-```
+If you need more granular control over invocation strategies, you can get [access to the original mock object implementation](#original-mock).
 
 ## <a name='strategies'></a>Supported mock object generators
 

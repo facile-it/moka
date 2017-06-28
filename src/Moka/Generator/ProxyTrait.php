@@ -25,13 +25,6 @@ trait ProxyTrait
     {
     }
 
-    public function __call($name, array $arguments)
-    {
-        if ($this->mockingStrategy instanceof MockingStrategyInterface) {
-            return $this->mockingStrategy->call($this->mock, $name, $arguments);
-        }
-    }
-
     /**
      * @param mixed $object
      */
@@ -69,5 +62,12 @@ trait ProxyTrait
     public function serve()
     {
         return $this->mock;
+    }
+
+    protected function doCall(string $name, array $arguments)
+    {
+        if ($this->mockingStrategy instanceof MockingStrategyInterface) {
+            return $this->mockingStrategy->call($this->mock, $name, $arguments);
+        }
     }
 }

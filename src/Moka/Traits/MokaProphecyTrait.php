@@ -18,8 +18,20 @@ trait MokaProphecyTrait
      * @param string|null $alias
      * @return Proxy|ObjectProphecy
      */
-    protected function mock(string $fqcnOrAlias, string $alias = null): Proxy
+    protected function moka(string $fqcnOrAlias, string $alias = null): Proxy
     {
         return Moka::prophecy($fqcnOrAlias, $alias);
+    }
+
+    /**
+     * @param string $fqcnOrAlias
+     * @param string|null $alias
+     * @return Proxy|ObjectProphecy
+     *
+     * @deprecated since v1.4.0
+     */
+    protected function mock(string $fqcnOrAlias, string $alias = null): Proxy
+    {
+        return $this->moka($fqcnOrAlias, $alias);
     }
 }

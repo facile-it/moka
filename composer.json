@@ -27,8 +27,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "Moka\\": "src/Moka/",
-      "Coffee\\": "src/Coffee/"
+      "Moka\\": "src/Moka/"
     },
     "files": [
       "src/Moka/Plugin/Mockery/MockeryPlugin.php",

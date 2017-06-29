@@ -10,7 +10,6 @@ use Moka\Exception\MockNotCreatedException;
 use Moka\Exception\NotImplementedException;
 use Moka\Factory\ProxyBuilderFactory;
 use Moka\Plugin\PluginHelper;
-use Moka\Proxy\Proxy;
 use Moka\Proxy\ProxyInterface;
 use Moka\Strategy\MockingStrategyInterface;
 use Phake_IMock as PhakeMock;

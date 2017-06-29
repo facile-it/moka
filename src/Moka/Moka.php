@@ -21,10 +21,10 @@ use Prophecy\Prophecy\ObjectProphecy;
  * Class Moka
  * @package Moka
  *
- * @method static Proxy|MockInterface mockery(string $fqcnOrAlias, string $alias = null)
- * @method static Proxy|PhakeMock phake(string $fqcnOrAlias, string $alias = null)
- * @method static Proxy|MockObject phpunit(string $fqcnOrAlias, string $alias = null)
- * @method static Proxy|ObjectProphecy prophecy(string $fqcnOrAlias, string $alias = null)
+ * @method static ProxyInterface|MockInterface mockery(string $fqcnOrAlias, string $alias = null)
+ * @method static ProxyInterface|PhakeMock phake(string $fqcnOrAlias, string $alias = null)
+ * @method static ProxyInterface|MockObject phpunit(string $fqcnOrAlias, string $alias = null)
+ * @method static ProxyInterface|ObjectProphecy prophecy(string $fqcnOrAlias, string $alias = null)
  */
 class Moka
 {
@@ -54,23 +54,6 @@ class Moka
         $mockingStrategy = self::$mockingStrategies[$name];
 
         return ProxyBuilderFactory::get($mockingStrategy)->getProxy($fqcnOrAlias, $alias);
-    }
-
-    /**
-     * @param string $fqcnOrAlias
-     * @param string|null $alias
-     * @return ProxyInterface
-     *
-     * @throws NotImplementedException
-     * @throws InvalidIdentifierException
-     * @throws MockNotCreatedException
-     * @throws MissingDependencyException
-     *
-     * @deprecated since v1.2.0
-     */
-    public static function brew(string $fqcnOrAlias, string $alias = null): ProxyInterface
-    {
-        return self::phpunit($fqcnOrAlias, $alias);
     }
 
     /**

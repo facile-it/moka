@@ -14,7 +14,6 @@ class MokaTest extends TestCase
      * Moka::brew() is deprecated, but it still needs to be tested.
      */
     const METHODS = [
-        'brew',
         'mockery',
         'phake',
         'phpunit',

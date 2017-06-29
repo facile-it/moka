@@ -70,18 +70,6 @@ trait ProxyTrait
     }
 
     /**
-     * @return object
-     *
-     * @throws MockNotServedException
-     *
-     * @deprecated since v2.0.0
-     */
-    public function serve()
-    {
-        return $this->mock;
-    }
-
-    /**
      * @param string $name
      * @param array $arguments
      * @return mixed
@@ -91,5 +79,7 @@ trait ProxyTrait
         if ($this->mockingStrategy instanceof MockingStrategyInterface) {
             return $this->mockingStrategy->call($this->mock, $name, $arguments);
         }
+
+        return null;
     }
 }

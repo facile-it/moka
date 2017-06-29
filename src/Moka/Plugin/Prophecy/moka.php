@@ -10,7 +10,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 /**
  * @param string $fqcnOrAlias
  * @param string|null $alias
- * @return ProxyInterface|ObjectProphecy;
+ * @return ObjectProphecy|ProxyInterface
  */
 function moka(string $fqcnOrAlias, string $alias = null): ProxyInterface
 {

@@ -10,7 +10,7 @@ use Phake_IMock as PhakeMock;
 /**
  * @param string $fqcnOrAlias
  * @param string|null $alias
- * @return ProxyInterface|PhakeMock;
+ * @return PhakeMock|ProxyInterface
  */
 function moka(string $fqcnOrAlias, string $alias = null): ProxyInterface
 {

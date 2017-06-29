@@ -10,7 +10,7 @@ use Moka\Proxy\ProxyInterface;
 /**
  * @param string $fqcnOrAlias
  * @param string|null $alias
- * @return ProxyInterface|MockInterface;
+ * @return MockInterface|ProxyInterface
  */
 function moka(string $fqcnOrAlias, string $alias = null): ProxyInterface
 {

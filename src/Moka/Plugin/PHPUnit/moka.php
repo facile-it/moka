@@ -10,7 +10,7 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
 /**
  * @param string $fqcnOrAlias
  * @param string|null $alias
- * @return ProxyInterface|MockObject;
+ * @return MockObject|ProxyInterface
  */
 function moka(string $fqcnOrAlias, string $alias = null): ProxyInterface
 {

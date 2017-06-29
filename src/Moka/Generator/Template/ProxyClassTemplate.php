@@ -84,8 +84,8 @@ class ProxyClassTemplate implements ProxyTemplateInterface
             ProxyInterface::class,
             ProxyTrait::class,
             implode(PHP_EOL, $methodsCode),
-            $callNameType ?? '',
-            $callArgumentsType ?? '',
+            $callNameType ?: '',
+            $callArgumentsType ?: '',
             $proxyClassName
         );
     }

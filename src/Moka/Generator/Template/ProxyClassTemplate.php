@@ -20,6 +20,7 @@ class ProxyClassTemplate implements ProxyTemplateInterface
     class %s extends %s implements %s
     {
         use %s;
+
         %s
         
         public function __call(%s $name, %s $arguments)

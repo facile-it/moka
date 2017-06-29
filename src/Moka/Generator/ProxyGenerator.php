@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Moka\Generator;
 
+use Moka\Exception\InvalidArgumentException;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Generator\Template\ProxyClassTemplate;
 use Moka\Proxy\ProxyInterface;
@@ -33,6 +34,7 @@ class ProxyGenerator
      * @return ProxyInterface
      *
      * @throws MockNotCreatedException
+     * @throws InvalidArgumentException
      */
     public function get(string $fqcn): ProxyInterface
     {
@@ -44,8 +46,8 @@ class ProxyGenerator
         $proxyFQCN = eval($proxyCode);
 
         return $this->getInstance($proxyFQCN)
-            ->_moka_setMock($mock)
-            ->_moka_setMockingStrategy($this->mockingStrategy);
+            ->__moka_setMock($mock)
+            ->__moka_setMockingStrategy($this->mockingStrategy);
     }
 
     /**

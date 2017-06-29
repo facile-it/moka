@@ -5,7 +5,6 @@ namespace Moka\Generator;
 
 use Moka\Exception\InvalidArgumentException;
 use Moka\Exception\MockNotCreatedException;
-use Moka\Exception\MockNotServedException;
 use Moka\Proxy\ProxyInterface;
 use Moka\Strategy\MockingStrategyInterface;
 
@@ -36,7 +35,7 @@ trait ProxyTrait
      * @param $mock
      * @return ProxyInterface|ProxyTrait
      */
-    public function _moka_setMock($mock): self
+    public function __moka_setMock($mock): self
     {
         $this->mock = $mock;
 
@@ -47,7 +46,7 @@ trait ProxyTrait
      * @param MockingStrategyInterface $mockingStrategy
      * @return ProxyInterface|ProxyTrait
      */
-    public function _moka_setMockingStrategy(MockingStrategyInterface $mockingStrategy): self
+    public function __moka_setMockingStrategy(MockingStrategyInterface $mockingStrategy): self
     {
         $this->mockingStrategy = $mockingStrategy;
 

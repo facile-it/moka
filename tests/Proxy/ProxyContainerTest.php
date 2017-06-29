@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace Tests\Proxy;
 
 use Moka\Exception\InvalidIdentifierException;
-use Moka\Proxy\ProxyInterface;
 use Moka\Proxy\ProxyContainer;
+use Moka\Proxy\ProxyInterface;
 use PHPUnit\Framework\TestCase;
 
 class ProxyContainerTest extends TestCase

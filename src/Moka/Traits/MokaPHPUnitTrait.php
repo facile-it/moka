@@ -10,6 +10,8 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
 /**
  * Trait MokaPHPUnitTrait
  * @package Moka\Traits
+ *
+ * @deprecated since v2.0.0
  */
 trait MokaPHPUnitTrait
 {
@@ -17,6 +19,8 @@ trait MokaPHPUnitTrait
      * @param string $fqcnOrAlias
      * @param string|null $alias
      * @return ProxyInterface|MockObject
+     *
+     * @deprecated since v2.0.0
      */
     protected function moka(string $fqcnOrAlias, string $alias = null): ProxyInterface
     {

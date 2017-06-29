@@ -10,6 +10,8 @@ use Prophecy\Prophecy\ObjectProphecy;
 /**
  * Trait MokaProphecyTrait
  * @package Moka\Traits
+ *
+ * @deprecated since v2.0.0
  */
 trait MokaProphecyTrait
 {
@@ -17,6 +19,8 @@ trait MokaProphecyTrait
      * @param string $fqcnOrAlias
      * @param string|null $alias
      * @return ProxyInterface|ObjectProphecy
+     *
+     * @deprecated since v2.0.0
      */
     protected function moka(string $fqcnOrAlias, string $alias = null): ProxyInterface
     {

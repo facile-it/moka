@@ -31,9 +31,13 @@
     },
     "files": [
       "src/Moka/Plugin/Mockery/MockeryPlugin.php",
+      "src/Moka/Plugin/Mockery/moka.php",
       "src/Moka/Plugin/Phake/PhakePlugin.php",
+      "src/Moka/Plugin/Phake/moka.php",
       "src/Moka/Plugin/PHPUnit/PHPUnitPlugin.php",
-      "src/Moka/Plugin/Prophecy/ProphecyPlugin.php"
+      "src/Moka/Plugin/PHPUnit/moka.php",
+      "src/Moka/Plugin/Prophecy/ProphecyPlugin.php",
+      "src/Moka/Plugin/Prophecy/moka.php"
     ]
   },
   "autoload-dev": {

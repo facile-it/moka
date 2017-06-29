@@ -6,6 +6,10 @@ namespace Moka\Factory;
 use Moka\Generator\ProxyGenerator;
 use Moka\Strategy\MockingStrategyInterface;
 
+/**
+ * Class ProxyGeneratorFactory
+ * @package Moka\Factory
+ */
 class ProxyGeneratorFactory
 {
     /**

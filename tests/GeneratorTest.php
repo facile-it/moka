@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 class GeneratorTest extends TestCase
 {
     /**
-     * @var \Moka\Generator\ProxyClassGenerator
+     * @var ProxyGenerator
      */
     private $proxyGenerator;
 
@@ -25,7 +25,7 @@ class GeneratorTest extends TestCase
     public function testCreation()
     {
         /** @var ProxyInterface|FooTestClass $proxy */
-        $proxy = $this->proxyGenerator->generate(FooTestClass::class);
+        $proxy = $this->proxyGenerator->get(FooTestClass::class);
 
         $this->assertInstanceOf(ProxyInterface::class, $proxy);
     }
@@ -34,7 +34,7 @@ class GeneratorTest extends TestCase
     {
 
         /** @var ProxyInterface|FooTestClass $proxy */
-        $proxy = $this->proxyGenerator->generate(FooTestClass::class);
+        $proxy = $this->proxyGenerator->get(FooTestClass::class);
 
         $proxy->expects($this->any())
             ->method('something')

@@ -62,12 +62,6 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
     }
 
     /**
-     * @param string $fqcn
-     * @return object
-     */
-    abstract protected function doBuild(string $fqcn);
-
-    /**
      * @param object $mock
      * @param array $stubs
      * @return void
@@ -85,6 +79,53 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
         foreach ($stubs as $stub) {
             $this->doDecorate($mock, $stub);
         }
+    }
+
+    /**
+     * @param object $mock
+     * @return object
+     *
+     * @throws NotImplementedException
+     * @throws InvalidArgumentException
+     */
+    public function get($mock)
+    {
+        $this->checkMockType($mock);
+
+        return $this->doGet($mock);
+    }
+
+    /**
+     * @param object $mock
+     * @param string $name
+     * @param array $arguments
+     * @return mixed
+     */
+    public function call($mock, string $name, array $arguments)
+    {
+        $this->checkMockType($mock);
+
+        return $this->doCall($mock, $name, $arguments);
+    }
+
+    /**
+     * @return string
+     *
+     * @throws NotImplementedException
+     */
+    public function getMockType(): string
+    {
+        $this->verifyMockType();
+
+        return $this->mockType;
+    }
+
+    /**
+     * @param string $fqcn
+     */
+    final protected function setMockType(string $fqcn)
+    {
+        $this->mockType = $fqcn;
     }
 
     /**
@@ -121,6 +162,12 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
     }
 
     /**
+     * @param string $fqcn
+     * @return object
+     */
+    abstract protected function doBuild(string $fqcn);
+
+    /**
      * @param object $mock
      * @param Stub $stub
      * @return void
@@ -130,45 +177,17 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
     /**
      * @param object $mock
      * @return object
-     *
-     * @throws NotImplementedException
-     * @throws InvalidArgumentException
-     */
-    public function get($mock)
-    {
-        $this->checkMockType($mock);
-
-        return $this->doGet($mock);
-    }
-
-    /**
-     * @param object $mock
-     * @return object
      */
     abstract protected function doGet($mock);
 
     /**
-     * @return string
-     *
-     * @throws NotImplementedException
+     * @param object $target
+     * @param string $name
+     * @param array $arguments
+     * @return mixed
      */
-    public function getMockType(): string
+    protected function doCall($target, string $name, array $arguments)
     {
-        $this->verifyMockType();
-
-        return $this->mockType;
-    }
-
-    /**
-     * @param string $fqcn
-     */
-    final protected function setMockType(string $fqcn)
-    {
-        $this->mockType = $fqcn;
-    }
-
-    public function call($object, string $name, array $arguments)
-    {
-        return $object->$name(...$arguments);
+        return $target->$name(...$arguments);
     }
 }

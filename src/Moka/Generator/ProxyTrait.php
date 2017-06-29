@@ -9,6 +9,10 @@ use Moka\Exception\MockNotServedException;
 use Moka\Proxy\ProxyInterface;
 use Moka\Strategy\MockingStrategyInterface;
 
+/**
+ * Trait ProxyTrait
+ * @package Moka\Generator
+ */
 trait ProxyTrait
 {
     /**
@@ -21,21 +25,33 @@ trait ProxyTrait
      */
     private $mockingStrategy;
 
+    /**
+     * ProxyTrait constructor.
+     */
     public function __construct()
     {
     }
 
     /**
-     * @param mixed $object
+     * @param $mock
+     * @return ProxyInterface|ProxyTrait
      */
-    public function _moka_setObject($object)
+    public function _moka_setMock($mock): self
     {
-        $this->mock = $object;
+        $this->mock = $mock;
+
+        return $this;
     }
 
-    public function _moka_setMockingStrategy(MockingStrategyInterface $mockingStrategy)
+    /**
+     * @param MockingStrategyInterface $mockingStrategy
+     * @return ProxyInterface|ProxyTrait
+     */
+    public function _moka_setMockingStrategy(MockingStrategyInterface $mockingStrategy): self
     {
         $this->mockingStrategy = $mockingStrategy;
+
+        return $this;
     }
 
     /**
@@ -47,6 +63,7 @@ trait ProxyTrait
      */
     public function stub(array $methodsWithValues): ProxyInterface
     {
+        /** @var $this ProxyInterface */
         $this->mockingStrategy->decorate($this->mock, $methodsWithValues);
 
         return $this;
@@ -64,6 +81,11 @@ trait ProxyTrait
         return $this->mock;
     }
 
+    /**
+     * @param string $name
+     * @param array $arguments
+     * @return mixed
+     */
     protected function doCall(string $name, array $arguments)
     {
         if ($this->mockingStrategy instanceof MockingStrategyInterface) {

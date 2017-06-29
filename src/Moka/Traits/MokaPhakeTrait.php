@@ -10,6 +10,8 @@ use Phake_IMock as PhakeMock;
 /**
  * Trait MokaPhakeTrait
  * @package Moka\Traits
+ *
+ * @deprecated since v2.0.0
  */
 trait MokaPhakeTrait
 {
@@ -17,6 +19,8 @@ trait MokaPhakeTrait
      * @param string $fqcnOrAlias
      * @param string|null $alias
      * @return ProxyInterface|PhakeMock
+     *
+     * @deprecated since v2.0.0
      */
     protected function moka(string $fqcnOrAlias, string $alias = null): ProxyInterface
     {

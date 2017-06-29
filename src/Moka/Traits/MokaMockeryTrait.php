@@ -10,6 +10,8 @@ use Moka\Proxy\ProxyInterface;
 /**
  * Trait MokaMockeryTrait
  * @package Moka\Traits
+ *
+ * @deprecated since v2.0.0
  */
 trait MokaMockeryTrait
 {
@@ -17,6 +19,8 @@ trait MokaMockeryTrait
      * @param string $fqcnOrAlias
      * @param string|null $alias
      * @return ProxyInterface|MockInterface
+     *
+     * @deprecated since v2.0.0
      */
     protected function moka(string $fqcnOrAlias, string $alias = null): ProxyInterface
     {

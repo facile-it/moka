@@ -9,7 +9,7 @@ namespace Moka\Generator\Template;
  */
 class ProxyReturnTypeTemplate implements ProxyTemplateInterface
 {
-    const TEMPLATE = ':%s%s';
+    const TEMPLATE = ': %s%s';
 
     /**
      * @param \ReflectionMethod $method

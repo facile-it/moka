@@ -12,7 +12,7 @@ abstract class AbstractTestClass implements TestInterface
 
     public function getInt(): int
     {
-        return 1;
+        return 11;
     }
 
     public function getSelf(): TestInterface
@@ -20,8 +20,10 @@ abstract class AbstractTestClass implements TestInterface
         return $this;
     }
 
-    public function something()
+    public function getCallable(): ?callable
     {
+        return function () {
+        };
     }
 
     public function withArgument(int $argument): int
@@ -29,9 +31,16 @@ abstract class AbstractTestClass implements TestInterface
         return $argument;
     }
 
-    public function withArguments(int $argument = 1, string &$aCapo = PHP_EOL, FooTestClass $fooTestClass = null, array $array = [1], ...$otherParameters): int
-    {
-        return $argument;
+    public function withArguments(
+        int $required,
+        $nullable = null,
+        string &$byReference = PHP_EOL,
+        FooTestClass $class = null,
+        array $array = [3],
+        callable $callable = null,
+        ...$variadic
+    ): int {
+        return $required;
     }
 
     public function throwException()

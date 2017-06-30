@@ -12,7 +12,7 @@ Tired of spending most of your testing time mocking objects like there's no tomo
 
 ## Installation
 
-You can simply install the package via composer:
+You can install the package via composer:
 
 ```bash
 composer require --dev facile-it/moka
@@ -20,9 +20,7 @@ composer require --dev facile-it/moka
 
 ## Usage
 
-To use **Moka** in your tests simply `use` function `Moka\Plugin\PHPUnit\moka()` (see generators section [below](#strategies)) and run `Moka::clean()` before every test. A simple interface will let you create *moka* (mock) objects and decorate them with *stub* methods with a fluent interface.
-
-A complete example follows:
+To use **Moka** in your tests simply `use` function `Moka\Plugin\PHPUnit\moka()` (see generators section [below](#strategies)) and run `Moka::clean()` before every test. A simple interface will let you create *moka* (mock) objects and decorate them with *stub* methods via a fluent interface:
 
 ```php
 <?php
@@ -131,7 +129,7 @@ var_dump($mock1 === $mock2);
 
 ### `ProxyInterface::stub(array $methodsWithValues): ProxyInterface`
 
-Accepts an array of method stubs with format `[$methodName => $methodValue]`, where `$methodName` **must** be a string and `$methodValue` can be of any type, including another mock object or an exception instance:
+Accepts an array of method stubs with format `[$methodName => $methodValue]`, where `$methodName` **must** be a string and `$methodValue` can be of any type, including another mock object or an exception instance (which will be thrown):
 
 ```php
 $mock = moka(BarInterface::class)->stub([
@@ -144,7 +142,7 @@ var_dump($mock->isValid());
 // bool(true)
 ```
 
-**Notice:** the stub is valid for **any** invocation of the method and it cannot be overridden.  
+**Notice:** the stub is valid for **any** invocation of the method and cannot be overridden.  
 If you need more granular control over invocation strategies, you can get [access to the original mock object implementation](#original-mock).
 
 ## <a name='strategies'></a>Supported mock object generators

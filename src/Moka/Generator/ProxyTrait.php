@@ -32,7 +32,15 @@ trait ProxyTrait
     }
 
     /**
-     * @param $mock
+     * @return object
+     */
+    public function __moka_getMock()
+    {
+        return $this->mock;
+    }
+
+    /**
+     * @param object $mock
      * @return ProxyInterface|ProxyTrait
      */
     public function __moka_setMock($mock): self

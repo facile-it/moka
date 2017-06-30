@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests;
+namespace Tests\Proxy;
 
-use Moka\Generator\ProxyTrait;
 use Moka\Proxy\ProxyInterface;
+use Moka\Proxy\ProxyTrait;
 
-class ProxyTestClass implements ProxyInterface
+class FakeProxy implements ProxyInterface
 {
     use ProxyTrait;
 

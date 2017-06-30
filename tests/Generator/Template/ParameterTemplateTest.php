@@ -3,18 +3,18 @@ declare(strict_types=1);
 
 namespace Tests\Generator\Template;
 
-use Moka\Generator\Template\ProxyParameterTemplate;
+use Moka\Generator\Template\ParameterTemplate;
 use PHPUnit\Framework\TestCase;
 use Tests\FooTestClass;
 
-class ProxyParameterTemplateTest extends TestCase
+class ParameterTemplateTest extends TestCase
 {
     public function testGenerate()
     {
         $method = new \ReflectionMethod(FooTestClass::class, 'withArguments');
         $parameters = $method->getParameters();
 
-        $code = ProxyParameterTemplate::generate(
+        $code = ParameterTemplate::generate(
             $parameters[2]
         );
 

@@ -1,16 +1,15 @@
 <?php
 declare(strict_types=1);
 
-namespace Moka\Generator;
+namespace Moka\Proxy;
 
 use Moka\Exception\InvalidArgumentException;
 use Moka\Exception\MockNotCreatedException;
-use Moka\Proxy\ProxyInterface;
 use Moka\Strategy\MockingStrategyInterface;
 
 /**
  * Trait ProxyTrait
- * @package Moka\Generator
+ * @package Moka\Proxy
  */
 trait ProxyTrait
 {

@@ -5,8 +5,9 @@ namespace Moka\Generator;
 
 use Moka\Exception\InvalidArgumentException;
 use Moka\Exception\MockNotCreatedException;
-use Moka\Generator\Template\ProxyClassTemplate;
+use Moka\Generator\Template\ClassTemplate;
 use Moka\Proxy\ProxyInterface;
+use Moka\Proxy\ProxyTrait;
 use Moka\Strategy\MockingStrategyInterface;
 
 /**
@@ -42,7 +43,7 @@ class ProxyGenerator
         $mockFQCN = get_class($this->mockingStrategy->get($mock));
         $mockClass = new \ReflectionClass($mockFQCN);
 
-        $proxyCode = ProxyClassTemplate::generate($mockClass);
+        $proxyCode = ClassTemplate::generate($mockClass);
         $proxyFQCN = eval($proxyCode);
 
         return $this->getInstance($proxyFQCN)

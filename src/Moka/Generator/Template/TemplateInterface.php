@@ -4,10 +4,10 @@ declare(strict_types=1);
 namespace Moka\Generator\Template;
 
 /**
- * Interface ProxyTemplateInterface
+ * Interface TemplateInterface
  * @package Moka\Generator\Template
  */
-interface ProxyTemplateInterface
+interface TemplateInterface
 {
     /**
      * @param \Reflector $reflector

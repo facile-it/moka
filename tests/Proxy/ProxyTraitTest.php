@@ -1,19 +1,18 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Generator;
+namespace Tests\Proxy;
 
 use Moka\Proxy\ProxyInterface;
 use Moka\Strategy\MockingStrategyInterface;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 use Tests\FooTestClass;
-use Tests\ProxyTestClass;
 
 class ProxyTraitTest extends TestCase
 {
     /**
-     * @var ProxyInterface|ProxyTestClass
+     * @var ProxyInterface|FakeProxy
      */
     private $proxy;
 
@@ -29,7 +28,7 @@ class ProxyTraitTest extends TestCase
 
     protected function setUp()
     {
-        $this->proxy = new ProxyTestClass();
+        $this->proxy = new FakeProxy();
 
         $this->mockingStrategy = $this->getMockBuilder(MockingStrategyInterface::class)
             ->disableOriginalConstructor()

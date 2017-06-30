@@ -3,14 +3,14 @@ declare(strict_types=1);
 
 namespace Moka\Generator\Template;
 
-use Moka\Generator\ProxyTrait;
 use Moka\Proxy\ProxyInterface;
+use Moka\Proxy\ProxyTrait;
 
 /**
- * Class ProxyClassTemplate
+ * Class ClassTemplate
  * @package Moka\Generator\Template
  */
-class ProxyClassTemplate implements ProxyTemplateInterface
+class ClassTemplate implements TemplateInterface
 {
     const UNSAFE_METHODS = ['__construct', '__destruct', '__call', '__clone'];
 
@@ -57,7 +57,7 @@ class ProxyClassTemplate implements ProxyTemplateInterface
                 !$method->isFinal() &&
                 !in_array($method->name, self::UNSAFE_METHODS, true)
             ) {
-                $methodsCode[] = ProxyMethodTemplate::generate($method);
+                $methodsCode[] = MethodTemplate::generate($method);
             }
 
             if ('__call' === $method->name) {

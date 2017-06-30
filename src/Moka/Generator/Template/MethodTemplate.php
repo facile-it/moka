@@ -4,10 +4,10 @@ declare(strict_types=1);
 namespace Moka\Generator\Template;
 
 /**
- * Class ProxyMethodTemplate
+ * Class MethodTemplate
  * @package Moka\Generator\Template
  */
-class ProxyMethodTemplate implements ProxyTemplateInterface
+class MethodTemplate implements TemplateInterface
 {
     const TEMPLATE = '
         public %s function %s(%s)%s
@@ -37,13 +37,13 @@ class ProxyMethodTemplate implements ProxyTemplateInterface
         $parametersCode = [];
         if (is_array($parameters)) {
             foreach ($parameters as $parameter) {
-                $parametersCode[] = ProxyParameterTemplate::generate($parameter);
+                $parametersCode[] = ParameterTemplate::generate($parameter);
             }
         }
 
         $originalReturnType = $method->getReturnType();
         $returnType = $originalReturnType
-            ? ProxyReturnTypeTemplate::generate($method)
+            ? ReturnTypeTemplate::generate($method)
             : '';
 
         $returnStatement = null === $originalReturnType || 'void' !== (string)$originalReturnType

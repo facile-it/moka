@@ -4,10 +4,10 @@ declare(strict_types=1);
 namespace Moka\Generator\Template;
 
 /**
- * Class ProxyReturnTypeTemplate
+ * Class ReturnTypeTemplate
  * @package Moka\Generator\Template
  */
-class ProxyReturnTypeTemplate implements ProxyTemplateInterface
+class ReturnTypeTemplate implements TemplateInterface
 {
     const TEMPLATE = ': %s%s';
 

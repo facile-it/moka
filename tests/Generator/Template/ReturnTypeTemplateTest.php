@@ -3,16 +3,16 @@ declare(strict_types=1);
 
 namespace Tests\Generator\Template;
 
-use Moka\Generator\Template\ProxyReturnTypeTemplate;
+use Moka\Generator\Template\ReturnTypeTemplate;
 use PHPUnit\Framework\TestCase;
 use Tests\FooTestClass;
 use Tests\NewTestClass;
 
-class ProxyReturnTypeTemplateTest extends TestCase
+class ReturnTypeTemplateTest extends TestCase
 {
     public function testGenerate()
     {
-        $code = ProxyReturnTypeTemplate::generate(
+        $code = ReturnTypeTemplate::generate(
             new \ReflectionMethod(FooTestClass::class, 'getCallable')
         );
 
@@ -25,7 +25,7 @@ class ProxyReturnTypeTemplateTest extends TestCase
             $this->markTestSkipped('Unsupported on PHP < 7.1');
         }
 
-        $code = ProxyReturnTypeTemplate::generate(
+        $code = ReturnTypeTemplate::generate(
             new \ReflectionMethod(NewTestClass::class, 'getSelfNew')
         );
 

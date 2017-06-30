@@ -4,10 +4,10 @@ declare(strict_types=1);
 namespace Moka\Generator\Template;
 
 /**
- * Class ProxyParameterTemplate
+ * Class ParameterTemplate
  * @package Moka\Generator\Template
  */
-class ProxyParameterTemplate implements ProxyTemplateInterface
+class ParameterTemplate implements TemplateInterface
 {
     const TEMPLATE = '%s %s%s%s%s';
 

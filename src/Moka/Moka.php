@@ -109,7 +109,7 @@ class Moka
             $propheciesProperty->setAccessible(true);
 
             /** @var ObjectProphecy[] $prophecies */
-            $prophecies = $propheciesProperty->getValue($prophet);
+            $prophecies = $propheciesProperty->getValue($prophet) ?: [];
             $prophecies[] = $proxy->__moka_getMock();
 
             $propheciesProperty->setValue($prophet, $prophecies);

@@ -55,12 +55,12 @@ class ProxyClassTemplate implements ProxyTemplateInterface
         foreach ($methods as $method) {
             if (
                 !$method->isFinal() &&
-                !in_array($method->getName(), self::UNSAFE_METHODS, true)
+                !in_array($method->name, self::UNSAFE_METHODS, true)
             ) {
                 $methodsCode[] = ProxyMethodTemplate::generate($method);
             }
 
-            if ('__call' === $method->getName()) {
+            if ('__call' === $method->name) {
                 $callParameters = $method->getParameters();
                 foreach ($callParameters as $callParameter) {
                     $callParametersTypes[$callParameter->getPosition()] = (string)$callParameter->getType();
@@ -68,7 +68,7 @@ class ProxyClassTemplate implements ProxyTemplateInterface
             }
         }
 
-        $mockClassName = $class->getName();
+        $mockClassName = $class->name;
         $proxyClassName = sprintf(
             self::TEMPLATE_FQCN,
             preg_replace('/\\\/', '__', $mockClassName),

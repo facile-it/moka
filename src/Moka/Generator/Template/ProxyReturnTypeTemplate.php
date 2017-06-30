@@ -32,7 +32,7 @@ class ProxyReturnTypeTemplate implements ProxyTemplateInterface
             : '';
 
         $returnType = 'self' === (string)$originalReturnType
-            ? $method->getDeclaringClass()->getName()
+            ? $method->getDeclaringClass()->name
             : (string)$originalReturnType;
 
         return sprintf(

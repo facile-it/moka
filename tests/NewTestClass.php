@@ -5,7 +5,7 @@ namespace Tests;
 
 class NewTestClass extends AbstractTestClass
 {
-    public function getSelfNew(): self
+    public function getSelfNew(): ?self
     {
         return $this;
     }

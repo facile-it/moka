@@ -20,7 +20,7 @@ abstract class AbstractTestClass implements TestInterface
         return $this;
     }
 
-    public function getCallable(): ?callable
+    public function getCallable(): callable
     {
         return function () {
         };

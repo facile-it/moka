@@ -51,7 +51,7 @@ class ProxyParameterTemplate implements ProxyTemplateInterface
             $defaultValue = '';
         }
 
-        $name = '$' . $parameter->getName();
+        $name = '$' . $parameter->name;
 
         return sprintf(
             self::TEMPLATE,

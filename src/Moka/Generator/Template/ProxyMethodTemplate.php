@@ -35,7 +35,7 @@ class ProxyMethodTemplate implements ProxyTemplateInterface
 
         $parameters = $method->getParameters();
         $parametersCode = [];
-        if ($parameters) {
+        if (is_array($parameters)) {
             foreach ($parameters as $parameter) {
                 $parametersCode[] = ProxyParameterTemplate::generate($parameter);
             }
@@ -50,7 +50,7 @@ class ProxyMethodTemplate implements ProxyTemplateInterface
             ? 'return'
             : '';
 
-        $methodName = $method->getName();
+        $methodName = $method->name;
 
         return sprintf(
             self::TEMPLATE,

@@ -16,7 +16,7 @@ class ProxyReturnTypeTemplateTest extends TestCase
             new \ReflectionMethod(FooTestClass::class, 'getCallable')
         );
 
-        $this->assertRegExp('/: *\? *callable/', $code);
+        $this->assertRegExp('/: *callable/', $code);
     }
 
     public function testGenerateWithSelf()
@@ -29,6 +29,6 @@ class ProxyReturnTypeTemplateTest extends TestCase
             new \ReflectionMethod(NewTestClass::class, 'getSelfNew')
         );
 
-        $this->assertRegExp('/: *Tests\\\NewTestClass/', $code);
+        $this->assertRegExp('/: *\? *Tests\\\NewTestClass/', $code);
     }
 }

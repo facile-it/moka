@@ -56,17 +56,16 @@ Alternatively, instead of using `moka()`, you can call `Moka::phpunit(string $fq
 
 Being such a simple project, **Moka** can be integrated in an already existing test suite with no effort.
 
-**Notice:** if you are extending PHPUnit `TestCase`, to simplify the cleaning phase we provide a `MokaCleanerTrait` which automatically runs `Moka::clean()` in `tearDown()`.
-**Warning:** if you are defining your own `tearDown()`, you cannot use the trait!
+**Notice:** if you are extending PHPUnit `TestCase`, to simplify the cleaning phase we provide a `MokaCleanerTrait` which automatically runs `Moka::clean()` after each test.
 
 ```php
 <?php
 
 namespace Foo\Tests;
 
-use function Moka\Plugin\PHPUnit\moka;
 use Moka\Traits\MokaCleanerTrait;
 use PHPUnit\Framework\TestCase;
+use function Moka\Plugin\PHPUnit\moka;
 
 class FooTest extends TestCase
 {
@@ -83,7 +82,7 @@ class FooTest extends TestCase
 }
 ```
 
-<a name='original-mock'></a>You can rely on the original mock object implementation to be accessible (in the example below, PHPUnit's):
+<a name='original-mock'></a>You can rely on the original mock object implementation to be accessible (in the example below, PHPUnit's - for Prophecy <a href='#prophecy-mock'>see below</a>):
 
 ```php
 moka(BarInterface::class, 'bar')
@@ -160,6 +159,22 @@ We provide a specific `moka()` function for each supported strategy, as well as 
 - `Moka\Plugin\Prophecy\moka`
 - `Moka\Plugin\Mockery\moka`
 - `Moka\Plugin\Phake\moka`
+
+### <a name='prophecy-mock'></a>Prophecy native behavior
+
+Prophecy lets you stub methods by calling them directly on the `ObjectProphecy`. **Moka** doesn't support such a behavior, but we provide an easy workaround:
+
+```php
+// Native Prophecy behavior...
+$this->prophesize(FooInterface::class)
+    ->someMethod(new AnyValuesToken())
+    ->willReturn($something);
+
+// ...translates to...
+Moka::prophecy(FooInterface::class)
+    ->someMethod->set(new AnyValuesToken())
+    ->willReturn($something);
+```
 
 ## Plugin development
 

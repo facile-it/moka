@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Moka\Builder;
 
+use Moka\Exception\InvalidArgumentException;
 use Moka\Exception\InvalidIdentifierException;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Factory\ProxyGeneratorFactory;
@@ -72,6 +73,9 @@ class ProxyBuilder
     /**
      * @param string $fqcn
      * @return ProxyInterface
+     *
+     * @throws InvalidArgumentException
+     * @throws MockNotCreatedException
      */
     protected function buildProxy(string $fqcn): ProxyInterface
     {

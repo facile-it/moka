@@ -57,6 +57,7 @@
     "phpspec/prophecy": "^1.7",
     "phake/phake": "^3.0",
     "mockery/mockery": "^0.9.9"
+
   },
   "suggest": {
     "phpspec/prophecy": "To allow loading of ProphecyPlugin",

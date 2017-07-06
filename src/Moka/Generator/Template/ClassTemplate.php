@@ -67,14 +67,14 @@ class ClassTemplate implements TemplateInterface
         $methods = $class->getMethods(\ReflectionMethod::IS_PUBLIC);
         $methodsCode = [];
         $methodNames = array_map(function (\ReflectionMethod $method) {
-            return $method->getName();
+            return $method->name;
         }, $methods);
 
         $callParametersTypes = array_fill(0, 2, '');
         $getNameType = '';
 
         foreach ($properties as $property) {
-            if (!in_array($property->getName(), $methodNames)) {
+            if (!in_array($property->name, $methodNames)) {
                 continue;
             }
 

@@ -34,7 +34,7 @@ class PropertyTemplate implements TemplateInterface
 
         $static = $property->isStatic() ? 'static' : '';
 
-        $name = $property->getName();
+        $name = $property->name;
 
         return sprintf(
             self::TEMPLATE,

@@ -32,7 +32,7 @@ class PropertyInitializationTemplate implements TemplateInterface
     {
         $scope = $property->isStatic() ? 'self::$' : '$this->';
 
-        $name = $property->getName();
+        $name = $property->name;
 
         return sprintf(
             self::TEMPLATE,

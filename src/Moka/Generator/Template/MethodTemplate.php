@@ -9,8 +9,10 @@ namespace Moka\Generator\Template;
  */
 class MethodTemplate implements TemplateInterface
 {
+    use VisibilityTrait;
+
     const TEMPLATE = '
-        public %s function %s(%s)%s
+        %s %s function %s(%s)%s
         {
             %s $this->__call("%s", func_get_args());
         }
@@ -31,6 +33,8 @@ class MethodTemplate implements TemplateInterface
      */
     protected static function doGenerate(\ReflectionMethod $method): string
     {
+        $visibility = static::getVisibility($method);
+
         $static = $method->isStatic() ? 'static' : '';
 
         $parameters = $method->getParameters();
@@ -54,6 +58,7 @@ class MethodTemplate implements TemplateInterface
 
         return sprintf(
             self::TEMPLATE,
+            $visibility,
             $static,
             $methodName,
             implode(',', $parametersCode),

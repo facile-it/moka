@@ -97,15 +97,16 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
 
     /**
      * @param object $mock
-     * @param string $name
-     * @param array $arguments
+     * @param string $methodName
      * @return mixed
+     *
+     * @throws NotImplementedException
      */
-    public function call($mock, string $name, array $arguments)
+    public function call($mock, string $methodName)
     {
         $this->checkMockType($mock);
 
-        return $this->doCall($mock, $name, $arguments);
+        return $this->doCall($mock, $methodName);
     }
 
     /**
@@ -181,13 +182,20 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
     abstract protected function doGet($mock);
 
     /**
-     * @param object $target
-     * @param string $name
-     * @param array $arguments
+     * @param object $mock
+     * @param string $methodName
      * @return mixed
+     *
+     * @throws \Error
      */
-    protected function doCall($target, string $name, array $arguments)
+    protected function doCall($mock, string $methodName)
     {
-        return $target->$name(...$arguments);
+        throw new \Error(
+            sprintf(
+                'Undefined property: %s::$%s',
+                get_class($this),
+                $methodName
+            )
+        );
     }
 }

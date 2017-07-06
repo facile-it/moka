@@ -16,26 +16,19 @@ trait ProxyTrait
     /**
      * @var object
      */
-    private $mock;
+    private $__moka_mock;
 
     /**
      * @var MockingStrategyInterface
      */
-    private $mockingStrategy;
-
-    /**
-     * ProxyTrait constructor.
-     */
-    public function __construct()
-    {
-    }
+    private $__moka_mockingStrategy;
 
     /**
      * @return object
      */
     public function __moka_getMock()
     {
-        return $this->mock;
+        return $this->__moka_mock;
     }
 
     /**
@@ -44,7 +37,7 @@ trait ProxyTrait
      */
     public function __moka_setMock($mock): self
     {
-        $this->mock = $mock;
+        $this->__moka_mock = $mock;
 
         return $this;
     }
@@ -55,7 +48,7 @@ trait ProxyTrait
      */
     public function __moka_setMockingStrategy(MockingStrategyInterface $mockingStrategy): self
     {
-        $this->mockingStrategy = $mockingStrategy;
+        $this->__moka_mockingStrategy = $mockingStrategy;
 
         return $this;
     }
@@ -70,7 +63,7 @@ trait ProxyTrait
     public function stub(array $methodsWithValues): ProxyInterface
     {
         /** @var $this ProxyInterface */
-        $this->mockingStrategy->decorate($this->mock, $methodsWithValues);
+        $this->__moka_mockingStrategy->decorate($this->__moka_mock, $methodsWithValues);
 
         return $this;
     }
@@ -82,10 +75,25 @@ trait ProxyTrait
      */
     protected function doCall(string $name, array $arguments)
     {
-        if ($this->mockingStrategy instanceof MockingStrategyInterface) {
-            return $this->mockingStrategy->call($this->mock, $name, $arguments);
+        if (!$this->__moka_mockingStrategy instanceof MockingStrategyInterface) {
+            return null;
         }
 
-        return null;
+        $target = $this->__moka_mockingStrategy->get($this->__moka_mock);
+
+        return $target->$name(...$arguments);
+    }
+
+    /**
+     * @param string $name
+     * @return mixed
+     */
+    protected function doGet(string $name)
+    {
+        if (!$this->__moka_mockingStrategy instanceof MockingStrategyInterface) {
+            return null;
+        }
+
+        return $this->__moka_mockingStrategy->call($this->__moka_mock, $name);
     }
 }

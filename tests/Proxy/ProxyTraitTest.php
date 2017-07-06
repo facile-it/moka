@@ -12,7 +12,7 @@ use Tests\FooTestClass;
 class ProxyTraitTest extends TestCase
 {
     /**
-     * @var ProxyInterface|FakeProxy
+     * @var ProxyInterface|TestProxy
      */
     private $proxy;
 
@@ -28,7 +28,7 @@ class ProxyTraitTest extends TestCase
 
     protected function setUp()
     {
-        $this->proxy = new FakeProxy();
+        $this->proxy = new TestProxy();
 
         $this->mockingStrategy = $this->getMockBuilder(MockingStrategyInterface::class)
             ->disableOriginalConstructor()
@@ -60,22 +60,56 @@ class ProxyTraitTest extends TestCase
 
     public function testCallSuccess()
     {
+        $this->mock
+            ->expects($this->once())
+            ->method('getSelf')
+            ->willReturn($this->mock);
+
         $this->mockingStrategy
             ->expects($this->once())
-            ->method('call')
-            ->with(
-                $this->equalTo($this->mock),
-                'getSelf',
-                []
-            );
+            ->method('get')
+            ->willReturn($this->mock);
 
         $this->proxy->__moka_setMockingStrategy($this->mockingStrategy);
 
-        $this->proxy->__call('getSelf', []);
+        $this->assertSame($this->mock, $this->proxy->getSelf());
     }
 
     public function testCallFailure()
     {
-        $this->assertNull($this->proxy->__call('getSelf', []));
+        $this->mockingStrategy
+            ->expects($this->once())
+            ->method('get')
+            ->willReturn($this->mock);
+
+        $this->proxy->__moka_setMockingStrategy($this->mockingStrategy);
+
+        $this->expectException(\Error::class);
+
+        $this->proxy->fakeMethod();
+    }
+
+    public function testCallWithoutStrategyFailure()
+    {
+        $this->assertNull($this->proxy->getSelf());
+    }
+
+    public function testGetFailure()
+    {
+        $this->mockingStrategy
+            ->expects($this->once())
+            ->method('call')
+            ->willThrowException(new \Exception());
+
+        $this->proxy->__moka_setMockingStrategy($this->mockingStrategy);
+
+        $this->expectException(\Exception::class);
+
+        $this->proxy->getSelf;
+    }
+
+    public function testGetWithoutStrategyFailure()
+    {
+        $this->assertNull($this->proxy->getSelf);
     }
 }

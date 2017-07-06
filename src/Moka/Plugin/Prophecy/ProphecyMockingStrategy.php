@@ -88,19 +88,11 @@ class ProphecyMockingStrategy extends AbstractMockingStrategy
 
     /**
      * @param ObjectProphecy $mock
-     * @param string $name
-     * @param array $arguments
-     * @return mixed
+     * @param string $methodName
+     * @return object
      */
-    protected function doCall($mock, string $name, array $arguments)
+    protected function doCall($mock, string $methodName)
     {
-        $this->checkMockType($mock);
-
-        $methodProphecies = $mock->getMethodProphecies($name);
-        if (count($methodProphecies) > 0) {
-            return parent::doCall($mock->reveal(), $name, $arguments);
-        }
-
-        return parent::doCall($mock, $name, $arguments);
+        return new MethodProphecyHelper($mock, $methodName);
     }
 }

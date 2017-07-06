@@ -84,17 +84,10 @@ class Moka
         $proxy = self::__callStatic('prophecy', [$fqcnOrAlias, $alias]);
 
         if (null !== $testCase = self::getCurrentTestCase()) {
-            try {
-                $prophetProperty = new \ReflectionProperty(
-                    TestCase::class,
-                    'prophet'
-                );
-            } catch (\ReflectionException $exception) {
-                $prophetProperty = new \ReflectionProperty(
-                    \PHPUnit_Framework_TestCase::class,
-                    'prophet'
-                );
-            }
+            $prophetProperty = new \ReflectionProperty(
+                TestCase::class,
+                'prophet'
+            );
 
             $prophetProperty->setAccessible(true);
             if (null === $prophet = $prophetProperty->getValue($testCase)) {
@@ -138,16 +131,17 @@ class Moka
             }
 
             $object = $frame['object'];
-            if (
-                $object instanceof TestCase ||
-                $object instanceof \PHPUnit_Framework_TestCase
-            ) {
+            if ($object instanceof TestCase) {
                 return $object;
             }
 
+            // @codeCoverageIgnoreStart
             return null;
+            // @codeCoverageIgnoreEnd
         }
 
+        // @codeCoverageIgnoreStart
         return null;
+        // @codeCoverageIgnoreEnd
     }
 }

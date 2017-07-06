@@ -5,6 +5,10 @@ namespace Tests;
 
 abstract class AbstractTestClass implements TestInterface
 {
+    public $isTrue;
+
+    public static $getInt;
+
     public function isTrue(): bool
     {
         return true;

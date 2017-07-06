@@ -39,11 +39,10 @@ interface MockingStrategyInterface
 
     /**
      * @param object $mock
-     * @param string $name
-     * @param array $arguments
+     * @param string $methodName
      * @return mixed
      */
-    public function call($mock, string $name, array $arguments);
+    public function call($mock, string $methodName);
 
     /**
      * @return string

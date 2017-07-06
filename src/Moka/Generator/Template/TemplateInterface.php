@@ -10,8 +10,8 @@ namespace Moka\Generator\Template;
 interface TemplateInterface
 {
     /**
-     * @param \Reflector $reflector
+     * @param \Reflector $property
      * @return string
      */
-    public static function generate(\Reflector $reflector): string;
+    public static function generate(\Reflector $property): string;
 }

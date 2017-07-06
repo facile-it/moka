@@ -99,20 +99,7 @@ class ProphecyMockingStrategyTest extends MokaMockingStrategyTestCase
 
         $this->assertInstanceOf(
             MethodProphecy::class,
-            $this->strategy->call($mock, 'withArgument', [])
-        );
-    }
-
-    public function testCallMockedObject()
-    {
-        $mock = $this->strategy->build(FooTestClass::class);
-        $this->strategy->decorate($mock, [
-            'withArgument' => 1
-        ]);
-
-        $this->assertEquals(
-            1,
-            $this->strategy->call($mock, 'withArgument', [1])
+            $this->strategy->call($mock, 'withArgument')->set()
         );
     }
 }

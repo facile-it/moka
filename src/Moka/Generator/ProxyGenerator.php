@@ -60,7 +60,7 @@ class ProxyGenerator
         $proxyClass = new \ReflectionClass($proxyFQCN);
 
         /** @var ProxyInterface|ProxyTrait $proxy */
-        $proxy = $proxyClass->newInstanceWithoutConstructor();
+        $proxy = $proxyClass->newInstance();
 
         return $proxy;
     }

@@ -30,16 +30,10 @@ trait VisibilityTrait
             );
         }
 
-        if ($reflector->isPublic()) {
-            return 'public';
-        }
-
-        if ($reflector->isProtected()) {
-            return 'protected';
-        }
-
-        if ($reflector->isPrivate()) {
-            return 'private';
+        foreach (['Public', 'Protected', 'Private'] as $visibility) {
+            if ($reflector->{'is' . $visibility}()) {
+                return strtolower($visibility);
+            }
         }
 
         throw new \RuntimeException('Witness me!');

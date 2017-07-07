@@ -63,10 +63,5 @@
     "mockery/mockery": "To allow loading of MockeryPlugin",
     "phake/phake": "To allow loading of PhakePlugin",
     "facile-it/paraunit": "For parallel test running; it's faster!"
-  },
-  "config": {
-    "platform": {
-      "php": "7.0"
-    }
   }
 }

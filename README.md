@@ -20,7 +20,7 @@ composer require --dev facile-it/moka
 
 ## Usage
 
-To use **Moka** in your tests simply `use` function `Moka\Plugin\PHPUnit\moka()` (see generators section [below](#strategies)) and run `Moka::clean()` before every test. A simple interface will let you create *moka* (mock) objects and decorate them with *stub* methods via a fluent interface:
+To use **Moka** in your tests simply `use` function `Moka\Plugin\PHPUnit\moka()` (see generators section [below](#strategies)) and run `Moka::clean()` before every test. A simple interface will let you create *moka* (mock) objects and decorate them with *stub* methods and properties via a fluent interface:
 
 ```php
 <?php
@@ -41,9 +41,11 @@ class FooTest extends \AnyTestCase
         // The subject of the test.
         $this->foo = new Foo(
             moka(BarInterface::class)->stub([
+                // Property name => value.
+                '$property' => 3,
                 // Method name => return value.
                 'method1' => moka(AcmeInterface::class),
-                'method2' => true // Any return value.
+                'method2' => true
             ])
         );
     }
@@ -126,22 +128,30 @@ var_dump($mock1 === $mock2);
 // bool(true)
 ```
 
-### `ProxyInterface::stub(array $methodsWithValues): ProxyInterface`
+### `ProxyInterface::stub(array $namesWithValues): ProxyInterface`
 
-Accepts an array of method stubs with format `[$methodName => $methodValue]`, where `$methodName` **must** be a string and `$methodValue` can be of any type, including another mock object or an exception instance (which will be thrown):
+Accepts an array of method or property stubs with format `[$name => $value]`, where `$name` **must** be a string and `$value` can be of any type, including another mock object.
+
+**Caution**:
+- Properties are identified by symbol `$` prepended to their names
+- An exception instance set as a method value will be thrown when the method is called
 
 ```php
 $mock = moka(BarInterface::class)->stub([
+    '$property' => 1,
     'isValid' => true,
     'getMock' => moka(AcmeInterface::class),
     'throwException' => new \Exception()
 ]);
 
+var_dump($mock->property);
+// int(1)
+
 var_dump($mock->isValid());
 // bool(true)
 ```
 
-**Notice:** the stub is valid for **any** invocation of the method and cannot be overridden.  
+**Notice:** method stubs are valid for **any** invocation of the defined methods and cannot be overridden.  
 If you need more granular control over invocation strategies, you can get [access to the original mock object implementation](#original-mock).
 
 ## <a name='strategies'></a>Supported mock object generators
@@ -221,7 +231,7 @@ class YourOwnMockingStrategy extends AbstractMockingStrategy
     
     protected function doDecorateWithMethod($mock, MethodStub $stub)
     {
-        // TODO: Implement doDecorate() method.
+        // TODO: Implement doDecorateWithMethod() method.
     }
     
     protected function doGet($mock)

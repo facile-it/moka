@@ -13,18 +13,18 @@ use PhpCollection\Set;
 class StubSet extends Set
 {
     /**
-     * @param Stub $elem
+     * @param StubInterface $elem
      * @return void
      *
      * @throws InvalidArgumentException
      */
     public function add($elem)
     {
-        if (!$elem instanceof Stub) {
+        if (!$elem instanceof StubInterface) {
             throw new InvalidArgumentException(
                 sprintf(
-                    'Element must be of type "%s", "%s" given',
-                    Stub::class,
+                    'Element must be an instance of "%s", "%s" given',
+                    StubInterface::class,
                     gettype($elem)
                 )
             );

@@ -54,16 +54,16 @@ trait ProxyTrait
     }
 
     /**
-     * @param array $methodsWithValues
+     * @param array $namesWithValues
      * @return ProxyInterface
      *
      * @throws InvalidArgumentException
      * @throws MockNotCreatedException
      */
-    public function stub(array $methodsWithValues): ProxyInterface
+    public function stub(array $namesWithValues): ProxyInterface
     {
         /** @var $this ProxyInterface */
-        $this->__moka_mockingStrategy->decorate($this->__moka_mock, $methodsWithValues);
+        $this->__moka_mockingStrategy->decorate($this->__moka_mock, $namesWithValues);
 
         return $this;
     }

@@ -4,7 +4,9 @@ declare(strict_types=1);
 namespace Moka\Factory;
 
 use Moka\Exception\InvalidArgumentException;
-use Moka\Stub\Stub;
+use Moka\Stub\MethodStub;
+use Moka\Stub\PropertyStub;
+use Moka\Stub\StubInterface;
 use Moka\Stub\StubSet;
 
 /**
@@ -14,17 +16,21 @@ use Moka\Stub\StubSet;
 class StubFactory
 {
     /**
-     * @param array $methodsWithValues
-     * @return StubSet|Stub[]
+     * @param array $namesWithValues
+     * @return StubSet|StubInterface[]
      *
      * @throws InvalidArgumentException
      */
-    public static function fromArray(array $methodsWithValues): StubSet
+    public static function fromArray(array $namesWithValues): StubSet
     {
         $stubSet = new StubSet();
-        foreach ($methodsWithValues as $methodName => $methodValue) {
+        foreach ($namesWithValues as $name => $value) {
             try {
-                $stubSet->add(new Stub($methodName, $methodValue));
+                $stub = StubInterface::PREFIX_PROPERTY === $name[0]
+                    ? new PropertyStub($name, $value)
+                    : new MethodStub($name, $value);
+
+                $stubSet->add($stub);
             } catch (\Error $error) {
                 throw new InvalidArgumentException($error->getMessage());
             }

@@ -8,7 +8,9 @@ use Moka\Exception\MissingDependencyException;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Exception\NotImplementedException;
 use Moka\Factory\StubFactory;
-use Moka\Stub\Stub;
+use Moka\Stub\MethodStub;
+use Moka\Stub\PropertyStub;
+use Moka\Stub\StubInterface;
 
 /**
  * Class AbstractMockingStrategy
@@ -63,7 +65,7 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
 
     /**
      * @param object $mock
-     * @param array $stubs
+     * @param StubInterface[] $stubs
      * @return void
      *
      * @throws InvalidArgumentException
@@ -75,9 +77,14 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
 
         $stubs = StubFactory::fromArray($stubs);
 
-        /** @var Stub $stub */
         foreach ($stubs as $stub) {
-            $this->doDecorate($mock, $stub);
+            if ($stub instanceof PropertyStub) {
+                $this->doDecorateWithProperty($mock, $stub);
+            }
+
+            if ($stub instanceof MethodStub) {
+                $this->doDecorateWithMethod($mock, $stub);
+            }
         }
     }
 
@@ -142,7 +149,7 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
         if (!is_a($mock, $this->mockType)) {
             throw new InvalidArgumentException(
                 sprintf(
-                    'Mock object must be of type "%s", "%s" given',
+                    'Mock object must be an instance of "%s", "%s" given',
                     $this->mockType,
                     gettype($mock)
                 )
@@ -170,10 +177,20 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
 
     /**
      * @param object $mock
-     * @param Stub $stub
+     * @param PropertyStub $stub
      * @return void
      */
-    abstract protected function doDecorate($mock, Stub $stub);
+    protected function doDecorateWithProperty($mock, PropertyStub $stub)
+    {
+        $mock->{$stub->getName()} = $stub->getValue();
+    }
+
+    /**
+     * @param object $mock
+     * @param MethodStub $stub
+     * @return void
+     */
+    abstract protected function doDecorateWithMethod($mock, MethodStub $stub);
 
     /**
      * @param object $mock

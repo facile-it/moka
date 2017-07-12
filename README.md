@@ -205,7 +205,7 @@ Extend `AbstractMockingStrategy` for an easier (and stricter) implementation of 
 namespace Moka\Plugin\YourOwn;
 
 use Moka\Strategy\AbstractMockingStrategy;
-use Moka\Stub\Stub;
+use Moka\Stub\MethodStub;
 
 class YourOwnMockingStrategy extends AbstractMockingStrategy
 {
@@ -219,7 +219,7 @@ class YourOwnMockingStrategy extends AbstractMockingStrategy
         // TODO: Implement doBuild() method.
     }
     
-    protected function doDecorate($mock, Stub $stub)
+    protected function doDecorateWithMethod($mock, MethodStub $stub)
     {
         // TODO: Implement doDecorate() method.
     }
@@ -229,7 +229,7 @@ class YourOwnMockingStrategy extends AbstractMockingStrategy
         // TODO: Implement doGet() method.
     }
 
-    protected function doCall($target, string $name, array $arguments)
+    protected function doCall($mock, string $methodName)
     {
         // Override doCall() if you need special behavior.
         // See ProphecyMockingStrategy::doCall().

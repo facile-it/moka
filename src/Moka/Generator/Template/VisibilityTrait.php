@@ -26,9 +26,10 @@ trait VisibilityTrait
         ) {
             throw new InvalidArgumentException(
                 sprintf(
-                    'Reflector must be an instance of "%s" or "%s"',
+                    'Reflector must be an instance of "%s" or "%s", "%s" given',
                     \ReflectionMethod::class,
-                    \ReflectionProperty::class
+                    \ReflectionProperty::class,
+                    get_class($reflector)
                 )
             );
         }

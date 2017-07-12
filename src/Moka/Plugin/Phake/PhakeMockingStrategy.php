@@ -6,7 +6,7 @@ namespace Moka\Plugin\Phake;
 use Moka\Exception\MissingDependencyException;
 use Moka\Plugin\Phake\Matcher\FirstStubMatcher;
 use Moka\Strategy\AbstractMockingStrategy;
-use Moka\Stub\Stub;
+use Moka\Stub\MethodStub;
 use Phake;
 use Phake_IMock as PhakeMock;
 use Phake_Proxies_AnswerBinderProxy as AnswerBinderProxy;
@@ -43,10 +43,10 @@ class PhakeMockingStrategy extends AbstractMockingStrategy
 
     /**
      * @param PhakeMock $mock
-     * @param Stub $stub
+     * @param MethodStub $stub
      * @return void
      */
-    protected function doDecorate($mock, Stub $stub)
+    protected function doDecorateWithMethod($mock, MethodStub $stub)
     {
         $methodName = $stub->getName();
         $methodValue = $stub->getValue();

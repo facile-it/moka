@@ -5,7 +5,7 @@ namespace Moka\Plugin\PHPUnit;
 
 use Moka\Exception\MissingDependencyException;
 use Moka\Strategy\AbstractMockingStrategy;
-use Moka\Stub\Stub;
+use Moka\Stub\MethodStub;
 use PHPUnit_Framework_MockObject_Generator as MockGenerator;
 use PHPUnit_Framework_MockObject_Matcher_AnyInvokedCount as AnyInvokedCountMatcher;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
@@ -57,10 +57,10 @@ class PHPUnitMockingStrategy extends AbstractMockingStrategy
 
     /**
      * @param MockObject $mock
-     * @param Stub $stub
+     * @param MethodStub $stub
      * @return void
      */
-    protected function doDecorate($mock, Stub $stub)
+    protected function doDecorateWithMethod($mock, MethodStub $stub)
     {
         $methodName = $stub->getName();
         $methodValue = $stub->getValue();

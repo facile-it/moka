@@ -62,8 +62,8 @@ class PHPUnitMockingStrategy extends AbstractMockingStrategy
      */
     protected function doDecorate($mock, Stub $stub)
     {
-        $methodName = $stub->getMethodName();
-        $methodValue = $stub->getMethodValue();
+        $methodName = $stub->getName();
+        $methodValue = $stub->getValue();
 
         $partial = $mock->expects(new AnyInvokedCountMatcher())->method($methodName);
         $methodValue instanceof \Throwable

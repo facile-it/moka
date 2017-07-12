@@ -48,8 +48,8 @@ class PhakeMockingStrategy extends AbstractMockingStrategy
      */
     protected function doDecorate($mock, Stub $stub)
     {
-        $methodName = $stub->getMethodName();
-        $methodValue = $stub->getMethodValue();
+        $methodName = $stub->getName();
+        $methodValue = $stub->getValue();
 
         /** @var AnswerBinderProxy $partial */
         $partial = Phake::when($mock)->$methodName(new FirstStubMatcher($mock, $methodName));

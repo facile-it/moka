@@ -3,17 +3,23 @@ declare(strict_types=1);
 
 namespace Moka\Stub;
 
+/**
+ * Class Stub
+ * @package Moka\Stub
+ */
 class Stub
 {
+    const PREFIX_PROPERTY = '$';
+
     /**
      * @var string
      */
-    private $methodName;
+    private $name;
 
     /**
      * @var mixed
      */
-    private $methodValue;
+    private $value;
 
     /**
      * Stub constructor.
@@ -22,23 +28,39 @@ class Stub
      */
     public function __construct(string $methodName, $methodValue)
     {
-        $this->methodName = $methodName;
-        $this->methodValue = $methodValue;
+        $this->name = $methodName;
+        $this->value = $methodValue;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isProperty(): bool
+    {
+        return self::PREFIX_PROPERTY === $this->getName()[0];
+    }
+
+    /**
+     * @return bool
+     */
+    public function isMethod(): bool
+    {
+        return !$this->isProperty();
     }
 
     /**
      * @return string
      */
-    public function getMethodName(): string
+    public function getName(): string
     {
-        return $this->methodName;
+        return $this->name;
     }
 
     /**
      * @return mixed
      */
-    public function getMethodValue()
+    public function getValue()
     {
-        return $this->methodValue;
+        return $this->value;
     }
 }

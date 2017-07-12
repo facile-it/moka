@@ -56,8 +56,8 @@ class ProphecyMockingStrategy extends AbstractMockingStrategy
      */
     protected function doDecorate($mock, Stub $stub)
     {
-        $methodName = $stub->getMethodName();
-        $methodValue = $stub->getMethodValue();
+        $methodName = $stub->getName();
+        $methodValue = $stub->getValue();
 
         /** @var MethodProphecy $partial */
         $partial = $mock->$methodName(new MaxPriorityToken());

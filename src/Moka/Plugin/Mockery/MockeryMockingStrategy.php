@@ -46,8 +46,8 @@ class MockeryMockingStrategy extends AbstractMockingStrategy
      */
     protected function doDecorate($mock, Stub $stub)
     {
-        $methodName = $stub->getMethodName();
-        $methodValue = $stub->getMethodValue();
+        $methodName = $stub->getName();
+        $methodValue = $stub->getValue();
 
         /** @noinspection PhpMethodParametersCountMismatchInspection */
         $partial = $mock->shouldReceive($methodName)->zeroOrMoreTimes();

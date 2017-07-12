@@ -14,6 +14,9 @@ trait VisibilityTrait
     /**
      * @param \Reflector $reflector
      * @return string
+     *
+     * @throws InvalidArgumentException
+     * @throws \RuntimeException
      */
     protected static function getVisibility(\Reflector $reflector): string
     {

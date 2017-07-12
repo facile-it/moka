@@ -11,6 +11,8 @@ use Moka\Exception\InvalidArgumentException;
  */
 abstract class AbstractStub implements StubInterface
 {
+    const REGEX_NAME = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/';
+
     /**
      * @var string
      */
@@ -30,8 +32,13 @@ abstract class AbstractStub implements StubInterface
      */
     public function __construct(string $name, $value)
     {
-        if (!preg_match('/^[a-z_][a-z0-9_]*$/i', $name)) {
-            throw new InvalidArgumentException();
+        if (!preg_match(self::REGEX_NAME, $name)) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Name must be a valid variable or method name, "%s" given',
+                    $name
+                )
+            );
         }
 
         $this->name = $name;

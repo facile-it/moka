@@ -19,12 +19,11 @@ class ReturnTypeTemplateTest extends TestCase
         $this->assertRegExp('/: *callable/', $code);
     }
 
+    /**
+     * @requires PHP 7.1
+     */
     public function testGenerateWithSelf()
     {
-        if (version_compare(phpversion(), '7.1', '<')) {
-            $this->markTestSkipped('Unsupported on PHP < 7.1');
-        }
-
         $code = ReturnTypeTemplate::generate(
             new \ReflectionMethod(NewTestClass::class, 'getSelfNew')
         );

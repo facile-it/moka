@@ -13,8 +13,10 @@ trait MokaCleanerTrait
 {
     /**
      * @return void
+     *
+     * @after
      */
-    protected function tearDown()
+    protected function __moka_tearDown()
     {
         Moka::clean();
     }

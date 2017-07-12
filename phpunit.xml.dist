@@ -25,6 +25,7 @@
             <directory>src</directory>
             <exclude>
                 <directory>src/Moka/Exception</directory>
+                <directory suffix="moka.php">src/Moka/Plugin/*</directory>
                 <directory>src/Moka/Tests</directory>
                 <directory>src/Moka/Traits</directory>
             </exclude>

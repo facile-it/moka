@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Tests\Stub;
 
 use Moka\Exception\InvalidArgumentException;
-use Moka\Stub\Stub;
+use Moka\Stub\StubInterface;
 use Moka\Stub\StubSet;
 use PHPUnit\Framework\TestCase;
 
@@ -22,7 +22,8 @@ class StubSetTest extends TestCase
 
     public function testAddSuccess()
     {
-        $stub = $this->getMockBuilder(Stub::class)
+        /** @var StubInterface $stub */
+        $stub = $this->getMockBuilder(StubInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 

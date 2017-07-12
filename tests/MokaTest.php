@@ -5,31 +5,69 @@ namespace Tests;
 
 use Moka\Exception\NotImplementedException;
 use Moka\Moka;
-use Moka\Proxy\Proxy;
+use Moka\Proxy\ProxyInterface;
 use PHPUnit\Framework\TestCase;
+use Prophecy\Argument\Token\AnyValuesToken;
 
 class MokaTest extends TestCase
 {
-    /**
-     * Moka::brew() is deprecated, but it still needs to be tested.
-     */
-    const METHODS = ['brew', 'mockery', 'phake', 'phpunit', 'prophecy'];
+    const METHODS = [
+        'mockery',
+        'phake',
+        'phpunit',
+        'prophecy'
+    ];
 
-    public function testBrewSuccess()
+    public function testCallStaticSuccess()
     {
         foreach (self::METHODS as $method) {
             $this->assertInstanceOf(
-                Proxy::class,
+                ProxyInterface::class,
                 Moka::$method(\stdClass::class)
             );
         }
     }
 
-    public function testBrewFailure()
+    public function testCallStaticFailure()
     {
         $this->expectException(NotImplementedException::class);
 
         Moka::foo(\stdClass::class);
+    }
+
+    public function testPHPUnitExpectation()
+    {
+        $proxy = Moka::phpunit(FooTestClass::class, 'foo');
+
+        $proxy->expects($this->once())
+            ->method('getInt');
+
+        try {
+            $this->verifyMockObjects();
+        } catch (\Exception $e) {
+            $proxy->getInt();
+            return;
+        }
+
+        $this->fail('Mock object was not registered within test case');
+    }
+
+    public function testProphecyExpectation()
+    {
+        $proxy = Moka::prophecy(FooTestClass::class, 'foo');
+
+        $proxy->getInt->set(new AnyValuesToken())
+            ->willReturn(1138)
+            ->shouldBeCalledTimes(1);
+
+        try {
+            $this->verifyMockObjects();
+        } catch (\Exception $e) {
+            $proxy->getInt();
+            return;
+        }
+
+        $this->fail('Mock object was not registered within test case');
     }
 
     public function testClean()

@@ -74,7 +74,19 @@ abstract class MokaMockingStrategyTestCase extends TestCase
         $this->strategy->get($this->mock)->getSelf();
     }
 
-    final public function testDecorateSingleCallSuccess()
+    final public function testDecorateWithPropertySuccess()
+    {
+        $this->strategy->decorate($this->mock, [
+            '$property' => 1138
+        ]);
+
+        $this->assertEquals(
+            1138,
+            $this->strategy->get($this->mock)->property
+        );
+    }
+
+    final public function testDecorateWithMethodSingleCallSuccess()
     {
         $this->assertSame($this->methodsWithValues['isTrue'], $this->strategy->get($this->mock)->isTrue());
 
@@ -83,13 +95,13 @@ abstract class MokaMockingStrategyTestCase extends TestCase
         $this->strategy->get($this->mock)->throwException();
     }
 
-    final public function testDecorateMultipleCallsSuccess()
+    final public function testDecorateWithMethodMultipleCallsSuccess()
     {
         $this->assertSame($this->methodsWithValues['getInt'], $this->strategy->get($this->mock)->getInt());
         $this->assertSame($this->methodsWithValues['getInt'], $this->strategy->get($this->mock)->getInt());
     }
 
-    final public function testDecorateOverriddenCallsFailure()
+    final public function testDecorateWithMethodOverriddenCallsFailure()
     {
         $this->strategy->decorate($this->mock, [
             'getInt' => mt_rand(),
@@ -104,19 +116,19 @@ abstract class MokaMockingStrategyTestCase extends TestCase
         $this->strategy->get($this->mock)->throwException();
     }
 
-    final public function testDecorateCallWithArgumentSuccess()
+    final public function testDecorateWithMethodCallWithArgumentSuccess()
     {
         $this->assertSame($this->methodsWithValues['withArgument'], $this->strategy->get($this->mock)->withArgument(mt_rand()));
     }
 
-    final public function testDecorateCallWithMissingArgumentFailure()
+    final public function testDecorateWithMethodCallWithMissingArgumentFailure()
     {
         $this->expectException(\Error::class);
 
         $this->strategy->get($this->mock)->withArgument();
     }
 
-    final public function testDecorateCallWithWrongArgumentFailure()
+    final public function testDecorateWithMethodCallWithWrongArgumentFailure()
     {
         $this->expectException(\TypeError::class);
 

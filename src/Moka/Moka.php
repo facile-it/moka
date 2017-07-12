@@ -10,21 +10,21 @@ use Moka\Exception\MockNotCreatedException;
 use Moka\Exception\NotImplementedException;
 use Moka\Factory\ProxyBuilderFactory;
 use Moka\Plugin\PluginHelper;
-use Moka\Proxy\Proxy;
 use Moka\Proxy\ProxyInterface;
+use Moka\Proxy\ProxyTrait;
 use Moka\Strategy\MockingStrategyInterface;
 use Phake_IMock as PhakeMock;
+use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 use Prophecy\Prophecy\ObjectProphecy;
+use Prophecy\Prophet;
 
 /**
  * Class Moka
  * @package Moka
  *
- * @method static Proxy|MockInterface mockery(string $fqcnOrAlias, string $alias = null)
- * @method static Proxy|PhakeMock phake(string $fqcnOrAlias, string $alias = null)
- * @method static Proxy|MockObject phpunit(string $fqcnOrAlias, string $alias = null)
- * @method static Proxy|ObjectProphecy prophecy(string $fqcnOrAlias, string $alias = null)
+ * @method static MockInterface|ProxyInterface mockery(string $fqcnOrAlias, string $alias = null)
+ * @method static PhakeMock|ProxyInterface phake(string $fqcnOrAlias, string $alias = null)
  */
 class Moka
 {
@@ -43,7 +43,7 @@ class Moka
      * @throws MockNotCreatedException
      * @throws MissingDependencyException
      */
-    public static function __callStatic(string $name, array $arguments)
+    public static function __callStatic(string $name, array $arguments): ProxyInterface
     {
         if (!isset(self::$mockingStrategies[$name])) {
             self::$mockingStrategies[$name] = PluginHelper::load($name);
@@ -59,18 +59,56 @@ class Moka
     /**
      * @param string $fqcnOrAlias
      * @param string|null $alias
-     * @return ProxyInterface
-     *
-     * @throws NotImplementedException
-     * @throws InvalidIdentifierException
-     * @throws MockNotCreatedException
-     * @throws MissingDependencyException
-     *
-     * @deprecated since v1.2.0
+     * @return MockObject|ProxyInterface
      */
-    public static function brew(string $fqcnOrAlias, string $alias = null): ProxyInterface
+    public static function phpunit(string $fqcnOrAlias, string $alias = null): ProxyInterface
     {
-        return self::phpunit($fqcnOrAlias, $alias);
+        /** @var ProxyInterface|ProxyTrait $proxy */
+        $proxy = self::__callStatic('phpunit', [$fqcnOrAlias, $alias]);
+
+        if (null !== $testCase = self::getCurrentTestCase()) {
+            $testCase->registerMockObject($proxy->__moka_getMock());
+        }
+
+        return $proxy;
+    }
+
+    /**
+     * @param string $fqcnOrAlias
+     * @param string|null $alias
+     * @return ObjectProphecy|ProxyInterface
+     */
+    public static function prophecy(string $fqcnOrAlias, string $alias = null): ProxyInterface
+    {
+        /** @var ProxyInterface|ProxyTrait $proxy */
+        $proxy = self::__callStatic('prophecy', [$fqcnOrAlias, $alias]);
+
+        if (null !== $testCase = self::getCurrentTestCase()) {
+            $prophetProperty = new \ReflectionProperty(
+                TestCase::class,
+                'prophet'
+            );
+
+            $prophetProperty->setAccessible(true);
+            if (null === $prophet = $prophetProperty->getValue($testCase)) {
+                $prophet = new Prophet();
+                $prophetProperty->setValue($testCase, $prophet);
+            }
+
+            $propheciesProperty = new \ReflectionProperty(
+                Prophet::class,
+                'prophecies'
+            );
+            $propheciesProperty->setAccessible(true);
+
+            /** @var ObjectProphecy[] $prophecies */
+            $prophecies = $propheciesProperty->getValue($prophet) ?: [];
+            $prophecies[] = $proxy->__moka_getMock();
+
+            $propheciesProperty->setValue($prophet, $prophecies);
+        }
+
+        return $proxy;
     }
 
     /**
@@ -79,5 +117,31 @@ class Moka
     public static function clean()
     {
         ProxyBuilderFactory::reset();
+    }
+
+    /**
+     * @return TestCase|null
+     */
+    private static function getCurrentTestCase()
+    {
+        $backtrace = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT);
+        foreach ($backtrace as $frame) {
+            if (!isset($frame['object'])) {
+                continue;
+            }
+
+            $object = $frame['object'];
+            if ($object instanceof TestCase) {
+                return $object;
+            }
+
+            // @codeCoverageIgnoreStart
+            return null;
+            // @codeCoverageIgnoreEnd
+        }
+
+        // @codeCoverageIgnoreStart
+        return null;
+        // @codeCoverageIgnoreEnd
     }
 }

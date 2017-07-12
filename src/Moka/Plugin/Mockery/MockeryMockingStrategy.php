@@ -7,7 +7,7 @@ use Mockery;
 use Mockery\MockInterface;
 use Moka\Exception\MissingDependencyException;
 use Moka\Strategy\AbstractMockingStrategy;
-use Moka\Stub\Stub;
+use Moka\Stub\MethodStub;
 
 /**
  * Class MockeryMockingStrategy
@@ -41,13 +41,13 @@ class MockeryMockingStrategy extends AbstractMockingStrategy
 
     /**
      * @param MockInterface $mock
-     * @param Stub $stub
+     * @param MethodStub $stub
      * @return void
      */
-    protected function doDecorate($mock, Stub $stub)
+    protected function doDecorateWithMethod($mock, MethodStub $stub)
     {
-        $methodName = $stub->getMethodName();
-        $methodValue = $stub->getMethodValue();
+        $methodName = $stub->getName();
+        $methodValue = $stub->getValue();
 
         /** @noinspection PhpMethodParametersCountMismatchInspection */
         $partial = $mock->shouldReceive($methodName)->zeroOrMoreTimes();

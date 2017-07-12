@@ -8,7 +8,9 @@ use Moka\Exception\MissingDependencyException;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Exception\NotImplementedException;
 use Moka\Factory\StubFactory;
-use Moka\Stub\Stub;
+use Moka\Stub\MethodStub;
+use Moka\Stub\PropertyStub;
+use Moka\Stub\StubInterface;
 
 /**
  * Class AbstractMockingStrategy
@@ -62,15 +64,12 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
     }
 
     /**
-     * @param string $fqcn
-     * @return object
-     */
-    abstract protected function doBuild(string $fqcn);
-
-    /**
      * @param object $mock
-     * @param array $stubs
+     * @param StubInterface[] $stubs
      * @return void
+     *
+     * @throws InvalidArgumentException
+     * @throws NotImplementedException
      */
     public function decorate($mock, array $stubs)
     {
@@ -78,10 +77,63 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
 
         $stubs = StubFactory::fromArray($stubs);
 
-        /** @var Stub $stub */
         foreach ($stubs as $stub) {
-            $this->doDecorate($mock, $stub);
+            if ($stub instanceof PropertyStub) {
+                $this->doDecorateWithProperty($mock, $stub);
+            }
+
+            if ($stub instanceof MethodStub) {
+                $this->doDecorateWithMethod($mock, $stub);
+            }
         }
+    }
+
+    /**
+     * @param object $mock
+     * @return object
+     *
+     * @throws NotImplementedException
+     * @throws InvalidArgumentException
+     */
+    public function get($mock)
+    {
+        $this->checkMockType($mock);
+
+        return $this->doGet($mock);
+    }
+
+    /**
+     * @param object $mock
+     * @param string $methodName
+     * @return mixed
+     *
+     * @throws NotImplementedException
+     */
+    public function call($mock, string $methodName)
+    {
+        $this->checkMockType($mock);
+
+        return $this->doCall($mock, $methodName);
+    }
+
+    /**
+     * @return string
+     *
+     * @throws NotImplementedException
+     */
+    public function getMockType(): string
+    {
+        $this->verifyMockType();
+
+        return $this->mockType;
+    }
+
+    /**
+     * @param string $fqcn
+     */
+    final protected function setMockType(string $fqcn)
+    {
+        $this->mockType = $fqcn;
     }
 
     /**
@@ -97,7 +149,7 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
         if (!is_a($mock, $this->mockType)) {
             throw new InvalidArgumentException(
                 sprintf(
-                    'Mock object must be of type "%s", "%s" given',
+                    'Mock object must be an instance of "%s", "%s" given',
                     $this->mockType,
                     gettype($mock)
                 )
@@ -118,25 +170,27 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
     }
 
     /**
-     * @param object $mock
-     * @param Stub $stub
-     * @return void
+     * @param string $fqcn
+     * @return object
      */
-    abstract protected function doDecorate($mock, Stub $stub);
+    abstract protected function doBuild(string $fqcn);
 
     /**
      * @param object $mock
-     * @return object
-     *
-     * @throws NotImplementedException
-     * @throws InvalidArgumentException
+     * @param PropertyStub $stub
+     * @return void
      */
-    public function get($mock)
+    protected function doDecorateWithProperty($mock, PropertyStub $stub)
     {
-        $this->checkMockType($mock);
-
-        return $this->doGet($mock);
+        $mock->{$stub->getName()} = $stub->getValue();
     }
+
+    /**
+     * @param object $mock
+     * @param MethodStub $stub
+     * @return void
+     */
+    abstract protected function doDecorateWithMethod($mock, MethodStub $stub);
 
     /**
      * @param object $mock
@@ -145,22 +199,20 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
     abstract protected function doGet($mock);
 
     /**
-     * @return string
+     * @param object $mock
+     * @param string $methodName
+     * @return mixed
      *
-     * @throws NotImplementedException
+     * @throws \Error
      */
-    public function getMockType(): string
+    protected function doCall($mock, string $methodName)
     {
-        $this->verifyMockType();
-
-        return $this->mockType;
-    }
-
-    /**
-     * @param string $fqcn
-     */
-    final protected function setMockType(string $fqcn)
-    {
-        $this->mockType = $fqcn;
+        throw new \Error(
+            sprintf(
+                'Undefined property: %s::$%s',
+                get_class($this),
+                $methodName
+            )
+        );
     }
 }

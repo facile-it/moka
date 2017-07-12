@@ -8,6 +8,7 @@ use Moka\Plugin\Prophecy\ProphecyMockingStrategy;
 use Moka\Tests\MokaMockingStrategyTestCase;
 use Prophecy\Doubler\Doubler;
 use Prophecy\Doubler\LazyDouble;
+use Prophecy\Prophecy\MethodProphecy;
 use Prophecy\Prophecy\ObjectProphecy;
 use Tests\FooTestClass;
 use Tests\TestInterface;
@@ -90,5 +91,15 @@ class ProphecyMockingStrategyTest extends MokaMockingStrategyTestCase
 
         $this->assertFalse(is_a($this->strategy->get($mock), $fqcn1));
         $this->assertFalse(is_a($this->strategy->get($mock), $fqcn2));
+    }
+
+    public function testCallObjectProphecy()
+    {
+        $mock = $this->strategy->build(FooTestClass::class);
+
+        $this->assertInstanceOf(
+            MethodProphecy::class,
+            $this->strategy->call($mock, 'withArgument')->set()
+        );
     }
 }

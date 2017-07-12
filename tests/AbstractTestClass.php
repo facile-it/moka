@@ -5,6 +5,10 @@ namespace Tests;
 
 abstract class AbstractTestClass implements TestInterface
 {
+    public $isTrue;
+
+    public static $getInt;
+
     public function isTrue(): bool
     {
         return true;
@@ -12,7 +16,7 @@ abstract class AbstractTestClass implements TestInterface
 
     public function getInt(): int
     {
-        return 1;
+        return 11;
     }
 
     public function getSelf(): TestInterface
@@ -20,9 +24,27 @@ abstract class AbstractTestClass implements TestInterface
         return $this;
     }
 
+    public function getCallable(): callable
+    {
+        return function () {
+        };
+    }
+
     public function withArgument(int $argument): int
     {
         return $argument;
+    }
+
+    public function withArguments(
+        int $required,
+        $nullable = null,
+        string &$byReference = PHP_EOL,
+        FooTestClass $class = null,
+        array $array = [3],
+        callable $callable = null,
+        ...$variadic
+    ): int {
+        return $required;
     }
 
     public function throwException()

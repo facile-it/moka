@@ -21,11 +21,4 @@ interface ProxyInterface
      * @throws MockNotCreatedException
      */
     public function stub(array $methodsWithValues): ProxyInterface;
-
-    /**
-     * @return object
-     *
-     * @throws MockNotServedException
-     */
-    public function serve();
 }

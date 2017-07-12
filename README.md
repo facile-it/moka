@@ -8,11 +8,11 @@
 [![Packagist](https://img.shields.io/packagist/dt/facile-it/moka.svg)](https://packagist.org/packages/facile-it/moka)
 
 Tired of spending most of your testing time mocking objects like there's no tomorrow? **Yes.**  
-**Moka** provides you with three simple methods to reduce your effort on such a tedious task, and with an incredible abstraction layer between the most popular mock engines and **you**.
+**Moka** provides you with two simple methods to reduce your effort on such a tedious task, and with an incredible abstraction layer between the most popular mock engines and **you**.
 
 ## Installation
 
-You can simply install the package via composer:
+You can install the package via composer:
 
 ```bash
 composer require --dev facile-it/moka
@@ -20,9 +20,7 @@ composer require --dev facile-it/moka
 
 ## Usage
 
-To use **Moka** in your tests simply `use` the `MokaPHPUnitTrait` (see generators section [below](#strategies)) and run `Moka::clean()` before every test. A simple interface will let you create *moka* (mock) objects, *serve* them easily, and decorate them with *stub* methods with a fluent interface.
-
-A complete example follows:
+To use **Moka** in your tests simply `use` function `Moka\Plugin\PHPUnit\moka()` (see generators section [below](#strategies)) and run `Moka::clean()` before every test. A simple interface will let you create *moka* (mock) objects and decorate them with *stub* methods and properties via a fluent interface:
 
 ```php
 <?php
@@ -30,25 +28,25 @@ A complete example follows:
 namespace Foo\Tests;
 
 use Moka\Moka;
-use Moka\Traits\MokaPHPUnitTrait;
+use function Moka\Plugin\PHPUnit\moka;
 
 class FooTest extends \AnyTestCase
 {
-    use MokaPHPUnitTrait;
-    
     private $foo;
     
-    public function setUp()
+    protected function setUp()
     {
         Moka::clean();
         
         // The subject of the test.
         $this->foo = new Foo(
-            $this->moka(BarInterface::class)->stub([
+            moka(BarInterface::class)->stub([
+                // Property name => value.
+                '$property' => 3,
                 // Method name => return value.
-                'method1' => $this->moka(AcmeInterface::class)->serve(),
-                'method2' => true // Any return value.
-            ])->serve()
+                'method1' => moka(AcmeInterface::class),
+                'method2' => true
+            ])
         );
     }
     
@@ -56,12 +54,11 @@ class FooTest extends \AnyTestCase
 }
 ```
 
-Alternatively, instead of using the trait and `$this->moka(/* ... */)`, you can call `Moka::phpunit(string $fqcnOrAlias, string $alias = null): ProxyInterface`.
+Alternatively, instead of using `moka()`, you can call `Moka::phpunit(string $fqcnOrAlias, string $alias = null): ProxyInterface`.
 
 Being such a simple project, **Moka** can be integrated in an already existing test suite with no effort.
 
-**Notice:** if you are extending PHPUnit `TestCase`, to simplify the cleaning phase we provide a `MokaCleanerTrait` which automatically runs `Moka::clean()` in `tearDown()`.
-**Warning:** if you are defining your own `tearDown()`, you cannot use the trait!
+**Notice:** if you are extending PHPUnit `TestCase`, to simplify the cleaning phase we provide a `MokaCleanerTrait` which automatically runs `Moka::clean()` after each test.
 
 ```php
 <?php
@@ -69,14 +66,14 @@ Being such a simple project, **Moka** can be integrated in an already existing t
 namespace Foo\Tests;
 
 use Moka\Traits\MokaCleanerTrait;
-use Moka\Traits\MokaPHPUnitTrait;
 use PHPUnit\Framework\TestCase;
+use function Moka\Plugin\PHPUnit\moka;
 
 class FooTest extends TestCase
 {
-    use MokaPHPUnitTrait, MokaCleanerTrait;
+    use MokaCleanerTrait;
     
-    public function setUp()
+    protected function setUp()
     {
         // No call to Moka::clean() needed.
         
@@ -87,23 +84,23 @@ class FooTest extends TestCase
 }
 ```
 
-You can rely on the original mock object implementation to be accessible (in the example below, PHPUnit's):
+<a name='original-mock'></a>You can rely on the original mock object implementation to be accessible (in the example below, PHPUnit's - for Prophecy <a href='#prophecy-mock'>see below</a>):
 
 ```php
-$this->moka(BarInterface::class, 'bar')
+moka(BarInterface::class, 'bar')
     ->expects($this->at(0))
     ->method('isValid')
     ->willReturn(true);
 
-$this->moka('bar')
+moka('bar')
     ->expects($this->at(1))
     ->method('isValid')
     ->willThrowException(new \Exception());
 
-var_dump($this->moka('bar')->serve()->isValid());
+var_dump(moka('bar')->isValid());
 // bool(true)
 
-var_dump($this->moka('bar')->serve()->isValid());
+var_dump(moka('bar')->isValid());
 // throws \Exception
 ```
 
@@ -114,8 +111,8 @@ var_dump($this->moka('bar')->serve()->isValid());
 Creates a proxy containing a mock object (according to the selected strategy) for the provided *FQCN* and optionally assigns an `$alias` to it to be able to get it later:
 
 ```php
-$mock1 = $this->moka(FooInterface::class)->serve(); // Creates the mock for FooInterface.
-$mock2 = $this->moka(FooInterface::class)->serve(); // Gets a different mock.
+$mock1 = moka(FooInterface::class); // Creates the mock for FooInterface.
+$mock2 = moka(FooInterface::class); // Gets a different mock.
 
 var_dump($mock1 === $mock2);
 // bool(false)
@@ -124,46 +121,38 @@ var_dump($mock1 === $mock2);
 The `$alias` allows you to store mock instances:
 
 ```php
-$mock1 = $this->moka(FooInterface::class, 'foo')->serve(); // Creates a mock for FooInterface.
-$mock2 = $this->moka('foo')->serve(); // Get the mock previously created.
+$mock1 = moka(FooInterface::class, 'foo'); // Creates a mock for FooInterface.
+$mock2 = moka('foo'); // Get the mock previously created.
 
 var_dump($mock1 === $mock2);
 // bool(true)
 ```
 
-### `stub(array $methodsWithValues): ProxyInterface`
+### `ProxyInterface::stub(array $namesWithValues): ProxyInterface`
 
-Accepts an array of method stubs with format `[$methodName => $methodValue]`, where `$methodName` **must** be a string and `$methodValue` can be of any type, including another mock object or an exception instance:
+Accepts an array of method or property stubs with format `[$name => $value]`, where `$name` **must** be a string and `$value` can be of any type, including another mock object.
+
+**Caution**:
+- Properties are identified by symbol `$` prepended to their names
+- An exception instance set as a method value will be thrown when the method is called
 
 ```php
-$actualMock = $this->moka(BarInterface::class)->stub([
+$mock = moka(BarInterface::class)->stub([
+    '$property' => 1,
     'isValid' => true,
-    // Remember to use serve() to pass the actual mock.
-    'getMock' => $this->moka(AcmeInterface::class)->serve(),
+    'getMock' => moka(AcmeInterface::class),
     'throwException' => new \Exception()
-])->serve();
+]);
 
-var_dump($actualMock->isValid());
+var_dump($mock->property);
+// int(1)
+
+var_dump($mock->isValid());
 // bool(true)
 ```
 
-**Notice:** the stub is valid for **any** invocation of the method and it cannot be overridden.  
-If you need more granular control over invocation strategies, see `serve()`.
-
-### `serve() // Returns the actual mocked object.`
-
-Returns the final *fake* object good to be used in place of the real implementation:
-
-```php
-function foo(BarInterface $bar)
-{
-    return $bar->chill();
-}
-
-$chill = foo(
-    $this->moka(BarInterface::class)->serve()
-);
-```
+**Notice:** method stubs are valid for **any** invocation of the defined methods and cannot be overridden.  
+If you need more granular control over invocation strategies, you can get [access to the original mock object implementation](#original-mock).
 
 ## <a name='strategies'></a>Supported mock object generators
 
@@ -174,14 +163,28 @@ We support other generators as well, but you need to install the relevant packag
 - [Mockery](http://docs.mockery.io/en/latest/) -> [mockery/mockery](https://packagist.org/packages/mockery/mockery)
 - [Phake](http://phake.readthedocs.io/) -> [phake/phake](https://packagist.org/packages/phake/phake)
 
-We provide a specific trait for each supported strategy, as well as a static method (self documented in the trait itself):
+We provide a specific `moka()` function for each supported strategy, as well as a static method (self documented in the function itself):
 
-- `MokaPHPUnitTrait`
-- `MokaProphecyTrait`
-- `MokaMockeryTrait`
-- `MokaPhakeTrait`
+- `Moka\Plugin\PHPUnit\moka`
+- `Moka\Plugin\Prophecy\moka`
+- `Moka\Plugin\Mockery\moka`
+- `Moka\Plugin\Phake\moka`
 
-Every trait defines its own `moka(string $fqcnOrAlias, string $alias = null): ProxyInterface`, as described in the **[Reference](#reference)**.
+### <a name='prophecy-mock'></a>Prophecy native behavior
+
+Prophecy lets you stub methods by calling them directly on the `ObjectProphecy`. **Moka** doesn't support such a behavior, but we provide an easy workaround:
+
+```php
+// Native Prophecy behavior...
+$this->prophesize(FooInterface::class)
+    ->someMethod(new AnyValuesToken())
+    ->willReturn($something);
+
+// ...translates to...
+Moka::prophecy(FooInterface::class)
+    ->someMethod->set(new AnyValuesToken())
+    ->willReturn($something);
+```
 
 ## Plugin development
 
@@ -212,24 +215,34 @@ Extend `AbstractMockingStrategy` for an easier (and stricter) implementation of 
 namespace Moka\Plugin\YourOwn;
 
 use Moka\Strategy\AbstractMockingStrategy;
-use Moka\Stub\Stub;
+use Moka\Stub\MethodStub;
 
 class YourOwnMockingStrategy extends AbstractMockingStrategy
 {
-    public function __construct() {
+    public function __construct()
+    {
         // TODO: Implement __construct() method.
     }
     
-    protected function doBuild(string $fqcn) {
+    protected function doBuild(string $fqcn)
+    {
         // TODO: Implement doBuild() method.
     }
     
-    protected function doDecorate($mock, Stub $stub) {
-        // TODO: Implement doDecorate() method.
+    protected function doDecorateWithMethod($mock, MethodStub $stub)
+    {
+        // TODO: Implement doDecorateWithMethod() method.
     }
     
-    protected function doGet($mock) {
+    protected function doGet($mock)
+    {
         // TODO: Implement doGet() method.
+    }
+
+    protected function doCall($mock, string $methodName)
+    {
+        // Override doCall() if you need special behavior.
+        // See ProphecyMockingStrategy::doCall().
     }
 }
 ```

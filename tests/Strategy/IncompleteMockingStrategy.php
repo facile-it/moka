@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Tests\Strategy;
 
 use Moka\Strategy\AbstractMockingStrategy;
-use Moka\Stub\Stub;
+use Moka\Stub\MethodStub;
 
 class IncompleteMockingStrategy extends AbstractMockingStrategy
 {
@@ -16,7 +16,7 @@ class IncompleteMockingStrategy extends AbstractMockingStrategy
     {
     }
 
-    protected function doDecorate($mock, Stub $stub)
+    protected function doDecorateWithMethod($mock, MethodStub $stub)
     {
     }
 

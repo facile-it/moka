@@ -5,7 +5,7 @@ namespace Tests\Factory;
 
 use Moka\Exception\InvalidArgumentException;
 use Moka\Factory\StubFactory;
-use Moka\Stub\Stub;
+use Moka\Stub\StubInterface;
 use PHPUnit\Framework\TestCase;
 
 class StubFactoryTest extends TestCase
@@ -13,13 +13,14 @@ class StubFactoryTest extends TestCase
     public function testSuccess()
     {
         $array = [
-            'methodName' => true
+            'methodName' => true,
+            '$propertyName' => false
         ];
 
         $stubs = StubFactory::fromArray($array);
 
         $this->assertNotEmpty($stubs);
-        $this->containsOnlyInstancesOf(Stub::class);
+        $this->containsOnlyInstancesOf(StubInterface::class);
         $this->assertCount(count($array), $stubs);
     }
 

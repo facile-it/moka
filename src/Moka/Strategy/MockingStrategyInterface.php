@@ -38,6 +38,13 @@ interface MockingStrategyInterface
     public function get($mock);
 
     /**
+     * @param object $mock
+     * @param string $methodName
+     * @return mixed
+     */
+    public function call($mock, string $methodName);
+
+    /**
      * @return string
      *
      * @throws NotImplementedException

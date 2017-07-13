@@ -7,7 +7,6 @@ use Moka\Exception\InvalidArgumentException;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Strategy\MockingStrategyInterface;
 use Moka\Stub\StubHelper;
-use Moka\Stub\StubInterface;
 
 /**
  * Trait ProxyTrait

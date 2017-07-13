@@ -20,16 +20,8 @@ class PropertyStub extends AbstractStub
      */
     public function __construct(string $name, $value)
     {
-        if (static::PREFIX_PROPERTY !== $name[0]) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    'Name must be prefixed by "%s", "%s" given',
-                    StubInterface::PREFIX_PROPERTY,
-                    $name
-                )
-            );
-        }
+        StubHelper::validatePropertyName($name);
 
-        parent::__construct(substr($name, 1), $value);
+        parent::__construct($name, $value);
     }
 }

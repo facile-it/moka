@@ -5,6 +5,7 @@ namespace Tests\Stub;
 
 use Moka\Exception\InvalidArgumentException;
 use Moka\Stub\MethodStub;
+use Moka\Stub\StubHelper;
 use Moka\Stub\StubInterface;
 
 class MethodStubTest extends StubTestCase
@@ -34,7 +35,7 @@ class MethodStubTest extends StubTestCase
         new $fqcn(
             sprintf(
                 '%s%s',
-                StubInterface::PREFIX_PROPERTY,
+                StubHelper::PREFIXES['property'],
                 'name'
             ),
             true

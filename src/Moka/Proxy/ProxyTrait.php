@@ -6,6 +6,7 @@ namespace Moka\Proxy;
 use Moka\Exception\InvalidArgumentException;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Strategy\MockingStrategyInterface;
+use Moka\Stub\StubInterface;
 
 /**
  * Trait ProxyTrait
@@ -22,6 +23,11 @@ trait ProxyTrait
      * @var MockingStrategyInterface
      */
     private $__moka_mockingStrategy;
+
+    /**
+     * @var array
+     */
+    private $__moka_properties = [];
 
     /**
      * @return object
@@ -65,6 +71,18 @@ trait ProxyTrait
         /** @var $this ProxyInterface */
         $this->__moka_mockingStrategy->decorate($this->__moka_mock, $namesWithValues);
 
+        foreach ($namesWithValues as $name => $value) {
+            if (
+                !is_string($name) ||
+                strlen($name) <= 0 ||
+                StubInterface::PREFIX_PROPERTY !== $name[0]
+            ) {
+                continue;
+            }
+
+            $this->__moka_properties[] = substr($name, 1);
+        }
+
         return $this;
     }
 
@@ -92,6 +110,10 @@ trait ProxyTrait
     {
         if (!$this->__moka_mockingStrategy instanceof MockingStrategyInterface) {
             return null;
+        }
+
+        if (in_array($name, $this->__moka_properties)) {
+            return $this->__moka_mockingStrategy->get($this->__moka_mock)->$name;
         }
 
         return $this->__moka_mockingStrategy->call($this->__moka_mock, $name);

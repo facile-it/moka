@@ -6,6 +6,7 @@ namespace Moka\Factory;
 use Moka\Exception\InvalidArgumentException;
 use Moka\Stub\MethodStub;
 use Moka\Stub\PropertyStub;
+use Moka\Stub\StubHelper;
 use Moka\Stub\StubInterface;
 use Moka\Stub\StubSet;
 
@@ -26,7 +27,7 @@ class StubFactory
         $stubSet = new StubSet();
         foreach ($namesWithValues as $name => $value) {
             try {
-                $stub = StubInterface::PREFIX_PROPERTY === $name[0]
+                $stub = StubHelper::isPropertyName($name)
                     ? new PropertyStub($name, $value)
                     : new MethodStub($name, $value);
 

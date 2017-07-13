@@ -30,7 +30,7 @@ class StubHelper
      */
     public static function isStaticName(string $name): bool
     {
-        self::validateName($name);
+        self::validateName(self::doStripName($name));
 
         return (bool)preg_match(
             sprintf(
@@ -60,7 +60,7 @@ class StubHelper
      */
     public static function isPropertyName(string $name): bool
     {
-        self::validateName($name);
+        self::validateName(self::doStripName($name));
 
         return (bool)preg_match(
             sprintf(
@@ -85,29 +85,53 @@ class StubHelper
 
     /**
      * @param string $name
+     * @return bool
+     *
+     * @throws InvalidArgumentException
+     */
+    public static function isMethodName(string $name): bool
+    {
+        return !static::isPropertyName($name);
+    }
+
+    /**
+     * @param string $name
+     * @return void
+     *
+     * @throws InvalidArgumentException
+     */
+    public static function validateMethodName(string $name)
+    {
+        self::validateName(self::doStripName($name, ['static']));
+    }
+
+    /**
+     * @param string $name
      * @return string
      *
      * @throws InvalidArgumentException
      */
     public static function stripName(string $name): string
     {
-        self::validateName($name);
+        self::validateName(self::doStripName($name));
 
         return self::doStripName($name);
     }
 
     /**
      * @param string $name
+     * @param array|null $prefixes
      * @return string
      */
-    private static function doStripName(string $name): string
+    private static function doStripName(string $name, array $prefixes = null): string
     {
-        return array_reduce(static::PREFIXES, function ($name, $prefix) {
+        $prefixes = null !== $prefixes
+            ? array_intersect(array_keys(static::PREFIXES), $prefixes)
+            : array_keys(static::PREFIXES);
+
+        return array_reduce($prefixes, function (string $name, string $prefix) {
             return preg_replace(
-                sprintf(
-                    '/^%s/',
-                    $prefix
-                ),
+                sprintf('/^%s/', static::PREFIXES[$prefix]),
                 '',
                 $name
             );
@@ -126,7 +150,7 @@ class StubHelper
         $methodName = sprintf('is%sName', $type);
         $nameIsValid = isset(static::PREFIXES[$type])
             ? static::$methodName($name)
-            : preg_match(static::REGEX_NAME, self::doStripName($name));
+            : preg_match(static::REGEX_NAME, $name);
 
         if (!$nameIsValid) {
             $message = isset(static::PREFIXES[$type])
@@ -137,7 +161,7 @@ class StubHelper
                 )
                 : sprintf(
                     'Name must be a valid variable or function name, "%s" given',
-                    self::doStripName($name)
+                    $name
                 );
 
             throw new InvalidArgumentException($message);

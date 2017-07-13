@@ -5,7 +5,6 @@ namespace Tests\Stub;
 
 use Moka\Exception\InvalidArgumentException;
 use Moka\Stub\MethodStub;
-use Moka\Stub\StubHelper;
 use Moka\Stub\StubInterface;
 
 class MethodStubTest extends StubTestCase
@@ -14,37 +13,32 @@ class MethodStubTest extends StubTestCase
     {
         parent::__construct($name, $data, $dataName);
 
-        $this->setStubType(MethodStub::class);
+        $this->setStubFQCN(MethodStub::class);
     }
 
     public function testConstructMethodSuccess()
     {
-        $fqcn = $this->fqcn;
+        $fqcn = $this->stubFQCN;
 
-        $stub = new $fqcn('name', 1138);
+        $stub1 = new $fqcn('name', 1138);
+        $stub2 = new $fqcn('::name', 1138);
 
-        $this->assertInstanceOf(StubInterface::class, $stub);
+        $this->assertInstanceOf(StubInterface::class, $stub1);
+        $this->assertInstanceOf(StubInterface::class, $stub2);
     }
 
     public function testConstructMethodFailure()
     {
-        $fqcn = $this->fqcn;
+        $fqcn = $this->stubFQCN;
 
         $this->expectException(InvalidArgumentException::class);
 
-        new $fqcn(
-            sprintf(
-                '%s%s',
-                StubHelper::PREFIXES['property'],
-                'name'
-            ),
-            true
-        );
+        new $fqcn('$name', true);
     }
 
     public function testGetName()
     {
-        $fqcn = $this->fqcn;
+        $fqcn = $this->stubFQCN;
 
         /** @var StubInterface $stub */
         $stub = new $fqcn('name', 1138);
@@ -54,7 +48,7 @@ class MethodStubTest extends StubTestCase
 
     public function testGetValue()
     {
-        $fqcn = $this->fqcn;
+        $fqcn = $this->stubFQCN;
 
         /** @var StubInterface $stub */
         $stub = new $fqcn('name', 1138);

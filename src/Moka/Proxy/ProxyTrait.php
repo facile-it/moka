@@ -31,6 +31,11 @@ trait ProxyTrait
     private $__moka_properties = [];
 
     /**
+     * @var array
+     */
+    private $__moka_methods = [];
+
+    /**
      * @return object
      */
     public function __moka_getMock()
@@ -70,11 +75,13 @@ trait ProxyTrait
     public function stub(array $namesWithValues): ProxyInterface
     {
         foreach ($namesWithValues as $name => $value) {
-            if (!StubHelper::isPropertyName($name)) {
-                continue;
+            if (StubHelper::isPropertyName($name)) {
+                $this->__moka_properties[] = StubHelper::stripName($name);
             }
 
-            $this->__moka_properties[] = StubHelper::stripName($name);
+            if (StubHelper::isMethodName($name)) {
+                $this->__moka_methods[] = StubHelper::stripName($name);
+            }
         }
 
         /** @var $this ProxyInterface */

@@ -24,42 +24,42 @@ class StubHelperTest extends TestCase
         }
     }
 
-    public function testValidateNameFailure0()
+    public function testValidateNameFailure1()
     {
         $this->expectException(InvalidArgumentException::class);
 
         StubHelper::stripName('0name');
     }
 
-    public function testValidateNameFailure1()
+    public function testValidateNameFailure2()
     {
         $this->expectException(InvalidArgumentException::class);
 
         StubHelper::stripName('na-me');
     }
 
-    public function testValidateNameFailure2()
+    public function testValidateNameFailure3()
     {
         $this->expectException(InvalidArgumentException::class);
 
         StubHelper::stripName('na me');
     }
 
-    public function testValidateNameFailure3()
+    public function testValidateNameFailure4()
     {
         $this->expectException(InvalidArgumentException::class);
 
         StubHelper::stripName('na.me');
     }
 
-    public function testValidateNameFailure4()
+    public function testValidateNameFailure5()
     {
         $this->expectException(InvalidArgumentException::class);
 
         StubHelper::stripName('');
     }
 
-    public function testStaticNameSucess()
+    public function testStaticNameSuccess()
     {
         $this->assertTrue(StubHelper::isStaticName('::_name'));
 
@@ -89,5 +89,21 @@ class StubHelperTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
 
         StubHelper::validatePropertyName('::name0');
+    }
+
+    public function testMethodNameSucess()
+    {
+        $this->assertTrue(StubHelper::isMethodName('_name'));
+
+        StubHelper::validateMethodName('::_name');
+    }
+
+    public function testMethodNameFailure()
+    {
+        $this->assertFalse(StubHelper::isMethodName('$name0'));
+
+        $this->expectException(InvalidArgumentException::class);
+
+        StubHelper::validateMethodName('::$name0');
     }
 }

@@ -121,7 +121,7 @@ abstract class MokaMockingStrategyTestCase extends TestCase
         ]);
     }
 
-    final public function testDecorateWithPrivatePropertyFailure()
+    final public function testDecorateWithPrivatePropertySuccess()
     {
         $this->assertEquals(
             $this->namesWithValues['$private'],

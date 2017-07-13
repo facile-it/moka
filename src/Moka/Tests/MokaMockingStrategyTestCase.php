@@ -26,12 +26,34 @@ abstract class MokaMockingStrategyTestCase extends TestCase
     /**
      * @var array
      */
-    protected $methodsWithValues;
+    protected $namesWithValues;
 
     /**
      * @var string
      */
     private $className;
+
+    protected function setUp()
+    {
+        $this->className = [
+            FooTestClass::class,
+            BarTestClass::class
+        ][random_int(0, 1)];
+
+        $this->namesWithValues = [
+            '$property' => mt_rand(),
+            '$public' => mt_rand(),
+            '$private' => mt_rand(),
+            'isTrue' => (bool)random_int(0, 1),
+            'getInt' => mt_rand(),
+            'withArgument' => mt_rand(),
+            'throwException' => new \Exception('' . mt_rand())
+        ];
+
+        $this->mock = $this->strategy->build($this->className);
+
+        $this->strategy->decorate($this->mock, $this->namesWithValues);
+    }
 
     final public function testGetMockTypeSuccess()
     {
@@ -61,7 +83,7 @@ abstract class MokaMockingStrategyTestCase extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
-        $this->strategy->decorate(new \stdClass(), $this->methodsWithValues);
+        $this->strategy->decorate(new \stdClass(), $this->namesWithValues);
     }
 
     final public function testDecorateWrongTypeHintFailure()
@@ -74,31 +96,52 @@ abstract class MokaMockingStrategyTestCase extends TestCase
         $this->strategy->get($this->mock)->getSelf();
     }
 
-    final public function testDecorateWithPropertySuccess()
+    final public function testDecorateWithPropertyFailure()
     {
-        $this->strategy->decorate($this->mock, [
-            '$property' => 1138
-        ]);
-
         $this->assertEquals(
-            1138,
+            $this->namesWithValues['$property'],
             $this->strategy->get($this->mock)->property
+        );
+    }
+
+    final public function testDecorateWithPublicPropertySuccess()
+    {
+        $this->assertEquals(
+            $this->namesWithValues['$public'],
+            $this->strategy->get($this->mock)->public
+        );
+    }
+
+    final public function testDecorateWithProtectedPropertyFailure()
+    {
+        $this->expectException(\Error::class);
+
+        $this->strategy->decorate($this->mock, [
+            '$protected' => 1138
+        ]);
+    }
+
+    final public function testDecorateWithPrivatePropertyFailure()
+    {
+        $this->assertEquals(
+            $this->namesWithValues['$private'],
+            $this->strategy->get($this->mock)->private
         );
     }
 
     final public function testDecorateWithMethodSingleCallSuccess()
     {
-        $this->assertSame($this->methodsWithValues['isTrue'], $this->strategy->get($this->mock)->isTrue());
+        $this->assertSame($this->namesWithValues['isTrue'], $this->strategy->get($this->mock)->isTrue());
 
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage($this->methodsWithValues['throwException']->getMessage());
+        $this->expectExceptionMessage($this->namesWithValues['throwException']->getMessage());
         $this->strategy->get($this->mock)->throwException();
     }
 
     final public function testDecorateWithMethodMultipleCallsSuccess()
     {
-        $this->assertSame($this->methodsWithValues['getInt'], $this->strategy->get($this->mock)->getInt());
-        $this->assertSame($this->methodsWithValues['getInt'], $this->strategy->get($this->mock)->getInt());
+        $this->assertSame($this->namesWithValues['getInt'], $this->strategy->get($this->mock)->getInt());
+        $this->assertSame($this->namesWithValues['getInt'], $this->strategy->get($this->mock)->getInt());
     }
 
     final public function testDecorateWithMethodOverriddenCallsFailure()
@@ -108,17 +151,17 @@ abstract class MokaMockingStrategyTestCase extends TestCase
             'throwException' => mt_rand()
         ]);
 
-        $this->assertSame($this->methodsWithValues['getInt'], $this->strategy->get($this->mock)->getInt());
-        $this->assertSame($this->methodsWithValues['getInt'], $this->strategy->get($this->mock)->getInt());
+        $this->assertSame($this->namesWithValues['getInt'], $this->strategy->get($this->mock)->getInt());
+        $this->assertSame($this->namesWithValues['getInt'], $this->strategy->get($this->mock)->getInt());
 
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage($this->methodsWithValues['throwException']->getMessage());
+        $this->expectExceptionMessage($this->namesWithValues['throwException']->getMessage());
         $this->strategy->get($this->mock)->throwException();
     }
 
     final public function testDecorateWithMethodCallWithArgumentSuccess()
     {
-        $this->assertSame($this->methodsWithValues['withArgument'], $this->strategy->get($this->mock)->withArgument(mt_rand()));
+        $this->assertSame($this->namesWithValues['withArgument'], $this->strategy->get($this->mock)->withArgument(mt_rand()));
     }
 
     final public function testDecorateWithMethodCallWithMissingArgumentFailure()
@@ -145,25 +188,6 @@ abstract class MokaMockingStrategyTestCase extends TestCase
         $this->expectException(InvalidArgumentException::class);
 
         $this->strategy->get(new \stdClass());
-    }
-
-    protected function setUp()
-    {
-        $this->className = [
-            FooTestClass::class,
-            BarTestClass::class
-        ][random_int(0, 1)];
-
-        $this->methodsWithValues = [
-            'isTrue' => (bool)random_int(0, 1),
-            'getInt' => mt_rand(),
-            'withArgument' => mt_rand(),
-            'throwException' => new \Exception('' . mt_rand())
-        ];
-
-        $this->mock = $this->strategy->build($this->className);
-
-        $this->strategy->decorate($this->mock, $this->methodsWithValues);
     }
 
     final protected function setStrategy(MockingStrategyInterface $strategy)

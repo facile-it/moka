@@ -38,6 +38,8 @@ class ProxyTraitTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->mock->property = null;
+
         $this->proxy->__moka_setMock($this->mock);
     }
 
@@ -92,6 +94,26 @@ class ProxyTraitTest extends TestCase
     public function testCallWithoutStrategyFailure()
     {
         $this->assertNull($this->proxy->getSelf());
+    }
+
+    public function testGetSuccess()
+    {
+        $this->proxy->__moka_setMockingStrategy($this->mockingStrategy);
+
+        $this->mockingStrategy
+            ->expects($this->once())
+            ->method('get')
+            ->willReturn($this->mock);
+
+        $this->mockingStrategy
+            ->expects($this->never())
+            ->method('call');
+
+        $this->proxy->stub([
+            '$property' => true
+        ]);
+
+        $this->proxy->property;
     }
 
     public function testGetFailure()

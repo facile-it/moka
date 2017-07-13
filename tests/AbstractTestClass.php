@@ -5,6 +5,12 @@ namespace Tests;
 
 abstract class AbstractTestClass implements TestInterface
 {
+    public $public;
+
+    protected $protected;
+
+    private $private;
+
     public $isTrue;
 
     public static $getInt;

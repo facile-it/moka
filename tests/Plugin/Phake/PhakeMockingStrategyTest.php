@@ -19,6 +19,19 @@ class PhakeMockingStrategyTest extends MokaMockingStrategyTestCase
         $this->setStrategy(new PhakeMockingStrategy());
     }
 
+    /**
+     * @requires PHP 7.1
+     */
+    public function testBuildClassNewSuccess()
+    {
+        $this->markTestSkipped(
+            sprintf(
+                'Strategy "%s" doesn\'t support PHP 7.1 features',
+                get_class($this->strategy)
+            )
+        );
+    }
+
     public function testBuildEmptyFQCNFailure()
     {
         $this->expectException(MockNotCreatedException::class);

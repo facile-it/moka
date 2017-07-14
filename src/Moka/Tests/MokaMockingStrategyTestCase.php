@@ -61,6 +61,16 @@ abstract class MokaMockingStrategyTestCase extends TestCase
         $this->assertInstanceOf($this->strategy->getMockType(), $this->mock);
     }
 
+    /**
+     * @requires PHP 7.1
+     */
+    public function testBuildClassNewSuccess()
+    {
+        $mock = $this->strategy->build(NewTestClass::class);
+
+        $this->assertInstanceOf($this->strategy->getMockType(), $mock);
+    }
+
     final public function testBuildInterfaceSuccess()
     {
         $mock = $this->strategy->build(TestInterface::class);

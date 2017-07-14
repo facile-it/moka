@@ -12,7 +12,7 @@ use Moka\Proxy\ProxyTrait;
  */
 class ClassTemplate implements TemplateInterface
 {
-    const UNSAFE_METHODS = ['__construct', '__destruct', '__call', '__clone'];
+    const UNSAFE_METHODS = ['__construct', '__destruct', '__call', '__get', '__clone'];
 
     const TEMPLATE_FQCN = 'Moka_%s_%s';
 
@@ -28,8 +28,6 @@ class ClassTemplate implements TemplateInterface
             %s
         }
         
-        %s
-        
         public function __call(%s $name, %s $arguments)
         {
             return $this->doCall($name, $arguments);
@@ -39,6 +37,8 @@ class ClassTemplate implements TemplateInterface
         {
             return $this->doGet($name);
         }
+
+        %s
     };
     
     return "%s";
@@ -116,10 +116,10 @@ class ClassTemplate implements TemplateInterface
             ProxyTrait::class,
             implode(PHP_EOL, $propertiesCode),
             implode(PHP_EOL, $constructorCode),
-            implode(PHP_EOL, $methodsCode),
             $callNameType ?: '',
             $callArgumentsType ?: '',
             $getNameType,
+            implode(PHP_EOL, $methodsCode),
             $proxyClassName
         );
     }

@@ -56,4 +56,6 @@ abstract class AbstractTestClass implements TestInterface
     public function throwException()
     {
     }
+
+    abstract public function abstractMethod();
 }

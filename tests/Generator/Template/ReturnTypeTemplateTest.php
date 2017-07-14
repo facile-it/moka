@@ -5,8 +5,8 @@ namespace Tests\Generator\Template;
 
 use Moka\Generator\Template\ReturnTypeTemplate;
 use Moka\Tests\FooTestClass;
+use Moka\Tests\NewTestClass;
 use PHPUnit\Framework\TestCase;
-use Tests\NewTestClass;
 
 class ReturnTypeTemplateTest extends TestCase
 {
@@ -28,6 +28,6 @@ class ReturnTypeTemplateTest extends TestCase
             new \ReflectionMethod(NewTestClass::class, 'getSelfNew')
         );
 
-        $this->assertRegExp('/: *\? *Tests\\\NewTestClass/', $code);
+        $this->assertRegExp('/: *\? *Moka\\\Tests\\\NewTestClass/', $code);
     }
 }

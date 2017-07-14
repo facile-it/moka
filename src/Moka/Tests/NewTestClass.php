@@ -1,14 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests;
+namespace Moka\Tests;
 
-use Moka\Tests\AbstractTestClass;
-
-class NewTestClass extends AbstractTestClass
+class NewTestClass extends TestClass
 {
     public function getSelfNew(): ?self
     {
         return $this;
+    }
+
+    public function doNothing(): void
+    {
     }
 }

@@ -64,11 +64,10 @@ class StubHelper
 
         return (bool)preg_match(
             sprintf(
-                '/^(%s)?%s/',
-                static::PREFIXES['static'],
+                '/^%s/',
                 static::PREFIXES['property']
             ),
-            $name
+            self::doStripName($name, ['static'])
         );
     }
 

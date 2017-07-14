@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Moka\Tests;
 
-class NewTestClass extends TestClass
+class NewTestClass extends AbstractTestClass
 {
     public function getSelfNew(): ?self
     {

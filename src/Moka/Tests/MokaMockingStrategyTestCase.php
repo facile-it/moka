@@ -70,7 +70,7 @@ abstract class MokaMockingStrategyTestCase extends TestCase
 
     final public function testBuildAbstractClassSuccess()
     {
-        $mock = $this->strategy->build(TestClass::class);
+        $mock = $this->strategy->build(AbstractTestClass::class);
 
         $this->assertInstanceOf($this->strategy->getMockType(), $mock);
     }

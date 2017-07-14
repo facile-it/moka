@@ -3,6 +3,6 @@ declare(strict_types=1);
 
 namespace Moka\Tests;
 
-class BarTestClass extends TestClass
+class BarTestClass extends AbstractTestClass
 {
 }

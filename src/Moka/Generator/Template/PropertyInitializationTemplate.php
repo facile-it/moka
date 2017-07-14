@@ -10,9 +10,7 @@ namespace Moka\Generator\Template;
 class PropertyInitializationTemplate implements TemplateInterface
 {
     const TEMPLATE = '
-            %s%s = function () {
-                return $this->doGet("%s");
-            };
+            unset(%s%s);
     ';
 
     /**

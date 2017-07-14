@@ -73,7 +73,7 @@ class FirstStubMatcher extends AbstractChainableArgumentMatcher
      */
     public function __toString()
     {
-        return '';
+        return get_class($this);
     }
 
     /**

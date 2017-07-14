@@ -16,13 +16,7 @@ class TestProxy implements ProxyInterface
 
     public function __construct()
     {
-        $this->isTrue = function () {
-            return $this->doGet('isTrue');
-        };
-
-        self::$getInt = function () {
-            return $this->doGet('getInt');
-        };
+        unset($this->isTrue);
     }
 
     public function __call(string $name, array $arguments)

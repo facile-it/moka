@@ -9,9 +9,6 @@ namespace Moka\Stub;
  */
 interface StubInterface
 {
-    const PREFIX_PROPERTY = '$';
-    const PREFIX_STATIC = '::';
-
     /**
      * @return string
      */

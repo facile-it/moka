@@ -58,6 +58,6 @@ abstract class AbstractPriorityToken implements TokenInterface
      */
     public function __toString()
     {
-        return '';
+        return get_class($this);
     }
 }

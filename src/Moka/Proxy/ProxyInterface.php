@@ -14,11 +14,11 @@ use Moka\Exception\MockNotServedException;
 interface ProxyInterface
 {
     /**
-     * @param array $methodsWithValues
+     * @param array $namesWithValues
      * @return ProxyInterface
      *
      * @throws InvalidArgumentException
      * @throws MockNotCreatedException
      */
-    public function stub(array $methodsWithValues): ProxyInterface;
+    public function stub(array $namesWithValues): ProxyInterface;
 }

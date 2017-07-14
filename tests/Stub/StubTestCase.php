@@ -11,19 +11,19 @@ abstract class StubTestCase extends TestCase
     /**
      * @var string
      */
-    protected $fqcn;
+    protected $stubFQCN;
 
     public function testConstructFailure()
     {
-        $fqcn = $this->fqcn;
+        $fqcn = $this->stubFQCN;
 
         $this->expectException(InvalidArgumentException::class);
 
         new $fqcn('0a', true);
     }
 
-    protected function setStubType(string $fqcn)
+    protected function setStubFQCN(string $fqcn)
     {
-        $this->fqcn = $fqcn;
+        $this->stubFQCN = $fqcn;
     }
 }

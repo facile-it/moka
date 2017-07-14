@@ -186,6 +186,22 @@ Moka::prophecy(FooInterface::class)
     ->willReturn($something);
 ```
 
+**Warning:** this workaround cannot be used with methods having the same name as a previously stubbed property:
+
+```php
+Moka::prophecy(FooInterface::class, 'foo')->stub([
+    '$someName' => true
+]);
+
+var_dump(Moka::prophecy('foo')->someName);
+// bool(true)
+
+Moka::prophecy('foo')
+    ->someName->set(new AnyValuesToken())
+    ->willReturn($something);
+// throws \Exception
+```
+
 ## Plugin development
 
 If you feel a genius and want to create your own mock generator (or add support for an existing one), just implement `Moka\Plugin\PluginInterface` and the relative `Moka\Strategy\MockingStrategyInterface`:

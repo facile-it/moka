@@ -6,10 +6,6 @@ namespace Moka\Tests;
 use Moka\Exception\InvalidArgumentException;
 use Moka\Strategy\MockingStrategyInterface;
 use PHPUnit\Framework\TestCase;
-use Tests\AbstractTestClass;
-use Tests\BarTestClass;
-use Tests\FooTestClass;
-use Tests\TestInterface;
 
 abstract class MokaMockingStrategyTestCase extends TestCase
 {

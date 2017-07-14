@@ -5,10 +5,10 @@ namespace Tests\Plugin\Phake;
 
 use Moka\Exception\MockNotCreatedException;
 use Moka\Plugin\Phake\PhakeMockingStrategy;
+use Moka\Tests\BarTestClass;
+use Moka\Tests\FooTestClass;
 use Moka\Tests\MokaMockingStrategyTestCase;
-use Tests\BarTestClass;
-use Tests\FooTestClass;
-use Tests\TestInterface;
+use Moka\Tests\TestInterface;
 
 class PhakeMockingStrategyTest extends MokaMockingStrategyTestCase
 {

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests;
+namespace Moka\Tests;
 
 class BarTestClass extends AbstractTestClass
 {

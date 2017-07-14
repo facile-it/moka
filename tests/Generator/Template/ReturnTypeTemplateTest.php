@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace Tests\Generator\Template;
 
 use Moka\Generator\Template\ReturnTypeTemplate;
+use Moka\Tests\FooTestClass;
 use PHPUnit\Framework\TestCase;
-use Tests\FooTestClass;
 use Tests\NewTestClass;
 
 class ReturnTypeTemplateTest extends TestCase

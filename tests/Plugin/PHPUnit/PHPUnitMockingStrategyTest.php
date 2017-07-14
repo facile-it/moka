@@ -5,10 +5,10 @@ namespace Tests\Plugin\PHPUnit;
 
 use Moka\Exception\MockNotCreatedException;
 use Moka\Plugin\PHPUnit\PHPUnitMockingStrategy;
+use Moka\Tests\BarTestClass;
+use Moka\Tests\FooTestClass;
 use Moka\Tests\MokaMockingStrategyTestCase;
-use Tests\BarTestClass;
-use Tests\FooTestClass;
-use Tests\TestInterface;
+use Moka\Tests\TestInterface;
 
 class PHPUnitMockingStrategyTest extends MokaMockingStrategyTestCase
 {

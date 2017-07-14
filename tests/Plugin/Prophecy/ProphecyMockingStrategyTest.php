@@ -5,13 +5,13 @@ namespace Tests\Plugin\Prophecy;
 
 use Moka\Exception\MockNotCreatedException;
 use Moka\Plugin\Prophecy\ProphecyMockingStrategy;
+use Moka\Tests\FooTestClass;
 use Moka\Tests\MokaMockingStrategyTestCase;
+use Moka\Tests\TestInterface;
 use Prophecy\Doubler\Doubler;
 use Prophecy\Doubler\LazyDouble;
 use Prophecy\Prophecy\MethodProphecy;
 use Prophecy\Prophecy\ObjectProphecy;
-use Tests\FooTestClass;
-use Tests\TestInterface;
 
 class ProphecyMockingStrategyTest extends MokaMockingStrategyTestCase
 {

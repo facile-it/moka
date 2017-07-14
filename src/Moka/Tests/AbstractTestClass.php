@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests;
+namespace Moka\Tests;
 
 abstract class AbstractTestClass implements TestInterface
 {

@@ -5,10 +5,10 @@ namespace Tests\Plugin\Mockery;
 
 use Moka\Exception\MockNotCreatedException;
 use Moka\Plugin\Mockery\MockeryMockingStrategy;
+use Moka\Tests\BarTestClass;
+use Moka\Tests\FooTestClass;
 use Moka\Tests\MokaMockingStrategyTestCase;
-use Tests\BarTestClass;
-use Tests\FooTestClass;
-use Tests\TestInterface;
+use Moka\Tests\TestInterface;
 
 class MockeryMockingStrategyTest extends MokaMockingStrategyTestCase
 {

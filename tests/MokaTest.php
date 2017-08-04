@@ -6,6 +6,7 @@ namespace Tests;
 use Moka\Exception\NotImplementedException;
 use Moka\Moka;
 use Moka\Proxy\ProxyInterface;
+use Moka\Tests\FooTestClass;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument\Token\AnyValuesToken;
 

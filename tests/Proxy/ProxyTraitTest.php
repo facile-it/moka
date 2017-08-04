@@ -5,9 +5,9 @@ namespace Tests\Proxy;
 
 use Moka\Proxy\ProxyInterface;
 use Moka\Strategy\MockingStrategyInterface;
+use Moka\Tests\FooTestClass;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
-use Tests\FooTestClass;
 
 class ProxyTraitTest extends TestCase
 {

@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests;
+namespace Moka\Tests;
 
-abstract class AbstractTestClass implements TestInterface
+abstract class IncompleteAbstractTestClass implements TestInterface
 {
     public $public;
 
@@ -56,4 +56,6 @@ abstract class AbstractTestClass implements TestInterface
     public function throwException()
     {
     }
+
+    abstract public function abstractMethod();
 }

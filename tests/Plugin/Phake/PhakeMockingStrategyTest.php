@@ -3,12 +3,8 @@ declare(strict_types=1);
 
 namespace Tests\Plugin\Phake;
 
-use Moka\Exception\MockNotCreatedException;
 use Moka\Plugin\Phake\PhakeMockingStrategy;
 use Moka\Tests\MokaMockingStrategyTestCase;
-use Tests\BarTestClass;
-use Tests\FooTestClass;
-use Tests\TestInterface;
 
 class PhakeMockingStrategyTest extends MokaMockingStrategyTestCase
 {
@@ -19,56 +15,11 @@ class PhakeMockingStrategyTest extends MokaMockingStrategyTestCase
         $this->setStrategy(new PhakeMockingStrategy());
     }
 
-    public function testBuildEmptyFQCNFailure()
+    /**
+     * @requires PHP 7.1
+     */
+    public function testBuildWithPHP71Class()
     {
-        $this->expectException(MockNotCreatedException::class);
-
-        $this->strategy->build('');
-    }
-
-    public function testBuildParseFailure()
-    {
-        $this->expectException(MockNotCreatedException::class);
-
-        $this->strategy->build('foo bar');
-    }
-
-    public function testBuildFakeFQCNFailure()
-    {
-        $this->expectException(MockNotCreatedException::class);
-
-        $this->strategy->build($this->getRandomFQCN());
-    }
-
-    public function testBuildMultipleFQCNFailure()
-    {
-        $this->expectException(MockNotCreatedException::class);
-
-        $this->strategy->build(FooTestClass::class . ', ' . BarTestClass::class);
-    }
-
-    public function testDecorateFakeMethodFailure()
-    {
-        $this->strategy->decorate($this->mock, [
-            'fakeMethod' => true
-        ]);
-
-        $this->expectException(\Error::class);
-        $this->strategy->get($this->mock)->fakeMethod();
-    }
-
-    public function testCallMissingMethodFailure()
-    {
-        $mock = $this->strategy->build(FooTestClass::class);
-
-        $this->expectException(\Throwable::class);
-        $this->strategy->get($mock)->getSelf();
-    }
-
-    public function testGetMultipleFQCNFailure()
-    {
-        $this->expectException(\Exception::class);
-
-        $this->strategy->build(FooTestClass::class . ', ' . TestInterface::class);
+        $this->markFeatureUnsupported('PHP 7.1 features');
     }
 }

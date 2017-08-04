@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace Tests\Generator\Template;
 
 use Moka\Generator\Template\ReturnTypeTemplate;
+use Moka\Tests\FooTestClass;
+use Moka\Tests\PHP71TestClass;
 use PHPUnit\Framework\TestCase;
-use Tests\FooTestClass;
-use Tests\NewTestClass;
 
 class ReturnTypeTemplateTest extends TestCase
 {
@@ -22,12 +22,18 @@ class ReturnTypeTemplateTest extends TestCase
     /**
      * @requires PHP 7.1
      */
-    public function testGenerateWithSelf()
+    public function testGenerateWithSelfNullable()
     {
         $code = ReturnTypeTemplate::generate(
-            new \ReflectionMethod(NewTestClass::class, 'getSelfNew')
+            new \ReflectionMethod(PHP71TestClass::class, 'getSelfNullable')
         );
 
-        $this->assertRegExp('/: *\? *Tests\\\NewTestClass/', $code);
+        $this->assertRegExp(
+            sprintf(
+                '/: *\? *%s/',
+                addslashes(PHP71TestClass::class)
+            ),
+            $code
+        );
     }
 }

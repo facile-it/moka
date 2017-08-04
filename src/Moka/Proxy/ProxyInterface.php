@@ -5,7 +5,6 @@ namespace Moka\Proxy;
 
 use Moka\Exception\InvalidArgumentException;
 use Moka\Exception\MockNotCreatedException;
-use Moka\Exception\MockNotServedException;
 
 /**
  * Class Proxy

@@ -14,6 +14,7 @@ class IncompleteMockingStrategy extends AbstractMockingStrategy
 
     protected function doBuild(string $fqcn)
     {
+        throw new \Exception();
     }
 
     protected function doDecorateWithMethod($mock, MethodStub $stub)

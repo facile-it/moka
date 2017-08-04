@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Tests\Strategy;
 
 use Moka\Exception\MissingDependencyException;
+use Moka\Exception\MockNotCreatedException;
 use Moka\Exception\NotImplementedException;
 use PHPUnit\Framework\TestCase;
 
@@ -24,12 +25,19 @@ class MockingStrategyTest extends TestCase
         $strategy->getMockType();
     }
 
+    public function testBuildFailure()
+    {
+        $strategy = new BareMockingStrategy();
+
+        $this->expectException(MockNotCreatedException::class);
+        $strategy->build(\stdClass::class);
+    }
+
     public function testCallFailure()
     {
         $strategy = new BareMockingStrategy();
 
         $this->expectException(\Error::class);
-
         $strategy->call(new \stdClass(), 'foo');
     }
 }

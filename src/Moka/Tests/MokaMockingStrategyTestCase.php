@@ -12,7 +12,7 @@ abstract class MokaMockingStrategyTestCase extends TestCase
 {
     const FQCN_EMPTY = '';
     const FQCN_INVALID = 'Foo Bar';
-    const FQCN_NONEXISTENT_TEMPLATE = 'Foo_%s';
+    const FQCN_NONEXISTENT_TEMPLATE = 'Foo_%d';
 
     /**
      * @var MockingStrategyInterface

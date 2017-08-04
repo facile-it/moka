@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace Moka\Tests;
 
-class NewTestClass extends AbstractTestClass
+class PHP71TestClass extends AbstractTestClass
 {
-    public function getSelfNew(): ?self
+    public function getSelfNullable(): ?self
     {
         return $this;
     }

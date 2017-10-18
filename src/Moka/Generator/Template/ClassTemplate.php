@@ -103,7 +103,7 @@ class ClassTemplate implements TemplateInterface
         $proxyClassName = sprintf(
             self::TEMPLATE_FQCN,
             preg_replace('/\\\/', '__', $mockClassName),
-            mt_rand()
+            random_int($min = 0, $max = PHP_INT_MAX)
         );
 
         list($callNameType, $callArgumentsType) = $callParametersTypes;

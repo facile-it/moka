@@ -17,7 +17,7 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
 class PHPUnitMockingStrategy extends AbstractMockingStrategy
 {
     const CLASS_NAME = MockGenerator::class;
-    const PACKAGE_NAME = 'phpunit/phpunit-mock-object';
+    const PACKAGE_NAME = 'phpunit/phpunit-mock-objects';
 
     /**
      * @var MockGenerator

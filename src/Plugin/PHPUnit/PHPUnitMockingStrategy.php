@@ -6,9 +6,9 @@ namespace Moka\Plugin\PHPUnit;
 use Moka\Exception\MissingDependencyException;
 use Moka\Strategy\AbstractMockingStrategy;
 use Moka\Stub\MethodStub;
-use PHPUnit_Framework_MockObject_Generator as MockGenerator;
-use PHPUnit_Framework_MockObject_Matcher_AnyInvokedCount as AnyInvokedCountMatcher;
-use PHPUnit_Framework_MockObject_MockObject as MockObject;
+use PHPUnit\Framework\MockObject\Generator;
+use PHPUnit\Framework\MockObject\Matcher\AnyInvokedCount;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class PHPUnitMockingStrategy
@@ -16,11 +16,11 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
  */
 class PHPUnitMockingStrategy extends AbstractMockingStrategy
 {
-    const CLASS_NAME = MockGenerator::class;
+    const CLASS_NAME = Generator::class;
     const PACKAGE_NAME = 'phpunit/phpunit-mock-objects';
 
     /**
-     * @var MockGenerator
+     * @var Generator
      */
     private $generator;
 
@@ -33,7 +33,7 @@ class PHPUnitMockingStrategy extends AbstractMockingStrategy
     {
         self::checkDependencies(self::CLASS_NAME, self::PACKAGE_NAME);
 
-        $this->generator = new MockGenerator();
+        $this->generator = new Generator();
         $this->setMockType(MockObject::class);
     }
 
@@ -41,8 +41,9 @@ class PHPUnitMockingStrategy extends AbstractMockingStrategy
      * @param string $fqcn
      * @return MockObject
      *
-     * @throws \InvalidArgumentException
-     * @throws \PHPUnit_Framework_MockObject_RuntimeException
+     * @throws \PHPUnit\Framework\Exception
+     * @throws \PHPUnit\Framework\MockObject\RuntimeException
+     * @throws \ReflectionException
      */
     protected function doBuild(string $fqcn)
     {
@@ -58,14 +59,15 @@ class PHPUnitMockingStrategy extends AbstractMockingStrategy
     /**
      * @param MockObject $mock
      * @param MethodStub $stub
-     * @return void
+     *
+     * @throws \PHPUnit\Framework\MockObject\RuntimeException
      */
     protected function doDecorateWithMethod($mock, MethodStub $stub)
     {
         $methodName = $stub->getName();
         $methodValue = $stub->getValue();
 
-        $partial = $mock->expects(new AnyInvokedCountMatcher())->method($methodName);
+        $partial = $mock->expects(new AnyInvokedCount())->method($methodName);
         $methodValue instanceof \Throwable
             ? $partial->willThrowException($methodValue)
             : $partial->willReturn($methodValue);

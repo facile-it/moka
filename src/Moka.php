@@ -14,8 +14,8 @@ use Moka\Proxy\ProxyInterface;
 use Moka\Proxy\ProxyTrait;
 use Moka\Strategy\MockingStrategyInterface;
 use Phake_IMock as PhakeMock;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_MockObject_MockObject as MockObject;
 use Prophecy\Prophecy\ObjectProphecy;
 use Prophecy\Prophet;
 

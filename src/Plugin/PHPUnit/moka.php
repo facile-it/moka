@@ -5,7 +5,7 @@ namespace Moka\Plugin\PHPUnit;
 
 use Moka\Moka;
 use Moka\Proxy\ProxyInterface;
-use PHPUnit_Framework_MockObject_MockObject as MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @param string $fqcnOrAlias

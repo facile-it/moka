@@ -6,8 +6,8 @@ namespace Tests\Proxy;
 use Moka\Proxy\ProxyInterface;
 use Moka\Strategy\MockingStrategyInterface;
 use Moka\Tests\FooTestClass;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 class ProxyTraitTest extends TestCase
 {
@@ -56,7 +56,7 @@ class ProxyTraitTest extends TestCase
         $this->proxy->__moka_setMockingStrategy($this->mockingStrategy);
 
         $this->proxy->stub([
-            'getInt' => 1138
+            'getInt' => 1138,
         ]);
     }
 
@@ -110,7 +110,7 @@ class ProxyTraitTest extends TestCase
             ->method('call');
 
         $this->proxy->stub([
-            '$property' => true
+            '$property' => true,
         ]);
 
         $this->proxy->property;

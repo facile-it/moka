@@ -27,17 +27,17 @@
   ],
   "autoload": {
     "psr-4": {
-      "Moka\\": "src/Moka/"
+      "Moka\\": "src/"
     },
     "files": [
-      "src/Moka/Plugin/Mockery/MockeryPlugin.php",
-      "src/Moka/Plugin/Mockery/moka.php",
-      "src/Moka/Plugin/Phake/PhakePlugin.php",
-      "src/Moka/Plugin/Phake/moka.php",
-      "src/Moka/Plugin/PHPUnit/PHPUnitPlugin.php",
-      "src/Moka/Plugin/PHPUnit/moka.php",
-      "src/Moka/Plugin/Prophecy/ProphecyPlugin.php",
-      "src/Moka/Plugin/Prophecy/moka.php"
+      "src/Plugin/Mockery/MockeryPlugin.php",
+      "src/Plugin/Mockery/moka.php",
+      "src/Plugin/Phake/PhakePlugin.php",
+      "src/Plugin/Phake/moka.php",
+      "src/Plugin/PHPUnit/PHPUnitPlugin.php",
+      "src/Plugin/PHPUnit/moka.php",
+      "src/Plugin/Prophecy/ProphecyPlugin.php",
+      "src/Plugin/Prophecy/moka.php"
     ]
   },
   "autoload-dev": {
@@ -53,15 +53,18 @@
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^2.3",
-    "phpunit/phpunit": "^6.0",
-    "phpspec/prophecy": "^1.7",
+    "mockery/mockery": "^0.9.9",
     "phake/phake": "^3.0",
-    "mockery/mockery": "^0.9.9"
+    "phpspec/prophecy": "^1.7",
+    "phpunit/phpunit": "^6.0"
   },
   "suggest": {
     "phpspec/prophecy": "To allow loading of ProphecyPlugin",
     "mockery/mockery": "To allow loading of MockeryPlugin",
     "phake/phake": "To allow loading of PhakePlugin",
     "facile-it/paraunit": "For parallel test running; it's faster!"
+  },
+  "config": {
+    "sort-packages": true
   }
 }

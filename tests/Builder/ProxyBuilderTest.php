@@ -7,8 +7,8 @@ use Moka\Builder\ProxyBuilder;
 use Moka\Plugin\PHPUnit\PHPUnitMockingStrategy;
 use Moka\Proxy\ProxyInterface;
 use Moka\Strategy\MockingStrategyInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 class ProxyBuilderTest extends TestCase
 {
@@ -76,7 +76,6 @@ class ProxyBuilderTest extends TestCase
             );
 
         $this->mockingStrategy = new PHPUnitMockingStrategy();
-
 
         $this->proxyBuilder = new ProxyBuilder($this->mockingStrategy);
     }

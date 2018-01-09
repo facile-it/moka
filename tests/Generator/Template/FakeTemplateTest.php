@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace Tests\Generator\Template;
 
 use Moka\Exception\InvalidArgumentException;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 class FakeTemplateTest extends TestCase
 {

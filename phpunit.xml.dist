@@ -24,10 +24,10 @@
         <whitelist>
             <directory>src</directory>
             <exclude>
-                <directory>src/Moka/Exception</directory>
-                <directory suffix="moka.php">src/Moka/Plugin/*</directory>
-                <directory>src/Moka/Tests</directory>
-                <directory>src/Moka/Traits</directory>
+                <directory>src/Exception</directory>
+                <directory suffix="moka.php">src/Plugin/*</directory>
+                <directory>src/Tests</directory>
+                <directory>src/Traits</directory>
             </exclude>
         </whitelist>
     </filter>

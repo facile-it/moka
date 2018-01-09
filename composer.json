@@ -27,17 +27,17 @@
   ],
   "autoload": {
     "psr-4": {
-      "Moka\\": "src/Moka/"
+      "Moka\\": "src/"
     },
     "files": [
-      "src/Moka/Plugin/Mockery/MockeryPlugin.php",
-      "src/Moka/Plugin/Mockery/moka.php",
-      "src/Moka/Plugin/Phake/PhakePlugin.php",
-      "src/Moka/Plugin/Phake/moka.php",
-      "src/Moka/Plugin/PHPUnit/PHPUnitPlugin.php",
-      "src/Moka/Plugin/PHPUnit/moka.php",
-      "src/Moka/Plugin/Prophecy/ProphecyPlugin.php",
-      "src/Moka/Plugin/Prophecy/moka.php"
+      "src/Plugin/Mockery/MockeryPlugin.php",
+      "src/Plugin/Mockery/moka.php",
+      "src/Plugin/Phake/PhakePlugin.php",
+      "src/Plugin/Phake/moka.php",
+      "src/Plugin/PHPUnit/PHPUnitPlugin.php",
+      "src/Plugin/PHPUnit/moka.php",
+      "src/Plugin/Prophecy/ProphecyPlugin.php",
+      "src/Plugin/Prophecy/moka.php"
     ]
   },
   "autoload-dev": {

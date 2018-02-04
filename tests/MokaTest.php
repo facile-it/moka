@@ -102,5 +102,6 @@ class MokaTest extends TestCase
 
         $method->setAccessible(true);
         $method->invoke($this);
+        $method->setAccessible(false);
     }
 }

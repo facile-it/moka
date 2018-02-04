@@ -75,8 +75,6 @@ class ProxyBuilder
      * @param string $fqcn
      * @return ProxyInterface
      *
-     * @throws InvalidArgumentException
-     * @throws MockNotCreatedException
      * @throws \ReflectionException
      */
     protected function buildProxy(string $fqcn): ProxyInterface

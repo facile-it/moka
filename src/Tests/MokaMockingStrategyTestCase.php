@@ -59,6 +59,11 @@ abstract class MokaMockingStrategyTestCase extends TestCase
 
     /**
      * @dataProvider fqcnProvider
+     * @param bool $required
+     * @param string $fqcnType
+     * @param string[] $fqcns
+     * @throws \Exception
+     * @throws \Moka\Exception\NotImplementedException
      */
     final public function testBuildAndGet(bool $required, string $fqcnType, string ...$fqcns)
     {
@@ -369,7 +374,7 @@ abstract class MokaMockingStrategyTestCase extends TestCase
         $this->markTestSkipped(
             sprintf(
                 'Strategy "%s" doesn\'t support %s',
-                get_class($this->strategy),
+                \get_class($this->strategy),
                 $feature
             )
         );

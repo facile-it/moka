@@ -29,7 +29,7 @@ trait VisibilityTrait
                     'Reflector must be an instance of "%s" or "%s", "%s" given',
                     \ReflectionMethod::class,
                     \ReflectionProperty::class,
-                    get_class($reflector)
+                    \get_class($reflector)
                 )
             );
         }

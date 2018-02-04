@@ -37,7 +37,7 @@ class ProxyBuilderFactory
      */
     private static function key(MockingStrategyInterface $mockingStrategy): string
     {
-        return get_class($mockingStrategy);
+        return \get_class($mockingStrategy);
     }
 
     /**

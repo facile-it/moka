@@ -155,7 +155,7 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
                 sprintf(
                     'Mock object must be an instance of "%s", "%s" given',
                     $this->mockType,
-                    gettype($mock)
+                    \gettype($mock)
                 )
             );
         }
@@ -213,7 +213,7 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
         throw new \Error(
             sprintf(
                 'Undefined property: %s::$%s',
-                get_class($this),
+                \get_class($this),
                 $methodName
             )
         );

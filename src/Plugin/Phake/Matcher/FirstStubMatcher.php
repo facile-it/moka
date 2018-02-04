@@ -43,7 +43,7 @@ class FirstStubMatcher extends AbstractChainableArgumentMatcher
             self::$stubsPerMock[$mockHash] = [];
         }
 
-        if (in_array($methodName, self::$stubsPerMock[$mockHash], $strict = true)) {
+        if (\in_array($methodName, self::$stubsPerMock[$mockHash], $strict = true)) {
             $this->isFirstStub = false;
             return;
         }
@@ -73,7 +73,7 @@ class FirstStubMatcher extends AbstractChainableArgumentMatcher
      */
     public function __toString()
     {
-        return get_class($this);
+        return \get_class($this);
     }
 
     /**

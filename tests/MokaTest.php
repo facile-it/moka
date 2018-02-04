@@ -8,6 +8,7 @@ use Moka\Moka;
 use Moka\Proxy\ProxyInterface;
 use Moka\Tests\FooTestClass;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Runner\Version;
 use Prophecy\Argument\Token\AnyValuesToken;
 
 class MokaTest extends TestCase
@@ -45,7 +46,7 @@ class MokaTest extends TestCase
 
         try {
             $this->verifyMockObjects();
-        } catch (\Error $e) {
+        } catch (\Exception $e) {
             $proxy->getInt();
             return;
         }
@@ -63,7 +64,7 @@ class MokaTest extends TestCase
 
         try {
             $this->verifyMockObjects();
-        } catch (\Error $e) {
+        } catch (\Exception $e) {
             $proxy->getInt();
             return;
         }
@@ -78,5 +79,29 @@ class MokaTest extends TestCase
         $proxy2 = Moka::phpunit(\stdClass::class);
 
         $this->assertNotSame($proxy1, $proxy2);
+    }
+
+    /**
+     * To workaround the change of visibility in PHPUnit 7 of the homonym parent method
+     * use the reflection to call it equally to previous versions.
+     *
+     * @throws \ReflectionException
+     * @throws \Error
+     */
+    protected function verifyMockObjects(): void
+    {
+        $parent = (new \ReflectionClass($this))->getParentClass();
+        $method = $parent->getMethod(__METHOD__);
+        if (!$method instanceof \ReflectionMethod) {
+            throw new \Error(sprintf(
+                "Call to private method %s::%s() from context '%s'",
+                $parent->getNamespaceName(),
+                __METHOD__,
+                __NAMESPACE__
+            ));
+        }
+
+        $method->setAccessible(true);
+        $method->invoke($this);
     }
 }

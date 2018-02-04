@@ -11,16 +11,18 @@ use Moka\Exception\InvalidArgumentException;
  */
 class StubHelper
 {
-    const PREFIXES = [
+    private const PREFIXES = [
         'static' => '::',
         'property' => '\\$'
     ];
+
+    private const NAME_TEMPLATE = '/^%s/';
 
     /**
      * http://php.net/manual/en/language.variables.basics.php
      * http://php.net/manual/en/functions.user-defined.php
      */
-    const REGEX_NAME = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/';
+    private const REGEX_NAME = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/';
 
     /**
      * @param string $name
@@ -30,13 +32,9 @@ class StubHelper
      */
     public static function isStaticName(string $name): bool
     {
-        self::validateName(self::doStripName($name));
-
-        return (bool)preg_match(
-            sprintf(
-                '/^%s/',
-                static::PREFIXES['static']
-            ),
+        return self::isName(
+            $name,
+            'static',
             $name
         );
     }
@@ -47,7 +45,7 @@ class StubHelper
      *
      * @throws InvalidArgumentException
      */
-    public static function validateStaticName(string $name)
+    public static function validateStaticName(string $name): void
     {
         self::validateName($name, 'static');
     }
@@ -60,14 +58,30 @@ class StubHelper
      */
     public static function isPropertyName(string $name): bool
     {
+        return self::isName(
+            $name,
+            'property',
+            self::doStripName($name, ['static'])
+        );
+    }
+
+    /**
+     * @param string $name
+     * @param string $memberType
+     * @param string $subject
+     * @return bool
+     * @throws InvalidArgumentException
+     */
+    private static function isName(string $name, string $memberType, string $subject): bool
+    {
         self::validateName(self::doStripName($name));
 
         return (bool)preg_match(
             sprintf(
-                '/^%s/',
-                static::PREFIXES['property']
+                self::NAME_TEMPLATE,
+                static::PREFIXES[$memberType]
             ),
-            self::doStripName($name, ['static'])
+            $subject
         );
     }
 
@@ -77,7 +91,7 @@ class StubHelper
      *
      * @throws InvalidArgumentException
      */
-    public static function validatePropertyName(string $name)
+    public static function validatePropertyName(string $name): void
     {
         self::validateName($name, 'property');
     }
@@ -99,7 +113,7 @@ class StubHelper
      *
      * @throws InvalidArgumentException
      */
-    public static function validateMethodName(string $name)
+    public static function validateMethodName(string $name): void
     {
         self::validateName(self::doStripName($name, ['static']));
     }
@@ -144,7 +158,7 @@ class StubHelper
      *
      * @throws InvalidArgumentException
      */
-    private static function validateName(string $name, string $type = null)
+    private static function validateName(string $name, string $type = null): void
     {
         $methodName = sprintf('is%sName', $type);
         $nameIsValid = isset(static::PREFIXES[$type])

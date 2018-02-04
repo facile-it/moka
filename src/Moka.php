@@ -45,15 +45,7 @@ class Moka
      */
     public static function __callStatic(string $name, array $arguments): ProxyInterface
     {
-        if (!isset(self::$mockingStrategies[$name])) {
-            self::$mockingStrategies[$name] = loadPlugin($name);
-        }
-
-        $fqcnOrAlias = $arguments[0];
-        $alias = $arguments[1] ?? null;
-        $mockingStrategy = self::$mockingStrategies[$name];
-
-        return ProxyBuilderFactory::get($mockingStrategy)->getProxy($fqcnOrAlias, $alias);
+        return self::getProxy($name, $arguments);
     }
 
     /**
@@ -69,7 +61,7 @@ class Moka
     public static function phpunit(string $fqcnOrAlias, string $alias = null): ProxyInterface
     {
         /** @var ProxyInterface|ProxyTrait $proxy */
-        $proxy = self::__callStatic('phpunit', [$fqcnOrAlias, $alias]);
+        $proxy = self::getProxy('phpunit', [$fqcnOrAlias, $alias]);
 
         if (null !== $testCase = self::getCurrentTestCase()) {
             $testCase->registerMockObject($proxy->__moka_getMock());
@@ -92,7 +84,7 @@ class Moka
     public static function prophecy(string $fqcnOrAlias, string $alias = null): ProxyInterface
     {
         /** @var ProxyInterface|ProxyTrait $proxy */
-        $proxy = self::__callStatic('prophecy', [$fqcnOrAlias, $alias]);
+        $proxy = self::getProxy('prophecy', [$fqcnOrAlias, $alias]);
 
         if (null !== $testCase = self::getCurrentTestCase()) {
             $prophetProperty = new \ReflectionProperty(
@@ -154,5 +146,38 @@ class Moka
         // @codeCoverageIgnoreStart
         return null;
         // @codeCoverageIgnoreEnd
+    }
+
+    /**
+     * @param string $name
+     * @param array $arguments
+     * @return ProxyInterface
+     *
+     * @throws NotImplementedException
+     * @throws InvalidIdentifierException
+     * @throws MockNotCreatedException
+     * @throws MissingDependencyException
+     */
+    private static function getProxy(string $name, array $arguments): ProxyInterface
+    {
+        self::ensurePluginLoad($name);
+
+        $fqcnOrAlias = $arguments[0];
+        $alias = $arguments[1] ?? null;
+
+        return ProxyBuilderFactory::get(self::$mockingStrategies[$name])
+            ->getProxy($fqcnOrAlias, $alias);
+    }
+
+    /**
+     * @param string $pluginName
+     * @throws MissingDependencyException
+     * @throws NotImplementedException
+     */
+    private static function ensurePluginLoad(string $pluginName): void
+    {
+        if (!array_key_exists($pluginName, self::$mockingStrategies)) {
+            self::$mockingStrategies[$pluginName] = loadPlugin($pluginName);
+        }
     }
 }

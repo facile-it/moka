@@ -8,7 +8,6 @@ use Moka\Moka;
 use Moka\Proxy\ProxyInterface;
 use Moka\Tests\FooTestClass;
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Runner\Version;
 use Prophecy\Argument\Token\AnyValuesToken;
 
 class MokaTest extends TestCase

@@ -10,9 +10,9 @@ use PHPUnit\Framework\TestCase;
 
 abstract class MokaMockingStrategyTestCase extends TestCase
 {
-    const FQCN_EMPTY = '';
-    const FQCN_INVALID = 'Foo Bar';
-    const FQCN_NONEXISTENT_TEMPLATE = 'Foo_%d';
+    private const FQCN_EMPTY = '';
+    private const FQCN_INVALID = 'Foo Bar';
+    private const FQCN_NONEXISTENT_TEMPLATE = 'Foo_%d';
 
     /**
      * @var MockingStrategyInterface
@@ -29,6 +29,9 @@ abstract class MokaMockingStrategyTestCase extends TestCase
      */
     protected $namesWithValues;
 
+    /**
+     *
+     */
     protected function setUp()
     {
         $this->namesWithValues = [
@@ -45,6 +48,10 @@ abstract class MokaMockingStrategyTestCase extends TestCase
         $this->strategy->decorate($this->mock, $this->namesWithValues);
     }
 
+    /**
+     * @throws \Exception
+     * @throws \Moka\Exception\NotImplementedException
+     */
     final public function testGetMockTypeSuccess()
     {
         $this->assertInternalType('string', $this->strategy->getMockType());
@@ -72,6 +79,9 @@ abstract class MokaMockingStrategyTestCase extends TestCase
         );
     }
 
+    /**
+     *
+     */
     final public function testDecorateFakeMockFailure()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -79,6 +89,9 @@ abstract class MokaMockingStrategyTestCase extends TestCase
         $this->strategy->decorate(new FooTestClass(), $this->namesWithValues);
     }
 
+    /**
+     * @throws \Exception
+     */
     final public function testDecorateWithPropertySuccess()
     {
         $this->assertEquals(
@@ -87,6 +100,9 @@ abstract class MokaMockingStrategyTestCase extends TestCase
         );
     }
 
+    /**
+     * @throws \Exception
+     */
     final public function testDecorateWithPublicPropertySuccess()
     {
         $this->assertEquals(
@@ -95,6 +111,9 @@ abstract class MokaMockingStrategyTestCase extends TestCase
         );
     }
 
+    /**
+     *
+     */
     final public function testDecorateWithProtectedPropertyFailure()
     {
         $this->expectException(\Error::class);
@@ -104,6 +123,9 @@ abstract class MokaMockingStrategyTestCase extends TestCase
         ]);
     }
 
+    /**
+     * @throws \Exception
+     */
     final public function testDecorateWithPrivatePropertySuccess()
     {
         $this->assertEquals(
@@ -112,6 +134,9 @@ abstract class MokaMockingStrategyTestCase extends TestCase
         );
     }
 
+    /**
+     *
+     */
     final public function testDecorateWithWrongTypeHintFailure()
     {
         $this->strategy->decorate($this->mock, [
@@ -122,6 +147,9 @@ abstract class MokaMockingStrategyTestCase extends TestCase
         $this->strategy->get($this->mock)->getSelf();
     }
 
+    /**
+     *
+     */
     final public function testDecorateWithNonexistentMethod()
     {
         try {
@@ -139,6 +167,9 @@ abstract class MokaMockingStrategyTestCase extends TestCase
         }
     }
 
+    /**
+     *
+     */
     final public function testCallUnstubbedMethod()
     {
         try {
@@ -153,6 +184,9 @@ abstract class MokaMockingStrategyTestCase extends TestCase
         }
     }
 
+    /**
+     * @throws \Exception
+     */
     final public function testSingleMethodCallSuccess()
     {
         $this->assertSame(
@@ -165,6 +199,9 @@ abstract class MokaMockingStrategyTestCase extends TestCase
         $this->strategy->get($this->mock)->throwException();
     }
 
+    /**
+     * @throws \Exception
+     */
     final public function testMultipleMethodCallsSuccess()
     {
         $this->assertSame(
@@ -178,8 +215,13 @@ abstract class MokaMockingStrategyTestCase extends TestCase
         );
     }
 
+    /**
+     * @throws \Exception
+     */
     final public function testOverrideMethodStubFailure()
     {
+        $this->expectException(\Exception::class);
+
         $this->strategy->decorate($this->mock, [
             'getInt' => mt_rand(),
             'throwException' => mt_rand()
@@ -195,11 +237,12 @@ abstract class MokaMockingStrategyTestCase extends TestCase
             $this->strategy->get($this->mock)->getInt()
         );
 
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage($this->namesWithValues['throwException']->getMessage());
         $this->strategy->get($this->mock)->throwException();
     }
 
+    /**
+     * @throws \Exception
+     */
     final public function testCallMethodWithArgumentSuccess()
     {
         $this->assertSame(
@@ -208,6 +251,9 @@ abstract class MokaMockingStrategyTestCase extends TestCase
         );
     }
 
+    /**
+     *
+     */
     final public function testCallMethodWithoutArgumentFailure()
     {
         $this->expectException(\Error::class);
@@ -215,6 +261,9 @@ abstract class MokaMockingStrategyTestCase extends TestCase
         $this->strategy->get($this->mock)->withArgument();
     }
 
+    /**
+     *
+     */
     final public function testCallMethodWithWrongArgumentFailure()
     {
         $this->expectException(\TypeError::class);
@@ -222,6 +271,9 @@ abstract class MokaMockingStrategyTestCase extends TestCase
         $this->strategy->get($this->mock)->withArgument('string');
     }
 
+    /**
+     *
+     */
     final public function testGetFakeMockFailure()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -229,6 +281,9 @@ abstract class MokaMockingStrategyTestCase extends TestCase
         $this->strategy->get(new \stdClass());
     }
 
+    /**
+     * @return array
+     */
     final public function fqcnProvider(): array
     {
         $required = [
@@ -266,11 +321,17 @@ abstract class MokaMockingStrategyTestCase extends TestCase
         }, []);
     }
 
+    /**
+     * @param MockingStrategyInterface $strategy
+     */
     final protected function setStrategy(MockingStrategyInterface $strategy)
     {
         $this->strategy = $strategy;
     }
 
+    /**
+     * @return string
+     */
     final protected function getRandomFQCN(): string
     {
         return [
@@ -279,6 +340,9 @@ abstract class MokaMockingStrategyTestCase extends TestCase
         ][random_int(0, 1)];
     }
 
+    /**
+     * @return string
+     */
     final protected function getNonexistentFQCN(): string
     {
         return sprintf(
@@ -287,11 +351,19 @@ abstract class MokaMockingStrategyTestCase extends TestCase
         );
     }
 
+    /**
+     * @param $mock
+     * @throws \Exception
+     * @throws \Moka\Exception\NotImplementedException
+     */
     final protected function checkMock($mock)
     {
         $this->assertInstanceOf($this->strategy->getMockType(), $mock);
     }
 
+    /**
+     * @param string $feature
+     */
     final protected function markFeatureUnsupported(string $feature)
     {
         $this->markTestSkipped(
@@ -303,6 +375,11 @@ abstract class MokaMockingStrategyTestCase extends TestCase
         );
     }
 
+    /**
+     * @param string[] ...$fqcns
+     * @throws \Exception
+     * @throws \Moka\Exception\NotImplementedException
+     */
     private function buildAndGet(string ...$fqcns)
     {
         $this->checkMock(
@@ -315,6 +392,12 @@ abstract class MokaMockingStrategyTestCase extends TestCase
         }
     }
 
+    /**
+     * @param string $fqcnType
+     * @param string[] ...$fqcns
+     * @throws \Exception
+     * @throws \Moka\Exception\NotImplementedException
+     */
     private function tryBuildAndGet(string $fqcnType, string ...$fqcns)
     {
         try {

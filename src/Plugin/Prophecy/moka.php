@@ -6,11 +6,23 @@ namespace Moka\Plugin\Prophecy;
 use Moka\Moka;
 use Moka\Proxy\ProxyInterface;
 use Prophecy\Prophecy\ObjectProphecy;
+use Moka\Exception\InvalidArgumentException;
+use Moka\Exception\InvalidIdentifierException;
+use Moka\Exception\MissingDependencyException;
+use Moka\Exception\MockNotCreatedException;
+use Moka\Exception\NotImplementedException;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @param string $fqcnOrAlias
  * @param string|null $alias
- * @return ObjectProphecy|ProxyInterface
+ * @return MockObject|ProxyInterface
+ * @throws NotImplementedException
+ * @throws InvalidIdentifierException
+ * @throws MockNotCreatedException
+ * @throws MissingDependencyException
+ * @throws InvalidArgumentException
+ * @throws \ReflectionException
  */
 function moka(string $fqcnOrAlias, string $alias = null): ProxyInterface
 {

@@ -3,6 +3,11 @@ declare(strict_types=1);
 
 namespace Moka\Plugin\PHPUnit;
 
+use Moka\Exception\InvalidArgumentException;
+use Moka\Exception\InvalidIdentifierException;
+use Moka\Exception\MissingDependencyException;
+use Moka\Exception\MockNotCreatedException;
+use Moka\Exception\NotImplementedException;
 use Moka\Moka;
 use Moka\Proxy\ProxyInterface;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -11,6 +16,11 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @param string $fqcnOrAlias
  * @param string|null $alias
  * @return MockObject|ProxyInterface
+ * @throws NotImplementedException
+ * @throws InvalidIdentifierException
+ * @throws MockNotCreatedException
+ * @throws MissingDependencyException
+ * @throws InvalidArgumentException
  */
 function moka(string $fqcnOrAlias, string $alias = null): ProxyInterface
 {

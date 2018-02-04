@@ -9,12 +9,12 @@ namespace Moka\Generator\Template;
  */
 class PropertyInitializationTemplate implements TemplateInterface
 {
-    const TEMPLATE = '
+    private const TEMPLATE = '
             unset(%s%s);
     ';
 
     /**
-     * @param \ReflectionProperty $property
+     * @param \Reflector|\ReflectionProperty $property
      * @return string
      */
     public static function generate(\Reflector $property): string
@@ -35,7 +35,6 @@ class PropertyInitializationTemplate implements TemplateInterface
         return sprintf(
             self::TEMPLATE,
             $scope,
-            $name,
             $name
         );
     }

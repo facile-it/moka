@@ -35,7 +35,7 @@ abstract class AbstractPriorityToken implements TokenInterface
      * @param $argument
      * @return int
      */
-    public function scoreArgument($argument)
+    public function scoreArgument($argument): int
     {
         return $this->getPriority();
     }
@@ -48,7 +48,7 @@ abstract class AbstractPriorityToken implements TokenInterface
     /**
      * @return bool
      */
-    public function isLast()
+    public function isLast(): bool
     {
         return true;
     }

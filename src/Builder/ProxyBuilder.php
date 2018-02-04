@@ -40,7 +40,7 @@ class ProxyBuilder
     /**
      * @return void
      */
-    public function reset()
+    public function reset(): void
     {
         $this->container = new ProxyContainer();
     }
@@ -52,6 +52,7 @@ class ProxyBuilder
      *
      * @throws MockNotCreatedException
      * @throws InvalidIdentifierException
+     * @throws InvalidArgumentException
      */
     public function getProxy(string $fqcnOrAlias, string $alias = null): ProxyInterface
     {
@@ -76,6 +77,7 @@ class ProxyBuilder
      *
      * @throws InvalidArgumentException
      * @throws MockNotCreatedException
+     * @throws \ReflectionException
      */
     protected function buildProxy(string $fqcn): ProxyInterface
     {

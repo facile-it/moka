@@ -16,8 +16,8 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class PHPUnitMockingStrategy extends AbstractMockingStrategy
 {
-    const CLASS_NAME = Generator::class;
-    const PACKAGE_NAME = 'phpunit/phpunit-mock-objects';
+    private const CLASS_NAME = Generator::class;
+    private const PACKAGE_NAME = 'phpunit/phpunit-mock-objects';
 
     /**
      * @var Generator
@@ -45,7 +45,7 @@ class PHPUnitMockingStrategy extends AbstractMockingStrategy
      * @throws \PHPUnit\Framework\MockObject\RuntimeException
      * @throws \ReflectionException
      */
-    protected function doBuild(string $fqcn)
+    protected function doBuild(string $fqcn): MockObject
     {
         return $this->generator->getMock(
             $fqcn,
@@ -62,7 +62,7 @@ class PHPUnitMockingStrategy extends AbstractMockingStrategy
      *
      * @throws \PHPUnit\Framework\MockObject\RuntimeException
      */
-    protected function doDecorateWithMethod($mock, MethodStub $stub)
+    protected function doDecorateWithMethod($mock, MethodStub $stub): void
     {
         $methodName = $stub->getName();
         $methodValue = $stub->getValue();
@@ -77,7 +77,7 @@ class PHPUnitMockingStrategy extends AbstractMockingStrategy
      * @param MockObject $mock
      * @return MockObject
      */
-    protected function doGet($mock)
+    protected function doGet($mock): MockObject
     {
         return $mock;
     }

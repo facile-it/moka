@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Moka;
 
 use Mockery\MockInterface;
+use Moka\Exception\InvalidArgumentException;
 use Moka\Exception\InvalidIdentifierException;
 use Moka\Exception\MissingDependencyException;
 use Moka\Exception\MockNotCreatedException;
@@ -57,6 +58,7 @@ class Moka
      * @throws InvalidIdentifierException
      * @throws MockNotCreatedException
      * @throws MissingDependencyException
+     * @throws InvalidArgumentException
      */
     public static function phpunit(string $fqcnOrAlias, string $alias = null): ProxyInterface
     {
@@ -117,7 +119,7 @@ class Moka
     /**
      * @return void
      */
-    public static function clean()
+    public static function clean(): void
     {
         ProxyBuilderFactory::reset();
     }
@@ -125,7 +127,7 @@ class Moka
     /**
      * @return TestCase|null
      */
-    private static function getCurrentTestCase()
+    private static function getCurrentTestCase(): ?TestCase
     {
         $backtrace = debug_backtrace();
         foreach ($backtrace as $frame) {
@@ -157,6 +159,7 @@ class Moka
      * @throws InvalidIdentifierException
      * @throws MockNotCreatedException
      * @throws MissingDependencyException
+     * @throws InvalidArgumentException
      */
     private static function getProxy(string $name, array $arguments): ProxyInterface
     {

@@ -17,15 +17,16 @@ class StubSet extends Set
      * @return void
      *
      * @throws InvalidArgumentException
+     * @throws \LogicException
      */
-    public function add($elem)
+    public function add($elem): void
     {
         if (!$elem instanceof StubInterface) {
             throw new InvalidArgumentException(
                 sprintf(
                     'Element must be an instance of "%s", "%s" given',
                     StubInterface::class,
-                    gettype($elem)
+                    \gettype($elem)
                 )
             );
         }

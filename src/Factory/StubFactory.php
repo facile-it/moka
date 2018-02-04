@@ -21,6 +21,7 @@ class StubFactory
      * @return StubSet|StubInterface[]
      *
      * @throws InvalidArgumentException
+     * @throws \LogicException
      */
     public static function fromArray(array $namesWithValues): StubSet
     {

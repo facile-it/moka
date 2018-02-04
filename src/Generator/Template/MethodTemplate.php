@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 namespace Moka\Generator\Template;
+use Moka\Exception\InvalidArgumentException;
 
 /**
  * Class MethodTemplate
@@ -11,7 +12,7 @@ class MethodTemplate implements TemplateInterface
 {
     use VisibilityTrait;
 
-    const TEMPLATE = '
+    private const TEMPLATE = '
         %s %s function %s(%s)%s
         {
             %s $this->__call("%s", func_get_args());
@@ -19,8 +20,10 @@ class MethodTemplate implements TemplateInterface
     ';
 
     /**
-     * @param \ReflectionMethod $method
+     * @param \Reflector|\ReflectionMethod $method
      * @return string
+     * @throws \RuntimeException
+     * @throws InvalidArgumentException
      */
     public static function generate(\Reflector $method): string
     {
@@ -30,6 +33,8 @@ class MethodTemplate implements TemplateInterface
     /**
      * @param \ReflectionMethod $method
      * @return string
+     * @throws \RuntimeException
+     * @throws InvalidArgumentException
      */
     protected static function doGenerate(\ReflectionMethod $method): string
     {
@@ -39,7 +44,7 @@ class MethodTemplate implements TemplateInterface
 
         $parameters = $method->getParameters();
         $parametersCode = [];
-        if (is_array($parameters)) {
+        if (\is_array($parameters)) {
             foreach ($parameters as $parameter) {
                 $parametersCode[] = ParameterTemplate::generate($parameter);
             }

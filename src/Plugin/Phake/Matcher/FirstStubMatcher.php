@@ -56,7 +56,7 @@ class FirstStubMatcher extends AbstractChainableArgumentMatcher
      *
      * @throws MethodMatcherException
      */
-    public function doArgumentsMatch(array &$arguments)
+    public function doArgumentsMatch(array &$arguments): void
     {
         if (!$this->isFirstStub) {
             throw new MethodMatcherException(
@@ -80,7 +80,7 @@ class FirstStubMatcher extends AbstractChainableArgumentMatcher
      * @param Phake_Matchers_IChainableArgumentMatcher $nextMatcher
      * @return void
      */
-    public function setNextMatcher(Phake_Matchers_IChainableArgumentMatcher $nextMatcher)
+    public function setNextMatcher(Phake_Matchers_IChainableArgumentMatcher $nextMatcher): void
     {
     }
 }

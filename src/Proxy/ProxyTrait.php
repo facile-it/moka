@@ -93,6 +93,8 @@ trait ProxyTrait
      * @param string $name
      * @param array $arguments
      * @return mixed
+     * @throws InvalidArgumentException
+     * @throws MockNotCreatedException
      */
     protected function doCall(string $name, array $arguments)
     {
@@ -108,6 +110,8 @@ trait ProxyTrait
     /**
      * @param string $name
      * @return mixed
+     * @throws InvalidArgumentException
+     * @throws MockNotCreatedException
      */
     protected function doGet(string $name)
     {
@@ -115,7 +119,7 @@ trait ProxyTrait
             return null;
         }
 
-        if (in_array($name, $this->__moka_properties)) {
+        if (\in_array($name, $this->__moka_properties, $strict = false)) {
             return $this->__moka_mockingStrategy->get($this->__moka_mock)->$name;
         }
 

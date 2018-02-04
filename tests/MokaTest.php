@@ -44,7 +44,7 @@ class MokaTest extends TestCase
             ->method('getInt');
 
         try {
-            $this->Error();
+            $this->verifyMockObjects();
         } catch (\Exception $e) {
             $proxy->getInt();
             return;

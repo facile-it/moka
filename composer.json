@@ -37,7 +37,8 @@
       "src/Plugin/PHPUnit/PHPUnitPlugin.php",
       "src/Plugin/PHPUnit/moka.php",
       "src/Plugin/Prophecy/ProphecyPlugin.php",
-      "src/Plugin/Prophecy/moka.php"
+      "src/Plugin/Prophecy/moka.php",
+      "src/Plugin/plugin.helper.functions.php"
     ]
   },
   "autoload-dev": {

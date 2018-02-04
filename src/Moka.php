@@ -9,7 +9,7 @@ use Moka\Exception\MissingDependencyException;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Exception\NotImplementedException;
 use Moka\Factory\ProxyBuilderFactory;
-use Moka\Plugin\PluginHelper;
+use function Moka\Plugin\loadPlugin;
 use Moka\Proxy\ProxyInterface;
 use Moka\Proxy\ProxyTrait;
 use Moka\Strategy\MockingStrategyInterface;
@@ -46,7 +46,7 @@ class Moka
     public static function __callStatic(string $name, array $arguments): ProxyInterface
     {
         if (!isset(self::$mockingStrategies[$name])) {
-            self::$mockingStrategies[$name] = PluginHelper::load($name);
+            self::$mockingStrategies[$name] = loadPlugin($name);
         }
 
         $fqcnOrAlias = $arguments[0];
@@ -60,6 +60,11 @@ class Moka
      * @param string $fqcnOrAlias
      * @param string|null $alias
      * @return MockObject|ProxyInterface
+     *
+     * @throws NotImplementedException
+     * @throws InvalidIdentifierException
+     * @throws MockNotCreatedException
+     * @throws MissingDependencyException
      */
     public static function phpunit(string $fqcnOrAlias, string $alias = null): ProxyInterface
     {
@@ -77,6 +82,12 @@ class Moka
      * @param string $fqcnOrAlias
      * @param string|null $alias
      * @return ObjectProphecy|ProxyInterface
+     *
+     * @throws \ReflectionException
+     * @throws NotImplementedException
+     * @throws InvalidIdentifierException
+     * @throws MockNotCreatedException
+     * @throws MissingDependencyException
      */
     public static function prophecy(string $fqcnOrAlias, string $alias = null): ProxyInterface
     {
@@ -124,7 +135,7 @@ class Moka
      */
     private static function getCurrentTestCase()
     {
-        $backtrace = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT);
+        $backtrace = debug_backtrace();
         foreach ($backtrace as $frame) {
             if (!isset($frame['object'])) {
                 continue;

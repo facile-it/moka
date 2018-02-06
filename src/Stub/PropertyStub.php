@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Moka\Stub;
 
 use Moka\Exception\InvalidArgumentException;
+use function Moka\Stub\Helper\validatePropertyName;
 
 /**
  * Class PropertyStub
@@ -20,7 +21,7 @@ class PropertyStub extends AbstractStub
      */
     public function __construct(string $name, $value)
     {
-        StubHelper::validatePropertyName($name);
+        validatePropertyName($name);
 
         parent::__construct($name, $value);
     }

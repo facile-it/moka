@@ -6,6 +6,9 @@ namespace Moka\Proxy;
 use Moka\Exception\InvalidArgumentException;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Strategy\MockingStrategyInterface;
+use function Moka\Stub\Helper\isMethodName;
+use function Moka\Stub\Helper\isPropertyName;
+use function Moka\Stub\Helper\stripName;
 use Moka\Stub\StubHelper;
 
 /**
@@ -74,12 +77,12 @@ trait ProxyTrait
     public function stub(array $namesWithValues): ProxyInterface
     {
         foreach ($namesWithValues as $name => $value) {
-            if (StubHelper::isPropertyName($name)) {
-                $this->__moka_properties[] = StubHelper::stripName($name);
+            if (isPropertyName($name)) {
+                $this->__moka_properties[] = stripName($name);
             }
 
-            if (StubHelper::isMethodName($name)) {
-                $this->__moka_methods[] = StubHelper::stripName($name);
+            if (isMethodName($name)) {
+                $this->__moka_methods[] = stripName($name);
             }
         }
 

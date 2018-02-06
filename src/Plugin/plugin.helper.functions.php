@@ -21,7 +21,15 @@ const PLUGIN_FQCN_TEMPLATE = 'Moka\\Plugin\\%s\\%sPlugin';
  */
 function loadPlugin(string $pluginName): MockingStrategyInterface
 {
-    $pluginFQCN = generateFQCN($pluginName);
+    $generateFQCN = function (string $pluginName): string {
+        return sprintf(
+            PLUGIN_FQCN_TEMPLATE,
+            ucfirst($pluginName),
+            ucfirst($pluginName)
+        );
+    };
+
+    $pluginFQCN = $generateFQCN($pluginName);
 
     if (
         !class_exists($pluginFQCN) ||
@@ -37,18 +45,4 @@ function loadPlugin(string $pluginName): MockingStrategyInterface
 
     /** @var PluginInterface $pluginFQCN */
     return $pluginFQCN::getStrategy();
-}
-
-
-/**
- * @param string $pluginName
- * @return string
- */
-function generateFQCN(string $pluginName): string
-{
-    return sprintf(
-        PLUGIN_FQCN_TEMPLATE,
-        ucfirst($pluginName),
-        ucfirst($pluginName)
-    );
 }

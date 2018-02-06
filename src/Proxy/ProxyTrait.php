@@ -9,7 +9,6 @@ use Moka\Strategy\MockingStrategyInterface;
 use function Moka\Stub\Helper\isMethodName;
 use function Moka\Stub\Helper\isPropertyName;
 use function Moka\Stub\Helper\stripNameAndValidate;
-use Moka\Stub\StubHelper;
 
 /**
  * Trait ProxyTrait

@@ -11,7 +11,6 @@ use function Moka\Stub\Helper\stripNameAndValidate;
 use function Moka\Stub\Helper\validateMethodName;
 use function Moka\Stub\Helper\validatePropertyName;
 use function Moka\Stub\Helper\validateStaticName;
-use Moka\Stub\StubHelper;
 use PHPUnit\Framework\TestCase;
 
 class StubHelperTest extends TestCase

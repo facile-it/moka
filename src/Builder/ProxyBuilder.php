@@ -53,6 +53,7 @@ class ProxyBuilder
      * @throws MockNotCreatedException
      * @throws InvalidIdentifierException
      * @throws InvalidArgumentException
+     * @throws \ReflectionException
      */
     public function getProxy(string $fqcnOrAlias, string $alias = null): ProxyInterface
     {
@@ -76,6 +77,8 @@ class ProxyBuilder
      * @return ProxyInterface
      *
      * @throws \ReflectionException
+     * @throws InvalidArgumentException
+     * @throws MockNotCreatedException
      */
     protected function buildProxy(string $fqcn): ProxyInterface
     {

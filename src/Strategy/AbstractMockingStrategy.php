@@ -7,6 +7,7 @@ use Moka\Exception\InvalidArgumentException;
 use Moka\Exception\MissingDependencyException;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Exception\NotImplementedException;
+use function Moka\Factory\buildStubs;
 use Moka\Factory\StubFactory;
 use Moka\Stub\MethodStub;
 use Moka\Stub\PropertyStub;
@@ -77,7 +78,7 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
     {
         $this->checkMockType($mock);
 
-        $stubs = StubFactory::fromArray($stubs);
+        $stubs = buildStubs($stubs);
 
         foreach ($stubs as $stub) {
             if ($stub instanceof PropertyStub) {

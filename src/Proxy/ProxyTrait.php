@@ -8,7 +8,7 @@ use Moka\Exception\MockNotCreatedException;
 use Moka\Strategy\MockingStrategyInterface;
 use function Moka\Stub\Helper\isMethodName;
 use function Moka\Stub\Helper\isPropertyName;
-use function Moka\Stub\Helper\stripName;
+use function Moka\Stub\Helper\stripNameAndValidate;
 use Moka\Stub\StubHelper;
 
 /**
@@ -78,11 +78,11 @@ trait ProxyTrait
     {
         foreach ($namesWithValues as $name => $value) {
             if (isPropertyName($name)) {
-                $this->__moka_properties[] = stripName($name);
+                $this->__moka_properties[] = stripNameAndValidate($name);
             }
 
             if (isMethodName($name)) {
-                $this->__moka_methods[] = stripName($name);
+                $this->__moka_methods[] = stripNameAndValidate($name);
             }
         }
 

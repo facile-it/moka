@@ -13,5 +13,5 @@ use Moka\Exception\InvalidArgumentException;
  */
 function validateMethodName(string $name): void
 {
-    validateName(doStripName($name, ['static']));
+    validateName(stripName($name, ['static']));
 }

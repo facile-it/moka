@@ -7,15 +7,14 @@ use Moka\Exception\InvalidArgumentException;
 
 /**
  * @param string $name
- * @return bool
- *
+ * @return string
  * @throws InvalidArgumentException
  */
-function isPropertyName(string $name): bool
+function stripNameAndValidate(string $name): string
 {
-    return isName(
-        $name,
-        'property',
-        stripName($name, ['static'])
-    );
+    $name = stripName($name);
+
+    validateName($name);
+
+    return $name;
 }

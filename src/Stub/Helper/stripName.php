@@ -3,18 +3,22 @@ declare(strict_types=1);
 
 namespace Moka\Stub\Helper;
 
-use Moka\Exception\InvalidArgumentException;
-
 /**
  * @param string $name
+ * @param array|null $prefixes
  * @return string
- * @throws InvalidArgumentException
  */
-function stripName(string $name): string
+function stripName(string $name, array $prefixes = null): string
 {
-    $name = doStripName($name);
+    $prefixes = null !== $prefixes
+        ? array_intersect(array_keys(PREFIXES), $prefixes)
+        : array_keys(PREFIXES);
 
-    validateName($name);
-
-    return $name;
+    return array_reduce($prefixes, function (string $name, string $prefix) {
+        return preg_replace(
+            sprintf('/^%s/', PREFIXES[$prefix]),
+            '',
+            $name
+        );
+    }, $name);
 }

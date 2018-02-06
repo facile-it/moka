@@ -7,7 +7,7 @@ use Moka\Exception\InvalidArgumentException;
 use function Moka\Stub\Helper\isMethodName;
 use function Moka\Stub\Helper\isPropertyName;
 use function Moka\Stub\Helper\isStaticName;
-use function Moka\Stub\Helper\stripName;
+use function Moka\Stub\Helper\stripNameAndValidate;
 use function Moka\Stub\Helper\validateMethodName;
 use function Moka\Stub\Helper\validatePropertyName;
 use function Moka\Stub\Helper\validateStaticName;
@@ -26,7 +26,7 @@ class StubHelperTest extends TestCase
                  ] as $name => $strippedName) {
             $this->assertEquals(
                 $strippedName,
-                stripName($name)
+                stripNameAndValidate($name)
             );
         }
     }
@@ -35,35 +35,35 @@ class StubHelperTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
-        stripName('0name');
+        stripNameAndValidate('0name');
     }
 
     public function testValidateNameFailure2()
     {
         $this->expectException(InvalidArgumentException::class);
 
-        stripName('na-me');
+        stripNameAndValidate('na-me');
     }
 
     public function testValidateNameFailure3()
     {
         $this->expectException(InvalidArgumentException::class);
 
-        stripName('na me');
+        stripNameAndValidate('na me');
     }
 
     public function testValidateNameFailure4()
     {
         $this->expectException(InvalidArgumentException::class);
 
-        stripName('na.me');
+        stripNameAndValidate('na.me');
     }
 
     public function testValidateNameFailure5()
     {
         $this->expectException(InvalidArgumentException::class);
 
-        stripName('');
+        stripNameAndValidate('');
     }
 
     public function testStaticNameSuccess()

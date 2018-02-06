@@ -14,7 +14,7 @@ use Moka\Exception\InvalidArgumentException;
  */
 function isName(string $name, string $memberType, string $subject): bool
 {
-    validateName(doStripName($name));
+    validateName(stripName($name));
 
     return (bool)preg_match(
         sprintf(

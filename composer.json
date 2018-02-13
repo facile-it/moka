@@ -48,6 +48,7 @@
   },
   "require": {
     "php": ">=7.1",
+    "nikic/php-parser": "4.0.0beta1",
     "phpcollection/phpcollection": "^0.5",
     "phpunit/phpunit-mock-objects": "^6.0",
     "psr/container": "^1.0"

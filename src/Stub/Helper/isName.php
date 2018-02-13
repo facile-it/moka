@@ -18,7 +18,7 @@ function isName(string $name, string $memberType, string $subject): bool
 
     return (bool)preg_match(
         sprintf(
-            NAME_TEMPLATE,
+            TEMPLATE_NAME,
             PREFIXES[$memberType]
         ),
         $subject

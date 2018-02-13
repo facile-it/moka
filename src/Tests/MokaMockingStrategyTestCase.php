@@ -30,7 +30,7 @@ abstract class MokaMockingStrategyTestCase extends TestCase
     protected $namesWithValues;
 
     /**
-     *
+     * @return void
      */
     protected function setUp()
     {
@@ -85,7 +85,7 @@ abstract class MokaMockingStrategyTestCase extends TestCase
     }
 
     /**
-     *
+     * @return void
      */
     final public function testDecorateFakeMockFailure()
     {
@@ -117,7 +117,7 @@ abstract class MokaMockingStrategyTestCase extends TestCase
     }
 
     /**
-     *
+     * @return void
      */
     final public function testDecorateWithProtectedPropertyFailure()
     {
@@ -140,7 +140,7 @@ abstract class MokaMockingStrategyTestCase extends TestCase
     }
 
     /**
-     *
+     * @return void
      */
     final public function testDecorateWithWrongTypeHintFailure()
     {
@@ -153,7 +153,7 @@ abstract class MokaMockingStrategyTestCase extends TestCase
     }
 
     /**
-     *
+     * @return void
      */
     final public function testDecorateWithNonexistentMethod()
     {
@@ -173,7 +173,7 @@ abstract class MokaMockingStrategyTestCase extends TestCase
     }
 
     /**
-     *
+     * @return void
      */
     final public function testCallUnstubbedMethod()
     {
@@ -257,7 +257,7 @@ abstract class MokaMockingStrategyTestCase extends TestCase
     }
 
     /**
-     *
+     * @return void
      */
     final public function testCallMethodWithoutArgumentFailure()
     {
@@ -267,7 +267,7 @@ abstract class MokaMockingStrategyTestCase extends TestCase
     }
 
     /**
-     *
+     * @return void
      */
     final public function testCallMethodWithWrongArgumentFailure()
     {
@@ -277,7 +277,7 @@ abstract class MokaMockingStrategyTestCase extends TestCase
     }
 
     /**
-     *
+     * @return void
      */
     final public function testGetFakeMockFailure()
     {

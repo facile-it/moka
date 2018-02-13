@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 namespace Moka\Generator\Template;
+
 use Moka\Exception\InvalidArgumentException;
 
 /**

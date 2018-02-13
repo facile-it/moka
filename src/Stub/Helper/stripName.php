@@ -16,7 +16,7 @@ function stripName(string $name, array $prefixes = null): string
 
     return array_reduce($prefixes, function (string $name, string $prefix) {
         return preg_replace(
-            sprintf('/^%s/', PREFIXES[$prefix]),
+            sprintf(TEMPLATE_NAME, PREFIXES[$prefix]),
             '',
             $name
         );

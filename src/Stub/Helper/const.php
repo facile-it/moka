@@ -8,7 +8,7 @@ const PREFIXES = [
     'property' => '\\$'
 ];
 
-const NAME_TEMPLATE = '/^%s/';
+const TEMPLATE_NAME = '/^%s/';
 
 /**
  * http://php.net/manual/en/language.variables.basics.php

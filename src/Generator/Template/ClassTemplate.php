@@ -46,7 +46,7 @@ class ClassTemplate implements TemplateInterface
     ';
 
     /**
-     * @param \Reflector $class
+     * @param \Reflector|\ReflectionClass $class
      * @return string
      */
     public static function generate(\Reflector $class): string

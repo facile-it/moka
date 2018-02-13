@@ -6,9 +6,12 @@ namespace Tests;
 use Moka\Exception\NotImplementedException;
 use Moka\Moka;
 use Moka\Proxy\ProxyInterface;
+use Moka\Proxy\ProxyTrait;
 use Moka\Tests\FooTestClass;
+use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument\Token\AnyValuesToken;
+use Prophecy\Exception\Prediction\PredictionException;
 
 class MokaTest extends TestCase
 {
@@ -38,14 +41,15 @@ class MokaTest extends TestCase
 
     public function testPHPUnitExpectation()
     {
+        /** @var ProxyTrait $proxy */
         $proxy = Moka::phpunit(FooTestClass::class, 'foo');
 
         $proxy->expects($this->once())
             ->method('getInt');
 
         try {
-            $this->verifyMockObjects();
-        } catch (\Exception $e) {
+            $proxy->__moka_getMock()->__phpunit_verify();
+        } catch (ExpectationFailedException $e) {
             $proxy->getInt();
             return;
         }
@@ -55,6 +59,7 @@ class MokaTest extends TestCase
 
     public function testProphecyExpectation()
     {
+        /** @var ProxyTrait $proxy */
         $proxy = Moka::prophecy(FooTestClass::class, 'foo');
 
         $proxy->getInt->set(new AnyValuesToken())
@@ -62,8 +67,8 @@ class MokaTest extends TestCase
             ->shouldBeCalledTimes(1);
 
         try {
-            $this->verifyMockObjects();
-        } catch (\Exception $e) {
+            $proxy->__moka_getMock()->checkProphecyMethodsPredictions();
+        } catch (PredictionException $e) {
             $proxy->getInt();
             return;
         }
@@ -78,30 +83,5 @@ class MokaTest extends TestCase
         $proxy2 = Moka::phpunit(\stdClass::class);
 
         $this->assertNotSame($proxy1, $proxy2);
-    }
-
-    /**
-     * To workaround the change of visibility in PHPUnit 7 of the homonym parent method
-     * use the reflection to call it equally to previous versions.
-     *
-     * @throws \ReflectionException
-     * @throws \Error
-     */
-    protected function verifyMockObjects(): void
-    {
-        $parent = (new \ReflectionClass($this))->getParentClass();
-        $method = $parent->getMethod(__METHOD__);
-        if (!$method instanceof \ReflectionMethod) {
-            throw new \Error(sprintf(
-                "Call to private method %s::%s() from context '%s'",
-                $parent->getNamespaceName(),
-                __METHOD__,
-                __NAMESPACE__
-            ));
-        }
-
-        $method->setAccessible(true);
-        $method->invoke($this);
-        $method->setAccessible(false);
     }
 }

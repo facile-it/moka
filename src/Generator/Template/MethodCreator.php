@@ -15,13 +15,6 @@ class MethodCreator implements NodeCreator
 {
     use VisibilityTrait;
 
-    private const TEMPLATE = '
-        %s %s function %s(%s)%s
-        {
-            %s $this->__call("%s", func_get_args());
-        }
-    ';
-
     /**
      * @param \Reflector|\ReflectionMethod $method
      * @return Node
@@ -34,46 +27,57 @@ class MethodCreator implements NodeCreator
     }
 
     /**
-     * @param \ReflectionMethod $method
+     * @param \Reflector|\ReflectionMethod $method
+     * @param string $methodToCalls
+     * @param bool $forceReturn
+     * @return Node
+     */
+    public static function createWithParams(\ReflectionMethod $method, string $methodToCalls, bool $forceReturn = false): Node
+    {
+        return static::doGenerate($method, $methodToCalls, $forceReturn);
+    }
+
+    /**
+     * @param \Reflector|\ReflectionMethod $method
+     * @param string $methodToCalls
+     * @param bool $forceReturn
      * @return Node
      * @throws \RuntimeException
      * @throws InvalidArgumentException
      */
-    protected static function doGenerate(\ReflectionMethod $method): Node
+    protected static function doGenerate(\ReflectionMethod $method, string $methodToCalls = '__call', bool $forceReturn = false): Node
     {
         $factory = new BuilderFactory();
 
         $parameters = $method->getParameters();
-        $parametersCode = [];
+        $parameterNodes = [];
         if (\is_array($parameters)) {
             foreach ($parameters as $parameter) {
-                $parametersCode[] = ParameterTemplate::generate($parameter);
+                $parameterNodes[] = ParameterCreator::create($parameter);
             }
         }
 
         $originalReturnType = $method->getReturnType();
-        $returnType = $originalReturnType
-            ? ReturnTypeTemplate::generate($method)
-            : '';
 
-        $willReturn = null === $originalReturnType || 'void' !== (string)$originalReturnType;
+        $willReturn = null === $originalReturnType || 'void' !== (string)$originalReturnType || $forceReturn;
 
         $methodName = $method->name;
 
         $visibility = static::getVisibility($method);
-        $makeVisbility = 'make' . ucfirst($visibility);
+        $makeVisibility = 'make' . ucfirst($visibility);
 
         /** @var Method $node */
-        $node = $factory->method($methodName)->$makeVisbility();
+        $node = $factory->method($methodName)->$makeVisibility();
+
         if ($method->isStatic()) {
             $node->makeStatic();
         }
 
-        $node->setReturnType($returnType);
+        $node->addParams($parameterNodes);
 
         $stmt = new Node\Expr\MethodCall(
             new Node\Expr\Variable('this'),
-            '__call',
+            $methodToCalls,
             new Node\Expr\FuncCall(new Node\Name('func_get_args'))
         );
 
@@ -83,17 +87,14 @@ class MethodCreator implements NodeCreator
 
         $node->addStmt($stmt);
 
-        return $node->getNode();
+        $returnType = $originalReturnType
+            ? ReturnTypeCreator::create($method)
+            : null;
 
-        /*        return sprintf(
-                    self::TEMPLATE,
-                    $visibility,
-                    $static,
-                    $methodName,
-                    implode(',', $parametersCode),
-                    $returnType,
-                    $returnStatement,
-                    $methodName
-                );*/
+        if (null !== $returnType) {
+            $node->setReturnType($returnType);
+        }
+
+        return $node->getNode();
     }
 }

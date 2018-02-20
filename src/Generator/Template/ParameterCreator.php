@@ -39,7 +39,7 @@ class ParameterCreator implements NodeCreator
         }
 
         if (true === $hasDefaultValue) {
-            $param->setDefault($defaultValue);    
+            $param->setDefault($defaultValue);
         }
 
         $type = $parameter->getType()

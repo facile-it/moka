@@ -31,8 +31,14 @@ class MethodCreator implements NodeCreator
      * @param string $methodToCalls
      * @param bool $forceReturn
      * @return Node
+     * @throws \RuntimeException
+     * @throws InvalidArgumentException
      */
-    public static function createWithParams(\ReflectionMethod $method, string $methodToCalls, bool $forceReturn = false): Node
+    public static function createWithParams(
+        \ReflectionMethod $method,
+        string $methodToCalls, bool
+        $forceReturn = false
+    ): Node
     {
         return static::doGenerate($method, $methodToCalls, $forceReturn);
     }
@@ -45,8 +51,16 @@ class MethodCreator implements NodeCreator
      * @throws \RuntimeException
      * @throws InvalidArgumentException
      */
-    protected static function doGenerate(\ReflectionMethod $method, string $methodToCalls = '__call', bool $forceReturn = false): Node
+    protected static function doGenerate(
+        \ReflectionMethod $method,
+        string $methodToCalls = '__call',
+        bool $forceReturn = false
+    ): Node
     {
+        if ($method->name === '__phpunit_verify') {
+            var_dump($method->getParameters()); die;
+        }
+
         $factory = new BuilderFactory();
 
         $parameters = $method->getParameters();
@@ -75,16 +89,27 @@ class MethodCreator implements NodeCreator
 
         $node->addParams($parameterNodes);
 
+        $funcGetArgs = new Node\Expr\FuncCall(new Node\Name('func_get_args'));
+        $params = new Node\Expr\Assign(
+            new Node\Expr\Variable(new Node\Name('params')),
+            $funcGetArgs
+        );
+
+        $args = [
+            new Node\Expr\Variable('params')
+        ];
+
         $stmt = new Node\Expr\MethodCall(
-            new Node\Expr\Variable('this'),
+            new Node\Expr\Variable(new Node\Name('this')),
             $methodToCalls,
-            new Node\Expr\FuncCall(new Node\Name('func_get_args'))
+            $args
         );
 
         if ($willReturn) {
             $stmt = new Node\Stmt\Return_($stmt);
         }
 
+        $node->addStmt($params);
         $node->addStmt($stmt);
 
         $returnType = $originalReturnType

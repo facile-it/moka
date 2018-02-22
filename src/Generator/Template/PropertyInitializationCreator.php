@@ -35,8 +35,9 @@ class PropertyInitializationCreator implements NodeCreator
         $fetch = $property->isStatic()
             ? new Node\Expr\StaticPropertyFetch(new Node\Name('self'), $propertyName)
             : new Node\Expr\PropertyFetch(new Node\Expr\Variable('this'), $propertyName);
-
-        $node = new Node\Expr\Assign($fetch, new Expr\Variable(new Node\Stmt\Nop()));
+        $node = new Node\Stmt\Unset_(
+            [$fetch]
+        );
 
         return $node;
     }

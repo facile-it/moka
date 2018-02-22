@@ -18,9 +18,11 @@ use PhpParser\Node\Expr\Variable;
  */
 class ClassCreator implements NodeCreator
 {
-    private const UNSAFE_METHODS = ['__construct', '__destruct', '__clone'];
-
-    private const TEMPLATE_FQCN = 'Moka_%s_%s';
+    private const UNSAFE_METHODS = [
+        '__construct',
+        '__destruct',
+        '__clone'
+    ];
 
     /**
      * @param \Reflector|\ReflectionClass $class
@@ -33,13 +35,19 @@ class ClassCreator implements NodeCreator
         return static::doGenerate($class);
     }
 
+    public static function createWithName(\Reflector $class, string $proxyClassName): Node
+    {
+        return static::doGenerate($class, $proxyClassName);
+    }
+
     /**
      * @param \ReflectionClass $class
+     * @param string $proxyClassName
      * @return Node
      * @throws \RuntimeException
      * @throws InvalidArgumentException
      */
-    protected static function doGenerate(\ReflectionClass $class): Node
+    protected static function doGenerate(\ReflectionClass $class, string $proxyClassName): Node
     {
         $factory = new BuilderFactory();
 
@@ -62,7 +70,8 @@ class ClassCreator implements NodeCreator
 
         foreach ($methods as $method) {
             if ($method->isFinal()
-                || \in_array($method->name, self::UNSAFE_METHODS, $strict = true)) {
+                || \in_array($method->name, self::UNSAFE_METHODS, $strict = true)
+            ) {
                 continue;
             }
 
@@ -83,17 +92,12 @@ class ClassCreator implements NodeCreator
         }
 
         $mockClassName = $class->name;
-        $proxyClassName = sprintf(
-            self::TEMPLATE_FQCN,
-            preg_replace('/\\\/', '__', $mockClassName),
-            random_int($min = 0, $max = PHP_INT_MAX)
-        );
 
         $node = $factory
             ->class($proxyClassName)
-            ->extend($mockClassName)
-            ->implement([ProxyInterface::class])
-            ->addStmt($factory->trait(ProxyTrait::class))
+            ->extend(new Node\Name($mockClassName))
+            ->implement(...[new Node\Name(ProxyInterface::class)])
+            ->addStmt(new Node\Stmt\TraitUse([new Node\Name(ProxyTrait::class)]))
             ->addStmts($propertiesNodes)
             ->addStmt(
                 $factory->method('__construct')

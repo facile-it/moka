@@ -6,10 +6,10 @@ namespace Moka\Generator;
 use Moka\Exception\InvalidArgumentException;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Generator\Template\ClassCreator;
-use Moka\Generator\Template\ClassTemplate;
 use Moka\Proxy\ProxyInterface;
 use Moka\Proxy\ProxyTrait;
 use Moka\Strategy\MockingStrategyInterface;
+use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Return_;
 use PhpParser\PrettyPrinter\Standard;
 
@@ -19,10 +19,17 @@ use PhpParser\PrettyPrinter\Standard;
  */
 class ProxyGenerator
 {
+    private const TEMPLATE_FQCN = 'Moka_%s_%s';
+
     /**
      * @var MockingStrategyInterface
      */
     private $mockingStrategy;
+
+    /**
+     * @var callable
+     */
+    private $proxyClassNameGenerator;
 
     /**
      * ProxyGenerator constructor.
@@ -31,6 +38,13 @@ class ProxyGenerator
     public function __construct(MockingStrategyInterface $mockingStrategy)
     {
         $this->mockingStrategy = $mockingStrategy;
+        $this->proxyClassNameGenerator = function (string $mockClassName) {
+            return sprintf(
+                self::TEMPLATE_FQCN,
+                preg_replace('/\\\/', '__', $mockClassName),
+                random_int($min = 0, $max = PHP_INT_MAX)
+            );
+        };
     }
 
     /**
@@ -48,8 +62,14 @@ class ProxyGenerator
         $mockFQCN = \get_class($this->mockingStrategy->get($mock));
         $mockClass = new \ReflectionClass($mockFQCN);
 
-        $proxyNode = ClassCreator::create($mockClass);
-        $proxyCode = (new Standard())->prettyPrint($proxyNode);
+        $proxyClassName = ($this->proxyClassNameGenerator)($mockClass->name);
+        $proxyNodes[] = ClassCreator::createWithName($mockClass, $proxyClassName);
+        $proxyNodes[] = new Return_(
+            new String_($proxyClassName)
+        );
+
+        $proxyCode = (new Standard())->prettyPrint($proxyNodes);
+
         $proxyFQCN = eval($proxyCode);
 
         return $this->getInstance($proxyFQCN)

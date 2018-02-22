@@ -59,7 +59,8 @@
     "phake/phake": "^3.0",
     "phpspec/prophecy": "^1.7",
     "phpunit/phpunit": "^7.0",
-    "sebastian/diff": "^3.0"
+    "sebastian/diff": "^3.0",
+    "symfony/var-dumper": "^4.0"
   },
   "suggest": {
     "phpspec/prophecy": "To allow loading of ProphecyPlugin",

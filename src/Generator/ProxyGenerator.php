@@ -68,7 +68,8 @@ class ProxyGenerator
             new String_($proxyClassName)
         );
 
-        $proxyCode = (new Standard())->prettyPrint($proxyNodes);
+        $prettyPrinter = new Standard();
+        $proxyCode = $prettyPrinter->prettyPrint($proxyNodes);
 
         $proxyFQCN = eval($proxyCode);
 

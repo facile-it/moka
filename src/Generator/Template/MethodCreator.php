@@ -57,10 +57,6 @@ class MethodCreator implements NodeCreator
         bool $forceReturn = false
     ): Node
     {
-        if ($method->name === '__phpunit_verify') {
-            var_dump($method->getParameters()); die;
-        }
-
         $factory = new BuilderFactory();
 
         $parameters = $method->getParameters();

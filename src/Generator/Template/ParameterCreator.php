@@ -12,8 +12,6 @@ use PhpParser\Node;
  */
 class ParameterCreator implements NodeCreator
 {
-    private const TEMPLATE = '%s %s%s%s%s';
-
     /**
      * @param \Reflector|\ReflectionParameter $parameter
      * @return Node
@@ -31,16 +29,18 @@ class ParameterCreator implements NodeCreator
     {
         $factory = new BuilderFactory();
         $param = $factory->param($parameter->name);
-        $hasDefaultValue = true;
+
         try {
-            $defaultValue = !$parameter->allowsNull()
-                ? static::getDefaultValue($parameter)
-                : null;
+/*            $defaultValue = $parameter->allowsNull()
+                ? null
+                : static::getDefaultValue($parameter);*/
+            $defaultValue = static::getDefaultValue($parameter);
+            $hasDefaultValue = true;
         } catch (\Exception $exception) {
             $hasDefaultValue = false;
         }
 
-        if (true === $hasDefaultValue && isset($defaultValue)) {
+        if (true === $hasDefaultValue && !$parameter->isVariadic()) {
             $param->setDefault($defaultValue);
         }
 
@@ -63,12 +63,18 @@ class ParameterCreator implements NodeCreator
         return $param->getNode();
     }
 
+    /**
+     * @param \ReflectionParameter $parameter
+     * @return mixed
+     * @throws InvalidArgumentException
+     */
     private static function getDefaultValue(\ReflectionParameter $parameter)
     {
-        if ($parameter->isVariadic()) {
-            throw new InvalidArgumentException(
-                'Variadic parameter cannot have a default value'
-            );
+        if (false === $parameter->isDefaultValueAvailable()) {
+            throw new InvalidArgumentException(sprintf(
+                'A default value fot parameter %s is not available',
+                $parameter->name
+            ));
         }
 
         $defaultValue = $parameter->getDefaultValue();
@@ -78,12 +84,16 @@ class ParameterCreator implements NodeCreator
             if ($isArray && (!\is_array($defaultValue) || null !== $defaultValue)) {
                 throw new InvalidArgumentException(sprintf(
                     'Default value for parameters with array type can only be an array or NULL. %s given',
-                    gettype($defaultValue)
+                    \gettype($defaultValue)
                 ));
             }
         }
 
+        $defaultValue = var_export($defaultValue, true);
+        $defaultValue = $defaultValue !== 'NULL'
+            ? $defaultValue
+            : null;
 
-        return var_export($defaultValue, true);
+        return $defaultValue;
     }
 }

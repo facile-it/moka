@@ -31,17 +31,10 @@ class ParameterCreator implements NodeCreator
         $param = $factory->param($parameter->name);
 
         try {
-/*            $defaultValue = $parameter->allowsNull()
-                ? null
-                : static::getDefaultValue($parameter);*/
             $defaultValue = static::getDefaultValue($parameter);
             $hasDefaultValue = true;
         } catch (\Exception $exception) {
             $hasDefaultValue = false;
-        }
-
-        if (true === $hasDefaultValue && !$parameter->isVariadic()) {
-            $param->setDefault($defaultValue);
         }
 
         $type = $parameter->getType()
@@ -58,6 +51,10 @@ class ParameterCreator implements NodeCreator
 
         if ($parameter->isVariadic()) {
             $param->makeVariadic();
+        }
+
+        if (true === $hasDefaultValue && !$parameter->isVariadic()) {
+            $param->setDefault($defaultValue);
         }
 
         return $param->getNode();

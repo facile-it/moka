@@ -92,6 +92,7 @@ class MethodCreator implements NodeCreator
         );
 
         $args = [
+            new Node\Expr\Variable($methodName),
             new Node\Expr\Variable('params')
         ];
 
@@ -117,5 +118,38 @@ class MethodCreator implements NodeCreator
         }
 
         return $node->getNode();
+    }
+
+    /**
+     * @param bool $forceReturn
+     * @return Node
+     */
+    public static function createCallMethod(bool $forceReturn = false): Node
+    {
+        $factory = new BuilderFactory();
+        $method = $factory->method('__call')->makePublic();
+        $method->addParams([
+            new Node\Param(new Node\Expr\Variable(new Node\Name('name'))),
+            new Node\Param(new Node\Expr\Variable(new Node\Name('params')))
+        ]);
+
+        $args = [
+            new Node\Expr\Variable('name'),
+            new Node\Expr\Variable('params')
+        ];
+
+        $stmt = new Node\Expr\MethodCall(
+            new Node\Expr\Variable(new Node\Name('this')),
+            'doCall',
+            $args
+        );
+
+        if ($forceReturn) {
+            $stmt = new Node\Stmt\Return_($stmt);
+        }
+
+        $method->addStmt($stmt);
+
+        return $method->getNode();
     }
 }

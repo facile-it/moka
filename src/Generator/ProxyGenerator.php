@@ -64,9 +64,7 @@ class ProxyGenerator
 
         $proxyClassName = ($this->proxyClassNameGenerator)($mockClass->name);
         $proxyNodes[] = ClassCreator::createWithName($mockClass, $proxyClassName);
-        $proxyNodes[] = new Return_(
-            new String_($proxyClassName)
-        );
+        $proxyNodes[] = new Return_(new String_($proxyClassName));
 
         $prettyPrinter = new Standard();
         $proxyCode = $prettyPrinter->prettyPrint($proxyNodes);

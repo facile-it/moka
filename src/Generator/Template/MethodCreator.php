@@ -92,7 +92,7 @@ class MethodCreator implements NodeCreator
         );
 
         $args = [
-            new Node\Expr\Variable($methodName),
+            new Node\Scalar\String_($methodName),
             new Node\Expr\Variable('params')
         ];
 

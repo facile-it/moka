@@ -160,6 +160,7 @@ class Moka
      * @throws MockNotCreatedException
      * @throws MissingDependencyException
      * @throws InvalidArgumentException
+     * @throws \ReflectionException
      */
     private static function getProxy(string $name, array $arguments): ProxyInterface
     {

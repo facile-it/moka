@@ -32,6 +32,11 @@ class ProxyGenerator
     private $proxyClassNameGenerator;
 
     /**
+     * @var Standard
+     */
+    private $prettyPrinter;
+
+    /**
      * ProxyGenerator constructor.
      * @param MockingStrategyInterface $mockingStrategy
      */
@@ -45,6 +50,7 @@ class ProxyGenerator
                 random_int($min = 0, $max = PHP_INT_MAX)
             );
         };
+        $this->prettyPrinter = new Standard();
     }
 
     /**
@@ -62,12 +68,13 @@ class ProxyGenerator
         $mockFQCN = \get_class($this->mockingStrategy->get($mock));
         $mockClass = new \ReflectionClass($mockFQCN);
 
+        // Call the proxy class name generator
         $proxyClassName = ($this->proxyClassNameGenerator)($mockClass->name);
+        // Create nodes with return statement at the end of the tree
         $proxyNodes[] = ClassCreator::createWithName($mockClass, $proxyClassName);
         $proxyNodes[] = new Return_(new String_($proxyClassName));
-
-        $prettyPrinter = new Standard();
-        $proxyCode = $prettyPrinter->prettyPrint($proxyNodes);
+        
+        $proxyCode = $this->prettyPrinter->prettyPrint($proxyNodes);
 
         $proxyFQCN = eval($proxyCode);
 

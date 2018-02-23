@@ -49,7 +49,7 @@ abstract class IncompleteAbstractTestClass implements TestInterface
         FooTestClass $class = null,
         array $array = [3],
         callable $callable = null,
-        ...$variadic
+        string ...$variadic
     ): int {
         return $required;
     }

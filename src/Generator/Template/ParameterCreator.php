@@ -36,11 +36,9 @@ class ParameterCreator implements NodeCreator
         } catch (\Exception $exception) {
             $hasDefaultValue = false;
         }
-        dump($defaultValue);
-
 
         $type = (string)$parameter->getType();
-        if (null !== $type) {
+        if (!empty($type)) {
             $param->setTypeHint($type);
         }
 
@@ -77,16 +75,12 @@ class ParameterCreator implements NodeCreator
         $parameterType = $parameter->getType();
         if ($parameterType instanceof \ReflectionType) {
             $isArray = $parameterType->getName() === 'array';
-            if ($isArray && (!\is_array($defaultValue) || null !== $defaultValue)) {
+            if ($isArray && (!\is_array($defaultValue) && null !== $defaultValue)) {
                 throw new InvalidArgumentException(sprintf(
                     'Default value for parameters with array type can only be an array or NULL. %s given',
                     \gettype($defaultValue)
                 ));
             }
-        }
-
-        if (\is_array($defaultValue)) {
-            $defaultValue = var_export($defaultValue, true);
         }
 
         $defaultValue = $defaultValue !== 'NULL'

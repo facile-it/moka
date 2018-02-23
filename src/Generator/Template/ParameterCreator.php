@@ -36,11 +36,10 @@ class ParameterCreator implements NodeCreator
         } catch (\Exception $exception) {
             $hasDefaultValue = false;
         }
+        dump($defaultValue);
 
-        $type = $parameter->getType()
-            ? (string)$parameter->getType()
-            : null;
 
+        $type = (string)$parameter->getType();
         if (null !== $type) {
             $param->setTypeHint($type);
         }
@@ -86,7 +85,10 @@ class ParameterCreator implements NodeCreator
             }
         }
 
-        $defaultValue = var_export($defaultValue, true);
+        if (\is_array($defaultValue)) {
+            $defaultValue = var_export($defaultValue, true);
+        }
+
         $defaultValue = $defaultValue !== 'NULL'
             ? $defaultValue
             : null;

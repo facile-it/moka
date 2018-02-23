@@ -45,6 +45,7 @@ abstract class IncompleteAbstractTestClass implements TestInterface
         int $required,
         $nullable = null,
         string &$byReference = PHP_EOL,
+        string $string = 'string',
         FooTestClass $class = null,
         array $array = [3],
         callable $callable = null,

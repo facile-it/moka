@@ -8,6 +8,7 @@ use Moka\Exception\MockNotCreatedException;
 use Moka\Generator\ProxyGenerator;
 use Moka\Proxy\ProxyInterface;
 use Moka\Strategy\MockingStrategyInterface;
+use PhpParser\PrettyPrinter\Standard as ASTPrinter;
 
 /**
  * @param string $fqcn
@@ -20,5 +21,5 @@ use Moka\Strategy\MockingStrategyInterface;
  */
 function buildProxy(string $fqcn, MockingStrategyInterface $mockingStrategy): ProxyInterface
 {
-    return (new ProxyGenerator($mockingStrategy))->get($fqcn);
+    return (new ProxyGenerator($mockingStrategy,new ASTPrinter()))->get($fqcn);
 }

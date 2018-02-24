@@ -7,6 +7,7 @@ use Moka\Generator\ProxyGenerator;
 use Moka\Proxy\ProxyInterface;
 use Moka\Strategy\MockingStrategyInterface;
 use Moka\Tests\FooTestClass;
+use PhpParser\PrettyPrinter\Standard;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -42,7 +43,7 @@ class ProxyGeneratorTest extends TestCase
                 return $target->$name(...$arguments);
             });
 
-        $this->proxyGenerator = new ProxyGenerator($mockingStrategy);
+        $this->proxyGenerator = new ProxyGenerator($mockingStrategy, new Standard());
     }
 
     public function testGet()

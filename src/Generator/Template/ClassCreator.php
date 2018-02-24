@@ -102,6 +102,17 @@ class ClassCreator implements NodeCreator
             $methodNodes[] = MethodCreator::createCallMethod($forceReturn = true);
         }
 
+        try {
+            $class->getMethod('__get');
+            $getMethodExsists = true;
+        } catch (\ReflectionException $e) {
+            $getMethodExsists = false;
+        }
+
+        if (false === $getMethodExsists) {
+            $methodNodes[] = MethodCreator::createGetMethod($forceReturn = true);
+        }
+
         $mockClassName = $class->name;
 
         $node = $factory

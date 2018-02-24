@@ -11,7 +11,7 @@ use Moka\Proxy\ProxyTrait;
 use Moka\Strategy\MockingStrategyInterface;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Return_;
-use PhpParser\PrettyPrinter\Standard;
+use PhpParser\PrettyPrinter\Standard as ASTPrinter;
 
 /**
  * Class ProxyGenerator
@@ -34,13 +34,17 @@ class ProxyGenerator
     /**
      * @var Standard
      */
-    private $prettyPrinter;
+    private $astPrinter;
 
     /**
      * ProxyGenerator constructor.
      * @param MockingStrategyInterface $mockingStrategy
+     * @param ASTPrinter $astPrinter
      */
-    public function __construct(MockingStrategyInterface $mockingStrategy)
+    public function __construct(
+        MockingStrategyInterface $mockingStrategy,
+        ASTPrinter $astPrinter
+    )
     {
         $this->mockingStrategy = $mockingStrategy;
         $this->proxyClassNameGenerator = function (string $mockClassName) {
@@ -50,7 +54,7 @@ class ProxyGenerator
                 random_int($min = 0, $max = PHP_INT_MAX)
             );
         };
-        $this->prettyPrinter = new Standard();
+        $this->astPrinter = $astPrinter;
     }
 
     /**
@@ -74,7 +78,7 @@ class ProxyGenerator
         $proxyNodes[] = ClassCreator::createWithName($mockClass, $proxyClassName);
         $proxyNodes[] = new Return_(new String_($proxyClassName));
         
-        $proxyCode = $this->prettyPrinter->prettyPrint($proxyNodes);
+        $proxyCode = $this->astPrinter->prettyPrint($proxyNodes);
 
         $proxyFQCN = eval($proxyCode);
 

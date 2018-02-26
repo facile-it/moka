@@ -21,5 +21,5 @@ use PhpParser\PrettyPrinter\Standard as ASTPrinter;
  */
 function buildProxy(string $fqcn, MockingStrategyInterface $mockingStrategy): ProxyInterface
 {
-    return (new ProxyGenerator($mockingStrategy,new ASTPrinter()))->get($fqcn);
+    return (new ProxyGenerator($mockingStrategy, new ASTPrinter()))->get($fqcn);
 }

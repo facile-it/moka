@@ -85,15 +85,9 @@ class MethodCreator implements NodeCreator
 
         $node->addParams($parameterNodes);
 
-        $funcGetArgs = new Node\Expr\FuncCall(new Node\Name('func_get_args'));
-        $params = new Node\Expr\Assign(
-            new Node\Expr\Variable(new Node\Name('params')),
-            $funcGetArgs
-        );
-
         $args = [
             new Node\Scalar\String_($methodName),
-            new Node\Expr\Variable('params')
+            new Node\Expr\FuncCall(new Node\Name('func_get_args'))
         ];
 
         $stmt = new Node\Expr\MethodCall(
@@ -106,7 +100,6 @@ class MethodCreator implements NodeCreator
             $stmt = new Node\Stmt\Return_($stmt);
         }
 
-        $node->addStmt($params);
         $node->addStmt($stmt);
 
         $returnType = $originalReturnType

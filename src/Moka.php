@@ -10,7 +10,6 @@ use Moka\Exception\MissingDependencyException;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Exception\NotImplementedException;
 use Moka\Factory\ProxyBuilderFactory;
-use function Moka\Plugin\loadPlugin;
 use Moka\Proxy\ProxyInterface;
 use Moka\Proxy\ProxyTrait;
 use Moka\Strategy\MockingStrategyInterface;
@@ -19,6 +18,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Prophecy\ObjectProphecy;
 use Prophecy\Prophet;
+use function Moka\Plugin\loadPlugin;
 
 /**
  * Class Moka

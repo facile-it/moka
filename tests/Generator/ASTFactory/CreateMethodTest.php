@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 namespace Tests\Generator\ASTFactory;
 
-use function Moka\Generator\ASTFactory\createMethod;
-use function Moka\Generator\ASTFactory\createMethodCall;
-use function Moka\Generator\ASTFactory\createMethodGet;
 use Moka\Tests\FooTestClass;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPUnit\Framework\TestCase;
+use function Moka\Generator\ASTFactory\createMethod;
+use function Moka\Generator\ASTFactory\createMethodCall;
+use function Moka\Generator\ASTFactory\createMethodGet;
 
 class CreateMethodTest extends TestCase
 {

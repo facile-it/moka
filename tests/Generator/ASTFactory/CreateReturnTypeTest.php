@@ -4,11 +4,11 @@ declare(strict_types=1);
 namespace Tests\Generator\ASTFactory;
 
 use Moka\Exception\InvalidArgumentException;
-use function Moka\Generator\ASTFactory\createReturnType;
 use Moka\Tests\FooTestClass;
 use Moka\Tests\PHP71TestClass;
 use PhpParser\Node;
 use PHPUnit\Framework\TestCase;
+use function Moka\Generator\ASTFactory\createReturnType;
 
 class CreateReturnTypeTest extends TestCase
 {

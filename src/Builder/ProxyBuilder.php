@@ -6,12 +6,12 @@ namespace Moka\Builder;
 use Moka\Exception\InvalidArgumentException;
 use Moka\Exception\InvalidIdentifierException;
 use Moka\Exception\MockNotCreatedException;
-use function Moka\Factory\buildProxy;
-use function Moka\Factory\getProxyGenerator;
 use Moka\Factory\ProxyGeneratorFactory;
 use Moka\Proxy\ProxyContainer;
 use Moka\Proxy\ProxyInterface;
 use Moka\Strategy\MockingStrategyInterface;
+use function Moka\Factory\buildProxy;
+use function Moka\Factory\getProxyGenerator;
 
 /**
  * Class ProxyBuilder

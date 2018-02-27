@@ -7,12 +7,11 @@ use Moka\Exception\InvalidArgumentException;
 use Moka\Exception\MissingDependencyException;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Exception\NotImplementedException;
-use function Moka\Factory\buildStubs;
 use Moka\Factory\StubFactory;
 use Moka\Stub\MethodStub;
 use Moka\Stub\PropertyStub;
 use Moka\Stub\StubInterface;
-use Moka\Stub\StubSet;
+use function Moka\Factory\buildStubs;
 
 /**
  * Class AbstractMockingStrategy

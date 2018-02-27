@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace Tests\Generator\ASTFactory;
 
 use Moka\Exception\InvalidArgumentException;
-use function Moka\Generator\ASTFactory\getVisibility;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use function Moka\Generator\ASTFactory\getVisibility;
 
 class GetVisibilityTest extends TestCase
 {

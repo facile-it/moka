@@ -4,10 +4,10 @@ declare(strict_types=1);
 namespace Tests\Factory;
 
 use Moka\Exception\InvalidArgumentException;
-use function Moka\Factory\buildStubs;
 use Moka\Factory\StubFactory;
 use Moka\Stub\StubInterface;
 use PHPUnit\Framework\TestCase;
+use function Moka\Factory\buildStubs;
 
 class StubFactoryTest extends TestCase
 {

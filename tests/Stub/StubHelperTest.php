@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Tests\Stub;
 
 use Moka\Exception\InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
 use function Moka\Stub\Helper\isMethodName;
 use function Moka\Stub\Helper\isPropertyName;
 use function Moka\Stub\Helper\isStaticName;
@@ -11,7 +12,6 @@ use function Moka\Stub\Helper\stripNameAndValidate;
 use function Moka\Stub\Helper\validateMethodName;
 use function Moka\Stub\Helper\validatePropertyName;
 use function Moka\Stub\Helper\validateStaticName;
-use PHPUnit\Framework\TestCase;
 
 class StubHelperTest extends TestCase
 {

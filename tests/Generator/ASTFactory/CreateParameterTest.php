@@ -3,18 +3,17 @@ declare(strict_types=1);
 
 namespace Tests\Generator\ASTFactory;
 
-use function Moka\Generator\ASTFactory\createParameter;
 use Moka\Generator\Template\ParameterCreator;
 use Moka\Generator\Template\ParameterTemplate;
 use Moka\Tests\FooTestClass;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\ConstFetch;
-use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\Param;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\PrettyPrinter\Standard;
 use PHPUnit\Framework\TestCase;
+use function Moka\Generator\ASTFactory\createParameter;
 
 class CreateParameterTest extends TestCase
 {

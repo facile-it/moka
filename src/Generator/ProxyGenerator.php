@@ -5,13 +5,13 @@ namespace Moka\Generator;
 
 use Moka\Exception\InvalidArgumentException;
 use Moka\Exception\MockNotCreatedException;
-use function Moka\Generator\ASTFactory\createClass;
 use Moka\Proxy\ProxyInterface;
 use Moka\Proxy\ProxyTrait;
 use Moka\Strategy\MockingStrategyInterface;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Return_;
 use PhpParser\PrettyPrinter\Standard as ASTPrinter;
+use function Moka\Generator\ASTFactory\createClass;
 
 /**
  * Class ProxyGenerator

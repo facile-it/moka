@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Moka\Generator\ASTFactory;
 
 use Moka\Exception\InvalidArgumentException;
-use PhpParser\BuilderFactory;
 use PhpParser\Node;
 use ReflectionProperty;
 use RuntimeException;

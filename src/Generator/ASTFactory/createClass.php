@@ -10,9 +10,9 @@ use Moka\Proxy\ProxyTrait;
 use PhpParser\BuilderFactory;
 use PhpParser\Node;
 use ReflectionClass;
-use ReflectionProperty;
-use ReflectionMethod;
 use ReflectionException;
+use ReflectionMethod;
+use ReflectionProperty;
 
 const EXCLUDED_METHODS = [
     '__construct',

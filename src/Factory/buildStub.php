@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace Moka\Factory;
 
-use function Moka\Stub\Helper\isPropertyName;
 use Moka\Stub\MethodStub;
 use Moka\Stub\PropertyStub;
 use Moka\Stub\StubInterface;
+use function Moka\Stub\Helper\isPropertyName;
 
 /**
  * @param string $name

@@ -5,7 +5,7 @@ namespace Moka\Generator;
 
 use Moka\Exception\InvalidArgumentException;
 use Moka\Exception\MockNotCreatedException;
-use Moka\Generator\Template\ClassCreator;
+use function Moka\Generator\ASTFactory\createClass;
 use Moka\Proxy\ProxyInterface;
 use Moka\Proxy\ProxyTrait;
 use Moka\Strategy\MockingStrategyInterface;
@@ -75,7 +75,7 @@ class ProxyGenerator
         // Call the proxy class name generator
         $proxyClassName = ($this->proxyClassNameGenerator)($mockClass->name);
         // Create nodes with return statement at the end of the tree
-        $proxyNodes[] = ClassCreator::createWithName($mockClass, $proxyClassName);
+        $proxyNodes[] = createClass($mockClass, $proxyClassName);
         $proxyNodes[] = new Return_(new String_($proxyClassName));
         
         $proxyCode = $this->astPrinter->prettyPrint($proxyNodes);

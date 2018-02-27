@@ -6,3 +6,4 @@ require_once __DIR__ . '/Factory/buildProxy.php';
 require_once __DIR__ . '/Factory/buildStubs.php';
 require_once __DIR__ . '/Factory/buildStub.php';
 require_once __DIR__ . '/Stub/Helper/functions.php';
+require_once __DIR__ . '/Generator/ASTFactory/functions.php';

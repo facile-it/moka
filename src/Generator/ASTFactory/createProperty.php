@@ -3,27 +3,21 @@ declare(strict_types=1);
 
 namespace Moka\Generator\ASTFactory;
 
-use Moka\Generator\Template\MethodCreator;
-use Moka\Generator\Template\PropertyCreator;
-use Moka\Generator\Template\PropertyInitializationCreator;
-use Moka\Proxy\ProxyInterface;
-use Moka\Proxy\ProxyTrait;
+use Moka\Exception\InvalidArgumentException;
 use PhpParser\BuilderFactory;
 use PhpParser\Node;
-use ReflectionClass;
 use ReflectionProperty;
-use ReflectionMethod;
-use ReflectionException;
+use RuntimeException;
 
-const EXCLUDED_METHODS = [
-    '__construct',
-    '__destruct',
-    '__clone'
-];
-
+/**
+ * @param ReflectionProperty $property
+ * @return Node
+ * @throws RuntimeException
+ * @throws InvalidArgumentException
+ */
 function createProperty(ReflectionProperty $property): Node
 {
-    $visibility = static::getVisibility($property);
+    $visibility = getVisibility($property);
 
     $factory = new BuilderFactory();
     $propertyNode = $factory->property($property->name);

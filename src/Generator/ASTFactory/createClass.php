@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Moka\Generator\ASTFactory;
 
 use Moka\Generator\Template\MethodCreator;
-use Moka\Generator\Template\PropertyCreator;
 use Moka\Generator\Template\PropertyInitializationCreator;
 use Moka\Proxy\ProxyInterface;
 use Moka\Proxy\ProxyTrait;
@@ -44,7 +43,7 @@ function createClass(ReflectionClass $class, string $proxyClassName): Node
             continue;
         }
 
-        $propertiesNodes[] = PropertyCreator::create($property);
+        $propertiesNodes[] = createProperty($property);
         $constructorNodes[] = PropertyInitializationCreator::create($property);
     }
 

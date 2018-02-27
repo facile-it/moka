@@ -49,7 +49,6 @@ class MockeryMockingStrategy extends AbstractMockingStrategy
         $methodName = $stub->getName();
         $methodValue = $stub->getValue();
 
-        /** @noinspection PhpMethodParametersCountMismatchInspection */
         $partial = $mock->shouldReceive($methodName)->zeroOrMoreTimes();
         $methodValue instanceof \Throwable
             ? $partial->andThrow($methodValue)

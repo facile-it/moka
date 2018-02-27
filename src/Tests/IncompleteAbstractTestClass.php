@@ -15,7 +15,9 @@ abstract class IncompleteAbstractTestClass implements TestInterface
 
     public static $getInt;
 
-    /** @noinspection ClassMethodNameMatchesFieldNameInspection */
+    /**
+     * @noinspection ClassMethodNameMatchesFieldNameInspection
+     */
     public function isTrue(): bool
     {
         return true;

@@ -20,7 +20,7 @@ class StubSetTest extends TestCase
         $this->set = new StubSet();
     }
 
-    public function testAddSuccess()
+    public function testAddSuccess(): void
     {
         /** @var StubInterface $stub */
         $stub = $this->getMockBuilder(StubInterface::class)
@@ -34,7 +34,7 @@ class StubSetTest extends TestCase
         $this->assertContains($stub, $this->set);
     }
 
-    public function testAddFailure()
+    public function testAddFailure(): void
     {
         $this->expectException(InvalidArgumentException::class);
 

@@ -36,7 +36,7 @@ class CreateParameterTest extends TestCase
         $this->prettyPrinter = new Standard();
     }
 
-    public function testGenerateNotNullableInteger()
+    public function testGenerateNotNullableInteger(): void
     {
         /** @var Param $param */
         $param = createParameter(
@@ -52,7 +52,7 @@ class CreateParameterTest extends TestCase
         $this->verifyPrint($param, 'int $required');
     }
 
-    public function testGenerateNullable()
+    public function testGenerateNullable(): void
     {
         /** @var Param $param */
         $param = createParameter(
@@ -66,12 +66,12 @@ class CreateParameterTest extends TestCase
         $default = $param->default;
         $this->assertInstanceOf(Name::class, $default->name);
 
-        $this->assertEquals("null", $default->name->parts[0]);
+        $this->assertEquals('null', $default->name->parts[0]);
 
         $this->verifyPrint($param, '$nullable = null');
     }
 
-    public function testGenerateNullableStringByReferenceWithConstantAsDefault()
+    public function testGenerateNullableStringByReferenceWithConstantAsDefault(): void
     {
         /** @var Param $param */
         $param = createParameter(
@@ -89,7 +89,7 @@ class CreateParameterTest extends TestCase
         $this->verifyPrint($param, sprintf('string &$byReference = \'%s\'', PHP_EOL));
     }
 
-    public function testGenerateStringAsDefaultValue()
+    public function testGenerateStringAsDefaultValue(): void
     {
         /** @var Param $param */
         $param = createParameter(
@@ -107,7 +107,7 @@ class CreateParameterTest extends TestCase
         $this->verifyPrint($param, 'string $string = \'string\'');
     }
 
-    public function testGenerateNullableObject()
+    public function testGenerateNullableObject(): void
     {
         /** @var Param $param */
         $param = createParameter(
@@ -125,7 +125,7 @@ class CreateParameterTest extends TestCase
         $this->verifyPrint($param, sprintf('%s $class = null', FooTestClass::class));
     }
 
-    public function testGenerateArrayWithArrayAsDefaultValue()
+    public function testGenerateArrayWithArrayAsDefaultValue(): void
     {
         /** @var Param $param */
         $param = createParameter(
@@ -144,7 +144,7 @@ class CreateParameterTest extends TestCase
         $this->verifyPrint($param, 'array $array = array(3)');
     }
 
-    public function testGenerateNullableCallable()
+    public function testGenerateNullableCallable(): void
     {
         /** @var Param $param */
         $param = createParameter(
@@ -162,7 +162,7 @@ class CreateParameterTest extends TestCase
         $this->verifyPrint($param, 'callable $callable = null');
     }
 
-    public function testGenerateVariadicTypedAsString()
+    public function testGenerateVariadicTypedAsString(): void
     {
         /** @var Param $param */
         $param = createParameter(
@@ -180,7 +180,7 @@ class CreateParameterTest extends TestCase
         $this->verifyPrint($param, 'string ...$variadic');
     }
 
-    private function verifyPrint(Param $param, string $test)
+    private function verifyPrint(Param $param, string $test): void
     {
         $this->assertEquals($test, $this->prettyPrinter->prettyPrint([$param]));
     }

@@ -46,7 +46,7 @@ class ProxyGeneratorTest extends TestCase
         $this->proxyGenerator = new ProxyGenerator($mockingStrategy, new Standard());
     }
 
-    public function testGet()
+    public function testGet(): void
     {
         $proxy = $this->proxyGenerator->get(FooTestClass::class);
 
@@ -54,7 +54,7 @@ class ProxyGeneratorTest extends TestCase
         $this->assertInstanceOf(FooTestClass::class, $proxy);
     }
 
-    public function testCall()
+    public function testCall(): void
     {
         /** @var ProxyInterface|MockObject|FooTestClass $proxy */
         $proxy = $this->proxyGenerator->get(FooTestClass::class);

@@ -12,9 +12,9 @@ use PHPUnit\Framework\TestCase;
 
 class CreateMethodTest extends TestCase
 {
-    const METHOD_NAME = 'getCallable';
+    public const METHOD_NAME = 'getCallable';
 
-    public function testCreateMethod()
+    public function testCreateMethod(): void
     {
         $node = createMethod(
             new \ReflectionMethod(FooTestClass::class, self::METHOD_NAME),
@@ -28,7 +28,7 @@ class CreateMethodTest extends TestCase
         $this->assertTrue($node->isPublic());
     }
 
-    public function testCreateMethodCall()
+    public function testCreateMethodCall(): void
     {
         $node = createMethodCall($forceReturn = true);
 
@@ -37,7 +37,7 @@ class CreateMethodTest extends TestCase
         $this->assertTrue($node->isPublic());
     }
 
-    public function testCreateMethodGet()
+    public function testCreateMethodGet(): void
     {
         $node = createMethodGet($forceReturn = true);
 

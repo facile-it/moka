@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 class StubFactoryTest extends TestCase
 {
-    public function testSuccess()
+    public function testSuccess(): void
     {
         $array = [
             'methodName' => true,
@@ -22,10 +22,10 @@ class StubFactoryTest extends TestCase
 
         $this->assertNotEmpty($stubs);
         $this->containsOnlyInstancesOf(StubInterface::class);
-        $this->assertCount(count($array), $stubs);
+        $this->assertCount(\count($array), $stubs);
     }
 
-    public function testFailure()
+    public function testFailure(): void
     {
         $this->expectException(InvalidArgumentException::class);
 

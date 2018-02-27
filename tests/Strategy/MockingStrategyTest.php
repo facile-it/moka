@@ -10,14 +10,14 @@ use PHPUnit\Framework\TestCase;
 
 class MockingStrategyTest extends TestCase
 {
-    public function testConstructFailure()
+    public function testConstructFailure(): void
     {
         $this->expectException(MissingDependencyException::class);
 
         new FakeMockingStrategy();
     }
 
-    public function testGetMockTypeFailure()
+    public function testGetMockTypeFailure(): void
     {
         $strategy = new IncompleteMockingStrategy();
 
@@ -25,7 +25,7 @@ class MockingStrategyTest extends TestCase
         $strategy->getMockType();
     }
 
-    public function testBuildFailure()
+    public function testBuildFailure(): void
     {
         $strategy = new BareMockingStrategy();
 
@@ -33,7 +33,7 @@ class MockingStrategyTest extends TestCase
         $strategy->build(\stdClass::class);
     }
 
-    public function testCallFailure()
+    public function testCallFailure(): void
     {
         $strategy = new BareMockingStrategy();
 

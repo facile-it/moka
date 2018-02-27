@@ -13,30 +13,30 @@ class PriorityTokenTestCase extends TestCase
      */
     protected $token;
 
-    public function testTokensAreDifferent()
+    public function testTokensAreDifferent(): void
     {
-        $fqcn = get_class($this->token);
+        $fqcn = \get_class($this->token);
         $token = new $fqcn();
 
         $this->assertNotEquals((array)$this->token, (array)$token);
     }
 
-    public function testScoreArgument()
+    public function testScoreArgument(): void
     {
         $this->assertInternalType('int', $this->token->scoreArgument(null));
     }
 
-    public function testIsLast()
+    public function testIsLast(): void
     {
         $this->assertTrue($this->token->isLast());
     }
 
-    public function testToString()
+    public function testToString(): void
     {
         $this->assertInternalType('string', $this->token->__toString());
     }
 
-    protected function setToken(TokenInterface $token)
+    protected function setToken(TokenInterface $token): void
     {
         $this->token = $token;
     }

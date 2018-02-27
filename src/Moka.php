@@ -39,10 +39,14 @@ class Moka
      * @param array $arguments
      * @return ProxyInterface
      *
+     * @throws \ReflectionException
+     * @throws \Moka\Exception\InvalidArgumentException
      * @throws NotImplementedException
      * @throws InvalidIdentifierException
      * @throws MockNotCreatedException
      * @throws MissingDependencyException
+     * @throws \ReflectionException
+     * @throws \ReflectionException
      */
     public static function __callStatic(string $name, array $arguments): ProxyInterface
     {
@@ -54,11 +58,14 @@ class Moka
      * @param string|null $alias
      * @return MockObject|ProxyInterface
      *
+     * @throws \ReflectionException
      * @throws NotImplementedException
      * @throws InvalidIdentifierException
      * @throws MockNotCreatedException
      * @throws MissingDependencyException
      * @throws InvalidArgumentException
+     * @throws \ReflectionException
+     * @throws \ReflectionException
      */
     public static function phpunit(string $fqcnOrAlias, string $alias = null): ProxyInterface
     {
@@ -77,6 +84,7 @@ class Moka
      * @param string|null $alias
      * @return ObjectProphecy|ProxyInterface
      *
+     * @throws \Moka\Exception\InvalidArgumentException
      * @throws \ReflectionException
      * @throws NotImplementedException
      * @throws InvalidIdentifierException

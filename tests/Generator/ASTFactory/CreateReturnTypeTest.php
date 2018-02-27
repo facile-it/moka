@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 class CreateReturnTypeTest extends TestCase
 {
-    public function testCreateReturnType()
+    public function testCreateReturnType(): void
     {
         $node = createReturnType(
             new \ReflectionMethod(FooTestClass::class, 'getCallable')
@@ -22,7 +22,7 @@ class CreateReturnTypeTest extends TestCase
         $this->assertEquals('callable', $node->parts[0]);
     }
 
-    public function testGenerateWithSelfNullable()
+    public function testGenerateWithSelfNullable(): void
     {
         $node = createReturnType(
             new \ReflectionMethod(PHP71TestClass::class, 'getSelfNullable')
@@ -32,7 +32,7 @@ class CreateReturnTypeTest extends TestCase
         $this->assertEquals('self', implode('\\', $node->type->parts));
     }
 
-    public function testGenerateWithoutReturType()
+    public function testGenerateWithoutReturType(): void
     {
         $this->expectException(InvalidArgumentException::class);
         createReturnType(

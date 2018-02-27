@@ -52,7 +52,7 @@ abstract class MokaMockingStrategyTestCase extends TestCase
      * @throws \Exception
      * @throws \Moka\Exception\NotImplementedException
      */
-    final public function testGetMockTypeSuccess()
+    final public function testGetMockTypeSuccess(): void
     {
         $this->assertInternalType('string', $this->strategy->getMockType());
     }
@@ -65,7 +65,7 @@ abstract class MokaMockingStrategyTestCase extends TestCase
      * @throws \Exception
      * @throws \Moka\Exception\NotImplementedException
      */
-    final public function testBuildAndGet(bool $required, string $fqcnType, string ...$fqcns)
+    final public function testBuildAndGet(bool $required, string $fqcnType, string ...$fqcns): void
     {
         if (true === $required) {
             $this->buildAndGet(...$fqcns);
@@ -87,7 +87,7 @@ abstract class MokaMockingStrategyTestCase extends TestCase
     /**
      * @return void
      */
-    final public function testDecorateFakeMockFailure()
+    final public function testDecorateFakeMockFailure(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -97,7 +97,7 @@ abstract class MokaMockingStrategyTestCase extends TestCase
     /**
      * @throws \Exception
      */
-    final public function testDecorateWithPropertySuccess()
+    final public function testDecorateWithPropertySuccess(): void
     {
         $this->assertEquals(
             $this->namesWithValues['$property'],
@@ -108,7 +108,7 @@ abstract class MokaMockingStrategyTestCase extends TestCase
     /**
      * @throws \Exception
      */
-    final public function testDecorateWithPublicPropertySuccess()
+    final public function testDecorateWithPublicPropertySuccess(): void
     {
         $this->assertEquals(
             $this->namesWithValues['$public'],
@@ -119,7 +119,7 @@ abstract class MokaMockingStrategyTestCase extends TestCase
     /**
      * @return void
      */
-    final public function testDecorateWithProtectedPropertyFailure()
+    final public function testDecorateWithProtectedPropertyFailure(): void
     {
         $this->expectException(\Error::class);
 
@@ -131,7 +131,7 @@ abstract class MokaMockingStrategyTestCase extends TestCase
     /**
      * @throws \Exception
      */
-    final public function testDecorateWithPrivatePropertySuccess()
+    final public function testDecorateWithPrivatePropertySuccess(): void
     {
         $this->assertEquals(
             $this->namesWithValues['$private'],
@@ -142,7 +142,7 @@ abstract class MokaMockingStrategyTestCase extends TestCase
     /**
      * @return void
      */
-    final public function testDecorateWithWrongTypeHintFailure()
+    final public function testDecorateWithWrongTypeHintFailure(): void
     {
         $this->strategy->decorate($this->mock, [
             'getSelf' => mt_rand()
@@ -155,7 +155,7 @@ abstract class MokaMockingStrategyTestCase extends TestCase
     /**
      * @return void
      */
-    final public function testDecorateWithNonexistentMethod()
+    final public function testDecorateWithNonexistentMethod(): void
     {
         try {
             $value = mt_rand();
@@ -175,7 +175,7 @@ abstract class MokaMockingStrategyTestCase extends TestCase
     /**
      * @return void
      */
-    final public function testCallUnstubbedMethod()
+    final public function testCallUnstubbedMethod(): void
     {
         try {
             $mock = $this->strategy->build(FooTestClass::class);
@@ -192,7 +192,7 @@ abstract class MokaMockingStrategyTestCase extends TestCase
     /**
      * @throws \Exception
      */
-    final public function testSingleMethodCallSuccess()
+    final public function testSingleMethodCallSuccess(): void
     {
         $this->assertSame(
             $this->namesWithValues['isTrue'],
@@ -207,7 +207,7 @@ abstract class MokaMockingStrategyTestCase extends TestCase
     /**
      * @throws \Exception
      */
-    final public function testMultipleMethodCallsSuccess()
+    final public function testMultipleMethodCallsSuccess(): void
     {
         $this->assertSame(
             $this->namesWithValues['getInt'],
@@ -223,7 +223,7 @@ abstract class MokaMockingStrategyTestCase extends TestCase
     /**
      * @throws \Exception
      */
-    final public function testOverrideMethodStubFailure()
+    final public function testOverrideMethodStubFailure(): void
     {
         $this->expectException(\Exception::class);
 
@@ -248,7 +248,7 @@ abstract class MokaMockingStrategyTestCase extends TestCase
     /**
      * @throws \Exception
      */
-    final public function testCallMethodWithArgumentSuccess()
+    final public function testCallMethodWithArgumentSuccess(): void
     {
         $this->assertSame(
             $this->namesWithValues['withArgument'],
@@ -259,7 +259,7 @@ abstract class MokaMockingStrategyTestCase extends TestCase
     /**
      * @return void
      */
-    final public function testCallMethodWithoutArgumentFailure()
+    final public function testCallMethodWithoutArgumentFailure(): void
     {
         $this->expectException(\Error::class);
 
@@ -269,7 +269,7 @@ abstract class MokaMockingStrategyTestCase extends TestCase
     /**
      * @return void
      */
-    final public function testCallMethodWithWrongArgumentFailure()
+    final public function testCallMethodWithWrongArgumentFailure(): void
     {
         $this->expectException(\TypeError::class);
 
@@ -279,7 +279,7 @@ abstract class MokaMockingStrategyTestCase extends TestCase
     /**
      * @return void
      */
-    final public function testGetFakeMockFailure()
+    final public function testGetFakeMockFailure(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -329,7 +329,7 @@ abstract class MokaMockingStrategyTestCase extends TestCase
     /**
      * @param MockingStrategyInterface $strategy
      */
-    final protected function setStrategy(MockingStrategyInterface $strategy)
+    final protected function setStrategy(MockingStrategyInterface $strategy): void
     {
         $this->strategy = $strategy;
     }
@@ -361,7 +361,7 @@ abstract class MokaMockingStrategyTestCase extends TestCase
      * @throws \Exception
      * @throws \Moka\Exception\NotImplementedException
      */
-    final protected function checkMock($mock)
+    final protected function checkMock($mock): void
     {
         $this->assertInstanceOf($this->strategy->getMockType(), $mock);
     }
@@ -369,7 +369,7 @@ abstract class MokaMockingStrategyTestCase extends TestCase
     /**
      * @param string $feature
      */
-    final protected function markFeatureUnsupported(string $feature)
+    final protected function markFeatureUnsupported(string $feature): void
     {
         $this->markTestSkipped(
             sprintf(
@@ -385,7 +385,7 @@ abstract class MokaMockingStrategyTestCase extends TestCase
      * @throws \Exception
      * @throws \Moka\Exception\NotImplementedException
      */
-    private function buildAndGet(string ...$fqcns)
+    private function buildAndGet(string ...$fqcns): void
     {
         $this->checkMock(
             $mock = $this->strategy->build(implode(', ', $fqcns))
@@ -403,7 +403,7 @@ abstract class MokaMockingStrategyTestCase extends TestCase
      * @throws \Exception
      * @throws \Moka\Exception\NotImplementedException
      */
-    private function tryBuildAndGet(string $fqcnType, string ...$fqcns)
+    private function tryBuildAndGet(string $fqcnType, string ...$fqcns): void
     {
         try {
             $this->checkMock(

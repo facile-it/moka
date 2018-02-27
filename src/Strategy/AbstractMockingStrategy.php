@@ -31,7 +31,7 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
      *
      * @throws MissingDependencyException
      */
-    final protected static function checkDependencies(string $dependencyClassName, string $dependencyPackageName)
+    final protected static function checkDependencies(string $dependencyClassName, string $dependencyPackageName): void
     {
         if (!class_exists($dependencyClassName)) {
             throw new MissingDependencyException(
@@ -136,7 +136,7 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
     /**
      * @param string $fqcn
      */
-    final protected function setMockType(string $fqcn)
+    final protected function setMockType(string $fqcn): void
     {
         $this->mockType = $fqcn;
     }
@@ -147,7 +147,7 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
      * @throws NotImplementedException
      * @throws InvalidArgumentException
      */
-    final protected function checkMockType($mock)
+    final protected function checkMockType($mock): void
     {
         $this->verifyMockType();
 

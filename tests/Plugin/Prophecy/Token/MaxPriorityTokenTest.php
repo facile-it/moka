@@ -14,7 +14,7 @@ class MaxPriorityTokenTest extends PriorityTokenTestCase
         $this->setToken(new MaxPriorityToken());
     }
 
-    public function testScoreArgumentOrder()
+    public function testScoreArgumentOrder(): void
     {
         $token = new MaxPriorityToken();
 

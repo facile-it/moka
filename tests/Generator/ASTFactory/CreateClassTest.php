@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 class CreateClassTest extends TestCase
 {
     private const CLASSNAME = 'Moka_Test_stdClass';
-    public function testCreateClass()
+    public function testCreateClass(): void
     {
         $node = createClass(
             new \ReflectionClass(\stdClass::class),

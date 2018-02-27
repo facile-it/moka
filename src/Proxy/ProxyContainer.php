@@ -58,7 +58,7 @@ final class ProxyContainer implements ContainerInterface
      * @param string $id
      * @param ProxyInterface $mock
      */
-    public function set(string $id, ProxyInterface $mock)
+    public function set(string $id, ProxyInterface $mock): void
     {
         $this->mocks[$id] = $mock;
     }

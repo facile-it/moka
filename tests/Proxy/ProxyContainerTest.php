@@ -34,34 +34,34 @@ class ProxyContainerTest extends TestCase
         );
     }
 
-    public function testGetSuccess()
+    public function testGetSuccess(): void
     {
         $proxy = $this->proxyContainer->get('foo');
 
         $this->assertInstanceOf(ProxyInterface::class, $proxy);
     }
 
-    public function testGetFailure()
+    public function testGetFailure(): void
     {
         $this->expectException(InvalidIdentifierException::class);
         $this->proxyContainer->get('bar');
     }
 
-    public function testHasSuccess()
+    public function testHasSuccess(): void
     {
         $this->assertTrue(
             $this->proxyContainer->has('foo')
         );
     }
 
-    public function testHasFailure()
+    public function testHasFailure(): void
     {
         $this->assertFalse(
             $this->proxyContainer->has('bar')
         );
     }
 
-    public function testSet()
+    public function testSet(): void
     {
         $this->proxyContainer->set('acme', $this->proxy);
         $this->assertInstanceOf(

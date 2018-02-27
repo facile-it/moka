@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 class GetVisibilityTest extends TestCase
 {
-    public function testGetVisibilitySuccess()
+    public function testGetVisibilitySuccess(): void
     {
         $reflectionClass = new \ReflectionClass(new class {
             public $public;
@@ -30,7 +30,7 @@ class GetVisibilityTest extends TestCase
         }
     }
 
-    public function testGetVisibilityFailure()
+    public function testGetVisibilityFailure(): void
     {
         /** @var \Reflector $reflector */
         $reflector = $this->getMockBuilder(\Reflector::class)
@@ -42,7 +42,7 @@ class GetVisibilityTest extends TestCase
         getVisibility($reflector);
     }
 
-    public function testGetVisibilityImpossibleFailure()
+    public function testGetVisibilityImpossibleFailure(): void
     {
         /** @var \ReflectionProperty|MockObject $reflector */
         $reflector = $this->getMockBuilder(\ReflectionProperty::class)

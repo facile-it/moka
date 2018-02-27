@@ -13,7 +13,7 @@ abstract class StubTestCase extends TestCase
      */
     protected $stubFQCN;
 
-    public function testConstructFailure()
+    public function testConstructFailure(): void
     {
         $fqcn = $this->stubFQCN;
 
@@ -22,7 +22,7 @@ abstract class StubTestCase extends TestCase
         new $fqcn('0a', true);
     }
 
-    protected function setStubFQCN(string $fqcn)
+    protected function setStubFQCN(string $fqcn): void
     {
         $this->stubFQCN = $fqcn;
     }

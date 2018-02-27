@@ -26,6 +26,8 @@
             <exclude>
                 <directory>src/Exception</directory>
                 <directory suffix="moka.php">src/Plugin/*</directory>
+                <directory suffix="functions.php">src/Generator/ASTFactory/*</directory>
+                <directory suffix="functions.php">src/*</directory>
                 <directory>src/Tests</directory>
                 <directory>src/Traits</directory>
             </exclude>

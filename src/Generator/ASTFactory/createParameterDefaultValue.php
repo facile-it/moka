@@ -21,16 +21,6 @@ function createParameterDefaultValue(\ReflectionParameter $parameter)
     }
 
     $defaultValue = $parameter->getDefaultValue();
-    $parameterType = $parameter->getType();
-    if ($parameterType instanceof \ReflectionType) {
-        $isArray = $parameterType->getName() === 'array';
-        if ($isArray && (!\is_array($defaultValue) && null !== $defaultValue)) {
-            throw new InvalidArgumentException(sprintf(
-                'Default value for parameters with array type can only be an array or NULL. %s given',
-                \gettype($defaultValue)
-            ));
-        }
-    }
 
     $defaultValue = $defaultValue !== 'NULL'
         ? $defaultValue

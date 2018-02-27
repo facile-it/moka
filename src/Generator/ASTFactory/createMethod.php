@@ -22,8 +22,7 @@ function createMethod(
     ReflectionMethod $method,
     string $methodToCalls,
     bool $forceReturn = false
-): Node\Stmt\ClassMethod
-{
+): Node\Stmt\ClassMethod {
     $factory = new BuilderFactory();
 
     $parameters = $method->getParameters();

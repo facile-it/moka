@@ -44,8 +44,7 @@ class ProxyGenerator
     public function __construct(
         MockingStrategyInterface $mockingStrategy,
         ASTPrinter $astPrinter
-    )
-    {
+    ) {
         $this->mockingStrategy = $mockingStrategy;
         $this->proxyClassNameGenerator = function (string $mockClassName) {
             return sprintf(

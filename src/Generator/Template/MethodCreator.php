@@ -90,6 +90,13 @@ class MethodCreator implements NodeCreator
             new Node\Expr\FuncCall(new Node\Name('func_get_args'))
         ];
 
+        if (\in_array($methodName, ['__call', '__get'], $strict = true)) {
+            $args = [
+                new Node\Expr\Variable($parameters[0]->name),
+                new Node\Expr\Variable($parameters[1]->name)
+            ];
+        }
+
         $stmt = new Node\Expr\MethodCall(
             new Node\Expr\Variable(new Node\Name('this')),
             $methodToCalls,

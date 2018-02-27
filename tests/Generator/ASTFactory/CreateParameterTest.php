@@ -1,8 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Generator\Template;
+namespace Tests\Generator\ASTFactory;
 
+use function Moka\Generator\ASTFactory\createParameter;
 use Moka\Generator\Template\ParameterCreator;
 use Moka\Generator\Template\ParameterTemplate;
 use Moka\Tests\FooTestClass;
@@ -15,7 +16,7 @@ use PhpParser\Node\Scalar\String_;
 use PhpParser\PrettyPrinter\Standard;
 use PHPUnit\Framework\TestCase;
 
-class ParameterCreatorTest extends TestCase
+class CreateParameterTest extends TestCase
 {
     /**
      * @var \ReflectionParameter[]
@@ -38,7 +39,7 @@ class ParameterCreatorTest extends TestCase
     public function testGenerateNotNullableInteger()
     {
         /** @var Param $param */
-        $param = ParameterCreator::create(
+        $param = createParameter(
             $this->reflectionParameters[0]
         );
 
@@ -54,7 +55,7 @@ class ParameterCreatorTest extends TestCase
     public function testGenerateNullable()
     {
         /** @var Param $param */
-        $param = ParameterCreator::create(
+        $param = createParameter(
             $this->reflectionParameters[1]
         );
 
@@ -73,7 +74,7 @@ class ParameterCreatorTest extends TestCase
     public function testGenerateNullableStringByReferenceWithConstantAsDefault()
     {
         /** @var Param $param */
-        $param = ParameterCreator::create(
+        $param = createParameter(
             $this->reflectionParameters[2]
         );
 
@@ -91,7 +92,7 @@ class ParameterCreatorTest extends TestCase
     public function testGenerateStringAsDefaultValue()
     {
         /** @var Param $param */
-        $param = ParameterCreator::create(
+        $param = createParameter(
             $this->reflectionParameters[3]
         );
 
@@ -109,7 +110,7 @@ class ParameterCreatorTest extends TestCase
     public function testGenerateNullableObject()
     {
         /** @var Param $param */
-        $param = ParameterCreator::create(
+        $param = createParameter(
             $this->reflectionParameters[4]
         );
 
@@ -127,7 +128,7 @@ class ParameterCreatorTest extends TestCase
     public function testGenerateArrayWithArrayAsDefaultValue()
     {
         /** @var Param $param */
-        $param = ParameterCreator::create(
+        $param = createParameter(
             $this->reflectionParameters[5]
         );
 
@@ -146,7 +147,7 @@ class ParameterCreatorTest extends TestCase
     public function testGenerateNullableCallable()
     {
         /** @var Param $param */
-        $param = ParameterCreator::create(
+        $param = createParameter(
             $this->reflectionParameters[6]
         );
 
@@ -164,7 +165,7 @@ class ParameterCreatorTest extends TestCase
     public function testGenerateVariadicTypedAsString()
     {
         /** @var Param $param */
-        $param = ParameterCreator::create(
+        $param = createParameter(
             $this->reflectionParameters[7]
         );
 

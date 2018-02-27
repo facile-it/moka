@@ -23,10 +23,10 @@ const EXCLUDED_METHODS = [
 /**
  * @param \ReflectionClass $class
  * @param string $proxyClassName
- * @return Node
+ * @return Node\Stmt\Class_
  * @throws \RuntimeException
  */
-function createClass(ReflectionClass $class, string $proxyClassName): Node
+function createClass(ReflectionClass $class, string $proxyClassName): Node\Stmt\Class_
 {
     $factory = new BuilderFactory();
 
@@ -44,7 +44,7 @@ function createClass(ReflectionClass $class, string $proxyClassName): Node
         }
 
         $propertiesNodes[] = createProperty($property);
-        $constructorNodes[] = PropertyInitializationCreator::create($property);
+        $constructorNodes[] = createPropertyUnset($property);
     }
 
     foreach ($methods as $method) {
@@ -67,7 +67,7 @@ function createClass(ReflectionClass $class, string $proxyClassName): Node
             $forceReturn = true;
         }
 
-        $methodNodes[] = MethodCreator::createWithParams($method, $methodToCalls, $forceReturn);
+        $methodNodes[] = createMethod($method, $methodToCalls, $forceReturn);
     }
 
     try {
@@ -78,7 +78,7 @@ function createClass(ReflectionClass $class, string $proxyClassName): Node
     }
 
     if (false === $callMethodExists) {
-        $methodNodes[] = MethodCreator::createCallMethod($forceReturn = true);
+        $methodNodes[] = createMethodCall($forceReturn = true);
     }
 
     try {
@@ -89,7 +89,7 @@ function createClass(ReflectionClass $class, string $proxyClassName): Node
     }
 
     if (false === $getMethodExists) {
-        $methodNodes[] = MethodCreator::createGetMethod($forceReturn = true);
+        $methodNodes[] = createMethodGet($forceReturn = true);
     }
 
     $mockClassName = $class->name;

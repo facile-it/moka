@@ -11,11 +11,11 @@ use RuntimeException;
 
 /**
  * @param ReflectionProperty $property
- * @return Node
+ * @return Node\Stmt\Property
  * @throws RuntimeException
  * @throws InvalidArgumentException
  */
-function createProperty(ReflectionProperty $property): Node
+function createProperty(ReflectionProperty $property): Node\Stmt\Property
 {
     $visibility = getVisibility($property);
 

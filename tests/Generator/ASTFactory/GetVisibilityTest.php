@@ -1,13 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Generator\Template;
+namespace Tests\Generator\ASTFactory;
 
 use Moka\Exception\InvalidArgumentException;
+use function Moka\Generator\ASTFactory\getVisibility;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class FakeTemplateTest extends TestCase
+class GetVisibilityTest extends TestCase
 {
     public function testGetVisibilitySuccess()
     {
@@ -24,7 +25,7 @@ class FakeTemplateTest extends TestCase
         foreach ($properties as $property) {
             $this->assertEquals(
                 $property->getName(),
-                FakeTemplate::checkVisibility($property)
+                getVisibility($property)
             );
         }
     }
@@ -38,7 +39,7 @@ class FakeTemplateTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
 
-        FakeTemplate::checkVisibility($reflector);
+        getVisibility($reflector);
     }
 
     public function testGetVisibilityImpossibleFailure()
@@ -54,6 +55,6 @@ class FakeTemplateTest extends TestCase
 
         $this->expectException(\RuntimeException::class);
 
-        FakeTemplate::checkVisibility($reflector);
+        getVisibility($reflector);
     }
 }

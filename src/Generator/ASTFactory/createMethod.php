@@ -11,18 +11,14 @@ use ReflectionMethod;
 use RuntimeException;
 
 /**
- * @param \Reflector|\ReflectionMethod $method
+ * @param \ReflectionMethod $method
  * @param string $methodToCalls
  * @param bool $forceReturn
  * @return Node\Stmt\ClassMethod
  * @throws RuntimeException
  * @throws InvalidArgumentException
  */
-function createMethod(
-    ReflectionMethod $method,
-    string $methodToCalls,
-    bool $forceReturn = false
-): Node\Stmt\ClassMethod {
+function createMethod(ReflectionMethod $method, string $methodToCalls, bool $forceReturn = false): Node\Stmt\ClassMethod {
     $factory = new BuilderFactory();
 
     $parameters = $method->getParameters();

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\Generator\ASTFactory;
 
+use Moka\Exception\InvalidArgumentException;
 use function Moka\Generator\ASTFactory\createReturnType;
 use Moka\Tests\FooTestClass;
 use Moka\Tests\PHP71TestClass;
@@ -29,5 +30,13 @@ class CreateReturnTypeTest extends TestCase
 
         $this->assertInstanceOf(Node::class, $node);
         $this->assertEquals('self', implode('\\', $node->type->parts));
+    }
+
+    public function testGenerateWithoutReturType()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        createReturnType(
+            new \ReflectionMethod(FooTestClass::class, 'abstractMethod')
+        );
     }
 }

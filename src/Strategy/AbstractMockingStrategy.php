@@ -11,7 +11,7 @@ use Moka\Factory\StubFactory;
 use Moka\Stub\MethodStub;
 use Moka\Stub\PropertyStub;
 use Moka\Stub\StubInterface;
-use function Moka\Factory\buildStubs;
+use function Moka\Factory\createStubs;
 
 /**
  * Class AbstractMockingStrategy
@@ -77,7 +77,7 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
     {
         $this->checkMockType($mock);
 
-        $stubs = buildStubs($stubs);
+        $stubs = createStubs($stubs);
 
         foreach ($stubs as $stub) {
             if ($stub instanceof PropertyStub) {

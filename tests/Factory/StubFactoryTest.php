@@ -7,7 +7,7 @@ use Moka\Exception\InvalidArgumentException;
 use Moka\Factory\StubFactory;
 use Moka\Stub\StubInterface;
 use PHPUnit\Framework\TestCase;
-use function Moka\Factory\buildStubs;
+use function Moka\Factory\createStubs;
 
 class StubFactoryTest extends TestCase
 {
@@ -18,7 +18,7 @@ class StubFactoryTest extends TestCase
             '$propertyName' => false
         ];
 
-        $stubs = buildStubs($array);
+        $stubs = createStubs($array);
 
         $this->assertNotEmpty($stubs);
         $this->containsOnlyInstancesOf(StubInterface::class);
@@ -29,7 +29,7 @@ class StubFactoryTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
-        buildStubs([
+        createStubs([
             true => false
         ]);
     }

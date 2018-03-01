@@ -14,10 +14,10 @@ use PhpParser\PrettyPrinter\Standard as ASTPrinter;
 use function Moka\Generator\ASTFactory\createClass;
 
 /**
- * Class ProxyGenerator
+ * Class GenerateProxy
  * @package Moka\Generator
  */
-class ProxyGenerator
+class GenerateProxy
 {
     private const TEMPLATE_FQCN = 'Moka_%s_%s';
 
@@ -65,7 +65,7 @@ class ProxyGenerator
      * @throws \ReflectionException
      * @throws \RuntimeException
      */
-    public function get(string $fqcn): ProxyInterface
+    public function __invoke(string $fqcn): ProxyInterface
     {
         $mock = $this->mockingStrategy->build($fqcn);
         $mockFQCN = \get_class($this->mockingStrategy->get($mock));

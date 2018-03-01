@@ -5,7 +5,7 @@ namespace Moka\Factory;
 
 use Moka\Exception\InvalidArgumentException;
 use Moka\Exception\MockNotCreatedException;
-use Moka\Generator\ProxyGenerator;
+use Moka\Generator\GenerateProxy;
 use Moka\Proxy\ProxyInterface;
 use Moka\Strategy\MockingStrategyInterface;
 use PhpParser\PrettyPrinter\Standard as ASTPrinter;
@@ -21,5 +21,7 @@ use PhpParser\PrettyPrinter\Standard as ASTPrinter;
  */
 function buildProxy(string $fqcn, MockingStrategyInterface $mockingStrategy): ProxyInterface
 {
-    return (new ProxyGenerator($mockingStrategy, new ASTPrinter()))->get($fqcn);
+    $generateProxy = new GenerateProxy($mockingStrategy, new ASTPrinter());
+
+    return $generateProxy($fqcn);
 }

@@ -3,18 +3,12 @@ declare(strict_types=1);
 
 namespace Moka\Generator\ASTFactory;
 
-use Moka\Exception\InvalidArgumentException;
 use Moka\Proxy\ProxyInterface;
-use PhpParser\Builder\Method;
 use PhpParser\BuilderFactory;
 use PhpParser\Node;
-use ReflectionMethod;
-use RuntimeException;
 
 /**
  * @return Node\Stmt\ClassMethod
- * @throws RuntimeException
- * @throws InvalidArgumentException
  */
 function createMethodStub(): Node\Stmt\ClassMethod
 {

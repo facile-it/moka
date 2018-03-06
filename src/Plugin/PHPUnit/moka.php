@@ -15,6 +15,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @return MockObject|ProxyInterface
  * @throws MissingDependencyException
  * @throws NotImplementedException
+ * @throws \ReflectionException
  */
 function moka(string $fqcnOrAlias, string $alias = null): ProxyInterface
 {

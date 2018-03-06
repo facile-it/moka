@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Tests\Proxy;
 
-use Moka\Exception\InvalidArgumentException;
-use Moka\Exception\MockNotCreatedException;
 use Moka\Proxy\ProxyInterface;
 use Moka\Proxy\ProxyTrait;
 

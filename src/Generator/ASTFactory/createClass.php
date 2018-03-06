@@ -92,6 +92,8 @@ function createClass(ReflectionClass $class, string $proxyClassName): Node\Stmt\
         $methodNodes[] = createMethodGet($forceReturn = true);
     }
 
+    $methodNodes[] = createMethodStub();
+
     $mockClassName = $class->name;
 
     $node = $factory

@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Tests\Proxy;
 
+use Moka\Exception\InvalidArgumentException;
+use Moka\Exception\MockNotCreatedException;
 use Moka\Proxy\ProxyInterface;
 use Moka\Proxy\ProxyTrait;
 
@@ -28,4 +30,12 @@ class TestProxy implements ProxyInterface
     {
         return $this->doGet($name);
     }
+
+    public function stub(array $namesWithValues): ProxyInterface
+    {
+        $this->doStub($namesWithValues);
+
+        return $this;
+    }
+
 }

@@ -68,12 +68,11 @@ trait ProxyTrait
 
     /**
      * @param array $namesWithValues
-     * @return ProxyInterface
      *
      * @throws InvalidArgumentException
      * @throws MockNotCreatedException
      */
-    public function stub(array $namesWithValues): ProxyInterface
+    protected function doStub(array $namesWithValues): void
     {
         foreach ($namesWithValues as $name => $value) {
             if (isPropertyName($name)) {
@@ -85,10 +84,7 @@ trait ProxyTrait
             }
         }
 
-        /** @var $this ProxyInterface */
         $this->__moka_mockingStrategy->decorate($this->__moka_mock, $namesWithValues);
-
-        return $this;
     }
 
     /**

@@ -53,7 +53,7 @@ abstract class IncompleteAbstractTestClass implements TestInterface
         return $required;
     }
 
-    public function throwException(): void
+    public function throwException()
     {
     }
 

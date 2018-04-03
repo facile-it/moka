@@ -14,15 +14,15 @@ use Moka\Exception\InvalidArgumentException;
  */
 function validateName(string $name, string $type = null): void
 {
-    $methodName = sprintf(
+    $functionName = sprintf(
         '%s\is%sName',
         __NAMESPACE__,
-        ucfirst((string) $type)
+        ucfirst((string)$type)
     );
 
     $isAPrefix = array_key_exists($type, PREFIXES);
     $nameIsValid = $isAPrefix
-        ? $methodName($name)
+        ? $functionName($name)
         : preg_match(REGEX_NAME, $name);
 
     if (!$nameIsValid) {

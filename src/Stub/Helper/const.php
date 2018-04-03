@@ -5,7 +5,7 @@ namespace Moka\Stub\Helper;
 
 const PREFIXES = [
     'static' => '::',
-    'property' => '\\$'
+    'property' => '\\$',
 ];
 
 const TEMPLATE_NAME = '/^%s/';

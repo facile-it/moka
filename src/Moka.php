@@ -4,12 +4,13 @@ declare(strict_types=1);
 namespace Moka;
 
 use Mockery\MockInterface;
+use Moka\Exception\InvalidArgumentException;
 use Moka\Exception\InvalidIdentifierException;
 use Moka\Exception\MissingDependencyException;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Exception\NotImplementedException;
 use Moka\Factory\ProxyBuilderFactory;
-use Moka\Plugin\PluginHelper;
+use function Moka\Plugin\loadPlugin;
 use Moka\Proxy\ProxyInterface;
 use Moka\Proxy\ProxyTrait;
 use Moka\Strategy\MockingStrategyInterface;
@@ -45,26 +46,24 @@ class Moka
      */
     public static function __callStatic(string $name, array $arguments): ProxyInterface
     {
-        if (!isset(self::$mockingStrategies[$name])) {
-            self::$mockingStrategies[$name] = PluginHelper::load($name);
-        }
-
-        $fqcnOrAlias = $arguments[0];
-        $alias = $arguments[1] ?? null;
-        $mockingStrategy = self::$mockingStrategies[$name];
-
-        return ProxyBuilderFactory::get($mockingStrategy)->getProxy($fqcnOrAlias, $alias);
+        return self::getProxy($name, $arguments);
     }
 
     /**
      * @param string $fqcnOrAlias
      * @param string|null $alias
      * @return MockObject|ProxyInterface
+     *
+     * @throws NotImplementedException
+     * @throws InvalidIdentifierException
+     * @throws MockNotCreatedException
+     * @throws MissingDependencyException
+     * @throws InvalidArgumentException
      */
     public static function phpunit(string $fqcnOrAlias, string $alias = null): ProxyInterface
     {
         /** @var ProxyInterface|ProxyTrait $proxy */
-        $proxy = self::__callStatic('phpunit', [$fqcnOrAlias, $alias]);
+        $proxy = self::getProxy('phpunit', [$fqcnOrAlias, $alias]);
 
         if (null !== $testCase = self::getCurrentTestCase()) {
             $testCase->registerMockObject($proxy->__moka_getMock());
@@ -77,11 +76,17 @@ class Moka
      * @param string $fqcnOrAlias
      * @param string|null $alias
      * @return ObjectProphecy|ProxyInterface
+     *
+     * @throws \ReflectionException
+     * @throws NotImplementedException
+     * @throws InvalidIdentifierException
+     * @throws MockNotCreatedException
+     * @throws MissingDependencyException
      */
     public static function prophecy(string $fqcnOrAlias, string $alias = null): ProxyInterface
     {
         /** @var ProxyInterface|ProxyTrait $proxy */
-        $proxy = self::__callStatic('prophecy', [$fqcnOrAlias, $alias]);
+        $proxy = self::getProxy('prophecy', [$fqcnOrAlias, $alias]);
 
         if (null !== $testCase = self::getCurrentTestCase()) {
             $prophetProperty = new \ReflectionProperty(
@@ -114,7 +119,7 @@ class Moka
     /**
      * @return void
      */
-    public static function clean()
+    public static function clean(): void
     {
         ProxyBuilderFactory::reset();
     }
@@ -122,9 +127,9 @@ class Moka
     /**
      * @return TestCase|null
      */
-    private static function getCurrentTestCase()
+    private static function getCurrentTestCase(): ?TestCase
     {
-        $backtrace = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT);
+        $backtrace = debug_backtrace();
         foreach ($backtrace as $frame) {
             if (!isset($frame['object'])) {
                 continue;
@@ -143,5 +148,39 @@ class Moka
         // @codeCoverageIgnoreStart
         return null;
         // @codeCoverageIgnoreEnd
+    }
+
+    /**
+     * @param string $name
+     * @param array $arguments
+     * @return ProxyInterface
+     *
+     * @throws NotImplementedException
+     * @throws InvalidIdentifierException
+     * @throws MockNotCreatedException
+     * @throws MissingDependencyException
+     * @throws InvalidArgumentException
+     */
+    private static function getProxy(string $name, array $arguments): ProxyInterface
+    {
+        self::ensurePluginLoad($name);
+
+        $fqcnOrAlias = $arguments[0];
+        $alias = $arguments[1] ?? null;
+
+        return ProxyBuilderFactory::get(self::$mockingStrategies[$name])
+            ->getProxy($fqcnOrAlias, $alias);
+    }
+
+    /**
+     * @param string $pluginName
+     * @throws MissingDependencyException
+     * @throws NotImplementedException
+     */
+    private static function ensurePluginLoad(string $pluginName): void
+    {
+        if (!array_key_exists($pluginName, self::$mockingStrategies)) {
+            self::$mockingStrategies[$pluginName] = loadPlugin($pluginName);
+        }
     }
 }

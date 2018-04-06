@@ -6,7 +6,9 @@ namespace Moka\Proxy;
 use Moka\Exception\InvalidArgumentException;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Strategy\MockingStrategyInterface;
-use Moka\Stub\StubHelper;
+use function Moka\Stub\Helper\isMethodName;
+use function Moka\Stub\Helper\isPropertyName;
+use function Moka\Stub\Helper\stripNameAndValidate;
 
 /**
  * Trait ProxyTrait
@@ -74,12 +76,12 @@ trait ProxyTrait
     public function stub(array $namesWithValues): ProxyInterface
     {
         foreach ($namesWithValues as $name => $value) {
-            if (StubHelper::isPropertyName($name)) {
-                $this->__moka_properties[] = StubHelper::stripName($name);
+            if (isPropertyName($name)) {
+                $this->__moka_properties[] = stripNameAndValidate($name);
             }
 
-            if (StubHelper::isMethodName($name)) {
-                $this->__moka_methods[] = StubHelper::stripName($name);
+            if (isMethodName($name)) {
+                $this->__moka_methods[] = stripNameAndValidate($name);
             }
         }
 
@@ -93,6 +95,8 @@ trait ProxyTrait
      * @param string $name
      * @param array $arguments
      * @return mixed
+     * @throws InvalidArgumentException
+     * @throws MockNotCreatedException
      */
     protected function doCall(string $name, array $arguments)
     {
@@ -108,6 +112,8 @@ trait ProxyTrait
     /**
      * @param string $name
      * @return mixed
+     * @throws InvalidArgumentException
+     * @throws MockNotCreatedException
      */
     protected function doGet(string $name)
     {
@@ -115,7 +121,7 @@ trait ProxyTrait
             return null;
         }
 
-        if (in_array($name, $this->__moka_properties)) {
+        if (\in_array($name, $this->__moka_properties, $strict = false)) {
             return $this->__moka_mockingStrategy->get($this->__moka_mock)->$name;
         }
 

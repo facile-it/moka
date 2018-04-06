@@ -9,10 +9,10 @@ namespace Moka\Generator\Template;
  */
 class ParameterTemplate implements TemplateInterface
 {
-    const TEMPLATE = '%s %s%s%s%s';
+    private const TEMPLATE = '%s %s%s%s%s';
 
     /**
-     * @param \ReflectionParameter $parameter
+     * @param \Reflector|\ReflectionParameter $parameter
      * @return string
      */
     public static function generate(\Reflector $parameter): string
@@ -32,7 +32,7 @@ class ParameterTemplate implements TemplateInterface
                 : 'null';
 
             $defaultValue = '=' . $defaultValue;
-        } catch (\ReflectionException $exception) {
+        } catch (\Exception $exception) {
             $defaultValue = '';
         }
 

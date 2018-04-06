@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Moka\Stub;
 
 use Moka\Exception\InvalidArgumentException;
+use function Moka\Stub\Helper\stripNameAndValidate;
 
 /**
  * Class AbstractStub
@@ -30,7 +31,7 @@ abstract class AbstractStub implements StubInterface
      */
     public function __construct(string $name, $value)
     {
-        $this->name = StubHelper::stripName($name);
+        $this->name = stripNameAndValidate($name);
         $this->value = $value;
     }
 

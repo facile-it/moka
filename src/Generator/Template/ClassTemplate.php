@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Moka\Generator\Template;
 
+use Moka\Exception\InvalidArgumentException;
 use Moka\Proxy\ProxyInterface;
 use Moka\Proxy\ProxyTrait;
 
@@ -12,11 +13,11 @@ use Moka\Proxy\ProxyTrait;
  */
 class ClassTemplate implements TemplateInterface
 {
-    const UNSAFE_METHODS = ['__construct', '__destruct', '__call', '__get', '__clone'];
+    private const UNSAFE_METHODS = ['__construct', '__destruct', '__call', '__get', '__clone'];
 
-    const TEMPLATE_FQCN = 'Moka_%s_%s';
+    private const TEMPLATE_FQCN = 'Moka_%s_%s';
 
-    const TEMPLATE_CLASS = '
+    private const TEMPLATE_CLASS = '
     class %s extends %s implements %s
     {
         use %s;
@@ -45,7 +46,7 @@ class ClassTemplate implements TemplateInterface
     ';
 
     /**
-     * @param \ReflectionClass $class
+     * @param \Reflector|\ReflectionClass $class
      * @return string
      */
     public static function generate(\Reflector $class): string
@@ -56,6 +57,8 @@ class ClassTemplate implements TemplateInterface
     /**
      * @param \ReflectionClass $class
      * @return string
+     * @throws \RuntimeException
+     * @throws InvalidArgumentException
      */
     protected static function doGenerate(\ReflectionClass $class): string
     {
@@ -82,7 +85,7 @@ class ClassTemplate implements TemplateInterface
         foreach ($methods as $method) {
             if (
                 !$method->isFinal() &&
-                !in_array($method->name, self::UNSAFE_METHODS, true)
+                !\in_array($method->name, self::UNSAFE_METHODS, $strict = true)
             ) {
                 $methodsCode[] = MethodTemplate::generate($method);
             }
@@ -106,7 +109,7 @@ class ClassTemplate implements TemplateInterface
             random_int($min = 0, $max = PHP_INT_MAX)
         );
 
-        list($callNameType, $callArgumentsType) = $callParametersTypes;
+        [$callNameType, $callArgumentsType] = $callParametersTypes;
 
         return sprintf(
             self::TEMPLATE_CLASS,

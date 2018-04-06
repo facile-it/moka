@@ -43,7 +43,7 @@ class FirstStubMatcher extends AbstractChainableArgumentMatcher
             self::$stubsPerMock[$mockHash] = [];
         }
 
-        if (in_array($methodName, self::$stubsPerMock[$mockHash], $strict = true)) {
+        if (\in_array($methodName, self::$stubsPerMock[$mockHash], $strict = true)) {
             $this->isFirstStub = false;
             return;
         }
@@ -56,7 +56,7 @@ class FirstStubMatcher extends AbstractChainableArgumentMatcher
      *
      * @throws MethodMatcherException
      */
-    public function doArgumentsMatch(array &$arguments)
+    public function doArgumentsMatch(array &$arguments): void
     {
         if (!$this->isFirstStub) {
             throw new MethodMatcherException(
@@ -73,14 +73,14 @@ class FirstStubMatcher extends AbstractChainableArgumentMatcher
      */
     public function __toString()
     {
-        return get_class($this);
+        return \get_class($this);
     }
 
     /**
      * @param Phake_Matchers_IChainableArgumentMatcher $nextMatcher
      * @return void
      */
-    public function setNextMatcher(Phake_Matchers_IChainableArgumentMatcher $nextMatcher)
+    public function setNextMatcher(Phake_Matchers_IChainableArgumentMatcher $nextMatcher): void
     {
     }
 }

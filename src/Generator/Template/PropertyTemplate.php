@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Moka\Generator\Template;
 
+use Moka\Exception\InvalidArgumentException;
+
 /**
  * Class PropertyTemplate
  * @package Moka\Generator\Template
@@ -11,13 +13,15 @@ class PropertyTemplate implements TemplateInterface
 {
     use VisibilityTrait;
 
-    const TEMPLATE = '
+    private const TEMPLATE = '
         %s %s $%s;
     ';
 
     /**
-     * @param \ReflectionProperty $property
+     * @param \Reflector|\ReflectionProperty $property
      * @return string
+     * @throws \RuntimeException
+     * @throws InvalidArgumentException
      */
     public static function generate(\Reflector $property): string
     {
@@ -27,6 +31,8 @@ class PropertyTemplate implements TemplateInterface
     /**
      * @param \ReflectionProperty $property
      * @return string
+     * @throws \RuntimeException
+     * @throws InvalidArgumentException
      */
     protected static function doGenerate(\ReflectionProperty $property): string
     {

@@ -15,8 +15,8 @@ use Moka\Stub\MethodStub;
  */
 class MockeryMockingStrategy extends AbstractMockingStrategy
 {
-    const CLASS_NAME = Mockery::class;
-    const PACKAGE_NAME = 'mockery/mockery';
+    private const CLASS_NAME = Mockery::class;
+    private const PACKAGE_NAME = 'mockery/mockery';
 
     /**
      * MockeryMockingStrategy constructor.
@@ -34,7 +34,7 @@ class MockeryMockingStrategy extends AbstractMockingStrategy
      * @param string $fqcn
      * @return MockInterface
      */
-    protected function doBuild(string $fqcn)
+    protected function doBuild(string $fqcn): MockInterface
     {
         return Mockery::mock($fqcn);
     }
@@ -44,7 +44,7 @@ class MockeryMockingStrategy extends AbstractMockingStrategy
      * @param MethodStub $stub
      * @return void
      */
-    protected function doDecorateWithMethod($mock, MethodStub $stub)
+    protected function doDecorateWithMethod($mock, MethodStub $stub): void
     {
         $methodName = $stub->getName();
         $methodValue = $stub->getValue();
@@ -60,7 +60,7 @@ class MockeryMockingStrategy extends AbstractMockingStrategy
      * @param MockInterface $mock
      * @return MockInterface
      */
-    protected function doGet($mock)
+    protected function doGet($mock): MockInterface
     {
         return $mock;
     }

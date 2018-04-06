@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Moka\Stub;
 
 use Moka\Exception\InvalidArgumentException;
+use function Moka\Stub\Helper\validateMethodName;
 
 /**
  * Class MethodStub
@@ -20,7 +21,7 @@ class MethodStub extends AbstractStub
      */
     public function __construct(string $name, $value)
     {
-        StubHelper::validateMethodName($name);
+        validateMethodName($name);
 
         parent::__construct($name, $value);
     }

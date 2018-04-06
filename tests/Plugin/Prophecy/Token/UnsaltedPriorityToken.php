@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace Tests\Plugin\Prophecy\Token;
 
-class UnsaltedPriorityToken extends \Moka\Plugin\Prophecy\Token\AbstractPriorityToken
+use Moka\Plugin\Prophecy\Token\AbstractPriorityToken;
+
+class UnsaltedPriorityToken extends AbstractPriorityToken
 {
     public function __construct()
     {

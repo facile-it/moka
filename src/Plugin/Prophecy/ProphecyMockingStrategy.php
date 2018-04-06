@@ -19,8 +19,8 @@ use Prophecy\Prophet;
  */
 class ProphecyMockingStrategy extends AbstractMockingStrategy
 {
-    const CLASS_NAME = Prophet::class;
-    const PACKAGE_NAME = 'phpspec/prophecy';
+    private const CLASS_NAME = Prophet::class;
+    private const PACKAGE_NAME = 'phpspec/prophecy';
 
     /**
      * @var Prophet
@@ -44,7 +44,7 @@ class ProphecyMockingStrategy extends AbstractMockingStrategy
      * @param string $fqcn
      * @return ObjectProphecy
      */
-    protected function doBuild(string $fqcn)
+    protected function doBuild(string $fqcn): ObjectProphecy
     {
         return $this->prophet->prophesize($fqcn);
     }
@@ -54,7 +54,7 @@ class ProphecyMockingStrategy extends AbstractMockingStrategy
      * @param MethodStub $stub
      * @return void
      */
-    protected function doDecorateWithMethod($mock, MethodStub $stub)
+    protected function doDecorateWithMethod($mock, MethodStub $stub): void
     {
         $methodName = $stub->getName();
         $methodValue = $stub->getValue();

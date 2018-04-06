@@ -17,8 +17,8 @@ use Phake_Proxies_AnswerBinderProxy as AnswerBinderProxy;
  */
 class PhakeMockingStrategy extends AbstractMockingStrategy
 {
-    const CLASS_NAME = Phake::class;
-    const PACKAGE_NAME = 'phake/phake';
+    private const CLASS_NAME = Phake::class;
+    private const PACKAGE_NAME = 'phake/phake';
 
     /**
      * PhakeMockingStrategy constructor.
@@ -36,7 +36,7 @@ class PhakeMockingStrategy extends AbstractMockingStrategy
      * @param string $fqcn
      * @return PhakeMock
      */
-    protected function doBuild(string $fqcn)
+    protected function doBuild(string $fqcn): PhakeMock
     {
         return Phake::mock($fqcn);
     }
@@ -46,7 +46,7 @@ class PhakeMockingStrategy extends AbstractMockingStrategy
      * @param MethodStub $stub
      * @return void
      */
-    protected function doDecorateWithMethod($mock, MethodStub $stub)
+    protected function doDecorateWithMethod($mock, MethodStub $stub): void
     {
         $methodName = $stub->getName();
         $methodValue = $stub->getValue();
@@ -62,7 +62,7 @@ class PhakeMockingStrategy extends AbstractMockingStrategy
      * @param PhakeMock $mock
      * @return PhakeMock
      */
-    protected function doGet($mock)
+    protected function doGet($mock): PhakeMock
     {
         return $mock;
     }

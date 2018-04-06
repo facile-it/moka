@@ -36,11 +36,12 @@ class ProxyGenerator
      *
      * @throws MockNotCreatedException
      * @throws InvalidArgumentException
+     * @throws \ReflectionException
      */
     public function get(string $fqcn): ProxyInterface
     {
         $mock = $this->mockingStrategy->build($fqcn);
-        $mockFQCN = get_class($this->mockingStrategy->get($mock));
+        $mockFQCN = \get_class($this->mockingStrategy->get($mock));
         $mockClass = new \ReflectionClass($mockFQCN);
 
         $proxyCode = ClassTemplate::generate($mockClass);
@@ -54,6 +55,7 @@ class ProxyGenerator
     /**
      * @param string $proxyFQCN
      * @return ProxyInterface|ProxyTrait
+     * @throws \ReflectionException
      */
     protected function getInstance(string $proxyFQCN): ProxyInterface
     {

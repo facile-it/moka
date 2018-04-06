@@ -37,7 +37,7 @@ class ProxyBuilderFactory
      */
     private static function key(MockingStrategyInterface $mockingStrategy): string
     {
-        return get_class($mockingStrategy);
+        return \get_class($mockingStrategy);
     }
 
     /**
@@ -52,7 +52,7 @@ class ProxyBuilderFactory
     /**
      * @return void
      */
-    public static function reset()
+    public static function reset(): void
     {
         foreach (self::$mockBuilders as $mockBuilder) {
             $mockBuilder->reset();

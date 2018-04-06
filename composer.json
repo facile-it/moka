@@ -37,7 +37,8 @@
       "src/Plugin/PHPUnit/PHPUnitPlugin.php",
       "src/Plugin/PHPUnit/moka.php",
       "src/Plugin/Prophecy/ProphecyPlugin.php",
-      "src/Plugin/Prophecy/moka.php"
+      "src/Plugin/Prophecy/moka.php",
+      "src/functions.php"
     ]
   },
   "autoload-dev": {
@@ -46,9 +47,9 @@
     }
   },
   "require": {
-    "php": ">=7.0",
+    "php": ">=7.1",
     "phpcollection/phpcollection": "^0.5",
-    "phpunit/phpunit-mock-objects": "^5.0",
+    "phpunit/phpunit-mock-objects": "^6.0",
     "psr/container": "^1.0"
   },
   "require-dev": {
@@ -56,8 +57,8 @@
     "mockery/mockery": "^0.9.9",
     "phake/phake": "^3.0",
     "phpspec/prophecy": "^1.7",
-    "phpunit/phpunit": "^6.0",
-    "sebastian/diff": "^2.0"
+    "phpunit/phpunit": "^7.0",
+    "sebastian/diff": "^3.0"
   },
   "suggest": {
     "phpspec/prophecy": "To allow loading of ProphecyPlugin",

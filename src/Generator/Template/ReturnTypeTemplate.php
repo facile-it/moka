@@ -9,10 +9,10 @@ namespace Moka\Generator\Template;
  */
 class ReturnTypeTemplate implements TemplateInterface
 {
-    const TEMPLATE = ': %s%s';
+    private const TEMPLATE = ': %s%s';
 
     /**
-     * @param \ReflectionMethod $method
+     * @param \Reflector|\ReflectionMethod $method
      * @return string
      */
     public static function generate(\Reflector $method): string

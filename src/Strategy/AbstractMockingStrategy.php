@@ -7,10 +7,12 @@ use Moka\Exception\InvalidArgumentException;
 use Moka\Exception\MissingDependencyException;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Exception\NotImplementedException;
+use function Moka\Factory\buildStubs;
 use Moka\Factory\StubFactory;
 use Moka\Stub\MethodStub;
 use Moka\Stub\PropertyStub;
 use Moka\Stub\StubInterface;
+use Moka\Stub\StubSet;
 
 /**
  * Class AbstractMockingStrategy
@@ -70,12 +72,13 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
      *
      * @throws InvalidArgumentException
      * @throws NotImplementedException
+     * @throws \LogicException
      */
-    public function decorate($mock, array $stubs)
+    public function decorate($mock, array $stubs): void
     {
         $this->checkMockType($mock);
 
-        $stubs = StubFactory::fromArray($stubs);
+        $stubs = buildStubs($stubs);
 
         foreach ($stubs as $stub) {
             if ($stub instanceof PropertyStub) {
@@ -108,6 +111,8 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
      * @return mixed
      *
      * @throws NotImplementedException
+     * @throws InvalidArgumentException
+     * @throws \Error
      */
     public function call($mock, string $methodName)
     {
@@ -151,7 +156,7 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
                 sprintf(
                     'Mock object must be an instance of "%s", "%s" given',
                     $this->mockType,
-                    gettype($mock)
+                    \gettype($mock)
                 )
             );
         }
@@ -162,7 +167,7 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
      *
      * @throws NotImplementedException
      */
-    private function verifyMockType()
+    private function verifyMockType(): void
     {
         if (!$this->mockType) {
             throw new NotImplementedException('Mock type was not defined');
@@ -180,7 +185,7 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
      * @param PropertyStub $stub
      * @return void
      */
-    protected function doDecorateWithProperty($mock, PropertyStub $stub)
+    protected function doDecorateWithProperty($mock, PropertyStub $stub): void
     {
         $mock->{$stub->getName()} = $stub->getValue();
     }
@@ -190,7 +195,7 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
      * @param MethodStub $stub
      * @return void
      */
-    abstract protected function doDecorateWithMethod($mock, MethodStub $stub);
+    abstract protected function doDecorateWithMethod($mock, MethodStub $stub): void;
 
     /**
      * @param object $mock
@@ -202,7 +207,6 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
      * @param object $mock
      * @param string $methodName
      * @return mixed
-     *
      * @throws \Error
      */
     protected function doCall($mock, string $methodName)
@@ -210,7 +214,7 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
         throw new \Error(
             sprintf(
                 'Undefined property: %s::$%s',
-                get_class($this),
+                \get_class($this),
                 $methodName
             )
         );

@@ -14,10 +14,15 @@ class IncompleteMockingStrategy extends AbstractMockingStrategy
 
     protected function doBuild(string $fqcn)
     {
-        throw new \Exception();
+        throw new \BadMethodCallException(
+            sprintf(
+                'Method %s is not implemented',
+                __METHOD__
+            )
+        );
     }
 
-    protected function doDecorateWithMethod($mock, MethodStub $stub)
+    protected function doDecorateWithMethod($mock, MethodStub $stub): void
     {
     }
 

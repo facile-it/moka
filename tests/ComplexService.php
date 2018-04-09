@@ -21,6 +21,18 @@ class ComplexService
      */
     private $handleResponse;
 
+    /**
+     * ComplexService constructor.
+     * @param ServiceInterface $service
+     * @param MessageHandler $handleResponse
+     */
+    public function __construct(ServiceInterface $service, MessageHandler $handleResponse)
+    {
+        $this->service = $service;
+        $this->handleResponse = $handleResponse;
+    }
+
+
     public function __invoke(StreamInterface $stream):array
     {
         $response = $this->service

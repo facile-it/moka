@@ -9,6 +9,7 @@
 namespace Tests;
 
 
+use function Moka\Plugin\PHPUnit\moka;
 use PHPUnit\Framework\TestCase;
 
 class ComplexServiceTest extends TestCase
@@ -32,6 +33,24 @@ class ComplexServiceTest extends TestCase
             ->disableOriginalConstructor()->getMock();
 
         $responseHandler->method('__invoke')->willReturn([]);
+
+        $this->service = new ComplexService(
+            $fakeService,
+            $responseHandler
+        );
+    }
+
+    public function setUp2()
+    {
+        $fakeService = moka(FakeService::class)->stub([
+            'getConnection' => moka(ConnectionInterface::class)->stub([
+                'writeStream' => moka(MessageInterface::class)
+            ])
+        ]);
+
+        $responseHandler = moka(MessageHandler::class)->stub([
+            '__invoke' => []
+        ]);
 
         $this->service = new ComplexService(
             $fakeService,

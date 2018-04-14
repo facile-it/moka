@@ -57,4 +57,24 @@ class ComplexServiceTest extends TestCase
             $responseHandler
         );
     }
+
+    public function setUp3()
+    {
+        $storage = moka(StorageInterface::class, 'storage')->stub([
+            'write' => $result = true
+        ]);
+
+        $simpleStore = new Store($storage);
+
+        $item = $simpleStore->addItem(new Item);
+        $this->assertTrue($item);
+
+        moka('storage')->stub([
+            'write' => new NoSpaceLeftOnDeviceException
+        ]);
+
+        $this->expectException(NoSpaceLeftOnDeviceException::class);
+
+        $simpleStore->addItem(new Item);
+    }
 }

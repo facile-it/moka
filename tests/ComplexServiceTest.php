@@ -77,4 +77,15 @@ class ComplexServiceTest extends TestCase
 
         $simpleStore->addItem(new Item);
     }
+
+    public function setUp4()
+    {
+        moka(BarInterface::class)->stub([
+            '$property' => 1,
+            'isValid' => true,
+            'getMock' => moka(AcmeInterface::class),
+            'throwException' => new \Exception,
+            'returnException' => moka(Exception::class)
+        ]);
+    }
 }

@@ -218,7 +218,7 @@ class YourOwnPlugin implements PluginInterface
 {
     public static function getStrategy(): MockingStrategyInterface 
     {
-       return new YourOwnMockingStrategy();
+        return new YourOwnMockingStrategy();
     }
 }
 ```

@@ -7,6 +7,7 @@ use Moka\Plugin\Prophecy\Token\AbstractPriorityToken;
 
 class UnsaltedPriorityToken extends AbstractPriorityToken
 {
+    /** @noinspection PhpMissingParentConstructorInspection */
     public function __construct()
     {
         // No call to parent::__construct().

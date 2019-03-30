@@ -3,17 +3,18 @@ declare(strict_types=1);
 
 namespace Tests\Generator;
 
-use Moka\Generator\ProxyGenerator;
+use Moka\Generator\GenerateProxy;
 use Moka\Proxy\ProxyInterface;
 use Moka\Strategy\MockingStrategyInterface;
 use Moka\Tests\FooTestClass;
+use PhpParser\PrettyPrinter\Standard;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class ProxyGeneratorTest extends TestCase
+class GenerateProxyTest extends TestCase
 {
     /**
-     * @var ProxyGenerator
+     * @var GenerateProxy
      */
     private $proxyGenerator;
 
@@ -42,21 +43,21 @@ class ProxyGeneratorTest extends TestCase
                 return $target->$name(...$arguments);
             });
 
-        $this->proxyGenerator = new ProxyGenerator($mockingStrategy);
+        $this->proxyGenerator = new GenerateProxy($mockingStrategy, new Standard());
     }
 
-    public function testGet()
+    public function testGet(): void
     {
-        $proxy = $this->proxyGenerator->get(FooTestClass::class);
+        $proxy = ($this->proxyGenerator)(FooTestClass::class);
 
         $this->assertInstanceOf(ProxyInterface::class, $proxy);
         $this->assertInstanceOf(FooTestClass::class, $proxy);
     }
 
-    public function testCall()
+    public function testCall(): void
     {
         /** @var ProxyInterface|MockObject|FooTestClass $proxy */
-        $proxy = $this->proxyGenerator->get(FooTestClass::class);
+        $proxy = ($this->proxyGenerator)(FooTestClass::class);
 
         $proxy->method('getInt')
             ->willReturn(1138);

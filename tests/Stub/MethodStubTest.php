@@ -16,7 +16,7 @@ class MethodStubTest extends StubTestCase
         $this->setStubFQCN(MethodStub::class);
     }
 
-    public function testConstructMethodSuccess()
+    public function testConstructMethodSuccess(): void
     {
         $fqcn = $this->stubFQCN;
 
@@ -27,7 +27,7 @@ class MethodStubTest extends StubTestCase
         $this->assertInstanceOf(StubInterface::class, $stub2);
     }
 
-    public function testConstructMethodFailure()
+    public function testConstructMethodFailure(): void
     {
         $fqcn = $this->stubFQCN;
 
@@ -36,7 +36,7 @@ class MethodStubTest extends StubTestCase
         new $fqcn('$name', true);
     }
 
-    public function testGetName()
+    public function testGetName(): void
     {
         $fqcn = $this->stubFQCN;
 
@@ -46,7 +46,7 @@ class MethodStubTest extends StubTestCase
         $this->assertEquals('name', $stub->getName());
     }
 
-    public function testGetValue()
+    public function testGetValue(): void
     {
         $fqcn = $this->stubFQCN;
 

@@ -13,12 +13,12 @@ use Moka\Stub\StubSet;
  *
  * @throws InvalidArgumentException
  */
-function buildStubs(array $namesWithValues): StubSet
+function createStubs(array $namesWithValues): StubSet
 {
     $stubSet = new StubSet();
     foreach ($namesWithValues as $name => $value) {
         try {
-            $stub = buildStub($name, $value);
+            $stub = createStub($name, $value);
         } catch (\Error $error) {
             throw new InvalidArgumentException($error->getMessage());
         }

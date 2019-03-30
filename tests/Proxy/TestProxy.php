@@ -28,4 +28,12 @@ class TestProxy implements ProxyInterface
     {
         return $this->doGet($name);
     }
+
+    public function stub(array $namesWithValues): ProxyInterface
+    {
+        $this->doStub($namesWithValues);
+
+        return $this;
+    }
+
 }

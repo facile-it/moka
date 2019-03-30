@@ -21,14 +21,14 @@ class ProphecyMockingStrategyTest extends MokaMockingStrategyTestCase
         $this->setStrategy(new ProphecyMockingStrategy());
     }
 
-    public function testGetCustomMockFailure()
+    public function testGetCustomMockFailure(): void
     {
         $this->expectException(MockNotCreatedException::class);
 
         $this->strategy->get(new ObjectProphecy(new LazyDouble(new Doubler())));
     }
 
-    public function testCallObjectProphecy()
+    public function testCallObjectProphecy(): void
     {
         $mock = $this->strategy->build(FooTestClass::class);
 

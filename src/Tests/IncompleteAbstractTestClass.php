@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Moka\Tests;
 
+use const PHP_EOL;
+
 abstract class IncompleteAbstractTestClass implements TestInterface
 {
     public $public;
@@ -15,6 +17,9 @@ abstract class IncompleteAbstractTestClass implements TestInterface
 
     public static $getInt;
 
+    /**
+     * @noinspection ClassMethodNameMatchesFieldNameInspection
+     */
     public function isTrue(): bool
     {
         return true;
@@ -45,10 +50,11 @@ abstract class IncompleteAbstractTestClass implements TestInterface
         int $required,
         $nullable = null,
         string &$byReference = PHP_EOL,
+        string $string = 'string',
         FooTestClass $class = null,
         array $array = [3],
         callable $callable = null,
-        ...$variadic
+        string ...$variadic
     ): int {
         return $required;
     }

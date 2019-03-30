@@ -43,7 +43,7 @@ class ProxyTraitTest extends TestCase
         $this->proxy->__moka_setMock($this->mock);
     }
 
-    public function testStub()
+    public function testStub(): void
     {
         $this->mockingStrategy
             ->expects($this->once())
@@ -60,7 +60,7 @@ class ProxyTraitTest extends TestCase
         ]);
     }
 
-    public function testCallSuccess()
+    public function testCallSuccess(): void
     {
         $this->mock
             ->expects($this->once())
@@ -77,7 +77,7 @@ class ProxyTraitTest extends TestCase
         $this->assertSame($this->mock, $this->proxy->getSelf());
     }
 
-    public function testCallFailure()
+    public function testCallFailure(): void
     {
         $this->mockingStrategy
             ->expects($this->once())
@@ -91,12 +91,12 @@ class ProxyTraitTest extends TestCase
         $this->proxy->fakeMethod();
     }
 
-    public function testCallWithoutStrategyFailure()
+    public function testCallWithoutStrategyFailure(): void
     {
         $this->assertNull($this->proxy->getSelf());
     }
 
-    public function testGetSuccess()
+    public function testGetSuccess(): void
     {
         $this->proxy->__moka_setMockingStrategy($this->mockingStrategy);
 
@@ -116,7 +116,7 @@ class ProxyTraitTest extends TestCase
         $this->proxy->property;
     }
 
-    public function testGetFailure()
+    public function testGetFailure(): void
     {
         $this->mockingStrategy
             ->expects($this->once())
@@ -130,7 +130,7 @@ class ProxyTraitTest extends TestCase
         $this->proxy->getSelf;
     }
 
-    public function testGetWithoutStrategyFailure()
+    public function testGetWithoutStrategyFailure(): void
     {
         $this->assertNull($this->proxy->getSelf);
     }

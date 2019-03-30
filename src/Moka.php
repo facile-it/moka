@@ -10,7 +10,6 @@ use Moka\Exception\MissingDependencyException;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Exception\NotImplementedException;
 use Moka\Factory\ProxyBuilderFactory;
-use function Moka\Plugin\loadPlugin;
 use Moka\Proxy\ProxyInterface;
 use Moka\Proxy\ProxyTrait;
 use Moka\Strategy\MockingStrategyInterface;
@@ -19,6 +18,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Prophecy\ObjectProphecy;
 use Prophecy\Prophet;
+use function Moka\Plugin\loadPlugin;
 
 /**
  * Class Moka
@@ -39,10 +39,14 @@ class Moka
      * @param array $arguments
      * @return ProxyInterface
      *
+     * @throws \ReflectionException
+     * @throws \Moka\Exception\InvalidArgumentException
      * @throws NotImplementedException
      * @throws InvalidIdentifierException
      * @throws MockNotCreatedException
      * @throws MissingDependencyException
+     * @throws \ReflectionException
+     * @throws \ReflectionException
      */
     public static function __callStatic(string $name, array $arguments): ProxyInterface
     {
@@ -54,11 +58,14 @@ class Moka
      * @param string|null $alias
      * @return MockObject|ProxyInterface
      *
+     * @throws \ReflectionException
      * @throws NotImplementedException
      * @throws InvalidIdentifierException
      * @throws MockNotCreatedException
      * @throws MissingDependencyException
      * @throws InvalidArgumentException
+     * @throws \ReflectionException
+     * @throws \ReflectionException
      */
     public static function phpunit(string $fqcnOrAlias, string $alias = null): ProxyInterface
     {
@@ -77,6 +84,7 @@ class Moka
      * @param string|null $alias
      * @return ObjectProphecy|ProxyInterface
      *
+     * @throws \Moka\Exception\InvalidArgumentException
      * @throws \ReflectionException
      * @throws NotImplementedException
      * @throws InvalidIdentifierException
@@ -160,6 +168,7 @@ class Moka
      * @throws MockNotCreatedException
      * @throws MissingDependencyException
      * @throws InvalidArgumentException
+     * @throws \ReflectionException
      */
     private static function getProxy(string $name, array $arguments): ProxyInterface
     {

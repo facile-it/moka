@@ -13,7 +13,7 @@ use function Moka\Stub\Helper\isPropertyName;
  * @param mixed $value
  * @return StubInterface
  */
-function buildStub(string $name, $value): StubInterface
+function createStub(string $name, $value): StubInterface
 {
     return isPropertyName($name)
         ? new PropertyStub($name, $value)

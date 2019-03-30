@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 class ProxyBuilderFactoryTest extends TestCase
 {
-    public function testGet()
+    public function testGet(): void
     {
         $proxyBuilder1 = ProxyBuilderFactory::get(
             $this->getMockBuilder(MockingStrategyInterface::class)->getMock()

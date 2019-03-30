@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Tests\Stub;
 
 use Moka\Exception\InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
 use function Moka\Stub\Helper\isMethodName;
 use function Moka\Stub\Helper\isPropertyName;
 use function Moka\Stub\Helper\isStaticName;
@@ -11,11 +12,10 @@ use function Moka\Stub\Helper\stripNameAndValidate;
 use function Moka\Stub\Helper\validateMethodName;
 use function Moka\Stub\Helper\validatePropertyName;
 use function Moka\Stub\Helper\validateStaticName;
-use PHPUnit\Framework\TestCase;
 
 class StubHelperTest extends TestCase
 {
-    public function testStripName()
+    public function testStripName(): void
     {
         foreach ([
                      '_name' => '_name',
@@ -30,49 +30,49 @@ class StubHelperTest extends TestCase
         }
     }
 
-    public function testValidateNameFailure1()
+    public function testValidateNameFailure1(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
         stripNameAndValidate('0name');
     }
 
-    public function testValidateNameFailure2()
+    public function testValidateNameFailure2(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
         stripNameAndValidate('na-me');
     }
 
-    public function testValidateNameFailure3()
+    public function testValidateNameFailure3(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
         stripNameAndValidate('na me');
     }
 
-    public function testValidateNameFailure4()
+    public function testValidateNameFailure4(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
         stripNameAndValidate('na.me');
     }
 
-    public function testValidateNameFailure5()
+    public function testValidateNameFailure5(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
         stripNameAndValidate('');
     }
 
-    public function testStaticNameSuccess()
+    public function testStaticNameSuccess(): void
     {
         $this->assertTrue(isStaticName('::_name'));
 
         validateStaticName('::$_name');
     }
 
-    public function testStaticNameFailure()
+    public function testStaticNameFailure(): void
     {
         $this->assertFalse(isStaticName('name0'));
 
@@ -81,14 +81,14 @@ class StubHelperTest extends TestCase
         validateStaticName('$name0');
     }
 
-    public function testPropertyNameSucess()
+    public function testPropertyNameSucess(): void
     {
         $this->assertTrue(isPropertyName('$_name'));
 
         validatePropertyName('::$_name');
     }
 
-    public function testPropertyNameFailure()
+    public function testPropertyNameFailure(): void
     {
         $this->assertFalse(isPropertyName('name0'));
 
@@ -97,14 +97,14 @@ class StubHelperTest extends TestCase
         validatePropertyName('::name0');
     }
 
-    public function testMethodNameSucess()
+    public function testMethodNameSucess(): void
     {
         $this->assertTrue(isMethodName('_name'));
 
         validateMethodName('::_name');
     }
 
-    public function testMethodNameFailure()
+    public function testMethodNameFailure(): void
     {
         $this->assertFalse(isMethodName('$name0'));
 

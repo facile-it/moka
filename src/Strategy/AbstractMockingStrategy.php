@@ -7,12 +7,11 @@ use Moka\Exception\InvalidArgumentException;
 use Moka\Exception\MissingDependencyException;
 use Moka\Exception\MockNotCreatedException;
 use Moka\Exception\NotImplementedException;
-use function Moka\Factory\buildStubs;
 use Moka\Factory\StubFactory;
 use Moka\Stub\MethodStub;
 use Moka\Stub\PropertyStub;
 use Moka\Stub\StubInterface;
-use Moka\Stub\StubSet;
+use function Moka\Factory\createStubs;
 
 /**
  * Class AbstractMockingStrategy
@@ -31,7 +30,7 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
      *
      * @throws MissingDependencyException
      */
-    final protected static function checkDependencies(string $dependencyClassName, string $dependencyPackageName)
+    final protected static function checkDependencies(string $dependencyClassName, string $dependencyPackageName): void
     {
         if (!class_exists($dependencyClassName)) {
             throw new MissingDependencyException(
@@ -78,7 +77,7 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
     {
         $this->checkMockType($mock);
 
-        $stubs = buildStubs($stubs);
+        $stubs = createStubs($stubs);
 
         foreach ($stubs as $stub) {
             if ($stub instanceof PropertyStub) {
@@ -136,7 +135,7 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
     /**
      * @param string $fqcn
      */
-    final protected function setMockType(string $fqcn)
+    final protected function setMockType(string $fqcn): void
     {
         $this->mockType = $fqcn;
     }
@@ -147,7 +146,7 @@ abstract class AbstractMockingStrategy implements MockingStrategyInterface
      * @throws NotImplementedException
      * @throws InvalidArgumentException
      */
-    final protected function checkMockType($mock)
+    final protected function checkMockType($mock): void
     {
         $this->verifyMockType();
 

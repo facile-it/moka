@@ -11,6 +11,9 @@ matrix:
         - DEPS="low"
     - php: 7.2
       env:
+        - DEPS="low"
+    - php: 7.3
+      env:
         - TEST_COVERAGE=true
     - php: nightly
   fast_finish: true

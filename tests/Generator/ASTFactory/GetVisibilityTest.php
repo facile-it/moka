@@ -1,15 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Generator\Template;
+namespace Tests\Generator\ASTFactory;
 
 use Moka\Exception\InvalidArgumentException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use function Moka\Generator\ASTFactory\getVisibility;
 
-class FakeTemplateTest extends TestCase
+class GetVisibilityTest extends TestCase
 {
-    public function testGetVisibilitySuccess()
+    public function testGetVisibilitySuccess(): void
     {
         $reflectionClass = new \ReflectionClass(new class {
             public $public;
@@ -24,12 +25,12 @@ class FakeTemplateTest extends TestCase
         foreach ($properties as $property) {
             $this->assertEquals(
                 $property->getName(),
-                FakeTemplate::checkVisibility($property)
+                getVisibility($property)
             );
         }
     }
 
-    public function testGetVisibilityFailure()
+    public function testGetVisibilityFailure(): void
     {
         /** @var \Reflector $reflector */
         $reflector = $this->getMockBuilder(\Reflector::class)
@@ -38,10 +39,10 @@ class FakeTemplateTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
 
-        FakeTemplate::checkVisibility($reflector);
+        getVisibility($reflector);
     }
 
-    public function testGetVisibilityImpossibleFailure()
+    public function testGetVisibilityImpossibleFailure(): void
     {
         /** @var \ReflectionProperty|MockObject $reflector */
         $reflector = $this->getMockBuilder(\ReflectionProperty::class)
@@ -54,6 +55,6 @@ class FakeTemplateTest extends TestCase
 
         $this->expectException(\RuntimeException::class);
 
-        FakeTemplate::checkVisibility($reflector);
+        getVisibility($reflector);
     }
 }

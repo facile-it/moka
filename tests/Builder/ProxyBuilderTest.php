@@ -22,7 +22,7 @@ class ProxyBuilderTest extends TestCase
      */
     private $mockingStrategy;
 
-    public function testGetProxySuccess()
+    public function testGetProxySuccess(): void
     {
         $proxy1 = $this->proxyBuilder->getProxy(\stdClass::class);
         $proxy2 = $this->proxyBuilder->getProxy(\stdClass::class);
@@ -32,7 +32,7 @@ class ProxyBuilderTest extends TestCase
         $this->assertNotSame($proxy1, $proxy2);
     }
 
-    public function testGetProxySuccessWithAlias()
+    public function testGetProxySuccessWithAlias(): void
     {
         $proxy1 = $this->proxyBuilder->getProxy(\stdClass::class, 'bar');
         $proxy2 = $this->proxyBuilder->getProxy(\stdClass::class, 'foo');
@@ -43,7 +43,7 @@ class ProxyBuilderTest extends TestCase
         $this->assertNotSame($proxy1, $proxy2);
     }
 
-    public function testGetProxySuccessWithSameAlias()
+    public function testGetProxySuccessWithSameAlias(): void
     {
         $proxy1 = $this->proxyBuilder->getProxy(\stdClass::class, 'foo');
         $proxy2 = $this->proxyBuilder->getProxy(\stdClass::class, 'foo');
@@ -54,7 +54,7 @@ class ProxyBuilderTest extends TestCase
         $this->assertSame($proxy1, $proxy2);
     }
 
-    public function testGetProxySuccessWithSameAliasOnly()
+    public function testGetProxySuccessWithSameAliasOnly(): void
     {
         $proxy = $this->proxyBuilder->getProxy(\stdClass::class, 'bar');
 

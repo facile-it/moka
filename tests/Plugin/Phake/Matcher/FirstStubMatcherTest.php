@@ -34,14 +34,14 @@ class FirstStubMatcherTest extends TestCase
         $this->matcher = new FirstStubMatcher($this->mock, 'foo');
     }
 
-    public function testDoArgumentsMatchSuccess()
+    public function testDoArgumentsMatchSuccess(): void
     {
         $this->matcher->doArgumentsMatch($this->arguments);
 
         $this->assertTrue(true);
     }
 
-    public function testDoArgumentsMatchSameMockFailure()
+    public function testDoArgumentsMatchSameMockFailure(): void
     {
         $matcher = new FirstStubMatcher($this->mock, 'foo');
 
@@ -49,7 +49,7 @@ class FirstStubMatcherTest extends TestCase
         $matcher->doArgumentsMatch($this->arguments);
     }
 
-    public function testDoArgumentsMatchDifferentMockSuccess()
+    public function testDoArgumentsMatchDifferentMockSuccess(): void
     {
         $mock = $this->getMockBuilder(PhakeMock::class)
             ->disableOriginalConstructor()
@@ -61,7 +61,7 @@ class FirstStubMatcherTest extends TestCase
         $this->assertTrue(true);
     }
 
-    public function testDoArgumentsMatchSameMockDifferentMethodSuccess()
+    public function testDoArgumentsMatchSameMockDifferentMethodSuccess(): void
     {
         $matcher = new FirstStubMatcher($this->mock, 'bar');
 
@@ -69,12 +69,12 @@ class FirstStubMatcherTest extends TestCase
         $this->assertTrue(true);
     }
 
-    public function testToString()
+    public function testToString(): void
     {
         $this->assertInternalType('string', $this->matcher->__toString());
     }
 
-    public function testSetNextMatcher()
+    public function testSetNextMatcher(): void
     {
         $this->matcher->setNextMatcher($this->matcher);
 

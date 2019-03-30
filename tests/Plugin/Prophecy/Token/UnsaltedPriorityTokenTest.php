@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class UnsaltedPriorityTokenTest extends TestCase
 {
-    public function testTokensAreNotDifferent()
+    public function testTokensAreNotDifferent(): void
     {
         $token1 = new UnsaltedPriorityToken();
         $token2 = new UnsaltedPriorityToken();

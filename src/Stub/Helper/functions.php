@@ -4,7 +4,6 @@ declare(strict_types=1);
 require_once __DIR__ . '/const.php';
 require_once __DIR__ . '/isMethodName.php';
 require_once __DIR__ . '/isName.php';
-require_once __DIR__ . '/isName.php';
 require_once __DIR__ . '/isPropertyName.php';
 require_once __DIR__ . '/isStaticName.php';
 require_once __DIR__ . '/stripName.php';

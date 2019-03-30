@@ -225,8 +225,6 @@ abstract class MokaMockingStrategyTestCase extends TestCase
      */
     final public function testOverrideMethodStubFailure(): void
     {
-        $this->expectException(\Exception::class);
-
         $this->strategy->decorate($this->mock, [
             'getInt' => mt_rand(),
             'throwException' => mt_rand()
@@ -241,6 +239,9 @@ abstract class MokaMockingStrategyTestCase extends TestCase
             $this->namesWithValues['getInt'],
             $this->strategy->get($this->mock)->getInt()
         );
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage($this->namesWithValues['throwException']->getMessage());
 
         $this->strategy->get($this->mock)->throwException();
     }

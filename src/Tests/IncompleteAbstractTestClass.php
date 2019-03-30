@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Moka\Tests;
 
+use const PHP_EOL;
+
 abstract class IncompleteAbstractTestClass implements TestInterface
 {
     public $public;

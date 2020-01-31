@@ -18,7 +18,7 @@ matrix:
     - php: nightly
 
 install:
-  - phpenv config-rm xdebug.ini
+  - phpenv config-rm xdebug.ini || true
   - if [[ ${DEPS_LOWEST} == 1 ]]; then composer update --prefer-dist --prefer-stable --prefer-lowest --no-interaction; fi
   - if [[ ${DEPS_LOWEST} != 1 ]]; then composer update --prefer-source --no-interaction; fi
 

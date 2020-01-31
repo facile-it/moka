@@ -47,7 +47,7 @@
     }
   },
   "require": {
-    "php": ">=7.1",
+    "php": "^7.1",
     "phpcollection/phpcollection": "^0.5",
     "phpunit/phpunit": "^7.0",
     "psr/container": "^1.0"

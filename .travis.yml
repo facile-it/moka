@@ -8,22 +8,22 @@ matrix:
   include:
     - php: 7.1
       env:
-        - DEPS="low"
+        - DEPS_LOWEST=1
     - php: 7.2
       env:
-        - COVERAGE=true
+        - COVERAGE=1
     - php: nightly
   fast_finish: true
-  allow_failures: 
+  allow_failures:
     - php: nightly
 
 install:
   - phpenv config-rm xdebug.ini
-  - if [[ ${DEPS} == "low" ]]; then composer update --prefer-dist --prefer-stable --prefer-lowest --no-interaction; fi
-  - if [[ -z ${DEPS} ]]; then composer update --prefer-dist --prefer-stable --no-interaction; fi
+  - if [[ ${DEPS_LOWEST} == 1 ]]; then composer update --prefer-dist --prefer-stable --prefer-lowest --no-interaction; fi
+  - if [[ ${DEPS_LOWEST} != 1 ]]; then composer update --prefer-source --no-interaction; fi
 
 script:
-  - if [[ ${COVERAGE} ]]; then phpdbg -qrr ./vendor/bin/phpunit --coverage-clover ./build/logs/clover.xml; else ./vendor/bin/phpunit; fi
+  - if [[ ${COVERAGE} == 1 ]]; then phpdbg -qrr ./vendor/bin/phpunit --coverage-clover ./build/logs/clover.xml; else ./vendor/bin/phpunit; fi
 
 after_success:
-  - if [[ ${COVERAGE} ]]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover ./build/logs/clover.xml; fi
+  - if [[ ${COVERAGE} == 1 ]]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover ./build/logs/clover.xml; fi

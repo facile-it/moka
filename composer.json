@@ -58,8 +58,7 @@
     "phake/phake": "^3.0",
     "phpspec/prophecy": "^1.7",
     "phpstan/phpstan": "^0.12.8",
-    "phpunit/phpunit": "^7.0",
-    "sebastian/diff": "^3.0"
+    "phpunit/phpunit": "^7.0"
   },
   "suggest": {
     "phpspec/prophecy": "To allow loading of ProphecyPlugin",

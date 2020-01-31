@@ -25,7 +25,7 @@ class FirstStubMatcherTest extends TestCase
      */
     private $arguments = [];
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->mock = $this->getMockBuilder(PhakeMock::class)
             ->disableOriginalConstructor()

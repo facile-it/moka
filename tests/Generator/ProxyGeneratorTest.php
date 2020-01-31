@@ -17,7 +17,7 @@ class ProxyGeneratorTest extends TestCase
      */
     private $proxyGenerator;
 
-    public function setUp()
+    public function setUp(): void
     {
         $mock = $this->getMockBuilder(FooTestClass::class)
             ->disableOriginalConstructor()

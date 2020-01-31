@@ -63,7 +63,7 @@ class ProxyBuilderTest extends TestCase
         $this->assertSame($proxy, $this->proxyBuilder->getProxy('bar'));
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->mockingStrategy = $this->getMockBuilder(MockingStrategyInterface::class)
             ->disableOriginalConstructor()

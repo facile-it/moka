@@ -32,7 +32,7 @@ abstract class MokaMockingStrategyTestCase extends TestCase
     /**
      * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->namesWithValues = [
             '$property' => mt_rand(),

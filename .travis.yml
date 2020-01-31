@@ -2,7 +2,7 @@ language: php
 sudo: false
 cache:
   directories:
-    - $HOME/.composer/cache/files
+    - ${HOME}/.composer/cache/files
 
 matrix:
   include:
@@ -11,7 +11,7 @@ matrix:
         - DEPS="low"
     - php: 7.2
       env:
-        - TEST_COVERAGE=true
+        - COVERAGE=true
     - php: nightly
   fast_finish: true
   allow_failures: 
@@ -19,11 +19,11 @@ matrix:
 
 install:
   - phpenv config-rm xdebug.ini
-  - if [[ $DEPS == "low" ]]; then composer update --prefer-lowest --prefer-dist --prefer-stable --no-interaction; fi
-  - if [[ -z $DEPS ]]; then composer update --prefer-dist --prefer-stable --no-interaction; fi
+  - if [[ ${DEPS} == "low" ]]; then composer update --prefer-dist --prefer-stable --prefer-lowest --no-interaction; fi
+  - if [[ -z ${DEPS} ]]; then composer update --prefer-dist --prefer-stable --no-interaction; fi
 
 script:
-  - if [[ $TEST_COVERAGE ]]; then phpdbg -qrr vendor/bin/phpunit --coverage-clover ./build/logs/clover.xml; else vendor/bin/phpunit; fi
+  - if [[ ${COVERAGE} ]]; then phpdbg -qrr phpunit --coverage-clover ./build/logs/clover.xml; else phpunit; fi
 
 after_success:
-  - if [[ $TEST_COVERAGE ]]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover ./build/logs/clover.xml; fi
+  - if [[ ${COVERAGE} ]]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover ./build/logs/clover.xml; fi

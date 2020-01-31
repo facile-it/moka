@@ -9,7 +9,7 @@ matrix:
     - php: 7.1
       env:
         - DEPS_LOWEST=1
-    - php: 7.2
+    - php: 7.4
       env:
         - COVERAGE=1
     - php: nightly

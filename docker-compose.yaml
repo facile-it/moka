@@ -5,4 +5,5 @@ services:
     container_name: moka-php
     image: composer
     volumes:
-      - ../:/dist/:cached
+      - ./:/dist/:cached
+    working_dir: /dist/

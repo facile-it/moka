@@ -31,9 +31,9 @@ class ReturnTypeTemplate implements TemplateInterface
             ? '?'
             : '';
 
-        $returnType = 'self' === (string)$originalReturnType
+        $returnType = 'self' === $originalReturnType->getName()
             ? $method->getDeclaringClass()->name
-            : (string)$originalReturnType;
+            : $originalReturnType->getName();
 
         return sprintf(
             self::TEMPLATE,

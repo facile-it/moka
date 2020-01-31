@@ -1,0 +1,9 @@
+version: '3.7'
+
+services:
+  php:
+    container_name: moka-php
+    image: composer
+    volumes:
+      - ./:/dist/:cached
+    working_dir: /dist/

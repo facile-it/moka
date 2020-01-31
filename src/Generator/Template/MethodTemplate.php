@@ -56,7 +56,7 @@ class MethodTemplate implements TemplateInterface
             ? ReturnTypeTemplate::generate($method)
             : '';
 
-        $returnStatement = null === $originalReturnType || 'void' !== (string)$originalReturnType
+        $returnStatement = null === $originalReturnType || 'void' !== $originalReturnType->getName()
             ? 'return'
             : '';
 

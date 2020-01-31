@@ -26,7 +26,7 @@ class ProxyTraitTest extends TestCase
      */
     private $mock;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->proxy = new TestProxy();
 

@@ -34,7 +34,7 @@ class FooTest extends \AnyTestCase
 {
     private $foo;
     
-    protected function setUp()
+    protected function setUp(): void
     {
         Moka::clean();
         
@@ -73,7 +73,7 @@ class FooTest extends TestCase
 {
     use MokaCleanerTrait;
     
-    protected function setUp()
+    protected function setUp(): void
     {
         // No call to Moka::clean() needed.
         

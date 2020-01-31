@@ -93,12 +93,17 @@ class ClassTemplate implements TemplateInterface
             if ('__call' === $method->name) {
                 $callParameters = $method->getParameters();
                 foreach ($callParameters as $callParameter) {
-                    $callParametersTypes[$callParameter->getPosition()] = (string)$callParameter->getType();
+                    $callParametersTypes[$callParameter->getPosition()] = $callParameter->getType()
+                        ? $callParameter->getType()->getName()
+                        : null;
                 }
             }
 
             if ('__get' === $method->name) {
-                $getNameType = (string)$method->getParameters()[0]->getType();
+                $geFirstParameter = $method->getParameters()[0];
+                $getNameType = $geFirstParameter->getType()
+                    ? $geFirstParameter->getType()->getName()
+                    : null;
             }
         }
 
@@ -121,7 +126,7 @@ class ClassTemplate implements TemplateInterface
             implode(PHP_EOL, $constructorCode),
             $callNameType ?: '',
             $callArgumentsType ?: '',
-            $getNameType,
+            $getNameType ?: '',
             implode(PHP_EOL, $methodsCode),
             $proxyClassName
         );

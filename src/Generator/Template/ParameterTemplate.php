@@ -37,7 +37,7 @@ class ParameterTemplate implements TemplateInterface
         }
 
         $type = $parameter->getType()
-            ? (string)$parameter->getType()
+            ? $parameter->getType()->getName()
             : '';
 
         $isPassedByReference = $parameter->isPassedByReference()

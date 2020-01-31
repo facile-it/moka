@@ -65,7 +65,7 @@
     "phpspec/prophecy": "To allow loading of ProphecyPlugin",
     "mockery/mockery": "To allow loading of MockeryPlugin",
     "phake/phake": "To allow loading of PhakePlugin",
-    "facile-it/paraunit": "For parallel test running; it's faster!"
+    "facile-it/paraunit": "For parallel test running; it's fast!"
   },
   "config": {
     "sort-packages": true

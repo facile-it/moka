@@ -32,13 +32,6 @@ class MokaTest extends TestCase
         }
     }
 
-    public function testCallStaticFailure()
-    {
-        $this->expectException(NotImplementedException::class);
-
-        Moka::foo(\stdClass::class);
-    }
-
     public function testPHPUnitExpectation()
     {
         /** @var ProxyTrait $proxy */

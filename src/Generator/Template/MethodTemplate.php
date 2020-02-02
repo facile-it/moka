@@ -14,7 +14,7 @@ class MethodTemplate implements TemplateInterface
     use VisibilityTrait;
 
     private const TEMPLATE = '
-        %s %s function %s(%s)%s
+        %s %s function %s %s(%s)%s
         {
             %s $this->__call("%s", func_get_args());
         }
@@ -42,6 +42,7 @@ class MethodTemplate implements TemplateInterface
         $visibility = static::getVisibility($method);
 
         $static = $method->isStatic() ? 'static' : '';
+        $reference = $method->returnsReference() ? '&' : '';
 
         $parameters = $method->getParameters();
         $parametersCode = [];
@@ -66,6 +67,7 @@ class MethodTemplate implements TemplateInterface
             self::TEMPLATE,
             $visibility,
             $static,
+            $reference,
             $methodName,
             implode(',', $parametersCode),
             $returnType,

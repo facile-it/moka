@@ -36,6 +36,11 @@ abstract class IncompleteAbstractTestClass implements TestInterface
         };
     }
 
+    public function & getReference(): array
+    {
+        return [];
+    }
+
     public function withArgument(int $argument): int
     {
         return $argument;

@@ -40,6 +40,7 @@ abstract class MokaMockingStrategyTestCase extends TestCase
             '$private' => mt_rand(),
             'isTrue' => (bool)random_int(0, 1),
             'getInt' => mt_rand(),
+            'getReference' => [],
             'withArgument' => mt_rand(),
             'throwException' => new \Exception((string)mt_rand())
         ];

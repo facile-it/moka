@@ -15,6 +15,6 @@ class MethodTemplateTest extends TestCase
             new \ReflectionMethod(FooTestClass::class, 'getCallable')
         );
 
-        $this->assertRegExp('/public +function getCallable\(/', $code);
+        $this->assertRegExp('/public +function +getCallable\(/', $code);
     }
 }

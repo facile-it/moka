@@ -87,6 +87,8 @@ class FooTest extends TestCase
 <a name='original-mock'></a>You can rely on the original mock object implementation to be accessible (in the example below, PHPUnit's - for Prophecy <a href='#prophecy-mock'>see below</a>):
 
 ```php
+<?php
+
 moka(BarInterface::class, 'bar')
     ->expects($this->at(0))
     ->method('isValid')
@@ -111,6 +113,8 @@ var_dump(moka('bar')->isValid());
 Creates a proxy containing a mock object (according to the selected strategy) for the provided *FQCN* and optionally assigns an `$alias` to it to be able to get it later:
 
 ```php
+<?php
+
 $mock1 = moka(FooInterface::class); // Creates the mock for FooInterface.
 $mock2 = moka(FooInterface::class); // Gets a different mock.
 
@@ -121,6 +125,8 @@ var_dump($mock1 === $mock2);
 The `$alias` allows you to store mock instances:
 
 ```php
+<?php
+
 $mock1 = moka(FooInterface::class, 'foo'); // Creates a mock for FooInterface.
 $mock2 = moka('foo'); // Get the mock previously created.
 
@@ -137,6 +143,8 @@ Accepts an array of method or property stubs with format `[$name => $value]`, wh
 - An exception instance set as a method value will be thrown when the method is called
 
 ```php
+<?php
+
 $mock = moka(BarInterface::class)->stub([
     '$property' => 1,
     'isValid' => true,
@@ -175,6 +183,8 @@ We provide a specific `moka()` function for each supported strategy, as well as 
 Prophecy lets you stub methods by calling them directly on the `ObjectProphecy`. **Moka** doesn't support such a behavior, but we provide an easy workaround:
 
 ```php
+<?php
+
 // Native Prophecy behavior...
 $this->prophesize(FooInterface::class)
     ->someMethod(new AnyValuesToken())
@@ -189,6 +199,8 @@ Moka::prophecy(FooInterface::class)
 **Warning:** this workaround cannot be used with methods having the same name as a previously stubbed property:
 
 ```php
+<?php
+
 Moka::prophecy(FooInterface::class, 'foo')->stub([
     '$someName' => true
 ]);
